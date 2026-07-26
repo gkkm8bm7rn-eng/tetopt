@@ -32,6 +32,73 @@
         '    .gallery-main{position:relative;min-height:360px;border-radius:20px;overflow:hidden;background:#fff;display:grid;place-items:center}',
         '    .gallery-main{position:relative;min-height:360px;border-radius:20px;overflow:hidden;background:#fff;display:grid;place-items:center;touch-action:pan-y;user-select:none}'
       );
+      html=html.replace(
+        '    .card h3{font-size:16px;line-height:1.35;margin:8px 0 8px;font-weight:700}',
+        '    .card h3{font-size:16px;line-height:1.35;margin:8px 0 8px;font-weight:700}.card h3 a{text-decoration:none}'
+      );
+
+      html=html.replace(
+`    const productById = id => PRODUCTS.find(p=>p.id===Number(id));`,
+`    const productById = id => PRODUCTS.find(p=>p.id===Number(id));
+    const DEFAULT_PAGE_TITLE=document.title;
+    const DEFAULT_META_DESCRIPTION=document.querySelector('meta[name="description"]')?.content||"";
+    const productIdFromUrl=()=>Number(new URL(location.href).searchParams.get("product"))||0;
+    function updateProductUrl(id,mode="push"){
+      const url=new URL(location.href);
+      if(id)url.searchParams.set("product",String(id));else url.searchParams.delete("product");
+      const nextState=id?{productId:Number(id),productFromCatalog:mode==="push"}:{productId:null,productFromCatalog:false};
+      history[mode+"State"](nextState,"",url);
+    }
+    function setProductMeta(p){
+      document.title=p?p.name+" — FORMA HOME":DEFAULT_PAGE_TITLE;
+      const meta=document.querySelector('meta[name="description"]');
+      if(meta)meta.content=p?[p.name,p.specs,"Оптовая цена "+formatPrice(sellingPrice(p))].filter(Boolean).join(". "):DEFAULT_META_DESCRIPTION;
+    }
+    async function copyProductLink(id){
+      const p=productById(id);
+      if(!p)return;
+      const url=new URL(location.href);
+      url.searchParams.set("product",String(p.id));
+      try{
+        await navigator.clipboard.writeText(url.toString());
+        showToast("Ссылка на товар скопирована");
+      }catch{
+        const area=document.createElement("textarea");
+        area.value=url.toString();
+        area.style.position="fixed";area.style.opacity="0";
+        document.body.appendChild(area);area.select();
+        document.execCommand("copy");area.remove();
+        showToast("Ссылка на товар скопирована");
+      }
+    }`
+      );
+
+      html=html.replace(
+`    function init(){
+      COLLECTIONS.forEach(c => $("#collection").insertAdjacentHTML("beforeend",`+"`"+`<option value="${esc(c)}">${esc(c)}</option>`+"`"+`));
+      $("#chips").innerHTML = ["Все",...CATEGORIES].map(c=>`+"`"+`<button class="chip ${c==="Все"?"active":""}" data-category="${esc(c)}">${esc(c)}</button>`+"`"+`).join("");
+      bind();
+      render();
+      renderCart();
+    }`,
+`    function init(){
+      COLLECTIONS.forEach(c => $("#collection").insertAdjacentHTML("beforeend",`+"`"+`<option value="${esc(c)}">${esc(c)}</option>`+"`"+`));
+      $("#chips").innerHTML = ["Все",...CATEGORIES].map(c=>`+"`"+`<button class="chip ${c==="Все"?"active":""}" data-category="${esc(c)}">${esc(c)}</button>`+"`"+`).join("");
+      bind();
+      render();
+      renderCart();
+      window.addEventListener("popstate",()=>{
+        const id=productIdFromUrl();
+        if(id&&productById(id)){openProduct(id,{fromHistory:true});return}
+        closeAll({fromHistory:true,modalOnly:true});
+      });
+      const initialProductId=productIdFromUrl();
+      if(initialProductId&&productById(initialProductId)){
+        history.replaceState({productId:initialProductId,productFromCatalog:false},"",location.href);
+        setTimeout(()=>openProduct(initialProductId,{fromHistory:true}),0);
+      }
+    }`
+      );
 
       html=html.replace(
 `      let cardSwipe=null, suppressCardClick=false;
@@ -65,6 +132,8 @@
       $("#grid").addEventListener("pointercancel",()=>{cardSwipe=null});`,
 `      let cardSwipe=null, suppressCardClick=false;
       $("#grid").addEventListener("click",e=>{
+        const productLink=e.target.closest("[data-product-link]");
+        if(productLink){e.preventDefault();e.stopPropagation();openProduct(productLink.dataset.productLink);return}
         const photoNav=e.target.closest("[data-card-photo]");
         if(photoNav){e.stopPropagation();shiftCardPhoto(photoNav,Number(photoNav.dataset.cardPhoto)||0);return}
         const add=e.target.closest("[data-add]"); if(add){e.stopPropagation();addToCart(add.dataset.add);return}
@@ -99,6 +168,10 @@
       html=html.replace(
         '          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?',
         '          ${cardPhotos.length?`<span class="photo-loading">загрузка фото…</span>`:`<span class="photo-unavailable">Фото пока недоступно</span>`}\n          ${cardPhotos.length>1?'
+      );
+      html=html.replace(
+        '          <h3>${esc(p.name)}</h3>',
+        '          <h3><a href="?product=${p.id}" data-product-link="${p.id}">${esc(p.name)}</a></h3>'
       );
 
       html=html.replace(
@@ -168,9 +241,13 @@
       );
 
       html=html.replace(
-`      const p=productById(id); if(!p)return;
+`    function openProduct(id){
+      const p=productById(id); if(!p)return;
       activeGallery={productId:p.id,photos:[],index:0};`,
-`      const p=productById(id); if(!p)return;
+`    function openProduct(id,options={}){
+      const p=productById(id); if(!p)return;
+      if(!options.fromHistory && productIdFromUrl()!==p.id)updateProductUrl(p.id,"push");
+      setProductMeta(p);
       const hasLocalPhotos=Array.isArray(p.images)&&p.images.some(Boolean);
       activeGallery={productId:p.id,photos:[],index:0};`
       );
@@ -178,6 +255,10 @@
       html=html.replace(
         '<span class="gallery-status" id="galleryStatus">загрузка фотографий…</span>',
         '<span class="gallery-status" id="galleryStatus">${hasLocalPhotos?"загрузка фотографий…":"Фото пока недоступно"}</span>'
+      );
+      html=html.replace(
+        '          <button class="btn btn-primary" style="width:100%;margin-top:22px" onclick="addToCart(${p.id});closeAll();openCart()">Добавить по оптовой цене</button>',
+        '          <div style="display:grid;gap:10px;margin-top:22px"><button class="btn btn-primary" style="width:100%" onclick="addToCart(${p.id});closeAll();openCart()">Добавить по оптовой цене</button><button class="btn btn-light" style="width:100%;border:1px solid var(--line)" onclick="copyProductLink(${p.id})">Скопировать ссылку на товар</button></div>'
       );
 
       html=html.replace(
@@ -203,6 +284,32 @@
       },{passive:true});
       gallerySurface?.addEventListener("touchcancel",()=>{gallerySwipe=null},{passive:true});
       loadProductGallery(p);`
+      );
+
+      html=html.replace(
+        '    function closeAll(){$("#overlay").classList.remove("show");$("#drawer").classList.remove("show");$("#modal").classList.remove("show")}',
+`    function closeAll(options={}){
+      if(options.modalOnly){
+        $("#modal").classList.remove("show");
+        setProductMeta(null);
+        if(!$("#drawer").classList.contains("show"))$("#overlay").classList.remove("show");
+        return;
+      }
+      const modalWasOpen=$("#modal").classList.contains("show");
+      $("#overlay").classList.remove("show");
+      $("#drawer").classList.remove("show");
+      $("#modal").classList.remove("show");
+      if(modalWasOpen)setProductMeta(null);
+      if(modalWasOpen && !options.fromHistory && productIdFromUrl()){
+        if(history.state?.productFromCatalog){history.back();return}
+        updateProductUrl(0,"replace");
+      }
+    }`
+      );
+
+      html=html.replace(
+        '    window.addToCart=addToCart;window.closeAll=closeAll;window.openCart=openCart;window.shiftGallery=shiftGallery;window.selectGalleryPhoto=selectGalleryPhoto;',
+        '    window.addToCart=addToCart;window.closeAll=closeAll;window.openCart=openCart;window.shiftGallery=shiftGallery;window.selectGalleryPhoto=selectGalleryPhoto;window.copyProductLink=copyProductLink;'
       );
 
       document.open();
