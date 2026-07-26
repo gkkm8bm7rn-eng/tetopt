@@ -1196,7 +1196,2407 @@
       ],
       "discovered_candidates": 843,
       "error": null
+    },
+    "104": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:51:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/104/01.webp",
+        "assets/products/104/02.webp",
+        "assets/products/104/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "103": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:51:53+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/103/01.webp",
+        "assets/products/103/02.webp",
+        "assets/products/103/03.webp"
+      ],
+      "discovered_candidates": 851,
+      "error": null
+    },
+    "102": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:51:53+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/102/01.webp",
+        "assets/products/102/02.webp",
+        "assets/products/102/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "101": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:51:53+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/101/01.webp",
+        "assets/products/101/02.webp",
+        "assets/products/101/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "106": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:01+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/106/01.webp",
+        "assets/products/106/02.webp",
+        "assets/products/106/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "108": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:01+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/108/01.webp",
+        "assets/products/108/02.webp",
+        "assets/products/108/03.webp"
+      ],
+      "discovered_candidates": 926,
+      "error": null
+    },
+    "105": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/105/01.webp",
+        "assets/products/105/02.webp",
+        "assets/products/105/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "107": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/107/01.webp",
+        "assets/products/107/02.webp",
+        "assets/products/107/03.webp"
+      ],
+      "discovered_candidates": 843,
+      "error": null
+    },
+    "110": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:11+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/110/01.webp",
+        "assets/products/110/02.webp",
+        "assets/products/110/03.webp"
+      ],
+      "discovered_candidates": 926,
+      "error": null
+    },
+    "109": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:12+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/109/01.webp",
+        "assets/products/109/02.webp",
+        "assets/products/109/03.webp"
+      ],
+      "discovered_candidates": 927,
+      "error": null
+    },
+    "112": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:13+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/112/01.webp",
+        "assets/products/112/02.webp",
+        "assets/products/112/03.webp"
+      ],
+      "discovered_candidates": 849,
+      "error": null
+    },
+    "111": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:13+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/111/01.webp",
+        "assets/products/111/02.webp",
+        "assets/products/111/03.webp"
+      ],
+      "discovered_candidates": 926,
+      "error": null
+    },
+    "113": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:20+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/113/01.webp",
+        "assets/products/113/02.webp",
+        "assets/products/113/03.webp"
+      ],
+      "discovered_candidates": 849,
+      "error": null
+    },
+    "115": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:22+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/115/01.webp",
+        "assets/products/115/02.webp",
+        "assets/products/115/03.webp"
+      ],
+      "discovered_candidates": 846,
+      "error": null
+    },
+    "116": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:22+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/116/01.webp",
+        "assets/products/116/02.webp",
+        "assets/products/116/03.webp"
+      ],
+      "discovered_candidates": 846,
+      "error": null
+    },
+    "114": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:24+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/114/01.webp",
+        "assets/products/114/02.webp",
+        "assets/products/114/03.webp"
+      ],
+      "discovered_candidates": 850,
+      "error": null
+    },
+    "119": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:31+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/119/01.webp",
+        "assets/products/119/02.webp",
+        "assets/products/119/03.webp"
+      ],
+      "discovered_candidates": 855,
+      "error": null
+    },
+    "118": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/118/01.webp",
+        "assets/products/118/02.webp",
+        "assets/products/118/03.webp"
+      ],
+      "discovered_candidates": 853,
+      "error": null
+    },
+    "117": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:33+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/117/01.webp",
+        "assets/products/117/02.webp",
+        "assets/products/117/03.webp"
+      ],
+      "discovered_candidates": 846,
+      "error": null
+    },
+    "121": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:40+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/121/01.webp",
+        "assets/products/121/02.webp",
+        "assets/products/121/03.webp"
+      ],
+      "discovered_candidates": 856,
+      "error": null
+    },
+    "120": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:40+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/120/01.webp",
+        "assets/products/120/02.webp",
+        "assets/products/120/03.webp"
+      ],
+      "discovered_candidates": 846,
+      "error": null
+    },
+    "122": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:41+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/122/01.webp",
+        "assets/products/122/02.webp",
+        "assets/products/122/03.webp"
+      ],
+      "discovered_candidates": 857,
+      "error": null
+    },
+    "123": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:42+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/123/01.webp",
+        "assets/products/123/02.webp",
+        "assets/products/123/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "125": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:48+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/125/01.webp",
+        "assets/products/125/02.webp",
+        "assets/products/125/03.webp"
+      ],
+      "discovered_candidates": 642,
+      "error": null
+    },
+    "124": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:48+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/124/01.webp",
+        "assets/products/124/02.webp",
+        "assets/products/124/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "126": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:50+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/126/01.webp",
+        "assets/products/126/02.webp",
+        "assets/products/126/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "127": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/127/01.webp",
+        "assets/products/127/02.webp",
+        "assets/products/127/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "128": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/128/01.webp",
+        "assets/products/128/02.webp",
+        "assets/products/128/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "129": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:52:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/129/01.webp",
+        "assets/products/129/02.webp",
+        "assets/products/129/03.webp"
+      ],
+      "discovered_candidates": 637,
+      "error": null
+    },
+    "133": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/133/01.webp",
+        "assets/products/133/02.webp",
+        "assets/products/133/03.webp"
+      ],
+      "discovered_candidates": 99,
+      "error": null
+    },
+    "130": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/130/01.webp",
+        "assets/products/130/02.webp",
+        "assets/products/130/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "132": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/132/01.webp",
+        "assets/products/132/02.webp",
+        "assets/products/132/03.webp"
+      ],
+      "discovered_candidates": 101,
+      "error": null
+    },
+    "131": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/131/01.webp",
+        "assets/products/131/02.webp",
+        "assets/products/131/03.webp"
+      ],
+      "discovered_candidates": 100,
+      "error": null
+    },
+    "135": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:10+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/135/01.webp",
+        "assets/products/135/02.webp",
+        "assets/products/135/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "137": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:11+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/137/01.webp",
+        "assets/products/137/02.webp",
+        "assets/products/137/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "136": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:11+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/136/01.webp",
+        "assets/products/136/02.webp",
+        "assets/products/136/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "134": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:12+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/134/01.webp",
+        "assets/products/134/02.webp",
+        "assets/products/134/03.webp"
+      ],
+      "discovered_candidates": 101,
+      "error": null
+    },
+    "138": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/138/01.webp",
+        "assets/products/138/02.webp",
+        "assets/products/138/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "140": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:18+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/140/01.webp",
+        "assets/products/140/02.webp",
+        "assets/products/140/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "141": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:19+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/141/01.webp",
+        "assets/products/141/02.webp",
+        "assets/products/141/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "139": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:20+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/139/01.webp",
+        "assets/products/139/02.webp",
+        "assets/products/139/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "142": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:25+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/142/01.webp",
+        "assets/products/142/02.webp",
+        "assets/products/142/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "143": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:26+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/143/01.webp",
+        "assets/products/143/02.webp",
+        "assets/products/143/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "145": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:26+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/145/01.webp",
+        "assets/products/145/02.webp",
+        "assets/products/145/03.webp"
+      ],
+      "discovered_candidates": 143,
+      "error": null
+    },
+    "144": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:26+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/144/01.webp",
+        "assets/products/144/02.webp",
+        "assets/products/144/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "146": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/146/01.webp",
+        "assets/products/146/02.webp",
+        "assets/products/146/03.webp"
+      ],
+      "discovered_candidates": 143,
+      "error": null
+    },
+    "147": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/147/01.webp",
+        "assets/products/147/02.webp",
+        "assets/products/147/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "148": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:33+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/148/01.webp",
+        "assets/products/148/02.webp",
+        "assets/products/148/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "149": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:36+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/149/01.webp",
+        "assets/products/149/02.webp",
+        "assets/products/149/03.webp"
+      ],
+      "discovered_candidates": 143,
+      "error": null
+    },
+    "151": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:39+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/151/01.webp",
+        "assets/products/151/02.webp",
+        "assets/products/151/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "152": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:40+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/152/01.webp",
+        "assets/products/152/02.webp",
+        "assets/products/152/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "150": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:41+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/150/01.webp",
+        "assets/products/150/02.webp",
+        "assets/products/150/03.webp"
+      ],
+      "discovered_candidates": 143,
+      "error": null
+    },
+    "153": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:44+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/153/01.webp",
+        "assets/products/153/02.webp",
+        "assets/products/153/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "156": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/156/01.webp",
+        "assets/products/156/02.webp",
+        "assets/products/156/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "155": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/155/01.webp",
+        "assets/products/155/02.webp",
+        "assets/products/155/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "154": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:49+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/154/01.webp",
+        "assets/products/154/02.webp",
+        "assets/products/154/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "157": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:50+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/157/01.webp",
+        "assets/products/157/02.webp",
+        "assets/products/157/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "158": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:54+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/158/01.webp",
+        "assets/products/158/02.webp",
+        "assets/products/158/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "159": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:57+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/159/01.webp",
+        "assets/products/159/02.webp",
+        "assets/products/159/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "160": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:59+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/160/01.webp",
+        "assets/products/160/02.webp",
+        "assets/products/160/03.webp"
+      ],
+      "discovered_candidates": 140,
+      "error": null
+    },
+    "161": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:53:59+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/161/01.webp",
+        "assets/products/161/02.webp",
+        "assets/products/161/03.webp"
+      ],
+      "discovered_candidates": 140,
+      "error": null
+    },
+    "162": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:00+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/162/01.webp",
+        "assets/products/162/02.webp",
+        "assets/products/162/03.webp"
+      ],
+      "discovered_candidates": 140,
+      "error": null
+    },
+    "166": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:09+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/166/01.webp",
+        "assets/products/166/02.webp",
+        "assets/products/166/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "163": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:10+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/163/01.webp",
+        "assets/products/163/02.webp",
+        "assets/products/163/03.webp"
+      ],
+      "discovered_candidates": 140,
+      "error": null
+    },
+    "164": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:11+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/164/01.webp",
+        "assets/products/164/02.webp",
+        "assets/products/164/03.webp"
+      ],
+      "discovered_candidates": 140,
+      "error": null
+    },
+    "165": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:13+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/165/01.webp",
+        "assets/products/165/02.webp",
+        "assets/products/165/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "167": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/167/01.webp",
+        "assets/products/167/02.webp",
+        "assets/products/167/03.webp"
+      ],
+      "discovered_candidates": 137,
+      "error": null
+    },
+    "168": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:19+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/168/01.webp",
+        "assets/products/168/02.webp",
+        "assets/products/168/03.webp"
+      ],
+      "discovered_candidates": 137,
+      "error": null
+    },
+    "169": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:22+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/169/01.webp",
+        "assets/products/169/02.webp",
+        "assets/products/169/03.webp"
+      ],
+      "discovered_candidates": 139,
+      "error": null
+    },
+    "170": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:23+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/170/01.webp",
+        "assets/products/170/02.webp",
+        "assets/products/170/03.webp"
+      ],
+      "discovered_candidates": 139,
+      "error": null
+    },
+    "171": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:24+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/171/01.webp",
+        "assets/products/171/02.webp",
+        "assets/products/171/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "172": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:24+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/172/01.webp",
+        "assets/products/172/02.webp",
+        "assets/products/172/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "175": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:29+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/175/01.webp",
+        "assets/products/175/02.webp",
+        "assets/products/175/03.webp"
+      ],
+      "discovered_candidates": 83,
+      "error": null
+    },
+    "174": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:31+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/174/01.webp",
+        "assets/products/174/02.webp",
+        "assets/products/174/03.webp"
+      ],
+      "discovered_candidates": 141,
+      "error": null
+    },
+    "176": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/176/01.webp",
+        "assets/products/176/02.webp",
+        "assets/products/176/03.webp"
+      ],
+      "discovered_candidates": 135,
+      "error": null
+    },
+    "173": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/173/01.webp",
+        "assets/products/173/02.webp",
+        "assets/products/173/03.webp"
+      ],
+      "discovered_candidates": 142,
+      "error": null
+    },
+    "178": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/178/01.webp",
+        "assets/products/178/02.webp",
+        "assets/products/178/03.webp"
+      ],
+      "discovered_candidates": 120,
+      "error": null
+    },
+    "180": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:37+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/180/01.webp",
+        "assets/products/180/02.webp",
+        "assets/products/180/03.webp"
+      ],
+      "discovered_candidates": 192,
+      "error": null
+    },
+    "177": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:39+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/177/01.webp",
+        "assets/products/177/02.webp",
+        "assets/products/177/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "179": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:39+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/179/01.webp",
+        "assets/products/179/02.webp",
+        "assets/products/179/03.webp"
+      ],
+      "discovered_candidates": 193,
+      "error": null
+    },
+    "181": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:44+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/181/01.webp",
+        "assets/products/181/02.webp",
+        "assets/products/181/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "183": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/183/01.webp",
+        "assets/products/183/02.webp",
+        "assets/products/183/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "182": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:49+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/182/01.webp",
+        "assets/products/182/02.webp",
+        "assets/products/182/03.webp"
+      ],
+      "discovered_candidates": 133,
+      "error": null
+    },
+    "185": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/185/01.webp",
+        "assets/products/185/02.webp",
+        "assets/products/185/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "184": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:54:59+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/184/01.webp",
+        "assets/products/184/02.webp",
+        "assets/products/184/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "186": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:01+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/186/01.webp",
+        "assets/products/186/02.webp",
+        "assets/products/186/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "187": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:05+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/187/01.webp",
+        "assets/products/187/02.webp",
+        "assets/products/187/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "188": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:09+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/188/01.webp",
+        "assets/products/188/02.webp",
+        "assets/products/188/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "189": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:13+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/189/01.webp",
+        "assets/products/189/02.webp",
+        "assets/products/189/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "190": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:14+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/190/01.webp",
+        "assets/products/190/02.webp",
+        "assets/products/190/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "191": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:16+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/191/01.webp",
+        "assets/products/191/02.webp",
+        "assets/products/191/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "192": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/192/01.webp",
+        "assets/products/192/02.webp",
+        "assets/products/192/03.webp"
+      ],
+      "discovered_candidates": 125,
+      "error": null
+    },
+    "193": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:21+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/193/01.webp",
+        "assets/products/193/02.webp",
+        "assets/products/193/03.webp"
+      ],
+      "discovered_candidates": 126,
+      "error": null
+    },
+    "194": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:23+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/194/01.webp",
+        "assets/products/194/02.webp",
+        "assets/products/194/03.webp"
+      ],
+      "discovered_candidates": 125,
+      "error": null
+    },
+    "195": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:23+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/195/01.webp",
+        "assets/products/195/02.webp",
+        "assets/products/195/03.webp"
+      ],
+      "discovered_candidates": 124,
+      "error": null
+    },
+    "196": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:25+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/196/01.webp",
+        "assets/products/196/02.webp",
+        "assets/products/196/03.webp"
+      ],
+      "discovered_candidates": 126,
+      "error": null
+    },
+    "197": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:29+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/197/01.webp",
+        "assets/products/197/02.webp",
+        "assets/products/197/03.webp"
+      ],
+      "discovered_candidates": 192,
+      "error": null
+    },
+    "199": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:30+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/199/01.webp",
+        "assets/products/199/02.webp",
+        "assets/products/199/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "200": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:31+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/200/01.webp",
+        "assets/products/200/02.webp",
+        "assets/products/200/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "198": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:31+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/198/01.webp",
+        "assets/products/198/02.webp",
+        "assets/products/198/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "203": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:37+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/203/01.webp",
+        "assets/products/203/02.webp",
+        "assets/products/203/03.webp"
+      ],
+      "discovered_candidates": 173,
+      "error": null
+    },
+    "204": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/204/01.webp",
+        "assets/products/204/02.webp",
+        "assets/products/204/03.webp"
+      ],
+      "discovered_candidates": 173,
+      "error": null
+    },
+    "201": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/201/01.webp",
+        "assets/products/201/02.webp",
+        "assets/products/201/03.webp"
+      ],
+      "discovered_candidates": 173,
+      "error": null
+    },
+    "202": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/202/01.webp",
+        "assets/products/202/02.webp",
+        "assets/products/202/03.webp"
+      ],
+      "discovered_candidates": 173,
+      "error": null
+    },
+    "205": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:46+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/205/01.webp",
+        "assets/products/205/02.webp",
+        "assets/products/205/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "206": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/206/01.webp",
+        "assets/products/206/02.webp",
+        "assets/products/206/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "208": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:48+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/208/01.webp",
+        "assets/products/208/02.webp",
+        "assets/products/208/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "207": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:48+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/207/01.webp",
+        "assets/products/207/02.webp",
+        "assets/products/207/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "209": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/209/01.webp",
+        "assets/products/209/02.webp",
+        "assets/products/209/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "210": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:57+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/210/01.webp",
+        "assets/products/210/02.webp",
+        "assets/products/210/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "212": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:57+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/212/01.webp",
+        "assets/products/212/02.webp",
+        "assets/products/212/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "211": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:55:57+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/211/01.webp",
+        "assets/products/211/02.webp",
+        "assets/products/211/03.webp"
+      ],
+      "discovered_candidates": 172,
+      "error": null
+    },
+    "216": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/216/01.webp",
+        "assets/products/216/02.webp",
+        "assets/products/216/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "214": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/214/01.webp",
+        "assets/products/214/02.webp",
+        "assets/products/214/03.webp"
+      ],
+      "discovered_candidates": 162,
+      "error": null
+    },
+    "213": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:05+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/213/01.webp",
+        "assets/products/213/02.webp",
+        "assets/products/213/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "215": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:06+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/215/01.webp",
+        "assets/products/215/02.webp",
+        "assets/products/215/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "220": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:12+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/220/01.webp",
+        "assets/products/220/02.webp",
+        "assets/products/220/03.webp"
+      ],
+      "discovered_candidates": 162,
+      "error": null
+    },
+    "217": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:15+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/217/01.webp",
+        "assets/products/217/02.webp",
+        "assets/products/217/03.webp"
+      ],
+      "discovered_candidates": 136,
+      "error": null
+    },
+    "218": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:15+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/218/01.webp",
+        "assets/products/218/02.webp",
+        "assets/products/218/03.webp"
+      ],
+      "discovered_candidates": 135,
+      "error": null
+    },
+    "219": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/219/01.webp",
+        "assets/products/219/02.webp",
+        "assets/products/219/03.webp"
+      ],
+      "discovered_candidates": 133,
+      "error": null
+    },
+    "221": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:18+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/221/01.webp",
+        "assets/products/221/02.webp",
+        "assets/products/221/03.webp"
+      ],
+      "discovered_candidates": 162,
+      "error": null
+    },
+    "222": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:25+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/222/01.webp",
+        "assets/products/222/02.webp",
+        "assets/products/222/03.webp"
+      ],
+      "discovered_candidates": 98,
+      "error": null
+    },
+    "223": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:26+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/223/01.webp",
+        "assets/products/223/02.webp",
+        "assets/products/223/03.webp"
+      ],
+      "discovered_candidates": 100,
+      "error": null
+    },
+    "224": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:27+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/224/01.webp",
+        "assets/products/224/02.webp",
+        "assets/products/224/03.webp"
+      ],
+      "discovered_candidates": 133,
+      "error": null
+    },
+    "225": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:30+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/225/01.webp",
+        "assets/products/225/02.webp",
+        "assets/products/225/03.webp"
+      ],
+      "discovered_candidates": 133,
+      "error": null
+    },
+    "227": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/227/01.webp",
+        "assets/products/227/02.webp",
+        "assets/products/227/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "226": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/226/01.webp",
+        "assets/products/226/02.webp",
+        "assets/products/226/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "228": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/228/01.webp",
+        "assets/products/228/02.webp",
+        "assets/products/228/03.webp"
+      ],
+      "discovered_candidates": 135,
+      "error": null
+    },
+    "229": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/229/01.webp",
+        "assets/products/229/02.webp",
+        "assets/products/229/03.webp"
+      ],
+      "discovered_candidates": 136,
+      "error": null
+    },
+    "231": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:40+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/231/01.webp",
+        "assets/products/231/02.webp",
+        "assets/products/231/03.webp"
+      ],
+      "discovered_candidates": 161,
+      "error": null
+    },
+    "234": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:46+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/234/01.webp",
+        "assets/products/234/02.webp",
+        "assets/products/234/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "232": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:46+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/232/01.webp",
+        "assets/products/232/02.webp",
+        "assets/products/232/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "233": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:46+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/233/01.webp",
+        "assets/products/233/02.webp",
+        "assets/products/233/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "230": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/230/01.webp",
+        "assets/products/230/02.webp",
+        "assets/products/230/03.webp"
+      ],
+      "discovered_candidates": 135,
+      "error": null
+    },
+    "235": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/235/01.webp",
+        "assets/products/235/02.webp",
+        "assets/products/235/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "236": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:56:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/236/01.webp",
+        "assets/products/236/02.webp",
+        "assets/products/236/03.webp"
+      ],
+      "discovered_candidates": 851,
+      "error": null
+    },
+    "237": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:01+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/237/01.webp",
+        "assets/products/237/02.webp",
+        "assets/products/237/03.webp"
+      ],
+      "discovered_candidates": 133,
+      "error": null
+    },
+    "238": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/238/01.webp",
+        "assets/products/238/02.webp",
+        "assets/products/238/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "240": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:02+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/240/01.webp",
+        "assets/products/240/02.webp",
+        "assets/products/240/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "239": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:06+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/239/01.webp",
+        "assets/products/239/02.webp",
+        "assets/products/239/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "241": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:09+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/241/01.webp",
+        "assets/products/241/02.webp",
+        "assets/products/241/03.webp"
+      ],
+      "discovered_candidates": 123,
+      "error": null
+    },
+    "242": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:10+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/242/01.webp",
+        "assets/products/242/02.webp",
+        "assets/products/242/03.webp"
+      ],
+      "discovered_candidates": 126,
+      "error": null
+    },
+    "243": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:14+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/243/01.webp",
+        "assets/products/243/02.webp",
+        "assets/products/243/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "244": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:21+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/244/01.webp",
+        "assets/products/244/02.webp",
+        "assets/products/244/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "245": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:24+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/245/01.webp",
+        "assets/products/245/02.webp",
+        "assets/products/245/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "246": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:27+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/246/01.webp",
+        "assets/products/246/02.webp",
+        "assets/products/246/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "247": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:29+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/247/01.webp",
+        "assets/products/247/02.webp",
+        "assets/products/247/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "248": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/248/01.webp",
+        "assets/products/248/02.webp",
+        "assets/products/248/03.webp"
+      ],
+      "discovered_candidates": 848,
+      "error": null
+    },
+    "249": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:36+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/249/01.webp",
+        "assets/products/249/02.webp",
+        "assets/products/249/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "250": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:39+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/250/01.webp",
+        "assets/products/250/02.webp",
+        "assets/products/250/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "251": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:39+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/251/01.webp",
+        "assets/products/251/02.webp",
+        "assets/products/251/03.webp"
+      ],
+      "discovered_candidates": 132,
+      "error": null
+    },
+    "252": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:45+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/252/01.webp",
+        "assets/products/252/02.webp",
+        "assets/products/252/03.webp"
+      ],
+      "discovered_candidates": 132,
+      "error": null
+    },
+    "253": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:47+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/253/01.webp",
+        "assets/products/253/02.webp",
+        "assets/products/253/03.webp"
+      ],
+      "discovered_candidates": 135,
+      "error": null
+    },
+    "254": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/254/01.webp",
+        "assets/products/254/02.webp",
+        "assets/products/254/03.webp"
+      ],
+      "discovered_candidates": 134,
+      "error": null
+    },
+    "256": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:54+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/256/01.webp",
+        "assets/products/256/02.webp",
+        "assets/products/256/03.webp"
+      ],
+      "discovered_candidates": 162,
+      "error": null
+    },
+    "255": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/255/01.webp",
+        "assets/products/255/02.webp",
+        "assets/products/255/03.webp"
+      ],
+      "discovered_candidates": 163,
+      "error": null
+    },
+    "257": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:57:57+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/257/01.webp",
+        "assets/products/257/02.webp",
+        "assets/products/257/03.webp"
+      ],
+      "discovered_candidates": 98,
+      "error": null
+    },
+    "259": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:06+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/259/01.webp",
+        "assets/products/259/02.webp",
+        "assets/products/259/03.webp"
+      ],
+      "discovered_candidates": 124,
+      "error": null
+    },
+    "260": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:07+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/260/01.webp",
+        "assets/products/260/02.webp",
+        "assets/products/260/03.webp"
+      ],
+      "discovered_candidates": 124,
+      "error": null
+    },
+    "258": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:08+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/258/01.webp",
+        "assets/products/258/02.webp",
+        "assets/products/258/03.webp"
+      ],
+      "discovered_candidates": 100,
+      "error": null
+    },
+    "261": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:11+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/261/01.webp",
+        "assets/products/261/02.webp",
+        "assets/products/261/03.webp"
+      ],
+      "discovered_candidates": 119,
+      "error": null
+    },
+    "264": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/264/01.webp",
+        "assets/products/264/02.webp",
+        "assets/products/264/03.webp"
+      ],
+      "discovered_candidates": 174,
+      "error": null
+    },
+    "263": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:17+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/263/01.webp",
+        "assets/products/263/02.webp",
+        "assets/products/263/03.webp"
+      ],
+      "discovered_candidates": 193,
+      "error": null
+    },
+    "265": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:19+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/265/01.webp",
+        "assets/products/265/02.webp",
+        "assets/products/265/03.webp"
+      ],
+      "discovered_candidates": 174,
+      "error": null
+    },
+    "262": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:20+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/262/01.webp",
+        "assets/products/262/02.webp",
+        "assets/products/262/03.webp"
+      ],
+      "discovered_candidates": 119,
+      "error": null
+    },
+    "266": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:23+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/266/01.webp",
+        "assets/products/266/02.webp",
+        "assets/products/266/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "267": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:24+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/267/01.webp",
+        "assets/products/267/02.webp",
+        "assets/products/267/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "268": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:27+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/268/01.webp",
+        "assets/products/268/02.webp",
+        "assets/products/268/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "269": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:28+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/269/01.webp",
+        "assets/products/269/02.webp",
+        "assets/products/269/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "270": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:30+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/270/01.webp",
+        "assets/products/270/02.webp",
+        "assets/products/270/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "271": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:33+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/271/01.webp",
+        "assets/products/271/02.webp",
+        "assets/products/271/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "272": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/272/01.webp",
+        "assets/products/272/02.webp",
+        "assets/products/272/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "273": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/273/01.webp",
+        "assets/products/273/02.webp",
+        "assets/products/273/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "274": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:35+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/274/01.webp",
+        "assets/products/274/02.webp",
+        "assets/products/274/03.webp"
+      ],
+      "discovered_candidates": 169,
+      "error": null
+    },
+    "275": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:38+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/275/01.webp",
+        "assets/products/275/02.webp",
+        "assets/products/275/03.webp"
+      ],
+      "discovered_candidates": 168,
+      "error": null
+    },
+    "279": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:43+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/279/01.webp",
+        "assets/products/279/02.webp",
+        "assets/products/279/03.webp"
+      ],
+      "discovered_candidates": 123,
+      "error": null
+    },
+    "276": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:44+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/276/01.webp",
+        "assets/products/276/02.webp",
+        "assets/products/276/03.webp"
+      ],
+      "discovered_candidates": 186,
+      "error": null
+    },
+    "278": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:46+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/278/01.webp",
+        "assets/products/278/02.webp",
+        "assets/products/278/03.webp"
+      ],
+      "discovered_candidates": 124,
+      "error": null
+    },
+    "281": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/281/01.webp",
+        "assets/products/281/02.webp",
+        "assets/products/281/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "280": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/280/01.webp",
+        "assets/products/280/02.webp",
+        "assets/products/280/03.webp"
+      ],
+      "discovered_candidates": 124,
+      "error": null
+    },
+    "277": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/277/01.webp",
+        "assets/products/277/02.webp",
+        "assets/products/277/03.webp"
+      ],
+      "discovered_candidates": 187,
+      "error": null
+    },
+    "282": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:58:52+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/282/01.webp",
+        "assets/products/282/02.webp",
+        "assets/products/282/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "283": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:01+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/283/01.webp",
+        "assets/products/283/02.webp",
+        "assets/products/283/03.webp"
+      ],
+      "discovered_candidates": 194,
+      "error": null
+    },
+    "284": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:06+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/284/01.webp",
+        "assets/products/284/02.webp",
+        "assets/products/284/03.webp"
+      ],
+      "discovered_candidates": 930,
+      "error": null
+    },
+    "285": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:07+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/285/01.webp",
+        "assets/products/285/02.webp",
+        "assets/products/285/03.webp"
+      ],
+      "discovered_candidates": 847,
+      "error": null
+    },
+    "286": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:07+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/286/01.webp",
+        "assets/products/286/02.webp",
+        "assets/products/286/03.webp"
+      ],
+      "discovered_candidates": 636,
+      "error": null
+    },
+    "287": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:14+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/287/01.webp",
+        "assets/products/287/02.webp",
+        "assets/products/287/03.webp"
+      ],
+      "discovered_candidates": 636,
+      "error": null
+    },
+    "288": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:18+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/288/01.webp",
+        "assets/products/288/02.webp",
+        "assets/products/288/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "289": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:19+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/289/01.webp",
+        "assets/products/289/02.webp",
+        "assets/products/289/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "290": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:20+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/290/01.webp",
+        "assets/products/290/02.webp",
+        "assets/products/290/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "291": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:25+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/291/01.webp",
+        "assets/products/291/02.webp",
+        "assets/products/291/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "293": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/293/01.webp",
+        "assets/products/293/02.webp",
+        "assets/products/293/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "294": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:32+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/294/01.webp",
+        "assets/products/294/02.webp",
+        "assets/products/294/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "292": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:33+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/292/01.webp",
+        "assets/products/292/02.webp",
+        "assets/products/292/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "296": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:49+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/296/01.webp",
+        "assets/products/296/02.webp",
+        "assets/products/296/03.webp"
+      ],
+      "discovered_candidates": 767,
+      "error": null
+    },
+    "297": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:49+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/297/01.webp",
+        "assets/products/297/02.webp",
+        "assets/products/297/03.webp"
+      ],
+      "discovered_candidates": 767,
+      "error": null
+    },
+    "295": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:50+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/295/01.webp",
+        "assets/products/295/02.webp",
+        "assets/products/295/03.webp"
+      ],
+      "discovered_candidates": 640,
+      "error": null
+    },
+    "298": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T15:59:56+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/298/01.webp",
+        "assets/products/298/02.webp",
+        "assets/products/298/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "299": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T16:00:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/299/01.webp",
+        "assets/products/299/02.webp",
+        "assets/products/299/03.webp"
+      ],
+      "discovered_candidates": 641,
+      "error": null
+    },
+    "300": {
+      "attempts": 1,
+      "last_attempt_at": "2026-07-26T16:00:04+00:00",
+      "status": "ok",
+      "images": [
+        "assets/products/300/01.webp",
+        "assets/products/300/02.webp",
+        "assets/products/300/03.webp"
+      ],
+      "discovered_candidates": 643,
+      "error": null
     }
   },
-  "updated_at": "2026-07-26T15:01:35+00:00"
+  "updated_at": "2026-07-26T16:00:04+00:00"
 }
