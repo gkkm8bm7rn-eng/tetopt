@@ -3,6 +3,13 @@
   const STORE_PHONE_DISPLAY="+7 (905) 726-79-46";
   const STORE_EMAIL="postes@mail.ru";
 
+  if(!document.querySelector('script[data-advanced-filters]')){
+    const filtersScript=document.createElement("script");
+    filtersScript.src="advanced-filters.js?v=1";
+    filtersScript.dataset.advancedFilters="1";
+    document.body.appendChild(filtersScript);
+  }
+
   const contacts=document.querySelector("#contacts p");
   if(contacts){
     contacts.innerHTML=`Телефон: <a href="tel:+${STORE_PHONE}">${STORE_PHONE_DISPLAY}</a><br><a href="https://wa.me/${STORE_PHONE}" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+${STORE_PHONE}" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:${STORE_EMAIL}">${STORE_EMAIL}</a><br>Ежедневно, 10:00–20:00`;
