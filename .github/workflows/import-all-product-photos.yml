@@ -1,0 +1,104 @@
+name: Import all product photos
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/import-all-product-photos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: forma-home-photo-import
+  cancel-in-progress: false
+
+jobs:
+  import-all:
+    name: Import the complete product catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install importer dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests beautifulsoup4 pillow
+
+      - name: Import all remaining photos in safe batches
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          commit_changes() {
+            local message="$1"
+            if [[ -z "$(git status --porcelain)" ]]; then
+              echo "No repository changes to commit."
+              return 0
+            fi
+            git add -A
+            git commit -m "$message"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          }
+
+          completed=false
+
+          # 26 rounds × 200 products is enough to give every remaining
+          # catalog item up to three automatic attempts if needed.
+          for round in $(seq 1 26); do
+            echo "===== Import round ${round} of 26 ====="
+            log_file="$(mktemp)"
+
+            python scripts/import_photos.py \
+              --index index.html \
+              --batch-size 200 \
+              --max-photos 3 \
+              --workers 4 \
+              --max-side 1200 \
+              --max-kb 180 2>&1 | tee "$log_file"
+
+            commit_changes "Import all product photos — batch ${round}"
+
+            if grep -Fq "Нет товаров для очередной партии." "$log_file"; then
+              completed=true
+              rm -f "$log_file"
+              echo "All available products have been processed."
+              break
+            fi
+
+            rm -f "$log_file"
+          done
+
+          if [[ "$completed" != "true" ]]; then
+            echo "The run saved all completed batches but did not reach the end of the catalog within this job." >&2
+            echo "Run this workflow again to continue safely from the saved progress." >&2
+            exit 1
+          fi
+
+          # Only after the complete pass finishes, remove supplier and proxy
+          # dependencies and leave local images (or placeholders) exclusively.
+          python scripts/import_photos.py \
+            --index index.html \
+            --batch-size 0 \
+            --max-photos 3 \
+            --workers 4 \
+            --max-side 1200 \
+            --max-kb 180 \
+            --finalize-local-only
+
+          commit_changes "Finalize local photos for the complete catalog"
