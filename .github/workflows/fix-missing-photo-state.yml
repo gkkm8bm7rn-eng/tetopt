@@ -1,6 +1,7 @@
 name: Fix missing photo state
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
