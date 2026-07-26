@@ -582,7 +582,7 @@ def patch_storefront_runtime(html_text: str, local_only: bool) -> str:
         '''      const saved=Array.isArray(galleryCache[p.id]) ? galleryCache[p.id].filter(Boolean) : [];
       const local=Array.isArray(p.images)?p.images.filter(Boolean):[];
       const photos=[...new Set([...local,p.directImage,cachedFirstPhoto(p),...saved].filter(Boolean))];
-      if(LOCAL_IMAGES_ONLY)return photos;
+      if(local.length || LOCAL_IMAGES_ONLY)return photos;
       const seen=new Set(photos);
       const pages=[p.photoBank,p.productUrl].filter(Boolean);''',
         html_text,
