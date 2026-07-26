@@ -34,6 +34,69 @@
       );
 
       html=html.replace(
+`      let cardSwipe=null, suppressCardClick=false;
+      $("#grid").addEventListener("click",e=>{
+        const photoNav=e.target.closest("[data-card-photo]");
+        if(photoNav){e.stopPropagation();shiftCardPhoto(photoNav,Number(photoNav.dataset.cardPhoto)||0);return}
+        const add=e.target.closest("[data-add]"); if(add){e.stopPropagation();addToCart(add.dataset.add);return}
+        const card=e.target.closest("[data-product]");
+        if(card){
+          if(suppressCardClick){suppressCardClick=false;return}
+          openProduct(card.dataset.product);
+        }
+      });
+      $("#grid").addEventListener("pointerdown",e=>{
+        const visual=e.target.closest(".visual");
+        if(!visual || e.target.closest("button") || e.pointerType==="mouse")return;
+        cardSwipe={visual,x:e.clientX,y:e.clientY};
+      });
+      $("#grid").addEventListener("pointerup",e=>{
+        if(!cardSwipe)return;
+        const swipe=cardSwipe; cardSwipe=null;
+        const visual=e.target.closest(".visual");
+        if(visual!==swipe.visual)return;
+        const dx=e.clientX-swipe.x,dy=e.clientY-swipe.y;
+        if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
+          shiftCardPhoto(visual,dx<0?1:-1);
+          suppressCardClick=true;
+          setTimeout(()=>{suppressCardClick=false},350);
+        }
+      });
+      $("#grid").addEventListener("pointercancel",()=>{cardSwipe=null});`,
+`      let cardSwipe=null, suppressCardClick=false;
+      $("#grid").addEventListener("click",e=>{
+        const photoNav=e.target.closest("[data-card-photo]");
+        if(photoNav){e.stopPropagation();shiftCardPhoto(photoNav,Number(photoNav.dataset.cardPhoto)||0);return}
+        const add=e.target.closest("[data-add]"); if(add){e.stopPropagation();addToCart(add.dataset.add);return}
+        const card=e.target.closest("[data-product]");
+        if(card){
+          if(suppressCardClick){suppressCardClick=false;return}
+          openProduct(card.dataset.product);
+        }
+      });
+      $("#grid").addEventListener("touchstart",e=>{
+        const touch=e.touches[0];
+        const visual=e.target.closest(".visual");
+        if(!touch || !visual || e.target.closest("button"))return;
+        cardSwipe={visual,x:touch.clientX,y:touch.clientY};
+      },{passive:true});
+      $("#grid").addEventListener("touchend",e=>{
+        if(!cardSwipe)return;
+        const swipe=cardSwipe; cardSwipe=null;
+        const touch=e.changedTouches[0];
+        const visual=e.target.closest(".visual");
+        if(!touch || visual!==swipe.visual)return;
+        const dx=touch.clientX-swipe.x,dy=touch.clientY-swipe.y;
+        if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
+          shiftCardPhoto(visual,dx<0?1:-1);
+          suppressCardClick=true;
+          setTimeout(()=>{suppressCardClick=false},650);
+        }
+      },{passive:true});
+      $("#grid").addEventListener("touchcancel",()=>{cardSwipe=null},{passive:true});`
+      );
+
+      html=html.replace(
         '          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?',
         '          ${cardPhotos.length?`<span class="photo-loading">загрузка фото…</span>`:`<span class="photo-unavailable">Фото пока недоступно</span>`}\n          ${cardPhotos.length>1?'
       );
@@ -125,17 +188,20 @@
       $("#modal").classList.add("show");
       const gallerySurface=$("#modal .gallery-main");
       let gallerySwipe=null;
-      gallerySurface?.addEventListener("pointerdown",e=>{
-        if(e.pointerType==="mouse" || e.target.closest("button"))return;
-        gallerySwipe={x:e.clientX,y:e.clientY};
-      });
-      gallerySurface?.addEventListener("pointerup",e=>{
+      gallerySurface?.addEventListener("touchstart",e=>{
+        const touch=e.touches[0];
+        if(!touch || e.target.closest("button"))return;
+        gallerySwipe={x:touch.clientX,y:touch.clientY};
+      },{passive:true});
+      gallerySurface?.addEventListener("touchend",e=>{
         if(!gallerySwipe)return;
-        const dx=e.clientX-gallerySwipe.x,dy=e.clientY-gallerySwipe.y;
+        const touch=e.changedTouches[0];
+        if(!touch){gallerySwipe=null;return}
+        const dx=touch.clientX-gallerySwipe.x,dy=touch.clientY-gallerySwipe.y;
         gallerySwipe=null;
         if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2)shiftGallery(dx<0?1:-1);
-      });
-      gallerySurface?.addEventListener("pointercancel",()=>{gallerySwipe=null});
+      },{passive:true});
+      gallerySurface?.addEventListener("touchcancel",()=>{gallerySwipe=null},{passive:true});
       loadProductGallery(p);`
       );
 
