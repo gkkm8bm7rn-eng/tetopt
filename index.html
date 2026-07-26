@@ -74,19 +74,8 @@
       );
 
       html=html.replace(
-`    function init(){
-      COLLECTIONS.forEach(c => $("#collection").insertAdjacentHTML("beforeend",`+"`"+`<option value="${esc(c)}">${esc(c)}</option>`+"`"+`));
-      $("#chips").innerHTML = ["Все",...CATEGORIES].map(c=>`+"`"+`<button class="chip ${c==="Все"?"active":""}" data-category="${esc(c)}">${esc(c)}</button>`+"`"+`).join("");
-      bind();
-      render();
-      renderCart();
-    }`,
-`    function init(){
-      COLLECTIONS.forEach(c => $("#collection").insertAdjacentHTML("beforeend",`+"`"+`<option value="${esc(c)}">${esc(c)}</option>`+"`"+`));
-      $("#chips").innerHTML = ["Все",...CATEGORIES].map(c=>`+"`"+`<button class="chip ${c==="Все"?"active":""}" data-category="${esc(c)}">${esc(c)}</button>`+"`"+`).join("");
-      bind();
-      render();
-      renderCart();
+        '      renderCart();\n    }',
+`      renderCart();
       window.addEventListener("popstate",()=>{
         const id=productIdFromUrl();
         if(id&&productById(id)){openProduct(id,{fromHistory:true});return}
