@@ -1,0 +1,68 @@
+name: Fix product gallery
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/fix-product-gallery.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    name: Show local photos in product gallery
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Patch gallery logic
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          old = """      const photos=[...new Set([...local,p.directImage,cachedFirstPhoto(p),...saved].filter(Boolean))];
+      if(LOCAL_IMAGES_ONLY)return photos;
+"""
+          new = """      const photos=[...new Set([...local,p.directImage,cachedFirstPhoto(p),...saved].filter(Boolean))];
+      if(local.length || LOCAL_IMAGES_ONLY)return photos;
+"""
+
+          if new in text:
+              print("Gallery is already fixed.")
+              raise SystemExit(0)
+
+          matches = text.count(old)
+          if matches != 1:
+              raise SystemExit(
+                  f"Expected exactly one gallery fragment, found {matches}"
+              )
+
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          print("Gallery patched successfully.")
+          PY
+
+      - name: Commit and push fix
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No repository changes were needed."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fix local product gallery loading"
+          git push origin "HEAD:main"
