@@ -301,6 +301,8 @@
         '    window.addToCart=addToCart;window.closeAll=closeAll;window.openCart=openCart;window.shiftGallery=shiftGallery;window.selectGalleryPhoto=selectGalleryPhoto;window.copyProductLink=copyProductLink;'
       );
 
+      html=html.replace('</body>', '<script src="checkout.js?v=1"></script></body>');
+
       document.open();
       document.write(html);
       document.close();
