@@ -1,0 +1,75 @@
+name: Add catalog card photo carousel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/add-catalog-card-carousel.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Add carousel controls and swipe support
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          css_anchor = '    .photo-loading{position:absolute;left:12px;bottom:10px;z-index:3;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);padding:5px 8px;border-radius:999px;font-size:10px;color:var(--muted)}\n'
+          css_extra = '''    .card-photo-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 5px 18px rgba(0,0,0,.14);display:grid;place-items:center;font-size:23px;line-height:1;color:var(--ink);opacity:.9}\n    .card-photo-prev{left:9px}.card-photo-next{right:9px}\n    .card-photo-counter{position:absolute;right:10px;bottom:10px;z-index:5;background:rgba(32,31,27,.76);color:#fff;border-radius:999px;padding:5px 8px;font-size:10px;line-height:1}\n    .visual[data-photo-count="1"] .card-photo-nav,.visual[data-photo-count="1"] .card-photo-counter{display:none}\n    @media (hover:hover){.card-photo-nav{opacity:0;transition:opacity .18s ease}.visual:hover .card-photo-nav,.card-photo-nav:focus-visible{opacity:.94}}\n'''
+          if '.card-photo-nav{' not in text:
+              if css_anchor not in text:
+                  raise SystemExit("CSS anchor not found")
+              text = text.replace(css_anchor, css_anchor + css_extra, 1)
+
+          old_click = '''      $("#grid").addEventListener("click",e=>{\n        const add=e.target.closest("[data-add]"); if(add){e.stopPropagation();addToCart(add.dataset.add);return}\n        const card=e.target.closest("[data-product]"); if(card)openProduct(card.dataset.product);\n      });\n'''
+          new_click = '''      let cardSwipe=null, suppressCardClick=false;\n      $("#grid").addEventListener("click",e=>{\n        const photoNav=e.target.closest("[data-card-photo]");\n        if(photoNav){e.stopPropagation();shiftCardPhoto(photoNav,Number(photoNav.dataset.cardPhoto)||0);return}\n        const add=e.target.closest("[data-add]"); if(add){e.stopPropagation();addToCart(add.dataset.add);return}\n        const card=e.target.closest("[data-product]");\n        if(card){\n          if(suppressCardClick){suppressCardClick=false;return}\n          openProduct(card.dataset.product);\n        }\n      });\n      $("#grid").addEventListener("pointerdown",e=>{\n        const visual=e.target.closest(".visual");\n        if(!visual || e.target.closest("button") || e.pointerType==="mouse")return;\n        cardSwipe={visual,x:e.clientX,y:e.clientY};\n      });\n      $("#grid").addEventListener("pointerup",e=>{\n        if(!cardSwipe)return;\n        const swipe=cardSwipe; cardSwipe=null;\n        const visual=e.target.closest(".visual");\n        if(visual!==swipe.visual)return;\n        const dx=e.clientX-swipe.x,dy=e.clientY-swipe.y;\n        if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){\n          shiftCardPhoto(visual,dx<0?1:-1);\n          suppressCardClick=true;\n          setTimeout(()=>{suppressCardClick=false},350);\n        }\n      });\n      $("#grid").addEventListener("pointercancel",()=>{cardSwipe=null});\n'''
+          if 'data-card-photo' not in text:
+              if old_click not in text:
+                  raise SystemExit("Grid click handler anchor not found")
+              text = text.replace(old_click, new_click, 1)
+
+          old_card = '''    function cardHtml(p){\n      return `<article class="card" data-product="${p.id}">\n        <div class="visual">\n          <div class="collection-tag">${esc(p.collection)}</div>\n          <div class="photo-placeholder"><div class="emoji">${emoji[p.category]||"⌂"}</div></div>\n          <img class="product-photo js-product-image" data-product-image="${p.id}" alt="${esc(p.name)}" loading="lazy" decoding="async">\n          <span class="photo-loading">загрузка фото…</span>\n        </div>\n'''
+          new_card = '''    function cardHtml(p){\n      const cardPhotos=Array.isArray(p.images)?p.images.filter(Boolean):[];\n      const photoCount=Math.max(1,cardPhotos.length);\n      return `<article class="card" data-product="${p.id}">\n        <div class="visual" data-photo-index="0" data-photo-count="${photoCount}">\n          <div class="collection-tag">${esc(p.collection)}</div>\n          <div class="photo-placeholder"><div class="emoji">${emoji[p.category]||"⌂"}</div></div>\n          <img class="product-photo js-product-image" data-product-image="${p.id}" alt="${esc(p.name)}" loading="lazy" decoding="async" draggable="false">\n          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?`<button type="button" class="card-photo-nav card-photo-prev" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button type="button" class="card-photo-nav card-photo-next" data-card-photo="1" aria-label="Следующее фото">›</button><span class="card-photo-counter">1 / ${cardPhotos.length}</span>`:""}\n        </div>\n'''
+          if 'const cardPhotos=Array.isArray(p.images)' not in text:
+              if old_card not in text:
+                  raise SystemExit("Card HTML anchor not found")
+              text = text.replace(old_card, new_card, 1)
+
+          function_anchor = '    function observeProductImages(root=document){\n'
+          function_code = '''    function shiftCardPhoto(target,step){\n      const visual=target.closest?.(".visual") || target;\n      const card=visual?.closest?.("[data-product]");\n      const p=card?productById(card.dataset.product):null;\n      const photos=Array.isArray(p?.images)?p.images.filter(Boolean):[];\n      if(!visual || !p || photos.length<2)return;\n      let index=Number(visual.dataset.photoIndex||0);\n      index=(index+Number(step||0)+photos.length)%photos.length;\n      visual.dataset.photoIndex=String(index);\n      const img=visual.querySelector(".js-product-image");\n      const counter=visual.querySelector(".card-photo-counter");\n      if(counter)counter.textContent=`${index+1} / ${photos.length}`;\n      if(img){\n        img.classList.remove("loaded","failed");\n        applyPhoto(img,photos[index],p);\n      }\n    }\n\n'''
+          if 'function shiftCardPhoto(target,step)' not in text:
+              if function_anchor not in text:
+                  raise SystemExit("Function insertion anchor not found")
+              text = text.replace(function_anchor, function_code + function_anchor, 1)
+
+          path.write_text(text, encoding="utf-8")
+          print("Catalog card carousel added.")
+          PY
+
+      - name: Commit and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add photo carousel to catalog cards"
+          git push origin "HEAD:main"
