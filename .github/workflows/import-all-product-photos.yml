@@ -1,4 +1,4 @@
-name: Fix missing photo display
+name: Connect checkout form
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fix stuck photo loading states
+      - name: Inject checkout script
         shell: bash
         run: |
           python - <<'PY'
@@ -28,113 +28,18 @@ jobs:
 
           path = Path("index.html")
           text = path.read_text(encoding="utf-8")
+          marker = '<script src="checkout.js?v=1"></script>'
 
-          css_anchor = '    .photo-loading{position:absolute;left:12px;bottom:10px;z-index:3;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);padding:5px 8px;border-radius:999px;font-size:10px;color:var(--muted)}\n'
-          css_extra = '    .photo-unavailable{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:3;background:rgba(255,255,255,.88);backdrop-filter:blur(6px);padding:6px 10px;border-radius:999px;font-size:10px;color:var(--muted);white-space:nowrap}\n'
-          if '.photo-unavailable{' not in text:
-              if css_anchor not in text:
-                  raise SystemExit("CSS anchor not found")
-              text = text.replace(css_anchor, css_anchor + css_extra, 1)
-
-          old_card_loading = '          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?'
-          new_card_loading = '          ${cardPhotos.length?`<span class="photo-loading">загрузка фото…</span>`:`<span class="photo-unavailable">Фото пока недоступно</span>`}\n          ${cardPhotos.length>1?'
-          if old_card_loading in text:
-              text = text.replace(old_card_loading, new_card_loading, 1)
-
-          text = text.replace(
-              '.then(url=>url&&applyPhoto(job.img,url,job.p))',
-              '.then(url=>url?applyPhoto(job.img,url,job.p):markPhotoFailed(job.img))',
-              1,
-          )
-
-          old_onload = '''        const visual=img.closest(".visual,.modal-visual");
-        visual?.querySelector(".photo-placeholder")?.setAttribute("hidden","");
-        visual?.querySelector(".photo-loading")?.remove();
-'''
-          new_onload = '''        const visual=img.closest(".visual,.modal-visual");
-        visual?.querySelector(".photo-placeholder")?.setAttribute("hidden","");
-        visual?.querySelector(".photo-loading")?.remove();
-        visual?.querySelector(".photo-unavailable")?.remove();
-'''
-          if old_onload in text:
-              text = text.replace(old_onload, new_onload, 1)
-
-          old_failed = '''    function markPhotoFailed(img){
-      img.classList.add("failed");
-      img.closest(".visual,.modal-visual")?.querySelector(".photo-loading")?.remove();
-    }
-'''
-          new_failed = '''    function markPhotoFailed(img){
-      img.classList.add("failed");
-      const visual=img.closest(".visual,.modal-visual");
-      visual?.querySelector(".photo-loading")?.remove();
-      if(visual && !visual.querySelector(".photo-unavailable")){
-        visual.insertAdjacentHTML("beforeend",'<span class="photo-unavailable">Фото пока недоступно</span>');
-      }
-    }
-'''
-          if old_failed in text:
-              text = text.replace(old_failed, new_failed, 1)
-
-          old_gallery_load = '''    async function loadProductGallery(p){
-      const status=$("#galleryStatus");
-      const photos=await resolveProductGallery(p,10);
-      if(!$("#modal").classList.contains("show") || activeGallery.productId!==p.id)return;
-
-      if(!photos.length){
-        if(status)status.textContent="Фотографии временно недоступны";
-        $("#galleryThumbs").innerHTML='<div class="gallery-empty">Попробуйте открыть карточку немного позже.</div>';
-        return;
-      }
-'''
-          new_gallery_load = '''    async function loadProductGallery(p){
-      const status=$("#galleryStatus");
-      let photos=[];
-      try{photos=await resolveProductGallery(p,10)}catch{}
-      if(!$("#modal").classList.contains("show") || activeGallery.productId!==p.id)return;
-
-      if(!photos.length){
-        if(status){status.hidden=false;status.textContent="Фото пока недоступно"}
-        $("#galleryThumbs").innerHTML='<div class="gallery-empty">Для этого товара фотография пока не найдена.</div>';
-        return;
-      }
-'''
-          if old_gallery_load in text:
-              text = text.replace(old_gallery_load, new_gallery_load, 1)
-
-          old_empty_gallery = '''        }else if(status){
-          status.hidden=false;
-          status.textContent="Фотографии временно недоступны";
-        }
-'''
-          new_empty_gallery = '''        }else if(status){
-          if(placeholder)placeholder.hidden=false;
-          status.hidden=false;
-          status.textContent="Фото пока недоступно";
-          $("#galleryThumbs").innerHTML='<div class="gallery-empty">Для этого товара фотография пока не найдена.</div>';
-        }
-'''
-          if old_empty_gallery in text:
-              text = text.replace(old_empty_gallery, new_empty_gallery, 1)
-
-          old_open = '''      const p=productById(id); if(!p)return;
-      activeGallery={productId:p.id,photos:[],index:0};
-      $("#modal").innerHTML = `<div class="modal-grid">'''
-          new_open = '''      const p=productById(id); if(!p)return;
-      const hasLocalPhotos=Array.isArray(p.images)&&p.images.some(Boolean);
-      activeGallery={productId:p.id,photos:[],index:0};
-      $("#modal").innerHTML = `<div class="modal-grid">'''
-          if old_open in text:
-              text = text.replace(old_open, new_open, 1)
-
-          text = text.replace(
-              '<span class="gallery-status" id="galleryStatus">загрузка фотографий…</span>',
-              '<span class="gallery-status" id="galleryStatus">${hasLocalPhotos?"загрузка фотографий…":"Фото пока недоступно"}</span>',
-              1,
-          )
-
-          path.write_text(text, encoding="utf-8")
-          print("Missing-photo states fixed.")
+          if marker in text:
+              print("Checkout script is already connected.")
+          else:
+              anchor = "      document.open();"
+              if anchor not in text:
+                  raise SystemExit("Index injection anchor not found")
+              injection = "      html=html.replace('</body>', '" + marker + "</body>');\n\n"
+              text = text.replace(anchor, injection + anchor, 1)
+              path.write_text(text, encoding="utf-8")
+              print("Checkout script connected.")
           PY
 
       - name: Commit and push
@@ -148,5 +53,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Fix stuck photo loading states"
+          git commit -m "Enable customer checkout form"
           git push origin "HEAD:main"
