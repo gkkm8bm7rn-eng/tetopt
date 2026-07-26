@@ -25,6 +25,15 @@
       if(!html.includes('.photo-unavailable{'))html=html.replace(cssAnchor,cssAnchor+cssExtra);
 
       html=html.replace(
+        '    .visual{aspect-ratio:1.12;background:linear-gradient(135deg,#ebe5da,#d7dccc);display:grid;place-items:center;position:relative;overflow:hidden}',
+        '    .visual{aspect-ratio:1.12;background:linear-gradient(135deg,#ebe5da,#d7dccc);display:grid;place-items:center;position:relative;overflow:hidden;touch-action:pan-y;user-select:none}'
+      );
+      html=html.replace(
+        '    .gallery-main{position:relative;min-height:360px;border-radius:20px;overflow:hidden;background:#fff;display:grid;place-items:center}',
+        '    .gallery-main{position:relative;min-height:360px;border-radius:20px;overflow:hidden;background:#fff;display:grid;place-items:center;touch-action:pan-y;user-select:none}'
+      );
+
+      html=html.replace(
         '          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?',
         '          ${cardPhotos.length?`<span class="photo-loading">загрузка фото…</span>`:`<span class="photo-unavailable">Фото пока недоступно</span>`}\n          ${cardPhotos.length>1?'
       );
@@ -106,6 +115,28 @@
       html=html.replace(
         '<span class="gallery-status" id="galleryStatus">загрузка фотографий…</span>',
         '<span class="gallery-status" id="galleryStatus">${hasLocalPhotos?"загрузка фотографий…":"Фото пока недоступно"}</span>'
+      );
+
+      html=html.replace(
+`      $("#overlay").classList.add("show");
+      $("#modal").classList.add("show");
+      loadProductGallery(p);`,
+`      $("#overlay").classList.add("show");
+      $("#modal").classList.add("show");
+      const gallerySurface=$("#modal .gallery-main");
+      let gallerySwipe=null;
+      gallerySurface?.addEventListener("pointerdown",e=>{
+        if(e.pointerType==="mouse" || e.target.closest("button"))return;
+        gallerySwipe={x:e.clientX,y:e.clientY};
+      });
+      gallerySurface?.addEventListener("pointerup",e=>{
+        if(!gallerySwipe)return;
+        const dx=e.clientX-gallerySwipe.x,dy=e.clientY-gallerySwipe.y;
+        gallerySwipe=null;
+        if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2)shiftGallery(dx<0?1:-1);
+      });
+      gallerySurface?.addEventListener("pointercancel",()=>{gallerySwipe=null});
+      loadProductGallery(p);`
       );
 
       document.open();
