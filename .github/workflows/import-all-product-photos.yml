@@ -1,4 +1,4 @@
-name: Connect checkout form
+name: Connect store contacts
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Inject checkout script
+      - name: Connect contact configuration
         shell: bash
         run: |
           python - <<'PY'
@@ -28,18 +28,17 @@ jobs:
 
           path = Path("index.html")
           text = path.read_text(encoding="utf-8")
-          marker = '<script src="checkout.js?v=1"></script>'
+          old = '<script src="checkout.js?v=1"></script>'
+          new = '<script src="checkout.js?v=1"></script><script src="checkout-contacts.js?v=1"></script>'
 
-          if marker in text:
-              print("Checkout script is already connected.")
-          else:
-              anchor = "      document.open();"
-              if anchor not in text:
-                  raise SystemExit("Index injection anchor not found")
-              injection = "      html=html.replace('</body>', '" + marker + "</body>');\n\n"
-              text = text.replace(anchor, injection + anchor, 1)
+          if new in text:
+              print("Store contacts are already connected.")
+          elif old in text:
+              text = text.replace(old, new, 1)
               path.write_text(text, encoding="utf-8")
-              print("Checkout script connected.")
+              print("Store contacts connected.")
+          else:
+              raise SystemExit("Checkout script marker not found")
           PY
 
       - name: Commit and push
@@ -53,5 +52,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Enable customer checkout form"
+          git commit -m "Connect checkout to store contacts"
           git push origin "HEAD:main"
