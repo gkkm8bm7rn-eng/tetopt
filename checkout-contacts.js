@@ -10,6 +10,13 @@
     document.body.appendChild(filtersScript);
   }
 
+  if(!document.querySelector('script[data-cart-product-links]')){
+    const cartLinksScript=document.createElement("script");
+    cartLinksScript.src="cart-product-links.js?v=1";
+    cartLinksScript.dataset.cartProductLinks="1";
+    document.body.appendChild(cartLinksScript);
+  }
+
   const contacts=document.querySelector("#contacts p");
   if(contacts){
     contacts.innerHTML=`Телефон: <a href="tel:+${STORE_PHONE}">${STORE_PHONE_DISPLAY}</a><br><a href="https://wa.me/${STORE_PHONE}" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+${STORE_PHONE}" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:${STORE_EMAIL}">${STORE_EMAIL}</a><br>Ежедневно, 10:00–20:00`;
