@@ -1,4 +1,4 @@
-name: Import all product photos
+name: Fix missing photo display
 
 on:
   workflow_dispatch:
@@ -11,94 +11,142 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: forma-home-photo-import
-  cancel-in-progress: false
-
 jobs:
-  import-all:
-    name: Import the complete product catalog
+  patch:
     runs-on: ubuntu-latest
-    timeout-minutes: 330
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-
-      - name: Install importer dependencies
+      - name: Fix stuck photo loading states
+        shell: bash
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install requests beautifulsoup4 pillow
+          python - <<'PY'
+          from pathlib import Path
 
-      - name: Import all remaining photos in safe batches
+          path = Path("index.html")
+          text = path.read_text(encoding="utf-8")
+
+          css_anchor = '    .photo-loading{position:absolute;left:12px;bottom:10px;z-index:3;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);padding:5px 8px;border-radius:999px;font-size:10px;color:var(--muted)}\n'
+          css_extra = '    .photo-unavailable{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:3;background:rgba(255,255,255,.88);backdrop-filter:blur(6px);padding:6px 10px;border-radius:999px;font-size:10px;color:var(--muted);white-space:nowrap}\n'
+          if '.photo-unavailable{' not in text:
+              if css_anchor not in text:
+                  raise SystemExit("CSS anchor not found")
+              text = text.replace(css_anchor, css_anchor + css_extra, 1)
+
+          old_card_loading = '          <span class="photo-loading">загрузка фото…</span>\n          ${cardPhotos.length>1?'
+          new_card_loading = '          ${cardPhotos.length?`<span class="photo-loading">загрузка фото…</span>`:`<span class="photo-unavailable">Фото пока недоступно</span>`}\n          ${cardPhotos.length>1?'
+          if old_card_loading in text:
+              text = text.replace(old_card_loading, new_card_loading, 1)
+
+          text = text.replace(
+              '.then(url=>url&&applyPhoto(job.img,url,job.p))',
+              '.then(url=>url?applyPhoto(job.img,url,job.p):markPhotoFailed(job.img))',
+              1,
+          )
+
+          old_onload = '''        const visual=img.closest(".visual,.modal-visual");
+        visual?.querySelector(".photo-placeholder")?.setAttribute("hidden","");
+        visual?.querySelector(".photo-loading")?.remove();
+'''
+          new_onload = '''        const visual=img.closest(".visual,.modal-visual");
+        visual?.querySelector(".photo-placeholder")?.setAttribute("hidden","");
+        visual?.querySelector(".photo-loading")?.remove();
+        visual?.querySelector(".photo-unavailable")?.remove();
+'''
+          if old_onload in text:
+              text = text.replace(old_onload, new_onload, 1)
+
+          old_failed = '''    function markPhotoFailed(img){
+      img.classList.add("failed");
+      img.closest(".visual,.modal-visual")?.querySelector(".photo-loading")?.remove();
+    }
+'''
+          new_failed = '''    function markPhotoFailed(img){
+      img.classList.add("failed");
+      const visual=img.closest(".visual,.modal-visual");
+      visual?.querySelector(".photo-loading")?.remove();
+      if(visual && !visual.querySelector(".photo-unavailable")){
+        visual.insertAdjacentHTML("beforeend",'<span class="photo-unavailable">Фото пока недоступно</span>');
+      }
+    }
+'''
+          if old_failed in text:
+              text = text.replace(old_failed, new_failed, 1)
+
+          old_gallery_load = '''    async function loadProductGallery(p){
+      const status=$("#galleryStatus");
+      const photos=await resolveProductGallery(p,10);
+      if(!$("#modal").classList.contains("show") || activeGallery.productId!==p.id)return;
+
+      if(!photos.length){
+        if(status)status.textContent="Фотографии временно недоступны";
+        $("#galleryThumbs").innerHTML='<div class="gallery-empty">Попробуйте открыть карточку немного позже.</div>';
+        return;
+      }
+'''
+          new_gallery_load = '''    async function loadProductGallery(p){
+      const status=$("#galleryStatus");
+      let photos=[];
+      try{photos=await resolveProductGallery(p,10)}catch{}
+      if(!$("#modal").classList.contains("show") || activeGallery.productId!==p.id)return;
+
+      if(!photos.length){
+        if(status){status.hidden=false;status.textContent="Фото пока недоступно"}
+        $("#galleryThumbs").innerHTML='<div class="gallery-empty">Для этого товара фотография пока не найдена.</div>';
+        return;
+      }
+'''
+          if old_gallery_load in text:
+              text = text.replace(old_gallery_load, new_gallery_load, 1)
+
+          old_empty_gallery = '''        }else if(status){
+          status.hidden=false;
+          status.textContent="Фотографии временно недоступны";
+        }
+'''
+          new_empty_gallery = '''        }else if(status){
+          if(placeholder)placeholder.hidden=false;
+          status.hidden=false;
+          status.textContent="Фото пока недоступно";
+          $("#galleryThumbs").innerHTML='<div class="gallery-empty">Для этого товара фотография пока не найдена.</div>';
+        }
+'''
+          if old_empty_gallery in text:
+              text = text.replace(old_empty_gallery, new_empty_gallery, 1)
+
+          old_open = '''      const p=productById(id); if(!p)return;
+      activeGallery={productId:p.id,photos:[],index:0};
+      $("#modal").innerHTML = `<div class="modal-grid">'''
+          new_open = '''      const p=productById(id); if(!p)return;
+      const hasLocalPhotos=Array.isArray(p.images)&&p.images.some(Boolean);
+      activeGallery={productId:p.id,photos:[],index:0};
+      $("#modal").innerHTML = `<div class="modal-grid">'''
+          if old_open in text:
+              text = text.replace(old_open, new_open, 1)
+
+          text = text.replace(
+              '<span class="gallery-status" id="galleryStatus">загрузка фотографий…</span>',
+              '<span class="gallery-status" id="galleryStatus">${hasLocalPhotos?"загрузка фотографий…":"Фото пока недоступно"}</span>',
+              1,
+          )
+
+          path.write_text(text, encoding="utf-8")
+          print("Missing-photo states fixed.")
+          PY
+
+      - name: Commit and push
         shell: bash
         run: |
           set -euo pipefail
-
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes needed."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          commit_changes() {
-            local message="$1"
-            if [[ -z "$(git status --porcelain)" ]]; then
-              echo "No repository changes to commit."
-              return 0
-            fi
-            git add -A
-            git commit -m "$message"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          }
-
-          completed=false
-
-          # 26 rounds × 200 products is enough to give every remaining
-          # catalog item up to three automatic attempts if needed.
-          for round in $(seq 1 26); do
-            echo "===== Import round ${round} of 26 ====="
-            log_file="$(mktemp)"
-
-            python scripts/import_photos.py \
-              --index index.html \
-              --batch-size 200 \
-              --max-photos 3 \
-              --workers 4 \
-              --max-side 1200 \
-              --max-kb 180 2>&1 | tee "$log_file"
-
-            commit_changes "Import all product photos — batch ${round}"
-
-            if grep -Fq "Нет товаров для очередной партии." "$log_file"; then
-              completed=true
-              rm -f "$log_file"
-              echo "All available products have been processed."
-              break
-            fi
-
-            rm -f "$log_file"
-          done
-
-          if [[ "$completed" != "true" ]]; then
-            echo "The run saved all completed batches but did not reach the end of the catalog within this job." >&2
-            echo "Run this workflow again to continue safely from the saved progress." >&2
-            exit 1
-          fi
-
-          # Only after the complete pass finishes, remove supplier and proxy
-          # dependencies and leave local images (or placeholders) exclusively.
-          python scripts/import_photos.py \
-            --index index.html \
-            --batch-size 0 \
-            --max-photos 3 \
-            --workers 4 \
-            --max-side 1200 \
-            --max-kb 180 \
-            --finalize-local-only
-
-          commit_changes "Finalize local photos for the complete catalog"
+          git add index.html
+          git commit -m "Fix stuck photo loading states"
+          git push origin "HEAD:main"
