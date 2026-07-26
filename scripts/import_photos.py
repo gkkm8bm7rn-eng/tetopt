@@ -115,7 +115,7 @@ def fetch_bytes(
                 continue
             total += len(chunk)
             if total > max_bytes:
-                raise ValueError(f"Ð¤Ð°Ð¹Ð» Ð±Ð¾Ð»ÑÑÐµ Ð´Ð¾Ð¿ÑÑÑÐ¸Ð¼Ð¾Ð³Ð¾ Ð»Ð¸Ð¼Ð¸ÑÐ° {max_bytes // (1024 * 1024)} ÐÐ")
+                raise ValueError(f"Файл больше допустимого лимита {max_bytes // (1024 * 1024)} МБ")
             chunks.append(chunk)
         return b"".join(chunks), content_type, response.url
 
@@ -123,7 +123,7 @@ def fetch_bytes(
 def fetch_html(session: requests.Session, url: str) -> tuple[str, str]:
     data, content_type, final_url = fetch_bytes(session, url, max_bytes=12 * 1024 * 1024)
     if "html" not in content_type and "text" not in content_type and not data.lstrip().startswith(b"<"):
-        raise ValueError(f"ÐÐ¶Ð¸Ð´Ð°Ð»Ð°ÑÑ HTML-ÑÑÑÐ°Ð½Ð¸ÑÐ°, Ð¿Ð¾Ð»ÑÑÐµÐ½Ð¾ {content_type or 'Ð½ÐµÐ¸Ð·Ð²ÐµÑÑÐ½Ð¾'}")
+        raise ValueError(f"Ожидалась HTML-страница, получено {content_type or 'неизвестно'}")
     # requests' apparent encoding is unavailable because we streamed bytes. Try common encodings.
     for encoding in ("utf-8", "windows-1251", "cp1251"):
         try:
@@ -148,7 +148,7 @@ def normalize_url(raw: str | None, base_url: str) -> str | None:
 
 def product_words(product: dict[str, Any]) -> list[str]:
     text = f"{product.get('name', '')} {product.get('specs', '')}".lower()
-    return [word for word in re.split(r"[^a-zÐ°-ÑÑ0-9]+", text) if len(word) >= 4][:12]
+    return [word for word in re.split(r"[^a-zа-яё0-9]+", text) if len(word) >= 4][:12]
 
 
 def supplier_code(product: dict[str, Any]) -> str:
@@ -207,7 +207,7 @@ def discover_candidates(page_text: str, page_url: str, product: dict[str, Any]) 
         if code and (code in low_url or code in context_low):
             score += 500
         score += sum(35 for word in words if word in context_low)
-        if kind == "zip" and ("ÑÐºÐ°Ñ" in context_low or "download" in context_low or "ÑÐ¾ÑÐ¾" in context_low):
+        if kind == "zip" and ("скач" in context_low or "download" in context_low or "фото" in context_low):
             score += 250
         if kind == "image" and ext in {".jpg", ".jpeg", ".webp", ".png"}:
             score += 60
@@ -283,7 +283,7 @@ def prepare_image(data: bytes, max_side: int, max_kb: int) -> tuple[bytes, int, 
             image.seek(0)
         width, height = image.size
         if width < 250 or height < 250:
-            raise ValueError(f"ÑÐ»Ð¸ÑÐºÐ¾Ð¼ Ð¼Ð°Ð»ÐµÐ½ÑÐºÐ¾Ðµ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ: {width}Ã{height}")
+            raise ValueError(f"слишком маленькое изображение: {width}×{height}")
         if image.mode not in ("RGB", "RGBA"):
             image = image.convert("RGBA" if "transparency" in image.info else "RGB")
         image.thumbnail((max_side, max_side), Image.Resampling.LANCZOS)
@@ -349,12 +349,12 @@ def download_candidate_images(
                 max_bytes=120 * 1024 * 1024,
             )
             if not zipfile.is_zipfile(io.BytesIO(data)):
-                log(f"    â  ÐÐµ ZIP: {final_url} ({content_type})")
+                log(f"    ⚠ Не ZIP: {final_url} ({content_type})")
                 continue
             for filename, image_data in iter_zip_images(data):
                 yield f"{final_url}#{filename}", image_data
         except Exception as exc:
-            log(f"    â  ZIP Ð½Ðµ ÑÐºÐ°ÑÐ°Ð½: {candidate.url} â {exc}")
+            log(f"    ⚠ ZIP не скачан: {candidate.url} — {exc}")
 
     for candidate in image_candidates:
         try:
@@ -410,7 +410,7 @@ def process_product(
 
     ordered = sorted(candidates.values(), key=lambda candidate: candidate.score, reverse=True)
     if not ordered:
-        error = "ÐÐµ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ ÑÑÑÐ»ÐºÐ¸ Ð½Ð° Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ"
+        error = "Не найдены ссылки на изображения"
         if page_errors:
             error += "; " + " | ".join(page_errors[:2])
         return ProductResult(product_id=product_id, images=[], discovered=0, error=error)
@@ -445,8 +445,8 @@ def process_product(
             fingerprints.append(fingerprint)
             content_hashes.add(content_hash)
             log(
-                f"    â {filename}: {width}Ã{height}, {len(encoded) // 1024} ÐÐ "
-                f"â {source_label[:90]}"
+                f"    ✓ {filename}: {width}×{height}, {len(encoded) // 1024} КБ "
+                f"← {source_label[:90]}"
             )
 
         if not saved_paths:
@@ -454,7 +454,7 @@ def process_product(
                 product_id=product_id,
                 images=[],
                 discovered=len(ordered),
-                error="Ð¡ÑÑÐ»ÐºÐ¸ Ð½Ð°Ð¹Ð´ÐµÐ½Ñ, Ð½Ð¾ Ð¿Ð¾Ð´ÑÐ¾Ð´ÑÑÐ¸Ðµ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ñ Ð½Ðµ ÑÐºÐ°ÑÐ°Ð»Ð¸ÑÑ",
+                error="Ссылки найдены, но подходящие изображения не скачались",
             )
 
         if final_dir.exists():
@@ -471,14 +471,14 @@ def load_products_from_html(index_path: Path) -> tuple[str, list[dict[str, Any]]
     marker = "const PRODUCTS ="
     marker_index = html_text.find(marker)
     if marker_index < 0:
-        raise ValueError("Ð index.html Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ `const PRODUCTS = [...]`")
+        raise ValueError("В index.html не найдено `const PRODUCTS = [...]`")
     start = marker_index + len(marker)
     while start < len(html_text) and html_text[start].isspace():
         start += 1
     decoder = json.JSONDecoder()
     products, consumed = decoder.raw_decode(html_text[start:])
     if not isinstance(products, list):
-        raise ValueError("PRODUCTS Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±ÑÑÑ JSON-Ð¼Ð°ÑÑÐ¸Ð²Ð¾Ð¼")
+        raise ValueError("PRODUCTS должен быть JSON-массивом")
     end = start + consumed
     return html_text, products, start, end
 
@@ -498,7 +498,7 @@ def patch_storefront_runtime(html_text: str, local_only: bool) -> str:
     else:
         insertion_marker = '    const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";'
         if insertion_marker not in html_text:
-            raise ValueError("ÐÐµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾ Ð¼ÐµÑÑÐ¾ Ð´Ð»Ñ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ñ LOCAL_IMAGES_ONLY")
+            raise ValueError("Не найдено место для добавления LOCAL_IMAGES_ONLY")
         html_text = html_text.replace(insertion_marker, flag_line + "\n" + insertion_marker, 1)
 
     # Replace cachedFirstPhoto as a complete function because it is short and this is
@@ -520,7 +520,7 @@ def patch_storefront_runtime(html_text: str, local_only: bool) -> str:
         flags=re.DOTALL,
     )
     if count != 1:
-        raise ValueError("ÐÐµ ÑÐ´Ð°Ð»Ð¾ÑÑ Ð¾Ð±Ð½Ð¾Ð²Ð¸ÑÑ cachedFirstPhoto()")
+        raise ValueError("Не удалось обновить cachedFirstPhoto()")
 
     html_text = html_text.replace(
         "      const cached=p.directImage||cachedFirstPhoto(p);",
@@ -570,7 +570,7 @@ def patch_storefront_runtime(html_text: str, local_only: bool) -> str:
         flags=re.DOTALL,
     )
     if count != 1:
-        raise ValueError("ÐÐµ ÑÐ´Ð°Ð»Ð¾ÑÑ Ð¾Ð±Ð½Ð¾Ð²Ð¸ÑÑ resolveProductPhoto()")
+        raise ValueError("Не удалось обновить resolveProductPhoto()")
 
     # Make the gallery use all local files first. In local-only mode this returns
     # before any supplier URL or proxy is touched.
@@ -620,7 +620,7 @@ def load_state(path: Path) -> dict[str, Any]:
         state.setdefault("products", {})
         return state
     except (json.JSONDecodeError, ValueError):
-        raise ValueError(f"ÐÐ¾Ð²ÑÐµÐ¶Ð´ÑÐ½ ÑÐ°Ð¹Ð» ÑÐ¾ÑÑÐ¾ÑÐ½Ð¸Ñ: {path}")
+        raise ValueError(f"Повреждён файл состояния: {path}")
 
 
 def save_state(path: Path, state: dict[str, Any]) -> None:
@@ -640,34 +640,34 @@ def local_images_exist(repository_root: Path, product: dict[str, Any]) -> bool:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--index", default="index.html", help="ÐÑÑÑ Ðº index.html")
-    parser.add_argument("--assets-dir", default="assets/products", help="ÐÐ°ÑÐ°Ð»Ð¾Ð³ Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ð¹ Ð¾ÑÐ½Ð¾ÑÐ¸ÑÐµÐ»ÑÐ½Ð¾ ÑÐµÐ¿Ð¾Ð·Ð¸ÑÐ¾ÑÐ¸Ñ")
-    parser.add_argument("--state", default="data/photo-import-state.json", help="Ð¤Ð°Ð¹Ð» Ð¿ÑÐ¾Ð³ÑÐµÑÑÐ°")
-    parser.add_argument("--batch-size", type=int, default=100, help="Ð¡ÐºÐ¾Ð»ÑÐºÐ¾ ÑÐ¾Ð²Ð°ÑÐ¾Ð² Ð¾Ð±ÑÐ°Ð±Ð°ÑÑÐ²Ð°ÑÑ Ð·Ð° Ð¾Ð´Ð¸Ð½ Ð·Ð°Ð¿ÑÑÐº")
-    parser.add_argument("--max-photos", type=int, default=3, help="ÐÐ°ÐºÑÐ¸Ð¼ÑÐ¼ ÑÐ¾ÑÐ¾Ð³ÑÐ°ÑÐ¸Ð¹ Ð½Ð° ÑÐ¾Ð²Ð°Ñ")
-    parser.add_argument("--workers", type=int, default=4, help="ÐÐ°ÑÐ°Ð»Ð»ÐµÐ»ÑÐ½ÑÐµ ÑÐ¾Ð²Ð°ÑÑ")
-    parser.add_argument("--max-side", type=int, default=1400, help="ÐÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½Ð°Ñ ÑÑÐ¾ÑÐ¾Ð½Ð° WebP Ð² Ð¿Ð¸ÐºÑÐµÐ»ÑÑ")
-    parser.add_argument("--max-kb", type=int, default=280, help="ÐÐµÐ»Ð°ÐµÐ¼ÑÐ¹ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½ÑÐ¹ ÑÐ°Ð·Ð¼ÐµÑ Ð¾Ð´Ð½Ð¾Ð³Ð¾ WebP")
-    parser.add_argument("--max-attempts", type=int, default=3, help="ÐÐ²ÑÐ¾Ð¼Ð°ÑÐ¸ÑÐµÑÐºÐ¸Ðµ Ð¿Ð¾Ð¿ÑÑÐºÐ¸ Ð½Ð° ÑÐ¾Ð²Ð°Ñ")
-    parser.add_argument("--start-id", type=int, default=0, help="ÐÐ±ÑÐ°Ð±Ð°ÑÑÐ²Ð°ÑÑ ÑÐ¾Ð²Ð°ÑÑ Ð½Ð°ÑÐ¸Ð½Ð°Ñ Ñ ÑÑÐ¾Ð³Ð¾ id")
-    parser.add_argument("--retry-failed", action="store_true", help="Ð¡Ð±ÑÐ¾ÑÐ¸ÑÑ Ð»Ð¸Ð¼Ð¸Ñ Ð¿Ð¾Ð¿ÑÑÐ¾Ðº Ð´Ð»Ñ Ð½ÐµÑÐ´Ð°ÑÐ½ÑÑ ÑÐ¾Ð²Ð°ÑÐ¾Ð²")
+    parser.add_argument("--index", default="index.html", help="Путь к index.html")
+    parser.add_argument("--assets-dir", default="assets/products", help="Каталог изображений относительно репозитория")
+    parser.add_argument("--state", default="data/photo-import-state.json", help="Файл прогресса")
+    parser.add_argument("--batch-size", type=int, default=100, help="Сколько товаров обрабатывать за один запуск")
+    parser.add_argument("--max-photos", type=int, default=3, help="Максимум фотографий на товар")
+    parser.add_argument("--workers", type=int, default=4, help="Параллельные товары")
+    parser.add_argument("--max-side", type=int, default=1400, help="Максимальная сторона WebP в пикселях")
+    parser.add_argument("--max-kb", type=int, default=280, help="Желаемый максимальный размер одного WebP")
+    parser.add_argument("--max-attempts", type=int, default=3, help="Автоматические попытки на товар")
+    parser.add_argument("--start-id", type=int, default=0, help="Обрабатывать товары начиная с этого id")
+    parser.add_argument("--retry-failed", action="store_true", help="Сбросить лимит попыток для неудачных товаров")
     parser.add_argument(
         "--finalize-local-only",
         action="store_true",
-        help="ÐÐ°Ð¿ÑÐµÑÐ¸ÑÑ Ð²Ð½ÐµÑÐ½Ð¸Ðµ URL Ð¸ Ð¿ÑÐ¾ÐºÑÐ¸; ÑÐ¾Ð²Ð°ÑÑ Ð±ÐµÐ· ÑÐ¾ÑÐ¾ Ð¿Ð¾ÐºÐ°Ð¶ÑÑ Ð·Ð°Ð³Ð»ÑÑÐºÑ",
+        help="Запретить внешние URL и прокси; товары без фото покажут заглушку",
     )
-    parser.add_argument("--validate-only", action="store_true", help="Ð¢Ð¾Ð»ÑÐºÐ¾ Ð¿ÑÐ¾Ð²ÐµÑÐ¸ÑÑ ÑÑÑÑÐºÑÑÑÑ ÑÐ°Ð¹Ð»Ð¾Ð²")
+    parser.add_argument("--validate-only", action="store_true", help="Только проверить структуру файлов")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     if args.batch_size < 0:
-        raise ValueError("batch-size Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ Ð±ÑÑÑ Ð¾ÑÑÐ¸ÑÐ°ÑÐµÐ»ÑÐ½ÑÐ¼")
+        raise ValueError("batch-size не может быть отрицательным")
     if not 1 <= args.max_photos <= 8:
-        raise ValueError("max-photos Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±ÑÑÑ Ð¾Ñ 1 Ð´Ð¾ 8")
+        raise ValueError("max-photos должен быть от 1 до 8")
     if not 1 <= args.workers <= 8:
-        raise ValueError("workers Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±ÑÑÑ Ð¾Ñ 1 Ð´Ð¾ 8")
+        raise ValueError("workers должен быть от 1 до 8")
 
     index_path = Path(args.index).resolve()
     repository_root = index_path.parent
@@ -677,15 +677,15 @@ def main() -> int:
     state = load_state(state_path)
     product_state: dict[str, Any] = state["products"]
 
-    log(f"ÐÐ°Ð¹Ð´ÐµÐ½Ð¾ ÑÐ¾Ð²Ð°ÑÐ¾Ð²: {len(products)}")
+    log(f"Найдено товаров: {len(products)}")
     imported_count = sum(1 for product in products if local_images_exist(repository_root, product))
-    log(f"Ð£Ð¶Ðµ Ð¸Ð¼ÐµÑÑ Ð»Ð¾ÐºÐ°Ð»ÑÐ½ÑÐµ ÑÐ¾ÑÐ¾Ð³ÑÐ°ÑÐ¸Ð¸: {imported_count}")
+    log(f"Уже имеют локальные фотографии: {imported_count}")
 
     if args.validate_only:
         patched = patch_storefront_runtime(original_html, local_only=False)
         if "const LOCAL_IMAGES_ONLY" not in patched:
-            raise RuntimeError("ÐÑÐ¾Ð²ÐµÑÐºÐ° Ð¿Ð°ÑÑÐ° Ð½Ðµ Ð¿ÑÐ¾Ð¹Ð´ÐµÐ½Ð°")
-        log("â index.html Ð¸ Ð¿Ð°ÑÑ ÑÐ¾Ð²Ð¼ÐµÑÑÐ¸Ð¼Ñ")
+            raise RuntimeError("Проверка патча не пройдена")
+        log("✓ index.html и патч совместимы")
         return 0
 
     if args.retry_failed:
@@ -711,13 +711,13 @@ def main() -> int:
             break
 
     if pending:
-        log(f"Ð ÑÑÐ¾Ð¼ Ð·Ð°Ð¿ÑÑÐºÐµ: {len(pending)} ÑÐ¾Ð²Ð°ÑÐ¾Ð², Ð´Ð¾ {args.max_photos} ÑÐ¾ÑÐ¾ Ð½Ð° ÑÐ¾Ð²Ð°Ñ")
+        log(f"В этом запуске: {len(pending)} товаров, до {args.max_photos} фото на товар")
         by_id = {int(product["id"]): product for product in products}
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
             futures = {}
             for product in pending:
                 product_id = int(product["id"])
-                log(f"â Ð¢Ð¾Ð²Ð°Ñ {product_id}: {product.get('name', '')}")
+                log(f"→ Товар {product_id}: {product.get('name', '')}")
                 future = executor.submit(
                     process_product,
                     product,
@@ -752,19 +752,19 @@ def main() -> int:
                             "error": None,
                         }
                     )
-                    log(f"â Ð¢Ð¾Ð²Ð°Ñ {product_id}: ÑÐ¾ÑÑÐ°Ð½ÐµÐ½Ð¾ {len(result.images)} ÑÐ¾ÑÐ¾")
+                    log(f"✓ Товар {product_id}: сохранено {len(result.images)} фото")
                 else:
                     entry.update(
                         {
                             "status": "failed",
                             "images": [],
                             "discovered_candidates": result.discovered,
-                            "error": result.error or "ÐÐµÐ¸Ð·Ð²ÐµÑÑÐ½Ð°Ñ Ð¾ÑÐ¸Ð±ÐºÐ°",
+                            "error": result.error or "Неизвестная ошибка",
                         }
                     )
-                    log(f"â Ð¢Ð¾Ð²Ð°Ñ {product_id}: {entry['error']}")
+                    log(f"✗ Товар {product_id}: {entry['error']}")
     else:
-        log("ÐÐµÑ ÑÐ¾Ð²Ð°ÑÐ¾Ð² Ð´Ð»Ñ Ð¾ÑÐµÑÐµÐ´Ð½Ð¾Ð¹ Ð¿Ð°ÑÑÐ¸Ð¸.")
+        log("Нет товаров для очередной партии.")
 
     if args.finalize_local_only:
         missing = 0
@@ -777,7 +777,7 @@ def main() -> int:
                 product["directImage"] = product["images"][0]
             elif isinstance(product.get("directImage"), str) and product["directImage"].startswith(("http://", "https://")):
                 product["directImage"] = None
-        log(f"LOCAL_IMAGES_ONLY Ð²ÐºÐ»ÑÑÑÐ½. Ð¢Ð¾Ð²Ð°ÑÐ¾Ð² Ð±ÐµÐ· Ð»Ð¾ÐºÐ°Ð»ÑÐ½Ð¾Ð³Ð¾ ÑÐ¾ÑÐ¾: {missing}")
+        log(f"LOCAL_IMAGES_ONLY включён. Товаров без локального фото: {missing}")
 
     save_products_to_html(
         index_path=index_path,
@@ -796,10 +796,10 @@ def main() -> int:
         if not local_images_exist(repository_root, product)
         and int(product_state.get(str(product.get("id")), {}).get("attempts", 0)) >= args.max_attempts
     )
-    log("\nÐÑÐ¾Ð³:")
-    log(f"  Ð»Ð¾ÐºÐ°Ð»ÑÐ½ÑÐµ ÑÐ¾ÑÐ¾: {imported_after}/{len(products)}")
-    log(f"  Ð¸ÑÑÐµÑÐ¿Ð°Ð»Ð¸ {args.max_attempts} Ð¿Ð¾Ð¿ÑÑÐºÐ¸: {failed_exhausted}")
-    log(f"  ÑÐ»ÐµÐ´ÑÑÑÐ¸Ð¹ Ð·Ð°Ð¿ÑÑÐº Ð¿ÑÐ¾Ð´Ð¾Ð»Ð¶Ð¸Ñ Ñ Ð¾ÑÑÐ°Ð²ÑÐ¸ÑÑÑ ÑÐ¾Ð²Ð°ÑÐ¾Ð²")
+    log("\nИтог:")
+    log(f"  локальные фото: {imported_after}/{len(products)}")
+    log(f"  исчерпали {args.max_attempts} попытки: {failed_exhausted}")
+    log(f"  следующий запуск продолжит с оставшихся товаров")
     return 0
 
 
@@ -807,8 +807,8 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except KeyboardInterrupt:
-        log("ÐÑÑÐ°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾ Ð¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»ÐµÐ¼")
+        log("Остановлено пользователем")
         raise SystemExit(130)
     except Exception as exc:
-        log(f"ÐÑÐ¸ÑÐ¸ÑÐµÑÐºÐ°Ñ Ð¾ÑÐ¸Ð±ÐºÐ°: {exc}")
+        log(f"Критическая ошибка: {exc}")
         raise
