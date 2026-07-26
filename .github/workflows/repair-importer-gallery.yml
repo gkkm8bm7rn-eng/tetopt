@@ -1,0 +1,39 @@
+name: Repair importer gallery logic
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/repair-importer-gallery.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Patch importer
+        shell: bash
+        run: |
+          python -c 'from pathlib import Path; p=Path("scripts/import_photos.py"); s=p.read_text(encoding="utf-8"); old="      if(LOCAL_IMAGES_ONLY)return photos;"; new="      if(local.length || LOCAL_IMAGES_ONLY)return photos;"; assert old in s or new in s, "Importer gallery fragment not found"; p.write_text(s.replace(old,new,1), encoding="utf-8") if old in s else print("Importer already fixed")'
+
+      - name: Commit and push repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/import_photos.py
+          git commit -m "Keep local gallery fix in photo importer"
+          git push origin "HEAD:main"
