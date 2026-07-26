@@ -24,32 +24,7 @@ jobs:
       - name: Patch gallery logic
         shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path("index.html")
-          text = path.read_text(encoding="utf-8")
-
-          old = """      const photos=[...new Set([...local,p.directImage,cachedFirstPhoto(p),...saved].filter(Boolean))];
-      if(LOCAL_IMAGES_ONLY)return photos;
-"""
-          new = """      const photos=[...new Set([...local,p.directImage,cachedFirstPhoto(p),...saved].filter(Boolean))];
-      if(local.length || LOCAL_IMAGES_ONLY)return photos;
-"""
-
-          if new in text:
-              print("Gallery is already fixed.")
-              raise SystemExit(0)
-
-          matches = text.count(old)
-          if matches != 1:
-              raise SystemExit(
-                  f"Expected exactly one gallery fragment, found {matches}"
-              )
-
-          path.write_text(text.replace(old, new, 1), encoding="utf-8")
-          print("Gallery patched successfully.")
-          PY
+          python -c 'from pathlib import Path; p=Path("index.html"); s=p.read_text(encoding="utf-8"); old="      if(LOCAL_IMAGES_ONLY)return photos;"; new="      if(local.length || LOCAL_IMAGES_ONLY)return photos;"; assert old in s or new in s, "Gallery fragment not found"; p.write_text(s.replace(old,new,1), encoding="utf-8") if old in s else print("Gallery already fixed")'
 
       - name: Commit and push fix
         shell: bash
