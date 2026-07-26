@@ -1,0 +1,1 @@
+Trigger the missing-photo UI correction.
