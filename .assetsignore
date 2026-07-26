@@ -1,0 +1,10 @@
+# Cloudflare Workers Static Assets: do not publish repository internals
+**/.git
+**/.git/**
+**/.github
+**/.github/**
+scripts/**
+data/**
+*.xlsx
+*.xls
+*.py
