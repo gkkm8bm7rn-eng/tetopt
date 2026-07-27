@@ -1,26 +1,24 @@
 name: Finalize catalog footer source
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "data/finalize-footer-source.txt"
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   finalize-footer:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out pull request branch
+      - name: Check out main branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: main
           fetch-depth: 0
 
-      - name: Finalize footer and remove temporary code
+      - name: Finalize footer and remove temporary loader replacement
         shell: python
         run: |
           from pathlib import Path
@@ -36,9 +34,11 @@ jobs:
       <div id="delivery"><h4>Покупателям</h4><p><a href="#catalog">Перейти в каталог</a><br><a href="#contacts">Связаться с нами</a></p></div>
       <div id="contacts"><h4>Контакты</h4><p>Телефон: <a href="tel:+79057267946">+7 (905) 726-79-46</a><br><a href="https://wa.me/79057267946" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+79057267946" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:postes@mail.ru">postes@mail.ru</a><br>Ежедневно, 10:00–20:00</p></div>'''
 
-          if old_footer not in source:
-              raise SystemExit("Placeholder footer was not found in catalog-source.html")
-          source = source.replace(old_footer, new_footer, 1)
+          if old_footer in source:
+              source = source.replace(old_footer, new_footer, 1)
+          elif new_footer not in source:
+              raise SystemExit("Neither placeholder nor finalized footer was found in catalog-source.html")
+
           if "Демонстрационная версия интернет-магазина" in source or "hello@example.ru" in source:
               raise SystemExit("Placeholder footer text remains in catalog-source.html")
           source_path.write_text(source, encoding="utf-8")
@@ -49,17 +49,14 @@ jobs:
           end_marker = '\n    html=html.replace(placeholderFooter,realFooter);\n'
           start = loader.find(start_marker)
           end = loader.find(end_marker)
-          if start == -1 or end == -1 or end < start:
-              raise SystemExit("Temporary footer replacement was not found in catalog-loader.js")
-          end += len(end_marker)
-          loader = loader[:start] + "\n" + loader[end:]
+          if start != -1 and end != -1 and end >= start:
+              end += len(end_marker)
+              loader = loader[:start] + "\n" + loader[end:]
           if "placeholderFooter" in loader or "realFooter" in loader:
               raise SystemExit("Temporary footer replacement remains in catalog-loader.js")
           loader_path.write_text(loader, encoding="utf-8")
 
-          print("Footer finalized in source and temporary loader replacement removed.")
-
-      - name: Remove one-time workflow and trigger files
+      - name: Remove all one-time footer cleanup files
         shell: bash
         run: |
           rm -f \
@@ -70,7 +67,7 @@ jobs:
             data/finalize-footer-source.txt \
             data/finalize-footer-source-note.txt
 
-      - name: Validate and push changes to pull request branch
+      - name: Validate and commit
         shell: bash
         run: |
           set -euo pipefail
@@ -81,5 +78,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
           git commit -m "Finalize catalog footer source"
-          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+          git push origin HEAD:main
