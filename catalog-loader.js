@@ -55,7 +55,7 @@
 
     html=html.replace(
       '</body>',
-      '<script src="checkout.js?v=2"></script><script src="checkout-contacts.js?v=2"></script></body>'
+      '<script src="checkout.js?v=2"></script><script src="checkout-contacts.js?v=2"></script><script src="hero-actions.js?v=1"></script></body>'
     );
     document.open();
     document.write(html);
