@@ -1,0 +1,1 @@
+This branch exists only to trigger the catalog source footer normalization workflow after merge.
