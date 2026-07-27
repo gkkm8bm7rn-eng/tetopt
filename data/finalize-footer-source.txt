@@ -1,0 +1,1 @@
+Run the verified one-time catalog footer source cleanup.
