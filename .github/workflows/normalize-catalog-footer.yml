@@ -67,7 +67,8 @@ jobs:
             data/footer-normalize-trigger.txt \
             data/footer-normalize-pr-trigger.txt \
             data/footer-normalize-v2-trigger.txt \
-            data/finalize-footer-source.txt
+            data/finalize-footer-source.txt \
+            data/finalize-footer-source-note.txt
 
       - name: Validate and push changes to pull request branch
         shell: bash
