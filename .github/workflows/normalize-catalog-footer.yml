@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "data/finalize-footer-run-v2.txt"
+      - "data/finalize-footer-run-v3.txt"
   workflow_dispatch:
 
 permissions:
@@ -26,17 +26,23 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import base64
-
-          old_footer = base64.b64decode("ICAgICAgPGRpdj48ZGl2IGNsYXNzPSJsb2dvIj5GT1JNQSA8c3Bhbj5IT01FPC9zcGFuPjwvZGl2PjxwPtCU0LXQvNC+0L3RgdGC0YDQsNGG0LjQvtC90L3QsNGPINCy0LXRgNGB0LjRjyDQuNC90YLQtdGA0L3QtdGCINC80LDQs9Cw0LfQuNC90LAg0L3QsCDQvtGB0L3QvtCy0LUg0LfQsNCz0YDRg9C20LXQvdC90L7Qs9C+INC60LDRgtCw0LvQvtCz0LAg0YLQvtCy0LDRgNC+0LIuPC9wPjwvZGl2PgogICAgICA8ZGl2IGlkPSJkZWxpdmVyeSI+PGg0PtCf0L7QutGD0L/QsNGC0LXQu9GP0Lw8L2g0PjxwPjxhIGhyZWY9IiMiPtCU0L7RgdGC0LDQstC60LAg0Lgg0L7Qv9C70LDRgtCwPC9hPjxicj48YSBocmVmPSIjIj7Qk9Cw0YDQsNC90YLQuNGPINCy0L7Qt9Cy0YDQsNGCPC9hPjxicj48YSBocmVmPSIjIj7Qn9C+0LvQuNGC0LjQutCwINC60L7QvdGE0LjQtNC10L3RhtC40LDQu9GM0L3QvtGB0YLQuDwvYT48L3A+PC9kaXY+CiAgICAgIDxkaXYgaWQ9ImNvbnRhY3RzIj48aDQ+0JrQvtC90YLQsNC60YLRizwvaDQ+PHA+0KLQtdC70LXRhNC+0L06ICs3IChfX18pIF9fXy1fXy1fXzxicj5FLW1haWw6IGhlbGxvQGV4YW1wbGUucnU8YnI+0JXQttC10LTQvdC10LLQvdC+LCAxMDowMOKAkzIwOjAwPC9wPjwvZGl2Pg==").decode("utf-8")
-          new_footer = base64.b64decode("ICAgICAgPGRpdj48ZGl2IGNsYXNzPSJsb2dvIj5GT1JNQSA8c3Bhbj5IT01FPC9zcGFuPjwvZGl2PjxwPtCc0LXQsdC10LvRjCDQuCDQv9GA0LXQtNC80LXRgtGLINC40L3RgtC10YDRjNC10YDQsC4g0J7Qv9GC0L7QstGL0LUg0YbQtdC90YssINGD0LTQvtCx0L3Ri9C5INC/0L7QtNCx0L7RgCDQuCDQvtGE0L7RgNC80LvQtdC90LjQtSDQt9Cw0LrQsNC30LAg0L7QvdC70LDQudC9LjwvcD48L2Rpdj4KICAgICAgPGRpdiBpZD0iZGVsaXZlcnkiPjxoND7Qn9C+0LrRg9C/0LDRgtC10LvRj9C8PC9oND48cD48YSBocmVmPSIjY2F0YWxvZyI+0J/QtdGA0LXQudGC0Lgg0LIg0LrQsNGC0LDQu9C+0LM8L2E+PGJyPjxhIGhyZWY9IiNjb250YWN0cyI+0KHQstGP0LfQsNGC0YzRgdGPINGBINC90LDQvNC4PC9hPjwvcD48L2Rpdj4KICAgICAgPGRpdiBpZD0iY29udGFjdHMiPjxoND7QmtC+0L3RgtCw0LrRgtGLPC9oND48cD7QotC10LvQtdGE0L7QvTogPGEgaHJlZj0idGVsOis3OTA1NzI2Nzk0NiI+KzcgKDkwNSkgNzI2LTc5LTQ2PC9hPjxicj48YSBocmVmPSJodHRwczovL3dhLm1lLzc5MDU3MjY3OTQ2IiB0YXJnZXQ9Il9ibGFuayIgcmVsPSJub29wZW5lciI+V2hhdHNBcHA8L2E+IMK3IDxhIGhyZWY9Imh0dHBzOi8vdC5tZS8rNzkwNTcyNjc5NDYiIHRhcmdldD0iX2JsYW5rIiByZWw9Im5vb3BlbmVyIj5UZWxlZ3JhbTwvYT48YnI+RS1tYWlsOiA8YSBocmVmPSJtYWlsdG86cG9zdGVzQG1haWwucnUiPnBvc3Rlc0BtYWlsLnJ1PC9hPjxicj7QldC20LXQtNC90LXQstC90L4sIDEwOjAw4oCTMjA6MDA8L3A+PC9kaXY+").decode("utf-8")
 
           source_path = Path("catalog-source.html")
           source = source_path.read_text(encoding="utf-8")
-          if old_footer in source:
-              source = source.replace(old_footer, new_footer, 1)
-          elif new_footer not in source:
-              raise SystemExit("Expected footer was not found")
+          footer = "\n".join([
+              '  <footer>',
+              '    <div class="container footer-grid">',
+              '      <div><div class="logo">FORMA <span>HOME</span></div><p>Мебель и предметы интерьера. Оптовые цены, удобный подбор и оформление заказа онлайн.</p></div>',
+              '      <div id="delivery"><h4>Покупателям</h4><p><a href="#catalog">Перейти в каталог</a><br><a href="#contacts">Связаться с нами</a></p></div>',
+              '      <div id="contacts"><h4>Контакты</h4><p>Телефон: <a href="tel:+79057267946">+7 (905) 726-79-46</a><br><a href="https://wa.me/79057267946" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+79057267946" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:postes@mail.ru">postes@mail.ru</a><br>Ежедневно, 10:00–20:00</p></div>',
+              '    </div>',
+              '  </footer>',
+          ])
+          start = source.find("  <footer>")
+          end = source.find("\n\n  <div class=\"overlay\"", start)
+          if start == -1 or end == -1:
+              raise SystemExit("Footer boundaries were not found")
+          source = source[:start] + footer + source[end:]
           if "Демонстрационная версия интернет-магазина" in source or "hello@example.ru" in source:
               raise SystemExit("Placeholder footer remains")
           source_path.write_text(source, encoding="utf-8")
@@ -45,28 +51,27 @@ jobs:
           loader = loader_path.read_text(encoding="utf-8")
           start_marker = "\n    const placeholderFooter=`"
           end_marker = "\n    html=html.replace(placeholderFooter,realFooter);\n"
-          start = loader.find(start_marker)
-          end = loader.find(end_marker)
-          if start != -1 and end != -1 and end >= start:
-              loader = loader[:start] + "\n" + loader[end + len(end_marker):]
+          block_start = loader.find(start_marker)
+          block_end = loader.find(end_marker)
+          if block_start != -1 and block_end != -1 and block_end >= block_start:
+              loader = loader[:block_start] + "\n" + loader[block_end + len(end_marker):]
           if "placeholderFooter" in loader or "realFooter" in loader:
               raise SystemExit("Temporary footer replacement remains")
           loader_path.write_text(loader, encoding="utf-8")
           PY
 
-      - name: Remove obsolete one-time files
+      - name: Remove temporary trigger files
         shell: bash
         run: |
           rm -f \
-            .github/workflows/normalize-catalog-footer.yml \
-            .github/workflows/fix-missing-photo-state.yml \
             data/footer-normalize-trigger.txt \
             data/footer-normalize-pr-trigger.txt \
             data/footer-normalize-v2-trigger.txt \
             data/finalize-footer-source.txt \
             data/finalize-footer-source-note.txt \
             data/finalize-footer-run.txt \
-            data/finalize-footer-run-v2.txt
+            data/finalize-footer-run-v2.txt \
+            data/finalize-footer-run-v3.txt
 
       - name: Validate and commit
         shell: bash
@@ -78,6 +83,6 @@ jobs:
           ! grep -q 'placeholderFooter' catalog-loader.js
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Finalize catalog footer source and remove obsolete workflows"
+          git add -A catalog-source.html catalog-loader.js data
+          git commit -m "Finalize catalog footer source"
           git push origin HEAD:main
