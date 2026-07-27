@@ -10,15 +10,14 @@ permissions:
 
 jobs:
   normalize-footer:
-    if: ${{ !contains(github.event.head_commit.message || '', 'Normalize catalog footer source') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
       - name: Replace placeholder footer in catalog source
-        shell: python
         run: |
+          python - <<'PY'
           from pathlib import Path
 
           path = Path("catalog-source.html")
@@ -32,11 +31,12 @@ jobs:
       <div id="delivery"><h4>Покупателям</h4><p><a href="#catalog">Перейти в каталог</a><br><a href="#contacts">Связаться с нами</a></p></div>
       <div id="contacts"><h4>Контакты</h4><p>Телефон: <a href="tel:+79057267946">+7 (905) 726-79-46</a><br><a href="https://wa.me/79057267946" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+79057267946" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:postes@mail.ru">postes@mail.ru</a><br>Ежедневно, 10:00–20:00</p></div>'''
 
-          if old not in text:
-              print("Placeholder footer is already absent; nothing to change.")
-          else:
+          if old in text:
               path.write_text(text.replace(old, new, 1), encoding="utf-8")
               print("Footer updated in catalog-source.html")
+          else:
+              print("Placeholder footer is already absent; nothing to change.")
+          PY
 
       - name: Commit normalized source
         run: |
