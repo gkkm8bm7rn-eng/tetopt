@@ -1,51 +1,84 @@
-name: Normalize catalog footer source
+name: Finalize catalog footer source
 
 on:
-  push:
+  pull_request:
     branches: [main]
-  workflow_dispatch:
+    paths:
+      - "data/finalize-footer-source.txt"
 
 permissions:
   contents: write
 
 jobs:
-  normalize-footer:
+  finalize-footer:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out pull request branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
 
-      - name: Replace placeholder footer in catalog source
+      - name: Finalize footer and remove temporary code
+        shell: python
         run: |
-          python - <<'PY'
           from pathlib import Path
 
-          path = Path("catalog-source.html")
-          text = path.read_text(encoding="utf-8")
+          source_path = Path("catalog-source.html")
+          source = source_path.read_text(encoding="utf-8")
 
-          old = '''      <div><div class="logo">FORMA <span>HOME</span></div><p>Демонстрационная версия интернет-магазина на основе загруженного каталога товаров.</p></div>
+          old_footer = '''      <div><div class="logo">FORMA <span>HOME</span></div><p>Демонстрационная версия интернет-магазина на основе загруженного каталога товаров.</p></div>
       <div id="delivery"><h4>Покупателям</h4><p><a href="#">Доставка и оплата</a><br><a href="#">Гарантия и возврат</a><br><a href="#">Политика конфиденциальности</a></p></div>
       <div id="contacts"><h4>Контакты</h4><p>Телефон: +7 (___) ___-__-__<br>E-mail: hello@example.ru<br>Ежедневно, 10:00–20:00</p></div>'''
 
-          new = '''      <div><div class="logo">FORMA <span>HOME</span></div><p>Мебель и предметы интерьера. Оптовые цены, удобный подбор и оформление заказа онлайн.</p></div>
+          new_footer = '''      <div><div class="logo">FORMA <span>HOME</span></div><p>Мебель и предметы интерьера. Оптовые цены, удобный подбор и оформление заказа онлайн.</p></div>
       <div id="delivery"><h4>Покупателям</h4><p><a href="#catalog">Перейти в каталог</a><br><a href="#contacts">Связаться с нами</a></p></div>
       <div id="contacts"><h4>Контакты</h4><p>Телефон: <a href="tel:+79057267946">+7 (905) 726-79-46</a><br><a href="https://wa.me/79057267946" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+79057267946" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:postes@mail.ru">postes@mail.ru</a><br>Ежедневно, 10:00–20:00</p></div>'''
 
-          if old in text:
-              path.write_text(text.replace(old, new, 1), encoding="utf-8")
-              print("Footer updated in catalog-source.html")
-          else:
-              print("Placeholder footer is already absent; nothing to change.")
-          PY
+          if old_footer not in source:
+              raise SystemExit("Placeholder footer was not found in catalog-source.html")
+          source = source.replace(old_footer, new_footer, 1)
+          if "Демонстрационная версия интернет-магазина" in source or "hello@example.ru" in source:
+              raise SystemExit("Placeholder footer text remains in catalog-source.html")
+          source_path.write_text(source, encoding="utf-8")
 
-      - name: Commit normalized source
+          loader_path = Path("catalog-loader.js")
+          loader = loader_path.read_text(encoding="utf-8")
+          start_marker = '\n    const placeholderFooter=`'
+          end_marker = '\n    html=html.replace(placeholderFooter,realFooter);\n'
+          start = loader.find(start_marker)
+          end = loader.find(end_marker)
+          if start == -1 or end == -1 or end < start:
+              raise SystemExit("Temporary footer replacement was not found in catalog-loader.js")
+          end += len(end_marker)
+          loader = loader[:start] + "\n" + loader[end:]
+          if "placeholderFooter" in loader or "realFooter" in loader:
+              raise SystemExit("Temporary footer replacement remains in catalog-loader.js")
+          loader_path.write_text(loader, encoding="utf-8")
+
+          print("Footer finalized in source and temporary loader replacement removed.")
+
+      - name: Remove one-time workflow and trigger files
+        shell: bash
         run: |
-          if git diff --quiet -- catalog-source.html; then
-            echo "No changes to commit"
-            exit 0
-          fi
+          rm -f \
+            .github/workflows/normalize-catalog-footer.yml \
+            data/footer-normalize-trigger.txt \
+            data/footer-normalize-pr-trigger.txt \
+            data/footer-normalize-v2-trigger.txt \
+            data/finalize-footer-source.txt
+
+      - name: Validate and push changes to pull request branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'Мебель и предметы интерьера. Оптовые цены' catalog-source.html
+          ! grep -q 'Демонстрационная версия интернет-магазина' catalog-source.html
+          ! grep -q 'hello@example.ru' catalog-source.html
+          ! grep -q 'placeholderFooter' catalog-loader.js
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add catalog-source.html
-          git commit -m "Normalize catalog footer source"
-          git push
+          git add -A
+          git commit -m "Finalize catalog footer source"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
