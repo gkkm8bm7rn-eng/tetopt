@@ -1,1 +1,0 @@
-Run the push-safe one-time footer source cleanup through a GitHub merge commit.

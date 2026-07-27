@@ -1,1 +1,0 @@
-Trigger the corrected one-time catalog footer source cleanup workflow.
