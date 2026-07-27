@@ -1,8 +1,10 @@
 name: Finalize catalog footer source
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "data/finalize-footer-run.txt"
   workflow_dispatch:
 
 permissions:
@@ -65,7 +67,8 @@ jobs:
             data/footer-normalize-pr-trigger.txt \
             data/footer-normalize-v2-trigger.txt \
             data/finalize-footer-source.txt \
-            data/finalize-footer-source-note.txt
+            data/finalize-footer-source-note.txt \
+            data/finalize-footer-run.txt
 
       - name: Validate and commit
         shell: bash
