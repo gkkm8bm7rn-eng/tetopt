@@ -1,0 +1,1 @@
+Run the one-time physical footer cleanup after this branch is merged into main.
