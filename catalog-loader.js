@@ -30,7 +30,28 @@
       html=html.slice(0,valueStart)+JSON.stringify(value)+html.slice(end);
     }
 
-    const products=readConstArray("PRODUCTS");
+    const interiorImages=new Map([
+      [1,"assets/interiors/1.svg"],
+      [2,"assets/interiors/2.svg"],
+      [3,"assets/interiors/3.svg"],
+      [4,"assets/interiors/4.svg"],
+      [5,"assets/interiors/5.svg"],
+      [6,"assets/interiors/6.svg"],
+      [7,"assets/interiors/7.svg"],
+      [8,"assets/interiors/8.svg"],
+      [9,"assets/interiors/9.svg"],
+      [10,"assets/interiors/10.svg"]
+    ]);
+
+    const products=readConstArray("PRODUCTS").map(product=>{
+      const interiorImage=interiorImages.get(Number(product.id));
+      if(!interiorImage)return product;
+      const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
+      return {
+        ...product,
+        images:[interiorImage,...currentImages.filter(image=>image!==interiorImage)]
+      };
+    });
     const visibleProducts=products.filter(product=>!hiddenIds.has(Number(product.id)));
     const matchedHiddenCount=products.length-visibleProducts.length;
     if(matchedHiddenCount!==hiddenIds.size){
