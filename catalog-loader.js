@@ -1,6 +1,15 @@
 (async()=>{
   try{
     const version=Date.now();
+    const assetVersion="20260730-1648";
+    const withAssetVersion=url=>{
+      if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
+      const hashIndex=url.indexOf("#");
+      const hash=hashIndex>=0?url.slice(hashIndex):"";
+      const base=hashIndex>=0?url.slice(0,hashIndex):url;
+      const clean=base.replace(/([?&])v=[^&#]*/g,"$1").replace(/[?&]$/," ").trim();
+      return `${clean}${clean.includes("?")?"&":"?"}v=${assetVersion}${hash}`;
+    };
     const [catalogResponse,hiddenResponse]=await Promise.all([
       fetch(`catalog-source.html?v=${version}`,{cache:"no-store"}),
       fetch(`hidden-products.json?v=${version}`,{cache:"no-store"})
@@ -43,15 +52,25 @@
       [10,"assets/interiors/10.svg"]
     ]);
     const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
+    const localPhotoNumber=image=>{
+      const match=typeof image==="string"&&image.match(/^assets\/products\/\d+\/(\d+)\.(?:webp|png|jpe?g)(?:\?.*)?$/i);
+      return match?Number(match[1]):Number.POSITIVE_INFINITY;
+    };
 
     const products=readConstArray("PRODUCTS").map(product=>{
-      const interiorImage=interiorImages.get(Number(product.id));
-      if(!interiorImage)return product;
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
-      const productPhotos=currentImages.filter(image=>!isInteriorImage(image));
+      const productPhotos=currentImages
+        .filter(image=>!isInteriorImage(image))
+        .map((image,index)=>({image,index,number:localPhotoNumber(image)}))
+        .sort((a,b)=>(a.number-b.number)||(a.index-b.index))
+        .map(item=>item.image);
+      if(!productPhotos.length && product.directImage && !isInteriorImage(product.directImage))productPhotos.push(product.directImage);
+      const interiorImage=interiorImages.get(Number(product.id));
+      const images=[...new Set([...productPhotos,...(interiorImage?[interiorImage]:[])])].map(withAssetVersion);
       return {
         ...product,
-        images:[...productPhotos,interiorImage]
+        images,
+        directImage:images[0]||withAssetVersion(product.directImage)||null
       };
     });
     const visibleProducts=products.filter(product=>!hiddenIds.has(Number(product.id)));
@@ -76,6 +95,8 @@
       `$1${formatCount(visibleCollections.size)}$2`
     );
 
+    html=html.replace(/\s*<div class="collection-tag">\$\{esc\(p\.collection\)\}<\/div>/g,"");
+    html=html.replace("</style>",".collection-tag{display:none!important}</style>");
     html=html.replace(
       '</body>',
       '<script src="checkout.js?v=2"></script><script src="checkout-contacts.js?v=2"></script><script src="hero-actions.js?v=1"></script></body>'
