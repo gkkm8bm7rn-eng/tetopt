@@ -31,7 +31,7 @@ jobs:
       - name: Repeat search for unresolved product 20
         run: |
           rm -rf data/refetch/20 data/refetch/review.json data/refetch/review.txt
-          python scripts/refetch_for_review.py --source products.json --ids 20 --max-photos 12 --out data/refetch
+          python scripts/refetch_for_review.py --source data/source-products-12-20.json --ids 20 --max-photos 12 --out data/refetch
 
       - name: Commit review candidates
         run: |
