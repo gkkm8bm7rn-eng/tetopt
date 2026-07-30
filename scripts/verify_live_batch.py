@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -19,6 +18,7 @@ EXPECTED = {
     17: ("/assets/products/17/02.webp", 3),
     18: ("/assets/products/18/02.webp", 3),
     19: ("/assets/products/19/01.webp", 3),
+    20: ("/assets/products/20/01.webp", 3),
 }
 
 
@@ -101,7 +101,7 @@ async def main_async(urls: list[str], out: Path) -> int:
     report = {
         "verifiedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "batch": 1,
-        "scope": "published products 12-19; product 20 remains manual review",
+        "scope": "completed products 1-20; live checks for curated products 12-20",
         "results": results,
         "ok": all(item["ok"] for item in results),
     }
