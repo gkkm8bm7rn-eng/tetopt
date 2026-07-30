@@ -1,7 +1,7 @@
 (async()=>{
   try{
     const version=Date.now();
-    const assetVersion="20260730-1935";
+    const assetVersion="20260730-1914-b02";
     const withAssetVersion=url=>{
       if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
       const hashIndex=url.indexOf("#");
@@ -44,13 +44,39 @@
     const verifiedInteriorImages=new Map([]);
     const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
 
+    // Первая фотография для второй партии выбрана после визуального аудита общего вида.
+    // ID 41 и 65 здесь намеренно отсутствуют: они направлены на ручной выбор.
+    const verifiedFirstPhotos=new Map([
+      [21,"assets/products/21/03.webp"],
+      [28,"assets/products/28/01.webp"],
+      [29,"assets/products/29/01.webp"],
+      [30,"assets/products/30/02.webp"],
+      [31,"assets/products/31/02.webp"],
+      [32,"assets/products/32/02.webp"],
+      [33,"assets/products/33/02.webp"],
+      [34,"assets/products/34/03.webp"],
+      [36,"assets/products/36/03.webp"],
+      [45,"assets/products/45/02.webp"],
+      [50,"assets/products/50/01.webp"],
+      [51,"assets/products/51/03.webp"],
+      [52,"assets/products/52/03.webp"],
+      [56,"assets/products/56/01.webp"],
+      [57,"assets/products/57/01.webp"],
+      [62,"assets/products/62/01.webp"],
+      [63,"assets/products/63/02.webp"],
+      [64,"assets/products/64/02.webp"]
+    ]);
+
     const products=readConstArray("PRODUCTS").map(product=>{
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
-      // Порядок в product.images является результатом проверки и не сортируется по имени файла.
       const productPhotos=currentImages.filter(image=>!isInteriorImage(image));
       if(!productPhotos.length && product.directImage && !isInteriorImage(product.directImage))productPhotos.push(product.directImage);
+      const verifiedFirst=verifiedFirstPhotos.get(Number(product.id));
+      const orderedPhotos=verifiedFirst&&productPhotos.includes(verifiedFirst)
+        ? [verifiedFirst,...productPhotos.filter(image=>image!==verifiedFirst)]
+        : productPhotos;
       const interiorImage=verifiedInteriorImages.get(Number(product.id));
-      const images=[...new Set([...productPhotos,...(interiorImage?[interiorImage]:[])])].map(withAssetVersion);
+      const images=[...new Set([...orderedPhotos,...(interiorImage?[interiorImage]:[])])].map(withAssetVersion);
       return {
         ...product,
         images,
@@ -70,8 +96,8 @@
     writeConstArray("CATEGORIES",readConstArray("CATEGORIES").filter(name=>visibleCategories.has(name)));
 
     // Ключи исключают старые битые URL и ошибочный порядок из кеша браузера.
-    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV6";');
-    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV4";');
+    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV7";');
+    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV5";');
 
     const formatCount=value=>new Intl.NumberFormat("ru-RU").format(value);
     html=html.replace(
