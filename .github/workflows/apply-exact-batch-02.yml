@@ -1,0 +1,62 @@
+name: Apply exact supplier photos for batch 02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - data/run-apply-exact-batch-02.trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-exact-batch-02
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests pillow
+
+      - name: Download and apply exact supplier photos
+        run: python scripts/apply_exact_supplier_photos_batch02.py
+
+      - name: Validate generated files
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('data/batch-02-exact-apply-report.json').read_text(encoding='utf-8'))
+          assert report.get('status') == 'assets_applied_pending_live_review', report
+          assert report.get('completedCount') == 6, report
+          for item in report['processed']:
+              assert item['selected'], item
+              for photo in item['selected']:
+                  path=Path('assets/products')/str(item['id'])/f"{photo['slot']:02d}.webp"
+                  assert path.exists() and path.stat().st_size > 10000, path
+          print('Validated IDs:', [item['id'] for item in report['processed']])
+          PY
+
+      - name: Commit exact photos and catalog update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/products/28 assets/products/41 assets/products/51 assets/products/52 assets/products/57 assets/products/65 \
+            catalog-source.html catalog-loader.js index.html data/batch-02-exact-apply-report.json
+          if git diff --cached --quiet; then
+            echo "No exact photo changes"
+          else
+            git commit -m "Применить точные фото поставщика для второй партии"
+            git push
+          fi
