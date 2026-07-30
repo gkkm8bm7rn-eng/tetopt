@@ -10,17 +10,31 @@ permissions:
   contents: write
 
 concurrency:
-  group: final-verify-batch-02
+  group: final-verify-batch-02-lite
   cancel-in-progress: true
 
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Add strict browser timeouts for this run
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/final_verify_batch_02_selenium.py')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace(
+              '    return webdriver.Chrome(options=options)',
+              '    driver = webdriver.Chrome(options=options)\n    driver.set_page_load_timeout(60)\n    driver.set_script_timeout(30)\n    return driver'
+          )
+          text = text.replace('deadline = time.time() + 300', 'deadline = time.time() + 120')
+          path.write_text(text, encoding='utf-8')
+          PY
 
       - name: Install lightweight browser driver
         run: |
