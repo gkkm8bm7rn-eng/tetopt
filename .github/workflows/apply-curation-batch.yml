@@ -1,0 +1,43 @@
+name: Apply curated photo batch
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - data/run-apply-curation.trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-curation-batch
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply batch 1
+        run: |
+          python scripts/apply_curation_batch.py \
+            --catalog catalog-source.html \
+            --batch data/curation-batch-01.json \
+            --progress photo-processing-progress.json \
+            --index index.html \
+            --result data/curation-batch-01-result.json
+
+      - name: Commit published batch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-source.html photo-processing-progress.json index.html data/curation-batch-01-result.json
+          if git diff --cached --quiet; then
+            echo "No curation changes"
+          else
+            git commit -m "Apply verified photo order for batch 1"
+            git push
+          fi
