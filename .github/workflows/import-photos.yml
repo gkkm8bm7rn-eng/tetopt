@@ -1,34 +1,29 @@
-name: Import product photos
+name: Import and curate product photos
 
 on:
   workflow_dispatch:
     inputs:
       batch_size:
-        description: "Сколько товаров обработать за этот запуск"
+        description: "Сколько товаров обработать за запуск"
         required: true
         default: "100"
         type: string
       max_photos:
-        description: "Максимум фотографий на один товар (рекомендуется 3)"
+        description: "Максимум товарных фото до интерьерной визуализации"
         required: true
         default: "3"
         type: choice
-        options:
-          - "1"
-          - "2"
-          - "3"
-          - "4"
-          - "5"
+        options: ["1", "2", "3", "4"]
       retry_failed:
-        description: "Повторить товары, которые уже исчерпали попытки"
+        description: "Повторить товары после предыдущих неудачных попыток"
         required: false
         default: false
         type: boolean
-      finalize_local_only:
-        description: "Отключить поставщика и прокси после завершения всего импорта"
-        required: false
-        default: false
-        type: boolean
+  push:
+    branches: [main]
+    paths:
+      - "scripts/curated_photo_import.py"
+      - ".github/workflows/import-photos.yml"
 
 permissions:
   contents: write
@@ -39,7 +34,7 @@ concurrency:
 
 jobs:
   import:
-    name: Download, optimize and commit photos
+    name: Find full views, optimize and commit
     runs-on: ubuntu-latest
     timeout-minutes: 330
 
@@ -54,38 +49,53 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install importer dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install requests beautifulsoup4 pillow
 
-      - name: Import next product batch
+      - name: Import and curate next batch
         shell: bash
         env:
-          BATCH_SIZE: ${{ inputs.batch_size }}
-          MAX_PHOTOS: ${{ inputs.max_photos }}
-          RETRY_FAILED: ${{ inputs.retry_failed }}
-          FINALIZE_LOCAL_ONLY: ${{ inputs.finalize_local_only }}
+          BATCH_SIZE: ${{ github.event_name == 'workflow_dispatch' && inputs.batch_size || '50' }}
+          MAX_PHOTOS: ${{ github.event_name == 'workflow_dispatch' && inputs.max_photos || '3' }}
+          RETRY_FAILED: ${{ github.event_name == 'workflow_dispatch' && inputs.retry_failed || false }}
         run: |
           set -euo pipefail
           args=(
-            --index index.html
+            --index catalog-source.html
             --batch-size "$BATCH_SIZE"
             --max-photos "$MAX_PHOTOS"
             --workers 4
-            --max-side 1200
-            --max-kb 180
+            --max-side 1800
+            --max-kb 520
           )
-
           if [[ "$RETRY_FAILED" == "true" ]]; then
             args+=(--retry-failed)
           fi
+          python scripts/curated_photo_import.py "${args[@]}"
 
-          if [[ "$FINALIZE_LOCAL_ONLY" == "true" ]]; then
-            args+=(--finalize-local-only)
-          fi
-
-          python scripts/import_photos.py "${args[@]}"
+      - name: Validate generated WebP files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          problems=[]
+          for path in Path('assets/products').glob('*/*.webp'):
+              try:
+                  with Image.open(path) as image:
+                      image.verify()
+                  with Image.open(path) as image:
+                      if min(image.size) < 700:
+                          problems.append(f'{path}: {image.size[0]}x{image.size[1]}')
+              except Exception as exc:
+                  problems.append(f'{path}: {exc}')
+          if problems:
+              raise SystemExit('Проверка фото не пройдена:\n'+'\n'.join(problems[:50]))
+          print('Все локальные фотографии читаются и имеют достаточное разрешение.')
+          PY
 
       - name: Commit imported photos
         shell: bash
@@ -95,9 +105,8 @@ jobs:
             echo "No repository changes were produced."
             exit 0
           fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Import product photos (run $GITHUB_RUN_NUMBER)"
+          git commit -m "Import curated product photos (run $GITHUB_RUN_NUMBER)"
           git push origin "HEAD:${GITHUB_REF_NAME}"
