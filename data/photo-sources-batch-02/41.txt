@@ -1,0 +1,93 @@
+ID 41 — Стол обеденный Синди Некст/Cindy Next (мод.70-80 MDF)
+Код поставщика: 13067
+========================================================================
+
+[1] image score=1576 1000×1000 bytes=45230
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_2.jpg?r=1650530708
+
+[2] image score=1573 1000×1000 bytes=38328
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_3.jpg?r=1650530708
+
+[3] image score=1570 1000×1000 bytes=45446
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_4.jpg?r=1650530708
+
+[4] image score=1567 1000×1000 bytes=11636
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_6.jpg?r=1751634734
+
+[5] image score=1564 1000×1000 bytes=35848
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_7.jpg?r=1751634734
+
+[6] image score=1561 1000×1000 bytes=29634
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_8.jpg?r=1751634734
+
+[7] image score=1558 1000×1000 bytes=27802
+    https://tetchair.ru/netcat_files/multifile/268/1043/20203v1350_9.jpg?r=1751634734
+
+[8] image score=1555 4500×4500 bytes=1062040
+    https://tetchair.ru/netcat_files/multifile/268/1043/1043-b622478058f83a1d7aa2ae588efcd12a.jpg?r=1751634734
+
+[9] image score=1333 328×360 bytes=6696
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/1043/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[10] image score=1329 912×1000 bytes=25386
+    https://tetchair.ru/netcat_files/63/71/20203v1350_1.jpg
+
+[11] image score=933 360×360 bytes=5898
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/39865/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[12] image score=929 360×360 bytes=2678
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/47997/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[13] image score=926 360×360 bytes=6162
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/48000/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[14] image score=917 360×360 bytes=3922
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/74223/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[15] image score=914 360×360 bytes=2676
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/70531/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[16] image score=911 360×360 bytes=10822
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/1927/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[17] image score=908 360×360 bytes=4220
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/39830/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[18] image score=905 360×360 bytes=4188
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/47776/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[19] image score=902 360×360 bytes=2944
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/47740/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[20] image score=899 360×360 bytes=3870
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/52070/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[21] image score=896 360×360 bytes=2966
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54092/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[22] image score=893 360×360 bytes=4248
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54041/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[23] image score=890 360×360 bytes=3522
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54044/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[24] image score=887 360×360 bytes=3020
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/53993/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[25] image score=884 360×360 bytes=3294
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54095/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[26] image score=881 360×360 bytes=3346
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54047/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[27] image score=878 360×360 bytes=4024
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/54160/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[28] image score=875 360×360 bytes=4028
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/55213/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[29] image score=872 360×360 bytes=2450
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/51671/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[30] image score=869 360×360 bytes=3640
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/51920/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0

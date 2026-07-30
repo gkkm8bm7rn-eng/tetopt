@@ -1,0 +1,20 @@
+ID 28 — Подстолье Полукруглое (2детали)
+Код поставщика: 26186
+========================================================================
+
+[1] image score=1158 360×360 bytes=6742
+    https://tetchair.ru/netcat_files/generated/31/262/360x360/74272/8ee2ed92e5bacaac51e5e6bc0fe73d6e.jpg?crop=0%3A0%3A0%3A0&hash=1b57d36064d4283234d051e65e46fc02&resize_mode=0&wm_m=0
+
+[2] image score=499  bytes=1824213
+    https://tetchair.ru/about/foto/?catalog_id=&good_id=26186&page=1
+
+[3] image score=421  bytes=1033210
+    https://price.tetchair.ru/download_photo/?id=26186
+      ZIP 4500×4500 1134687 — Основное фото.jpg
+
+[4] image score=420  bytes=0
+    https://price.tetchair.ru/download_photo/?id=26186&only_info=1
+
+[5] image score=419  bytes=1033210
+    https://price.tetchair.ru/download_photo/?id=26186&with_info=1
+      ZIP 4500×4500 1134687 — Основное фото.jpg
