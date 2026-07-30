@@ -30,6 +30,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check requests pillow numpy opencv-python-headless
 
       - name: Fetch exact high-resolution product photos
+        continue-on-error: true
         run: |
           rm -rf data/retailer-batch-02
           python scripts/fetch_vseinstrumenti_batch.py \
@@ -37,13 +38,13 @@ jobs:
             --out data/retailer-batch-02 \
             --min-side 700
 
-      - name: Commit exact retailer candidates
+      - name: Commit exact retailer candidates and diagnostics
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/retailer-batch-02
           if git diff --cached --quiet; then
-            echo "No exact retailer candidates"
+            echo "No exact retailer report changes"
           else
             git commit -m "Fetch exact retailer photos for batch 02"
             git push
