@@ -1,7 +1,7 @@
 (async()=>{
   try{
     const version=Date.now();
-    const assetVersion="20260730-1845";
+    const assetVersion="20260730-1935";
     const withAssetVersion=url=>{
       if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
       const hashIndex=url.indexOf("#");
@@ -69,9 +69,9 @@
     writeConstArray("COLLECTIONS",readConstArray("COLLECTIONS").filter(name=>visibleCollections.has(name)));
     writeConstArray("CATEGORIES",readConstArray("CATEGORIES").filter(name=>visibleCategories.has(name)));
 
-    // Новые ключи исключают старые битые URL и ошибочный порядок из кеша браузера.
-    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV5";');
-    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV3";');
+    // Ключи исключают старые битые URL и ошибочный порядок из кеша браузера.
+    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV6";');
+    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV4";');
 
     const formatCount=value=>new Intl.NumberFormat("ru-RU").format(value);
     html=html.replace(
