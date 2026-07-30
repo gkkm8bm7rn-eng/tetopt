@@ -1,0 +1,63 @@
+name: Final verify batch 02 lite
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - data/run-final-verify-batch-02-lite.trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: final-verify-batch-02
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install lightweight browser driver
+        run: |
+          python -m pip install --disable-pip-version-check selenium requests
+          command -v google-chrome || command -v chromium || command -v chromium-browser
+          command -v chromedriver || true
+
+      - name: Run browser and asset verification
+        id: verify
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          python scripts/final_verify_batch_02_selenium.py 2>&1 | tee data/batch-02-final-verification-lite.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit verification result
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/batch-02-final-verification.json data/batch-02-final-verification-error.json data/batch-02-final-verification-lite.log data/live-review-batch-02 photo-processing-progress.json data/batch-02-exact-apply-report.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No verification changes"
+          else
+            if [ "${{ steps.verify.outputs.exit_code }}" = "0" ]; then
+              git commit -m "Завершить окончательную проверку второй партии"
+            else
+              git commit -m "Зафиксировать ошибку облегчённой проверки второй партии"
+            fi
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Fail if verification failed
+        if: steps.verify.outputs.exit_code != '0'
+        run: exit 1
