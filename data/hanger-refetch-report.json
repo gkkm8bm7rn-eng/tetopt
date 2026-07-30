@@ -1,0 +1,424 @@
+{
+  "updated_at": "2026-07-30T13:32:44+00:00",
+  "processed": [
+    {
+      "id": 1,
+      "name": "Вешалка Бара/Bara (мод.GH-8606)",
+      "supplier_code": "21440",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1811,
+          231,
+          2671,
+          4271
+        ],
+        "vertical_coverage": 0.898,
+        "horizontal_coverage": 0.1913,
+        "object_aspect": 4.6934,
+        "top_gap": 0.0513,
+        "bottom_gap": 0.0507,
+        "sharpness": 110.1,
+        "score": 9.2977,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/1/01.webp",
+          "size": "1800x1800",
+          "bytes": 28554
+        },
+        {
+          "path": "assets/products/1/02.webp",
+          "size": "1800x1800",
+          "bytes": 246734
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Вешалка Бара/Bara (мод.GH-8606)",
+      "supplier_code": "21441",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1807,
+          225,
+          2680,
+          4269
+        ],
+        "vertical_coverage": 0.8989,
+        "horizontal_coverage": 0.1942,
+        "object_aspect": 4.6281,
+        "top_gap": 0.05,
+        "bottom_gap": 0.0511,
+        "sharpness": 66.3,
+        "score": 9.2991,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/2/01.webp",
+          "size": "1800x1800",
+          "bytes": 23906
+        },
+        {
+          "path": "assets/products/2/02.webp",
+          "size": "1800x1800",
+          "bytes": 58218
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Вешалка Ханами/Hanami (мод.GH-8617)",
+      "supplier_code": "21444",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1821,
+          229,
+          2696,
+          4271
+        ],
+        "vertical_coverage": 0.8984,
+        "horizontal_coverage": 0.1947,
+        "object_aspect": 4.6153,
+        "top_gap": 0.0509,
+        "bottom_gap": 0.0507,
+        "sharpness": 150.6,
+        "score": 9.3028,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/3/01.webp",
+          "size": "1800x1800",
+          "bytes": 31154
+        },
+        {
+          "path": "assets/products/3/02.webp",
+          "size": "1800x1800",
+          "bytes": 124656
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Вешалка Ханами/Hanami (мод.GH-8617)",
+      "supplier_code": "21445",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1793,
+          228,
+          2727,
+          4273
+        ],
+        "vertical_coverage": 0.8991,
+        "horizontal_coverage": 0.2078,
+        "object_aspect": 4.3273,
+        "top_gap": 0.0507,
+        "bottom_gap": 0.0502,
+        "sharpness": 79.0,
+        "score": 9.3011,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/4/01.webp",
+          "size": "1800x1800",
+          "bytes": 35412
+        },
+        {
+          "path": "assets/products/4/02.webp",
+          "size": "1800x1800",
+          "bytes": 100616
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Вешалка Химавари/Himawari (мод.GH-8014)",
+      "supplier_code": "21442",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1855,
+          223,
+          2803,
+          4278
+        ],
+        "vertical_coverage": 0.9013,
+        "horizontal_coverage": 0.2109,
+        "object_aspect": 4.274,
+        "top_gap": 0.0496,
+        "bottom_gap": 0.0491,
+        "sharpness": 149.9,
+        "score": 9.3172,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/5/01.webp",
+          "size": "1800x1800",
+          "bytes": 30592
+        },
+        {
+          "path": "assets/products/5/02.webp",
+          "size": "1800x1800",
+          "bytes": 122698
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Вешалка Химавари/Himawari (мод.GH-8014)",
+      "supplier_code": "21443",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4499,
+        "height": 4500,
+        "bbox": [
+          1778,
+          228,
+          2744,
+          4276
+        ],
+        "vertical_coverage": 0.8998,
+        "horizontal_coverage": 0.2149,
+        "object_aspect": 4.1872,
+        "top_gap": 0.0507,
+        "bottom_gap": 0.0496,
+        "sharpness": 87.7,
+        "score": 9.305,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/6/01.webp",
+          "size": "1800x1800",
+          "bytes": 35208
+        },
+        {
+          "path": "assets/products/6/02.webp",
+          "size": "1800x1800",
+          "bytes": 146962
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Вешалка Джет/Jet",
+      "supplier_code": "19248",
+      "status": "updated",
+      "primary_source": "Доп.фото 2.jpg",
+      "primary_metrics": {
+        "filename": "Доп.фото 2.jpg",
+        "width": 4500,
+        "height": 4499,
+        "bbox": [
+          1636,
+          230,
+          2848,
+          4281
+        ],
+        "vertical_coverage": 0.9006,
+        "horizontal_coverage": 0.2696,
+        "object_aspect": 3.3405,
+        "top_gap": 0.0511,
+        "bottom_gap": 0.0482,
+        "sharpness": 69.4,
+        "score": 8.8794,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/7/01.webp",
+          "size": "1800x1800",
+          "bytes": 22548
+        },
+        {
+          "path": "assets/products/7/02.webp",
+          "size": "1800x1800",
+          "bytes": 89812
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Вешалка Джет/Jet",
+      "supplier_code": "19249",
+      "status": "updated",
+      "primary_source": "Доп.фото 2.jpg",
+      "primary_metrics": {
+        "filename": "Доп.фото 2.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1636,
+          232,
+          2844,
+          4280
+        ],
+        "vertical_coverage": 0.8998,
+        "horizontal_coverage": 0.2687,
+        "object_aspect": 3.349,
+        "top_gap": 0.0516,
+        "bottom_gap": 0.0487,
+        "sharpness": 75.6,
+        "score": 8.8811,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/8/01.webp",
+          "size": "1800x1800",
+          "bytes": 24310
+        },
+        {
+          "path": "assets/products/8/02.webp",
+          "size": "1800x1800",
+          "bytes": 33834
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Вешалка Одент/Odent",
+      "supplier_code": "19250",
+      "status": "updated",
+      "primary_source": "Доп.фото 4.jpg",
+      "primary_metrics": {
+        "filename": "Доп.фото 4.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1780,
+          0,
+          2806,
+          4499
+        ],
+        "vertical_coverage": 1.0,
+        "horizontal_coverage": 0.2282,
+        "object_aspect": 4.3817,
+        "top_gap": 0.0,
+        "bottom_gap": 0.0,
+        "sharpness": 12.9,
+        "score": 9.8009,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/9/01.webp",
+          "size": "1800x1800",
+          "bytes": 31042
+        },
+        {
+          "path": "assets/products/9/02.webp",
+          "size": "1800x1800",
+          "bytes": 17010
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Вешалка Сакура/Sakura (мод.GH-8606)",
+      "supplier_code": "21437",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4500,
+        "bbox": [
+          1805,
+          232,
+          2696,
+          4269
+        ],
+        "vertical_coverage": 0.8973,
+        "horizontal_coverage": 0.1982,
+        "object_aspect": 4.5269,
+        "top_gap": 0.0516,
+        "bottom_gap": 0.0511,
+        "sharpness": 80.8,
+        "score": 9.2923,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/10/01.webp",
+          "size": "1800x1800",
+          "bytes": 35516
+        },
+        {
+          "path": "assets/products/10/02.webp",
+          "size": "1800x1800",
+          "bytes": 100616
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Вешалка Сакура/Sakura (мод.GH-8606)",
+      "supplier_code": "21438",
+      "status": "updated",
+      "primary_source": "Основное фото.jpg",
+      "primary_metrics": {
+        "filename": "Основное фото.jpg",
+        "width": 4500,
+        "height": 4499,
+        "bbox": [
+          1807,
+          226,
+          2703,
+          4275
+        ],
+        "vertical_coverage": 0.9002,
+        "horizontal_coverage": 0.1993,
+        "object_aspect": 4.5151,
+        "top_gap": 0.0502,
+        "bottom_gap": 0.0496,
+        "sharpness": 159.6,
+        "score": 9.3122,
+        "confident_general_view": true
+      },
+      "saved": [
+        {
+          "path": "assets/products/11/01.webp",
+          "size": "1800x1800",
+          "bytes": 31428
+        },
+        {
+          "path": "assets/products/11/02.webp",
+          "size": "1800x1800",
+          "bytes": 92836
+        }
+      ]
+    }
+  ],
+  "manual_review": []
+}
