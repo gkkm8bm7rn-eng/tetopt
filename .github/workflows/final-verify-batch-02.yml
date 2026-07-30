@@ -50,13 +50,18 @@ jobs:
           if changed:
               catalog.write_text(html[:start] + json.dumps(products, ensure_ascii=False, separators=(',', ':')) + html[end:], encoding='utf-8')
 
-          version = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M-b02-final')
           loader = Path('catalog-loader.js')
           loader_text = loader.read_text(encoding='utf-8')
-          loader_text, count = re.subn(r'const assetVersion="[^"]+";', f'const assetVersion="{version}";', loader_text, count=1)
-          if count != 1:
+          current = re.search(r'const assetVersion="([^"]+)";', loader_text)
+          if not current:
               raise RuntimeError('assetVersion not found')
-          loader.write_text(loader_text, encoding='utf-8')
+          version = current.group(1)
+          if not version.endswith('-b02-final'):
+              version = datetime.now(timezone.utc).strftime('%Y%m%d-%H%M-b02-final')
+              loader_text, count = re.subn(r'const assetVersion="[^"]+";', f'const assetVersion="{version}";', loader_text, count=1)
+              if count != 1:
+                  raise RuntimeError('assetVersion not replaced')
+              loader.write_text(loader_text, encoding='utf-8')
 
           index = Path('index.html')
           index_text = index.read_text(encoding='utf-8')
@@ -83,6 +88,7 @@ jobs:
             echo "No preparation changes"
           else
             git commit -m "Подготовить вторую партию к окончательной проверке"
+            git pull --rebase origin main
             git push
           fi
 
@@ -96,9 +102,33 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Verify 20 products on GitHub Pages and Cloudflare
-        run: node scripts/final_verify_batch_02.mjs
+        id: live_verify
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          mkdir -p data
+          node scripts/final_verify_batch_02.mjs 2>&1 | tee data/batch-02-final-verification.log
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ]; then
+            python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          log = Path('data/batch-02-final-verification.log').read_text(encoding='utf-8', errors='replace')
+          Path('data/batch-02-final-verification-error.json').write_text(json.dumps({
+              'batch': 2,
+              'status': 'failed',
+              'checkedAt': datetime.now(timezone.utc).isoformat(),
+              'errorLog': log[-12000:]
+          }, ensure_ascii=False, indent=2), encoding='utf-8')
+          PY
+          fi
+          exit 0
 
       - name: Mark batch 02 complete only after passed verification
+        if: steps.live_verify.outputs.exit_code == '0'
         run: |
           python - <<'PY'
           import json
@@ -134,7 +164,24 @@ jobs:
           PY
 
       - name: Commit final verification evidence
+        if: always()
+        shell: bash
         run: |
-          git add data/batch-02-final-verification.json data/live-review-batch-02 photo-processing-progress.json data/batch-02-exact-apply-report.json
-          git commit -m "Завершить окончательную проверку второй партии"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/batch-02-final-verification.json data/batch-02-final-verification.log data/batch-02-final-verification-error.json data/live-review-batch-02 photo-processing-progress.json data/batch-02-exact-apply-report.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No verification evidence changes"
+          else
+            if [ "${{ steps.live_verify.outputs.exit_code }}" = "0" ]; then
+              git commit -m "Завершить окончательную проверку второй партии"
+            else
+              git commit -m "Зафиксировать ошибку окончательной проверки второй партии"
+            fi
+            git pull --rebase origin main
+            git push
+          fi
+
+      - name: Fail workflow if live verification failed
+        if: steps.live_verify.outputs.exit_code != '0'
+        run: exit 1
