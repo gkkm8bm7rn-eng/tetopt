@@ -1,0 +1,977 @@
+{
+  "productId": 20,
+  "sourceProductCode": "21794",
+  "sourcePageProductId": "15246466",
+  "candidates": [
+    {
+      "path": "data/retailer/20/03.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733930.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 28.7,
+      "border_luma": 255.0,
+      "border_std": 7.3,
+      "bbox_ratio": 0.544,
+      "foreground_ratio": 0.166,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.008,
+      "white_background": 0.8956,
+      "general_score": 0.2304,
+      "preview": [
+        "          .@%======+++*%.                 ",
+        "          .@@+++++++===%                  ",
+        "           @@          %.                 ",
+        "           %@          #+                 ",
+        "           #@-::::-----%#.                ",
+        "           *@%#*******+#@-                ",
+        "           +@=         =+.                ",
+        "           =@+         -+                 ",
+        "           -*          .*                 ",
+        "           :#+----====+*@%-:              ",
+        "           =@@@@@@@@@@@@@@@@@%#+-         ",
+        "           *@**%@@++%#++---::.+           ",
+        "           #@:   #+-   *%.    %           ",
+        "           @@    *%:   @@     %           ",
+        "          .@+    #@-  .@#     %           ",
+        "          -@-    #@:  -@%+-.  #           ",
+        "          =*+##+:%@:  +@=:=*###           ",
+        "          *-   -+@@. .-=.    :#           ",
+        "                 @@.       ..:#           ",
+        "                .@@          :-           "
+      ]
+    },
+    {
+      "path": "data/retailer/20/01.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733918.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 61.5,
+      "border_luma": 255.0,
+      "border_std": 8.5,
+      "bbox_ratio": 0.672,
+      "foreground_ratio": 0.3631,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.0,
+      "white_background": 0.8791,
+      "general_score": 0.1935,
+      "preview": [
+        "                                          ",
+        "                                          ",
+        "                                          ",
+        "          +=--==++                 :=..  :",
+        "@*==+.    #+....=%        .:   ..:+%*==+%%",
+        "+%:-%+    +*    :@.  ....:++***++#@@.   %-",
+        ".@. +@###%@@@@@@@@@@@@@@@@@@@@@@@@@@%#**@ ",
+        " #%*#@#*%@@@@@@@@@@@@@@@@@@@@@@@@@@%#@+*+ ",
+        " =% :@*   .@*@%**@%+-::..=@@%:::+@@. @%@. ",
+        "  @.:@@.::=@@@@@@@@@@@@: #@%@@@@@@@@@@@@  ",
+        " :@@@@@@@@@@@@@@@@::@@@@@@@@@@@@@%@+=@=@. ",
+        " +%.=@@+++@#-@@@@@ .@+@+*@@@%*++@*#+:@:@: ",
+        " %= :@+  .@*+@@@@#=+@*@  #@@#===@@%#-@:%= ",
+        ".@-:=@*==+@: @@@@* :@*@  *@@*:  @@++*@:*+ ",
+        "-%::+@++=+@*+@@%#:.-@+#@#%@@:-=+%@-.=@  . ",
+        "--  **      .@%.  ..+   .+@.    .@.       ",
+        "    -.       +:          .*.     :        ",
+        "                                          ",
+        "                                          ",
+        "                                          "
+      ]
+    },
+    {
+      "path": "data/retailer/20/04.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733936.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 11.6,
+      "border_luma": 255.0,
+      "border_std": 18.2,
+      "bbox_ratio": 0.627,
+      "foreground_ratio": 0.2151,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.0005,
+      "white_background": 0.7407,
+      "general_score": 0.1482,
+      "preview": [
+        "                           @@@@@@@.       ",
+        "                           @@@@@@@.       ",
+        "                           @@@@@@@.       ",
+        "                           @@@@@@@.       ",
+        "                           @@@@@@@        ",
+        "                           @@@@@@@        ",
+        "                           @@@@@@@        ",
+        "       .@#+-.              @@@@@@@        ",
+        "       .@@@@@@#+-.         @@@@@@@        ",
+        "         -+#@@@@@@@*=:     @@@@@@@        ",
+        "             .-*%@@@@@@%*=:@@@@@@@        ",
+        "                  :=*@@@@@@@@@@@@@        ",
+        "                      .-+#@@@@@@@@        ",
+        "                           %@@@@@@        ",
+        "                           %@@@@@@        ",
+        "                           %@@@@@@        ",
+        "                           %@@@@@@        ",
+        "                           #@@@@@@        ",
+        "                     .+++++%@@@%%*        ",
+        "                        :-+*@@+::.        "
+      ]
+    },
+    {
+      "path": "data/retailer/20/02.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733924.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 21.1,
+      "border_luma": 255.0,
+      "border_std": 17.7,
+      "bbox_ratio": 0.673,
+      "foreground_ratio": 0.1907,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.0005,
+      "white_background": 0.7466,
+      "general_score": 0.1416,
+      "preview": [
+        "                                          ",
+        "                                          ",
+        "                                          ",
+        "     ....:::----====++++***##**+=-:.      ",
+        "*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%#=",
+        "=@**%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%##%@-",
+        "=@.    :-=%@#+++===---:::..:@=         =@-",
+        "=@.       +@:              .@=         =@-",
+        "=@.       +@:              .@-         +@:",
+        "=@:       +@:              :@-         +@:",
+        "=@:       +@:              :@-         +@.",
+        "=@:       +@:              -@-         *@.",
+        "=@:       *@.             .=%:         *@.",
+        "=@:       *@.                          #@ ",
+        ".=        *@.                         .*# ",
+        "          *@.                             ",
+        "          ==                              ",
+        "                                          ",
+        "                                          ",
+        "                                          "
+      ]
+    },
+    {
+      "path": "data/retailer/20/07.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/185060777.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 138.9,
+      "border_luma": 255.0,
+      "border_std": 25.5,
+      "bbox_ratio": 0.832,
+      "foreground_ratio": 0.149,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.0,
+      "white_background": 0.6353,
+      "general_score": 0.0831,
+      "preview": [
+        "    =:......*-=.       * .:*........:=    ",
+        "    :       * =.      .+   :         :    ",
+        "    :       *          +:  :         :    ",
+        "    :       *          --  :         :    ",
+        "   :#+      =.-        .= .@@        :    ",
+        "   .*-      --:..      .+  .:        :    ",
+        "    :       :=          *   :        :    ",
+        "    :       .+          #   :        :    ",
+        "    -.       +      ....#..:*       =*.   ",
+        "    +-......:@%@@@@@@@@@@@@@#+=:    =*.   ",
+        "    :       -@%%@@@****+++===-*:-    :    ",
+        "    :       +@*+%@@+--.-**=..:%+:    :    ",
+        "   :#*      *@... #.   +@-   .*      :    ",
+        "    +-      #.    #    #%    .+      :    ",
+        "    :       %-:   #    @@*=: .+      :    ",
+        "    -      .*-+#*=#   .@+ :=*%+      :    ",
+        "    ::.....=-   .=#    :.    :+      :    ",
+        "           :     .*         .-+.....:=    ",
+        "           :      +            :          ",
+        "           .=.*%.==-...=@-....--          "
+      ]
+    },
+    {
+      "path": "data/retailer/20/08.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/185060783.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 114.5,
+      "border_luma": 255.0,
+      "border_std": 21.9,
+      "bbox_ratio": 0.871,
+      "foreground_ratio": 0.2119,
+      "min_margin": 0.0,
+      "edge_touches": 2,
+      "center_offset": 0.0005,
+      "white_background": 0.6875,
+      "general_score": 0.0787,
+      "preview": [
+        "                                          ",
+        "          .:*##+..........==-...:+-       ",
+        "+:....      ===-           :    :*=...--  ",
+        ":                      ....-.          :  ",
+        "+++++***####%%%%@@@@@@@@@@@@@@@%#*++=-:-. ",
+        "=@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.+ ",
+        "=@..:=+#@@@@@@%%%##***+++=%@---:::...*@ : ",
+        "=@.  +.  .@+              #%         *@ : ",
+        "=@.  :   .@+              ##         #% : ",
+        "=@.  :   .@+              ##         #%-@%",
+        "=@.  :   .@+              ##         #% =.",
+        "=@. .#-  .@+              %*         %# : ",
+        "=@.  =   .@+              #+         %# : ",
+        "=@.  :   .@+                         %* : ",
+        "--   :   :@+                         ++.+ ",
+        "::   =   :#:                          :   ",
+        " :..:+...:-             ..   ........-:   ",
+        "    -*-.. :      ......-#*..              ",
+        "         ===....                          ",
+        "                                          "
+      ]
+    },
+    {
+      "path": "data/retailer/20/06.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733948.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 268.2,
+      "border_luma": 100.7,
+      "border_std": 48.7,
+      "bbox_ratio": 1.0,
+      "foreground_ratio": 0.7426,
+      "min_margin": 0.0,
+      "edge_touches": 4,
+      "center_offset": 0.0,
+      "white_background": 0.0,
+      "general_score": -1.0895,
+      "preview": [
+        "@@@@@@@@@@@@@@@@=         :            .+%",
+        "@@@@@@@@@@@@@@@@..........:.....:.....:.=@",
+        "@@@@@@@@@@@@@@@@          :  -++.  -*:. +@",
+        "@@@@@@@@@@@@@@@@          ==-. .*#@+:.  *@",
+        "##%@@@@@@@@@@@@@        -.=.-*%@@@@-    *@",
+        "@@@@@@@@@@@@@@@@        :+%@@@@@@@@::   +@",
+        "@@@@@@@%#%@@@@@@    -=#@@@@@@@@@@@@@@@+ =@",
+        ":..        : ::::.  .:::...........-%@%:+@",
+        "-=-:  .:     .=+*#%@@@@@%@#+++=-.+#@#@@@@@",
+        "#@@@##@@@@@*#@@@@@@@@@@@*@@@:.:.%@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@%@@@%#@@%*+#@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@@@*+%-.+#@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%+@#%  :=*-",
+        "@@@@@@@@@@@@@@@@@@*@@@@@@@@@@@@%+@@= .*@@ ",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@=+@@@@@@@@%*=-@%=",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@#*###%",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@+%  -@%@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@++  :++#",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%###*",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%*#+@%#*%%#%"
+      ]
+    },
+    {
+      "path": "data/retailer/20/05.webp",
+      "sourceUrl": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733942.jpg",
+      "width": 1000,
+      "height": 1000,
+      "sharpness": 136.8,
+      "border_luma": 118.3,
+      "border_std": 13.9,
+      "bbox_ratio": 1.0,
+      "foreground_ratio": 0.8714,
+      "min_margin": 0.0,
+      "edge_touches": 4,
+      "center_offset": 0.0,
+      "white_background": 0.0,
+      "general_score": -1.1003,
+      "preview": [
+        "@@@%@=---##=**#**#%**##*#*==:+**+=#*%+--**",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@%#%#:-++*%**@@",
+        "@@@@@@@@@@%%@+##@@*@%@@@@##*@@@@@#@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@#@%#%@@@%@#@@@@@%@@@@@@@@@@@@@@@",
+        "@@@@%*@@@@@@%*##@@%=-+*#**#*%#-+*=+*##@@@%",
+        "@@@@@%@@@@@@@@@@@@##****#++*#*#%#%#*%%@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "%%@@@@@@@@@%@#%**##@@#@%@@@#@%#@@#####*#@#",
+        "@@@@@@@#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@#@@@@@@@@@@@@@@@@@@@@@%@@@@@@@@@%",
+        "+=+:.:#%%*****#%#%@%++#*%+*@@%@@@@@@%@%@@@",
+        "---.     ::.    .-:.-:::.:.::-:+++++**@@%@",
+        ":=+*##@#*%%#++=+=*#%%***#%%#+=+*@@@@@@@@@@",
+        "*+=+%#****%%+*==+*#%%###*+=#**##%@@@@@@@@@"
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "imageId": "174733918",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733918.jpg",
+      "status": 200,
+      "bytes": 50139,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733918.jpg",
+      "status": 200,
+      "bytes": 61720,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733918.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733918",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733918.jpg",
+      "status": 200,
+      "bytes": 1334,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733924.jpg",
+      "status": 200,
+      "bytes": 21866,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733924.jpg",
+      "status": 200,
+      "bytes": 26331,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733924.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733924",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733924.jpg",
+      "status": 200,
+      "bytes": 888,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733930.jpg",
+      "status": 200,
+      "bytes": 23660,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733930.jpg",
+      "status": 200,
+      "bytes": 18093,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733930.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733930",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733930.jpg",
+      "status": 200,
+      "bytes": 903,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733936.jpg",
+      "status": 200,
+      "bytes": 13457,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733936.jpg",
+      "status": 200,
+      "bytes": 10853,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733936.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733936",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733936.jpg",
+      "status": 200,
+      "bytes": 721,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733942.jpg",
+      "status": 200,
+      "bytes": 133287,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733942.jpg",
+      "status": 200,
+      "bytes": 91906,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733942.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733942",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733942.jpg",
+      "status": 200,
+      "bytes": 1040,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733948.jpg",
+      "status": 200,
+      "bytes": 146051,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/174733948.jpg",
+      "status": 200,
+      "bytes": 105926,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/174733948.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "174733948",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/174733948.jpg",
+      "status": 200,
+      "bytes": 1844,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/185060777.jpg",
+      "status": 200,
+      "bytes": 53031,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/185060777.jpg",
+      "status": 200,
+      "bytes": 39856,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/185060777.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060777",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/185060777.jpg",
+      "status": 200,
+      "bytes": 1375,
+      "width": 68,
+      "height": 60
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "2000x2000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/2000x2000/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "1600x1600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1600x1600/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "1200x1200",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x1200/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "1000x1000",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/185060783.jpg",
+      "status": 200,
+      "bytes": 47774,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "800x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x800/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "1200x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1200x800/185060783.jpg",
+      "status": 200,
+      "bytes": 43895,
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "1000x800",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x800/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "800x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/800x600/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "600x600",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/600x600/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "400x400",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/400x400/185060783.jpg",
+      "status": 404,
+      "bytes": 146
+    },
+    {
+      "imageId": "185060783",
+      "sizePath": "68x60",
+      "url": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/68x60/185060783.jpg",
+      "status": 200,
+      "bytes": 1390,
+      "width": 68,
+      "height": 60
+    }
+  ]
+}
