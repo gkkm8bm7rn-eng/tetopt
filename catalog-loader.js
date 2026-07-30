@@ -1,7 +1,7 @@
 (async()=>{
   try{
     const version=Date.now();
-    const assetVersion="20260730-1744";
+    const assetVersion="20260730-1845";
     const withAssetVersion=url=>{
       if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
       const hashIndex=url.indexOf("#");
@@ -39,22 +39,15 @@
       html=html.slice(0,valueStart)+JSON.stringify(value)+html.slice(end);
     }
 
-    // В карту добавляются только визуализации, которые вручную сверены с конкретной моделью.
+    // В карту добавляются только визуализации, вручную сверенные с конкретной моделью.
     // Пока карта пустая: битые и неточные интерьерные изображения не публикуются.
     const verifiedInteriorImages=new Map([]);
     const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
-    const localPhotoNumber=image=>{
-      const match=typeof image==="string"&&image.match(/^assets\/products\/\d+\/(\d+)\.(?:webp|png|jpe?g)(?:\?.*)?$/i);
-      return match?Number(match[1]):Number.POSITIVE_INFINITY;
-    };
 
     const products=readConstArray("PRODUCTS").map(product=>{
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
-      const productPhotos=currentImages
-        .filter(image=>!isInteriorImage(image))
-        .map((image,index)=>({image,index,number:localPhotoNumber(image)}))
-        .sort((a,b)=>(a.number-b.number)||(a.index-b.index))
-        .map(item=>item.image);
+      // Порядок в product.images является результатом проверки и не сортируется по имени файла.
+      const productPhotos=currentImages.filter(image=>!isInteriorImage(image));
       if(!productPhotos.length && product.directImage && !isInteriorImage(product.directImage))productPhotos.push(product.directImage);
       const interiorImage=verifiedInteriorImages.get(Number(product.id));
       const images=[...new Set([...productPhotos,...(interiorImage?[interiorImage]:[])])].map(withAssetVersion);
@@ -76,9 +69,9 @@
     writeConstArray("COLLECTIONS",readConstArray("COLLECTIONS").filter(name=>visibleCollections.has(name)));
     writeConstArray("CATEGORIES",readConstArray("CATEGORIES").filter(name=>visibleCategories.has(name)));
 
-    // Новые ключи исключают старые битые URL и неверные интерьерные изображения из кеша браузера.
-    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV4";');
-    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV2";');
+    // Новые ключи исключают старые битые URL и ошибочный порядок из кеша браузера.
+    html=html.replace('const IMAGE_CACHE_KEY = "formaResolvedPhotosV3";','const IMAGE_CACHE_KEY = "formaResolvedPhotosV5";');
+    html=html.replace('const GALLERY_CACHE_KEY = "formaProductGalleriesV1";','const GALLERY_CACHE_KEY = "formaProductGalleriesV3";');
 
     const formatCount=value=>new Intl.NumberFormat("ru-RU").format(value);
     html=html.replace(
