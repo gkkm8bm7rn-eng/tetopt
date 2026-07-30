@@ -1,0 +1,41 @@
+{
+  "source": "data/vseinstrumenti-batch-02.json",
+  "minSide": 700,
+  "products": [
+    {
+      "id": 41,
+      "code": 13067,
+      "page": "https://www.vseinstrumenti.ru/product/stol-tetchair-cindy-next-mod-80-mdf-metall-mdf-buk-d80x75-sm-belyj-naturalnyj-13067-3700098/",
+      "error": "403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-cindy-next-mod-80-mdf-metall-mdf-buk-d80x75-sm-belyj-naturalnyj-13067-3700098/",
+      "candidates": []
+    },
+    {
+      "id": 51,
+      "code": 15186,
+      "page": "https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-white-belyj-natural-naturalnyj-15186-2949362/",
+      "error": "403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-white-belyj-natural-naturalnyj-15186-2949362/",
+      "candidates": []
+    },
+    {
+      "id": 52,
+      "code": 15187,
+      "page": "https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-black-chernyj-natural-naturalnyj-15187-2949590/",
+      "error": "403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-black-chernyj-natural-naturalnyj-15187-2949590/",
+      "candidates": []
+    },
+    {
+      "id": 57,
+      "code": 20501,
+      "page": "https://www.vseinstrumenti.ru/product/stol-thonet-mod-t9108-derevo-vyaz-100x75-sm-grusha-3-tetchair-20501-13001735/",
+      "error": "403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-thonet-mod-t9108-derevo-vyaz-100x75-sm-grusha-3-tetchair-20501-13001735/",
+      "candidates": []
+    },
+    {
+      "id": 65,
+      "code": 10468,
+      "page": "https://www.vseinstrumenti.ru/product/obedennyj-stol-tetchair-bosco-bosko-osnovanie-buk-stoleshnitsa-mdf-d-900-mm-belyj-naturalnyj-buk-10468-7692057/",
+      "error": "403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/obedennyj-stol-tetchair-bosco-bosko-osnovanie-buk-stoleshnitsa-mdf-d-900-mm-belyj-naturalnyj-buk-10468-7692057/",
+      "candidates": []
+    }
+  ]
+}

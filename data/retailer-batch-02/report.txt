@@ -1,0 +1,37 @@
+FORMA HOME — точные фото поставщика, партия 02
+========================================================================
+
+ID 41 — код 13067
+Страница: https://www.vseinstrumenti.ru/product/stol-tetchair-cindy-next-mod-80-mdf-metall-mdf-buk-d80x75-sm-belyj-naturalnyj-13067-3700098/
+ID страницы: ; URL: 0; групп: 0; сохранено: 0
+
+ОШИБКА: 403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-cindy-next-mod-80-mdf-metall-mdf-buk-d80x75-sm-belyj-naturalnyj-13067-3700098/
+------------------------------------------------------------------------
+
+ID 51 — код 15186
+Страница: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-white-belyj-natural-naturalnyj-15186-2949362/
+ID страницы: ; URL: 0; групп: 0; сохранено: 0
+
+ОШИБКА: 403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-white-belyj-natural-naturalnyj-15186-2949362/
+------------------------------------------------------------------------
+
+ID 52 — код 15187
+Страница: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-black-chernyj-natural-naturalnyj-15187-2949590/
+ID страницы: ; URL: 0; групп: 0; сохранено: 0
+
+ОШИБКА: 403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-tetchair-mars-t1004-mdf-derevo-80x80x75-sm-black-chernyj-natural-naturalnyj-15187-2949590/
+------------------------------------------------------------------------
+
+ID 57 — код 20501
+Страница: https://www.vseinstrumenti.ru/product/stol-thonet-mod-t9108-derevo-vyaz-100x75-sm-grusha-3-tetchair-20501-13001735/
+ID страницы: ; URL: 0; групп: 0; сохранено: 0
+
+ОШИБКА: 403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/stol-thonet-mod-t9108-derevo-vyaz-100x75-sm-grusha-3-tetchair-20501-13001735/
+------------------------------------------------------------------------
+
+ID 65 — код 10468
+Страница: https://www.vseinstrumenti.ru/product/obedennyj-stol-tetchair-bosco-bosko-osnovanie-buk-stoleshnitsa-mdf-d-900-mm-belyj-naturalnyj-buk-10468-7692057/
+ID страницы: ; URL: 0; групп: 0; сохранено: 0
+
+ОШИБКА: 403 Client Error: Forbidden for url: https://www.vseinstrumenti.ru/product/obedennyj-stol-tetchair-bosco-bosko-osnovanie-buk-stoleshnitsa-mdf-d-900-mm-belyj-naturalnyj-buk-10468-7692057/
+------------------------------------------------------------------------
