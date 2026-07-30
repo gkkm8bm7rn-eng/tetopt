@@ -1,10 +1,10 @@
-name: Import and curate product photos
+name: Curate and import product photos
 
 on:
   workflow_dispatch:
     inputs:
       batch_size:
-        description: "Сколько товаров обработать за запуск"
+        description: "Сколько отсутствующих товаров обработать за запуск"
         required: true
         default: "100"
         type: string
@@ -22,6 +22,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "scripts/curate_existing_photos.py"
       - "scripts/curated_photo_import.py"
       - ".github/workflows/import-photos.yml"
 
@@ -33,8 +34,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  import:
-    name: Find full views, optimize and commit
+  curate:
+    name: Check full views and image quality
     runs-on: ubuntu-latest
     timeout-minutes: 330
 
@@ -54,7 +55,14 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests beautifulsoup4 pillow
 
-      - name: Import and curate next batch
+      - name: Reorder and reduce existing galleries
+        run: |
+          python scripts/curate_existing_photos.py \
+            --index catalog-source.html \
+            --max-product-photos 3 \
+            --minimum-primary-score 10
+
+      - name: Import missing product photos
         shell: bash
         env:
           BATCH_SIZE: ${{ github.event_name == 'workflow_dispatch' && inputs.batch_size || '50' }}
@@ -75,29 +83,40 @@ jobs:
           fi
           python scripts/curated_photo_import.py "${args[@]}"
 
-      - name: Validate generated WebP files
+      - name: Validate referenced files
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
+          import json
           from pathlib import Path
           from PIL import Image
-          problems=[]
-          for path in Path('assets/products').glob('*/*.webp'):
-              try:
-                  with Image.open(path) as image:
-                      image.verify()
-                  with Image.open(path) as image:
-                      if min(image.size) < 700:
-                          problems.append(f'{path}: {image.size[0]}x{image.size[1]}')
-              except Exception as exc:
-                  problems.append(f'{path}: {exc}')
-          if problems:
-              raise SystemExit('Проверка фото не пройдена:\n'+'\n'.join(problems[:50]))
-          print('Все локальные фотографии читаются и имеют достаточное разрешение.')
+
+          html=Path('catalog-source.html').read_text(encoding='utf-8')
+          marker='const PRODUCTS ='
+          start=html.index(marker)+len(marker)
+          while html[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(html[start:])
+          errors=[]
+          for product in products:
+              for relative in product.get('images') or []:
+                  if not isinstance(relative,str) or relative.startswith(('http://','https://')):
+                      continue
+                  path=Path(relative)
+                  if not path.is_file():
+                      errors.append(f"Товар {product.get('id')}: нет файла {relative}")
+                      continue
+                  try:
+                      with Image.open(path) as image:
+                          image.verify()
+                  except Exception as exc:
+                      errors.append(f"Товар {product.get('id')}: {relative}: {exc}")
+          if errors:
+              raise SystemExit('Проверка ссылок не пройдена:\n'+'\n'.join(errors[:80]))
+          print('Все опубликованные локальные изображения существуют и читаются.')
           PY
 
-      - name: Commit imported photos
+      - name: Commit curated photos and report
         shell: bash
         run: |
           set -euo pipefail
@@ -108,5 +127,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Import curated product photos (run $GITHUB_RUN_NUMBER)"
+          git commit -m "Curate product galleries (run $GITHUB_RUN_NUMBER)"
           git push origin "HEAD:${GITHUB_REF_NAME}"
