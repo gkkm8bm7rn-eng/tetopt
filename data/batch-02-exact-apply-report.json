@@ -1,0 +1,179 @@
+{
+  "batch": 2,
+  "processed": [
+    {
+      "id": 28,
+      "supplierCode": 26186,
+      "zipBytes": 1033210,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 71692,
+          "wholeObjectScore": 94.96
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "supplierCode": 13067,
+      "zipBytes": 2382634,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 912,
+          "height": 1000,
+          "bytes": 37988,
+          "wholeObjectScore": 64.72
+        },
+        {
+          "slot": 2,
+          "sourceMember": "Доп.фото 2.jpg",
+          "width": 1000,
+          "height": 1000,
+          "bytes": 69226,
+          "wholeObjectScore": -62.0
+        },
+        {
+          "slot": 3,
+          "sourceMember": "Доп.фото 3.jpg",
+          "width": 1000,
+          "height": 1000,
+          "bytes": 57376,
+          "wholeObjectScore": -62.0
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "supplierCode": 15186,
+      "zipBytes": 722615,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 50262,
+          "wholeObjectScore": 93.26
+        },
+        {
+          "slot": 2,
+          "sourceMember": "Доп.фото 3.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 48154,
+          "wholeObjectScore": 8.0
+        },
+        {
+          "slot": 3,
+          "sourceMember": "Доп.фото 2.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 21674,
+          "wholeObjectScore": -26.71
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "supplierCode": 15187,
+      "zipBytes": 858089,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 58484,
+          "wholeObjectScore": 93.26
+        },
+        {
+          "slot": 2,
+          "sourceMember": "Доп.фото 3.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 48154,
+          "wholeObjectScore": 8.0
+        },
+        {
+          "slot": 3,
+          "sourceMember": "Доп.фото 2.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 34576,
+          "wholeObjectScore": -26.57
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "supplierCode": 20501,
+      "zipBytes": 6949979,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 169014,
+          "wholeObjectScore": 93.32
+        },
+        {
+          "slot": 2,
+          "sourceMember": "Доп.фото 2.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 131724,
+          "wholeObjectScore": 95.67
+        },
+        {
+          "slot": 3,
+          "sourceMember": "Доп.фото 5.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 99464,
+          "wholeObjectScore": 44.89
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "supplierCode": 10468,
+      "zipBytes": 2235796,
+      "selected": [
+        {
+          "slot": 1,
+          "sourceMember": "Основное фото.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 74304,
+          "wholeObjectScore": 44.62
+        },
+        {
+          "slot": 2,
+          "sourceMember": "Доп.фото 2.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 63760,
+          "wholeObjectScore": 80.54
+        },
+        {
+          "slot": 3,
+          "sourceMember": "Доп.фото 5.jpg",
+          "width": 1800,
+          "height": 1800,
+          "bytes": 127372,
+          "wholeObjectScore": 59.4
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "assetVersion": "20260730-2035-b02-exact",
+  "completedCount": 6,
+  "status": "assets_applied_pending_live_review"
+}
