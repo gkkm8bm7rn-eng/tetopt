@@ -42,14 +42,16 @@
       [9,"assets/interiors/9.svg"],
       [10,"assets/interiors/10.svg"]
     ]);
+    const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
 
     const products=readConstArray("PRODUCTS").map(product=>{
       const interiorImage=interiorImages.get(Number(product.id));
       if(!interiorImage)return product;
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
+      const productPhotos=currentImages.filter(image=>!isInteriorImage(image));
       return {
         ...product,
-        images:[interiorImage,...currentImages.filter(image=>image!==interiorImage)]
+        images:[...productPhotos,interiorImage]
       };
     });
     const visibleProducts=products.filter(product=>!hiddenIds.has(Number(product.id)));
