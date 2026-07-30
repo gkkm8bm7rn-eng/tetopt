@@ -1,0 +1,54 @@
+name: Inspect exact photo sources for batch 02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - data/run-inspect-photo-sources-batch-02.trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: inspect-photo-sources-batch-02
+  cancel-in-progress: true
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check requests beautifulsoup4 pillow
+
+      - name: Inspect exact supplier candidates
+        run: |
+          rm -rf data/photo-sources-batch-02
+          mkdir -p data/photo-sources-batch-02
+          for id in 28 41 51 52 57 65; do
+            python scripts/inspect_photo_sources.py \
+              --source data/source-products-batch-02.json \
+              --id "$id" \
+              --limit 30 \
+              --out "data/photo-sources-batch-02/${id}.json"
+          done
+
+      - name: Commit source diagnostics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/photo-sources-batch-02
+          if git diff --cached --quiet; then
+            echo "No source diagnostics changes"
+          else
+            git commit -m "Inspect exact photo sources for batch 02"
+            git push
+          fi
