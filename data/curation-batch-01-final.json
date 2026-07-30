@@ -1,0 +1,42 @@
+{
+  "batch": 1,
+  "finalizedAt": "2026-07-30T15:55:29+00:00",
+  "productId": 20,
+  "productCode": 21794,
+  "status": "completed",
+  "order": [
+    "assets/products/20/01.webp",
+    "assets/products/20/02.webp",
+    "assets/products/20/03.webp"
+  ],
+  "source": {
+    "page": "https://www.vseinstrumenti.ru/product/obedennyj-komplekt-tetchair-sonata-dining-set-stol-4-stula-massiv-sosny-stol-120x75x73-sm-stul-41x50x95-sm-antik-belyj-21794-15246466/",
+    "firstPhoto": "https://cdn.vseinstrumenti.ru/images/goods/tovary-dlya-ofisa-i-doma/mebel/15246466/1000x1000/174733918.jpg",
+    "exactModelConfirmed": true,
+    "fullSetVisible": true,
+    "dimensions": "1000x1000"
+  },
+  "completedIds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "manualReviewIds": []
+}
