@@ -1,0 +1,56 @@
+name: Diagnose live batch 02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - data/run-diagnose-live-batch-02.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check current live deployment
+        shell: bash
+        run: |
+          set +e
+          version=$(grep -oP 'const assetVersion="\K[^"]+' catalog-loader.js | head -1)
+          out=data/live-batch-02-diagnostic.txt
+          : > "$out"
+          echo "checked_at=$(date -u +%FT%TZ)" >> "$out"
+          echo "expected_asset_version=$version" >> "$out"
+          for root in "https://gkkm8bm7rn-eng.github.io/tetopt/" "https://tetopt.m78m6cfc2v.workers.dev/"; do
+            echo >> "$out"
+            echo "ROOT $root" >> "$out"
+            index_code=$(curl -L -sS -o /tmp/index.html -w '%{http_code}' "$root?diag=$(date +%s)")
+            loader_code=$(curl -L -sS -o /tmp/loader.js -w '%{http_code}' "${root}catalog-loader.js?diag=$(date +%s)")
+            echo "index_http=$index_code" >> "$out"
+            echo "loader_http=$loader_code" >> "$out"
+            echo "index_loader=$(grep -o 'catalog-loader.js?v=[0-9]*' /tmp/index.html | head -1)" >> "$out"
+            echo "live_asset_version=$(grep -oP 'const assetVersion="\K[^"]+' /tmp/loader.js | head -1)" >> "$out"
+            for id in 28 41 51 52 57 65; do
+              for file in assets/products/$id/*.webp; do
+                name=$(basename "$file")
+                code=$(curl -L -sS -o /tmp/asset.bin -w '%{http_code}' "${root}assets/products/${id}/${name}?v=${version}&diag=$(date +%s%N)")
+                local_hash=$(sha256sum "$file" | cut -d' ' -f1)
+                remote_hash=$(sha256sum /tmp/asset.bin | cut -d' ' -f1)
+                echo "id=$id file=$name http=$code local_sha=$local_hash remote_sha=$remote_hash match=$([ "$local_hash" = "$remote_hash" ] && echo yes || echo no)" >> "$out"
+              done
+            done
+          done
+
+      - name: Commit diagnostic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live-batch-02-diagnostic.txt
+          git commit -m "Проверить публикацию второй партии на двух сайтах"
+          git push
