@@ -1,9 +1,9 @@
 name: Sync supplier main photos
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/front-three-quarter-and-image-zoom
+      - main
     paths:
       - "scripts/sync_supplier_main_photos.py"
       - ".github/workflows/sync-supplier-main-photos.yml"
@@ -13,10 +13,11 @@ permissions:
 
 concurrency:
   group: supplier-main-photo-sync
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   sync:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 330
     steps:
