@@ -5,11 +5,11 @@
     "specs": "букле, бежевый",
     "code": null,
     "image": null,
-    "directImage": "assets/products/493/02.webp",
+    "directImage": "assets/products/493/03.webp",
     "images": [
+      "assets/products/493/03.webp",
       "assets/products/493/02.webp",
-      "assets/products/493/01.webp",
-      "assets/products/493/03.webp"
+      "assets/products/493/01.webp"
     ],
     "photoBank": null,
     "productUrl": null,
@@ -48,8 +48,8 @@
     "directImage": "assets/products/189/02.webp",
     "images": [
       "assets/products/189/02.webp",
-      "assets/products/189/03.webp",
-      "assets/products/189/01.webp"
+      "assets/products/189/01.webp",
+      "assets/products/189/03.webp"
     ],
     "photoBank": null,
     "productUrl": null,
@@ -65,10 +65,10 @@
     "specs": "велюр, бежевый, 7, 42х55х99см",
     "code": null,
     "image": null,
-    "directImage": "assets/products/136/02.webp",
+    "directImage": "assets/products/136/03.webp",
     "images": [
-      "assets/products/136/02.webp",
       "assets/products/136/03.webp",
+      "assets/products/136/02.webp",
       "assets/products/136/01.webp"
     ],
     "photoBank": null,
@@ -145,10 +145,10 @@
     "specs": "пластик, 40,5х49х88,5см, золотой ",
     "code": null,
     "image": null,
-    "directImage": "assets/products/656/02.webp",
+    "directImage": "assets/products/656/03.webp",
     "images": [
-      "assets/products/656/02.webp",
       "assets/products/656/03.webp",
+      "assets/products/656/02.webp",
       "assets/products/656/01.webp"
     ],
     "photoBank": null,
@@ -165,11 +165,11 @@
     "specs": "металл белый, букле, бежевый",
     "code": null,
     "image": null,
-    "directImage": "assets/products/843/03.webp",
+    "directImage": "assets/products/843/01.webp",
     "images": [
-      "assets/products/843/03.webp",
+      "assets/products/843/01.webp",
       "assets/products/843/02.webp",
-      "assets/products/843/01.webp"
+      "assets/products/843/03.webp"
     ],
     "photoBank": null,
     "productUrl": null,
@@ -185,11 +185,11 @@
     "specs": "сетка/кож.зам, черный",
     "code": null,
     "image": null,
-    "directImage": "assets/products/1182/03.webp",
+    "directImage": "assets/products/1182/01.webp",
     "images": [
-      "assets/products/1182/03.webp",
       "assets/products/1182/01.webp",
-      "assets/products/1182/02.webp"
+      "assets/products/1182/02.webp",
+      "assets/products/1182/03.webp"
     ],
     "photoBank": null,
     "productUrl": null,
