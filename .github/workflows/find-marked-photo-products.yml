@@ -1,0 +1,86 @@
+name: Find marked photo products
+
+on:
+  push:
+    branches:
+      - agent/fix-primary-product-photos
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Find exact products from marked screenshots
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          source = Path('catalog-source.html')
+          text = source.read_text(encoding='utf-8')
+          marker = '    const PRODUCTS = '
+          start = text.find(marker)
+          value_start = start + len(marker)
+          end = text.find(';\n', value_start)
+          products = json.loads(text[value_start:end])
+
+          queries = [
+              {'label': 'Murano beige', 'name': ['мурано', 'murano'], 'specs': ['бежев']},
+              {'label': 'Murano chrome beige', 'name': ['мурано', 'murano', 'хром'], 'specs': ['бежев']},
+              {'label': 'Fluffy beige', 'name': ['флаффи', 'fluffy'], 'specs': ['бежев']},
+              {'label': 'Agnet light beige natural', 'name': ['агнет', 'agnet'], 'specs': ['светло-бежев', 'натуральн']},
+              {'label': 'Charli Lux bench cacao', 'name': ['банкетка', 'чарли люкс'], 'specs': ['какао']},
+              {'label': 'Cosmo beige', 'name': ['космо', 'cosmo'], 'specs': ['бежев']},
+              {'label': 'Moncler beige', 'name': ['монклер', 'moncler'], 'specs': ['бежев']},
+              {'label': 'Relax ottoman beige', 'name': ['релакс', 'relax', 'пуф'], 'specs': ['бежев']},
+              {'label': 'Charli Lux sofa beige', 'name': ['диван', 'чарли люкс'], 'specs': ['бежев']},
+              {'label': 'Nordic black', 'name': ['нордик', 'nordic'], 'specs': ['черн']},
+          ]
+
+          rows = []
+          for query in queries:
+              matches = []
+              for product in products:
+                  name = str(product.get('name', '')).lower().replace('ё', 'е')
+                  specs = str(product.get('specs', '')).lower().replace('ё', 'е')
+                  if all(token in name for token in query['name']) and all(token in specs for token in query['specs']):
+                      matches.append({
+                          'id': product.get('id'),
+                          'name': product.get('name'),
+                          'specs': product.get('specs'),
+                          'directImage': product.get('directImage'),
+                          'images': product.get('images') or [],
+                      })
+              rows.append({'label': query['label'], 'matches': matches})
+
+          output = Path('data/marked-photo-products.json')
+          output.parent.mkdir(parents=True, exist_ok=True)
+          output.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Commit matches
+        shell: bash
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/marked-photo-products.json
+          git commit -m "Find exact products from marked photo examples"
+          git push origin "HEAD:${TARGET_BRANCH}"
