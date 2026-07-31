@@ -1,0 +1,157 @@
+name: Sync supplier main photos
+
+on:
+  push:
+    branches:
+      - agent/front-three-quarter-and-image-zoom
+    paths:
+      - "scripts/sync_supplier_main_photos.py"
+      - ".github/workflows/sync-supplier-main-photos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: supplier-main-photo-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/front-three-quarter-and-image-zoom
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install photo tools
+        run: python -m pip install --quiet pillow requests
+
+      - name: Synchronize supplier main photos
+        run: |
+          python scripts/sync_supplier_main_photos.py \
+            --index catalog-source.html \
+            --assets-dir assets/products \
+            --report data/supplier-main-photo-report.json \
+            --workers 6 \
+            --max-side 1800 \
+            --max-kb 520
+
+      - name: Validate catalog first photos
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          source=Path('catalog-source.html').read_text(encoding='utf-8')
+          marker='const PRODUCTS ='
+          start=source.index(marker)+len(marker)
+          while source[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(source[start:])
+          report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
+          resolved={int(row['product_id']) for row in report['results'] if row.get('selected_path')}
+          errors=[]
+          for product in products:
+              images=[value for value in product.get('images',[]) if isinstance(value,str) and value]
+              if not images:
+                  errors.append(f"{product.get('id')}: пустая галерея")
+                  continue
+              first=images[0].split('?',1)[0]
+              if not first.startswith('assets/interiors/') and not Path(first).is_file():
+                  errors.append(f"{product.get('id')}: отсутствует {first}")
+              direct=str(product.get('directImage') or '').split('?',1)[0]
+              if direct != first:
+                  errors.append(f"{product.get('id')}: directImage={direct}, first={first}")
+              if int(product.get('id',0)) in resolved and first.startswith('assets/interiors/'):
+                  errors.append(f"{product.get('id')}: интерьер ошибочно назначен первым")
+          if errors:
+              raise SystemExit('Проверка не пройдена:\n'+'\n'.join(errors[:100]))
+          print(f"Проверены {len(products)} карточки; основные фото определены для {len(resolved)}")
+          PY
+
+      - name: Build final visual review sheets
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+
+          source=Path('catalog-source.html').read_text(encoding='utf-8')
+          marker='const PRODUCTS ='
+          start=source.index(marker)+len(marker)
+          while source[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(source[start:])
+          by_id={int(product['id']):product for product in products}
+          report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
+          rows={int(row['product_id']):row for row in report['results']}
+          priority=[493,896,189,136,70,1477,33,656,843,1182,298,894,899,908,893,863,855,307]
+          selected=[]
+          for product_id in priority:
+              if product_id in by_id and product_id not in selected: selected.append(product_id)
+          unresolved=[int(row['product_id']) for row in report['results'] if not row.get('selected_path')]
+          for product_id in unresolved:
+              if product_id not in selected: selected.append(product_id)
+              if len(selected)>=48: break
+          changed=[int(row['product_id']) for row in report['results'] if row.get('selected_path')]
+          stride=max(1,len(changed)//40)
+          for product_id in changed[::stride]:
+              if product_id not in selected: selected.append(product_id)
+              if len(selected)>=72: break
+
+          out=Path('supplier-main-final-review'); out.mkdir(exist_ok=True)
+          font=ImageFont.load_default(); per_sheet=18; cell_w,cell_h=430,390
+          for sheet_index in range((len(selected)+per_sheet-1)//per_sheet):
+              chunk=selected[sheet_index*per_sheet:(sheet_index+1)*per_sheet]
+              sheet=Image.new('RGB',(cell_w*3,cell_h*6),'white')
+              draw=ImageDraw.Draw(sheet)
+              for index,product_id in enumerate(chunk):
+                  product=by_id[product_id]; row=rows.get(product_id,{})
+                  rr,cc=divmod(index,3); x0,y0=cc*cell_w,rr*cell_h
+                  draw.rectangle((x0,y0,x0+cell_w-1,y0+cell_h-1),outline='black',width=2)
+                  title=f"ID {product_id} {product.get('name','')}"[:66]
+                  status=f"{row.get('status','existing')} | {row.get('archive_name','')}"[:70]
+                  draw.text((x0+8,y0+7),title,fill='black',font=font)
+                  draw.text((x0+8,y0+25),status,fill='black',font=font)
+                  first=str(product['images'][0]).split('?',1)[0]
+                  path=Path(first)
+                  with Image.open(path) as image:
+                      image=image.convert('RGB')
+                      image.thumbnail((cell_w-24,cell_h-72),Image.Resampling.LANCZOS)
+                      sheet.paste(image,(x0+(cell_w-image.width)//2,y0+54+(cell_h-62-image.height)//2))
+              sheet.save(out/f'final-main-photo-sheet-{sheet_index+1}.jpg',quality=94)
+          Path(out/'summary.json').write_text(json.dumps({
+              key:report[key] for key in [
+                  'total_products','processed_products','resolved_products','changed_galleries',
+                  'matched_existing','added_new_main_files','unresolved_products'
+              ]
+          },ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+
+      - name: Upload final visual review
+        uses: actions/upload-artifact@v4
+        with:
+          name: supplier-main-final-review
+          path: supplier-main-final-review
+
+      - name: Commit synchronized photos
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/products catalog-source.html catalog-loader.js data/supplier-main-photo-report.json
+          if git diff --cached --quiet; then
+            echo "Supplier main photos are already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Use supplier main photos as catalog cover images"
+          git push origin HEAD:agent/front-three-quarter-and-image-zoom
