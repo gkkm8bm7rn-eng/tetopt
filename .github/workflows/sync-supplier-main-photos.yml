@@ -35,13 +35,24 @@ jobs:
           git show origin/main:catalog-source.html > catalog-source.html
           git show origin/main:catalog-loader.js > catalog-loader.js
 
-      - name: Rebuild and verify exact supplier map
+      - name: Build active-only supplier map
         shell: bash
         run: |
           cat data/supplier-good-id-parts/part-*.txt > data/supplier-good-ids.json
           python - <<'PY'
           import json
           from pathlib import Path
+
+          source=Path('catalog-source.html').read_text(encoding='utf-8')
+          marker='const PRODUCTS ='
+          start=source.index(marker)+len(marker)
+          while source[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(source[start:])
+          visible=[product for product in products if not product.get('excludedFromStore')]
+          archived=[product for product in products if product.get('excludedFromStore')]
+          if len(visible)!=1362 or len(archived)!=361:
+              raise SystemExit(f'Ожидалось 1362 активных и 361 архивный товар; получено {len(visible)} и {len(archived)}')
+
           path=Path('data/supplier-good-ids.json')
           mapping=json.loads(path.read_text(encoding='utf-8'))
           expected={
@@ -55,7 +66,13 @@ jobs:
           wrong={key:(mapping.get(key),value) for key,value in expected.items() if mapping.get(key)!=value}
           if wrong:
               raise SystemExit(f'Неверные контрольные supplier ID: {wrong}')
-          print('Точная таблица supplier ID проверена: 1723 записи')
+
+          active_ids={str(product['id']) for product in visible}
+          active_mapping={product_id:mapping[product_id] for product_id in active_ids}
+          if len(active_mapping)!=1362:
+              raise SystemExit(f'Активная таблица содержит {len(active_mapping)} записей вместо 1362')
+          path.write_text(json.dumps(active_mapping,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
+          print('Подготовлена активная таблица supplier ID: 1362 записи; архивные 361 исключены')
           PY
 
       - name: Set up Python
@@ -69,7 +86,7 @@ jobs:
       - name: Add click-to-zoom module
         run: python scripts/apply_storefront_enhancements.py
 
-      - name: Synchronize supplier main photos
+      - name: Synchronize active supplier main photos
         run: |
           python scripts/sync_supplier_main_photos_v2.py \
             --index catalog-source.html \
@@ -80,27 +97,71 @@ jobs:
             --max-side 1600 \
             --max-kb 320
 
-      - name: Validate catalog and zoom module
+      - name: Validate active catalog and archive isolation
         shell: bash
         run: |
           node --check image-zoom.js
           grep -q 'image-zoom.js?v=2' catalog-source.html
           python - <<'PY'
           import json
+          import re
+          import subprocess
           from pathlib import Path
 
-          source=Path('catalog-source.html').read_text(encoding='utf-8')
-          marker='const PRODUCTS ='
-          start=source.index(marker)+len(marker)
-          while source[start].isspace(): start+=1
-          products,_=json.JSONDecoder().raw_decode(source[start:])
+          def read_products(text):
+              marker='const PRODUCTS ='
+              start=text.index(marker)+len(marker)
+              while text[start].isspace(): start+=1
+              return json.JSONDecoder().raw_decode(text[start:])[0]
+
+          current=read_products(Path('catalog-source.html').read_text(encoding='utf-8'))
+          baseline_text=subprocess.run(
+              ['git','show','origin/main:catalog-source.html'],
+              check=True,capture_output=True,text=True,encoding='utf-8'
+          ).stdout
+          baseline=read_products(baseline_text)
+          visible=[product for product in current if not product.get('excludedFromStore')]
+          archived=[product for product in current if product.get('excludedFromStore')]
+          if len(visible)!=1362 or len(archived)!=361:
+              raise SystemExit(f'Неверный состав каталога: активных {len(visible)}, архивных {len(archived)}')
+
           report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
-          visible=[product for product in products if not product.get('excludedFromStore')]
+          if report.get('visible_products')!=1362 or report.get('processed_products')!=1362:
+              raise SystemExit(
+                  f"Отчёт должен содержать ровно 1362 активных товара: visible={report.get('visible_products')}, processed={report.get('processed_products')}"
+              )
+          visible_ids={int(product['id']) for product in visible}
+          result_ids={int(row['product_id']) for row in report.get('results',[])}
+          if result_ids!=visible_ids:
+              raise SystemExit(f'Набор обработанных ID не совпадает с 1362 активными товарами: разница {sorted(result_ids ^ visible_ids)[:20]}')
           minimum=max(1,int(len(visible)*0.80))
           if report['resolved_products'] < minimum:
-              raise SystemExit(f"Разрешено только {report['resolved_products']} из {len(visible)}; требуется минимум {minimum}")
+              raise SystemExit(f"Разрешено только {report['resolved_products']} из 1362; требуется минимум {minimum}")
+
+          baseline_by_id={int(product['id']):product for product in baseline}
+          archive_changes=[]
+          for product in archived:
+              product_id=int(product['id'])
+              if baseline_by_id.get(product_id)!=product:
+                  archive_changes.append(product_id)
+          if archive_changes:
+              raise SystemExit(f'Изменены архивные карточки: {archive_changes[:20]}')
+
+          changed_paths=subprocess.run(
+              ['git','diff','--name-only','origin/main','--'],
+              check=True,capture_output=True,text=True,encoding='utf-8'
+          ).stdout.splitlines()
+          archived_ids={int(product['id']) for product in archived}
+          changed_archive_assets=[]
+          for path in changed_paths:
+              match=re.match(r'assets/products/(\d+)/',path)
+              if match and int(match.group(1)) in archived_ids:
+                  changed_archive_assets.append(path)
+          if changed_archive_assets:
+              raise SystemExit('Изменены файлы архивных товаров:\n'+'\n'.join(changed_archive_assets[:50]))
+
           errors=[]
-          for product in products:
+          for product in visible:
               images=[value for value in product.get('images',[]) if isinstance(value,str) and value]
               if not images:
                   errors.append(f"{product.get('id')}: пустая галерея")
@@ -114,11 +175,11 @@ jobs:
               if first.startswith('assets/interiors/'):
                   errors.append(f"{product.get('id')}: интерьер назначен первым")
           if errors:
-              raise SystemExit('Проверка не пройдена:\n'+'\n'.join(errors[:100]))
-          print(f"Проверены {len(products)} карточки; официальное основное фото установлено для {report['resolved_products']} видимых товаров")
+              raise SystemExit('Проверка активного каталога не пройдена:\n'+'\n'.join(errors[:100]))
+          print(f"Проверены 1362 активных товара; 361 архивная позиция не изменена")
           PY
 
-      - name: Build final visual review sheets
+      - name: Build compact active-product review sheets
         shell: bash
         run: |
           python - <<'PY'
@@ -131,19 +192,20 @@ jobs:
           start=source.index(marker)+len(marker)
           while source[start].isspace(): start+=1
           products,_=json.JSONDecoder().raw_decode(source[start:])
-          by_id={int(product['id']):product for product in products}
+          visible=[product for product in products if not product.get('excludedFromStore')]
+          by_id={int(product['id']):product for product in visible}
           report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
           rows={int(row['product_id']):row for row in report['results']}
           priority=[493,896,189,136,70,1477,33,656,843,1182,298,894,899,908,893,863,855,307]
           resolved=[int(row['product_id']) for row in report['results'] if row.get('selected_path')]
           unresolved=[int(row['product_id']) for row in report['results'] if not row.get('selected_path')]
           selected=[]
-          for product_id in priority+unresolved[:18]:
+          for product_id in priority+unresolved[:12]:
               if product_id in by_id and product_id not in selected: selected.append(product_id)
-          stride=max(1,len(resolved)//54)
+          stride=max(1,len(resolved)//24)
           for product_id in resolved[::stride]:
               if product_id not in selected: selected.append(product_id)
-              if len(selected)>=72: break
+              if len(selected)>=36: break
 
           out=Path('supplier-main-final-review'); out.mkdir(exist_ok=True)
           font=ImageFont.load_default(); per_sheet=18; cell_w,cell_h=430,390
@@ -162,31 +224,35 @@ jobs:
                       image=image.convert('RGB')
                       image.thumbnail((cell_w-24,cell_h-72),Image.Resampling.LANCZOS)
                       sheet.paste(image,(x0+(cell_w-image.width)//2,y0+54+(cell_h-62-image.height)//2))
-              sheet.save(out/f'final-main-photo-sheet-{sheet_index+1}.jpg',quality=94)
-          Path(out/'summary.json').write_text(json.dumps({
-              key:report[key] for key in [
-                  'total_products','visible_products','processed_products','resolved_products',
-                  'changed_galleries','matched_existing','added_new_main_files','unresolved_products'
-              ]
-          },ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+              sheet.save(out/f'final-main-photo-sheet-{sheet_index+1}.jpg',quality=88,optimize=True)
+          summary={key:report[key] for key in [
+              'total_products','visible_products','processed_products','resolved_products',
+              'changed_galleries','matched_existing','added_new_main_files','unresolved_products'
+          ]}
+          summary['archived_products']=361
+          summary['archived_products_changed']=0
+          Path(out/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          Path('data/supplier-main-photo-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           PY
 
-      - name: Upload final visual review
+      - name: Upload short-lived visual review
         uses: actions/upload-artifact@v4
         with:
           name: supplier-main-final-review
           path: supplier-main-final-review
+          retention-days: 1
 
-      - name: Commit synchronized catalog
+      - name: Commit active-product changes only
         shell: bash
         run: |
           set -euo pipefail
-          git add assets/products catalog-source.html catalog-loader.js data/supplier-good-ids.json data/supplier-main-photo-report.json
+          rm -f data/supplier-good-ids.json data/supplier-main-photo-report.json
+          git add assets/products catalog-source.html catalog-loader.js data/supplier-main-photo-summary.json
           if git diff --cached --quiet; then
-            echo "Supplier main photos are already synchronized."
+            echo "Active supplier main photos are already synchronized."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Use supplier main photos as catalog cover images"
+          git commit -m "Use supplier main photos for 1362 active products"
           git push origin HEAD:agent/front-three-quarter-and-image-zoom
