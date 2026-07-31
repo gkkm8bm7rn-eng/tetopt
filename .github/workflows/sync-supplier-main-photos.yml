@@ -2,10 +2,12 @@ name: Sync supplier main photos
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - "scripts/sync_supplier_main_photos.py"
+      - "data/supplier-good-ids.json"
+      - "scripts/sync_supplier_main_photos_v2.py"
+      - "scripts/apply_storefront_enhancements.py"
+      - "image-zoom.js"
       - ".github/workflows/sync-supplier-main-photos.yml"
 
 permissions:
@@ -27,6 +29,12 @@ jobs:
           ref: agent/front-three-quarter-and-image-zoom
           fetch-depth: 0
 
+      - name: Restore trusted catalog order from main
+        shell: bash
+        run: |
+          git show origin/main:catalog-source.html > catalog-source.html
+          git show origin/main:catalog-loader.js > catalog-loader.js
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
@@ -35,19 +43,25 @@ jobs:
       - name: Install photo tools
         run: python -m pip install --quiet pillow requests
 
+      - name: Add click-to-zoom module
+        run: python scripts/apply_storefront_enhancements.py
+
       - name: Synchronize supplier main photos
         run: |
-          python scripts/sync_supplier_main_photos.py \
+          python scripts/sync_supplier_main_photos_v2.py \
             --index catalog-source.html \
+            --mapping data/supplier-good-ids.json \
             --assets-dir assets/products \
             --report data/supplier-main-photo-report.json \
-            --workers 6 \
-            --max-side 1800 \
-            --max-kb 520
+            --workers 4 \
+            --max-side 1600 \
+            --max-kb 320
 
-      - name: Validate catalog first photos
+      - name: Validate catalog and zoom module
         shell: bash
         run: |
+          node --check image-zoom.js
+          grep -q 'image-zoom.js?v=2' catalog-source.html
           python - <<'PY'
           import json
           from pathlib import Path
@@ -58,7 +72,10 @@ jobs:
           while source[start].isspace(): start+=1
           products,_=json.JSONDecoder().raw_decode(source[start:])
           report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
-          resolved={int(row['product_id']) for row in report['results'] if row.get('selected_path')}
+          visible=[product for product in products if not product.get('excludedFromStore')]
+          minimum=max(1,int(len(visible)*0.90))
+          if report['resolved_products'] < minimum:
+              raise SystemExit(f"Разрешено только {report['resolved_products']} из {len(visible)}; требуется минимум {minimum}")
           errors=[]
           for product in products:
               images=[value for value in product.get('images',[]) if isinstance(value,str) and value]
@@ -66,16 +83,16 @@ jobs:
                   errors.append(f"{product.get('id')}: пустая галерея")
                   continue
               first=images[0].split('?',1)[0]
-              if not first.startswith('assets/interiors/') and not Path(first).is_file():
+              if not Path(first).is_file():
                   errors.append(f"{product.get('id')}: отсутствует {first}")
               direct=str(product.get('directImage') or '').split('?',1)[0]
               if direct != first:
                   errors.append(f"{product.get('id')}: directImage={direct}, first={first}")
-              if int(product.get('id',0)) in resolved and first.startswith('assets/interiors/'):
-                  errors.append(f"{product.get('id')}: интерьер ошибочно назначен первым")
+              if first.startswith('assets/interiors/'):
+                  errors.append(f"{product.get('id')}: интерьер назначен первым")
           if errors:
               raise SystemExit('Проверка не пройдена:\n'+'\n'.join(errors[:100]))
-          print(f"Проверены {len(products)} карточки; основные фото определены для {len(resolved)}")
+          print(f"Проверены {len(products)} карточки; официальное основное фото установлено для {report['resolved_products']} видимых товаров")
           PY
 
       - name: Build final visual review sheets
@@ -95,16 +112,13 @@ jobs:
           report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
           rows={int(row['product_id']):row for row in report['results']}
           priority=[493,896,189,136,70,1477,33,656,843,1182,298,894,899,908,893,863,855,307]
-          selected=[]
-          for product_id in priority:
-              if product_id in by_id and product_id not in selected: selected.append(product_id)
+          resolved=[int(row['product_id']) for row in report['results'] if row.get('selected_path')]
           unresolved=[int(row['product_id']) for row in report['results'] if not row.get('selected_path')]
-          for product_id in unresolved:
-              if product_id not in selected: selected.append(product_id)
-              if len(selected)>=48: break
-          changed=[int(row['product_id']) for row in report['results'] if row.get('selected_path')]
-          stride=max(1,len(changed)//40)
-          for product_id in changed[::stride]:
+          selected=[]
+          for product_id in priority+unresolved[:18]:
+              if product_id in by_id and product_id not in selected: selected.append(product_id)
+          stride=max(1,len(resolved)//54)
+          for product_id in resolved[::stride]:
               if product_id not in selected: selected.append(product_id)
               if len(selected)>=72: break
 
@@ -118,12 +132,9 @@ jobs:
                   product=by_id[product_id]; row=rows.get(product_id,{})
                   rr,cc=divmod(index,3); x0,y0=cc*cell_w,rr*cell_h
                   draw.rectangle((x0,y0,x0+cell_w-1,y0+cell_h-1),outline='black',width=2)
-                  title=f"ID {product_id} {product.get('name','')}"[:66]
-                  status=f"{row.get('status','existing')} | {row.get('archive_name','')}"[:70]
-                  draw.text((x0+8,y0+7),title,fill='black',font=font)
-                  draw.text((x0+8,y0+25),status,fill='black',font=font)
-                  first=str(product['images'][0]).split('?',1)[0]
-                  path=Path(first)
+                  draw.text((x0+8,y0+7),f"ID {product_id} {product.get('name','')}"[:66],fill='black',font=font)
+                  draw.text((x0+8,y0+25),f"{row.get('status','existing')} | {row.get('archive_name','')}"[:70],fill='black',font=font)
+                  path=Path(str(product['images'][0]).split('?',1)[0])
                   with Image.open(path) as image:
                       image=image.convert('RGB')
                       image.thumbnail((cell_w-24,cell_h-72),Image.Resampling.LANCZOS)
@@ -131,8 +142,8 @@ jobs:
               sheet.save(out/f'final-main-photo-sheet-{sheet_index+1}.jpg',quality=94)
           Path(out/'summary.json').write_text(json.dumps({
               key:report[key] for key in [
-                  'total_products','processed_products','resolved_products','changed_galleries',
-                  'matched_existing','added_new_main_files','unresolved_products'
+                  'total_products','visible_products','processed_products','resolved_products',
+                  'changed_galleries','matched_existing','added_new_main_files','unresolved_products'
               ]
           },ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           PY
@@ -143,7 +154,7 @@ jobs:
           name: supplier-main-final-review
           path: supplier-main-final-review
 
-      - name: Commit synchronized photos
+      - name: Commit synchronized catalog
         shell: bash
         run: |
           set -euo pipefail
