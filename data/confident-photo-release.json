@@ -1,0 +1,242 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "published_products": 28,
+  "published_ids": [
+    1,
+    33,
+    70,
+    90,
+    136,
+    189,
+    240,
+    298,
+    307,
+    371,
+    443,
+    493,
+    497,
+    518,
+    647,
+    656,
+    815,
+    843,
+    863,
+    885,
+    893,
+    894,
+    896,
+    899,
+    908,
+    1143,
+    1182,
+    1477
+  ],
+  "copied_new_cover_files": 15,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "zoom_gallery": {
+    "click_to_open": true,
+    "swipe_left_right": true,
+    "arrow_buttons": true,
+    "keyboard_arrows": true
+  },
+  "products": [
+    {
+      "product_id": 1,
+      "name": "Вешалка Бара/Bara (мод.GH-8606)",
+      "cover": "assets/products/1/01.webp",
+      "gallery_size": 2,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 33,
+      "name": "Стол журнальный Гленд/Gland",
+      "cover": "assets/products/33/00-front.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 70,
+      "name": "Стол обеденный раздвижной Фокс/Fox",
+      "cover": "assets/products/70/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 90,
+      "name": "Стол обеденный раскладной Павильон/Pavillion",
+      "cover": "assets/products/90/00-main.webp",
+      "gallery_size": 3,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 136,
+      "name": "Стул полубарный Бари/Bari",
+      "cover": "assets/products/136/00-front.webp",
+      "gallery_size": 4,
+      "source": "manual_front_override"
+    },
+    {
+      "product_id": 189,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/2 шт. в упаковке",
+      "cover": "assets/products/189/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 240,
+      "name": "Стул Свиден/Sweden",
+      "cover": "assets/products/240/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 298,
+      "name": "Кресло Луц/Lutz",
+      "cover": "assets/products/298/00-front.webp",
+      "gallery_size": 4,
+      "source": "manual_front_override"
+    },
+    {
+      "product_id": 307,
+      "name": "Кресло Монклер/Moncler",
+      "cover": "assets/products/307/01.webp",
+      "gallery_size": 1,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 371,
+      "name": "Стул Бриз/Breeze (мод.JSC-58)/1 шт. в упаковке",
+      "cover": "assets/products/371/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 443,
+      "name": "Стул Чилли/Chilly (мод.JSC-220)",
+      "cover": "assets/products/443/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 493,
+      "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)",
+      "cover": "assets/products/493/00-front.webp",
+      "gallery_size": 4,
+      "source": "manual_front_override"
+    },
+    {
+      "product_id": 497,
+      "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)",
+      "cover": "assets/products/497/01.webp",
+      "gallery_size": 3,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 518,
+      "name": "Стул обеденный Асти/Asti (2шт.в упаковке)",
+      "cover": "assets/products/518/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 647,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)",
+      "cover": "assets/products/647/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 656,
+      "name": "Стул Чавари/Chavari (мод.101)",
+      "cover": "assets/products/656/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 815,
+      "name": "Стул складной Фолдер/Folder (мод.3017H)/2 шт. в упаковке",
+      "cover": "assets/products/815/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 843,
+      "name": "Диван Чарли Люкс/Charli Lux",
+      "cover": "assets/products/843/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 863,
+      "name": "Банкетка-обувница Чарли Люкс/Charli Lux",
+      "cover": "assets/products/863/00-front.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 885,
+      "name": "Кресло Клауд Хоум/Cloude Home",
+      "cover": "assets/products/885/01.webp",
+      "gallery_size": 3,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 893,
+      "name": "Кресло лаунж Агнет/Agnet",
+      "cover": "assets/products/893/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 894,
+      "name": "Кресло лаунж Осло/Oslo",
+      "cover": "assets/products/894/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 896,
+      "name": "Кресло лаунж Осло/Oslo",
+      "cover": "assets/products/896/00-main.webp",
+      "gallery_size": 5,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 899,
+      "name": "Кресло Рефлекс/Reflex с пуфом",
+      "cover": "assets/products/899/00-front.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 908,
+      "name": "Пуф Чарли Люкс/Charli Lux",
+      "cover": "assets/products/908/00-front.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 1143,
+      "name": "Кресло Комфи Бл/Comfy Bl",
+      "cover": "assets/products/1143/00-main.webp",
+      "gallery_size": 4,
+      "source": "visually_confirmed_supplier_main"
+    },
+    {
+      "product_id": 1182,
+      "name": "Кресло Нордик/Nordic",
+      "cover": "assets/products/1182/00-front.webp",
+      "gallery_size": 4,
+      "source": "manual_front_override"
+    },
+    {
+      "product_id": 1477,
+      "name": "Этажерка угловая Secret de Maison Селин/Celine",
+      "cover": "assets/products/1477/01.webp",
+      "gallery_size": 3,
+      "source": "visually_confirmed_supplier_main"
+    }
+  ]
+}
