@@ -1,0 +1,80 @@
+name: Extract primary photo candidates
+
+on:
+  push:
+    branches:
+      - agent/fix-primary-product-photos
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Extract selected product galleries
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          source_path = Path('catalog-source.html')
+          text = source_path.read_text(encoding='utf-8')
+          marker = '    const products = '
+          start = text.find(marker)
+          if start < 0:
+              raise SystemExit('products array marker not found')
+          value_start = start + len(marker)
+          end = text.find(';\n', value_start)
+          if end < 0:
+              raise SystemExit('products array end not found')
+          products = json.loads(text[value_start:end])
+
+          target_ids = [
+              493, 896, 189, 136, 70, 1477, 33, 656, 843, 1182,
+              310, 294, 307, 854, 306
+          ]
+          result = []
+          for product_id in target_ids:
+              if product_id < 1 or product_id > len(products):
+                  continue
+              p = products[product_id - 1]
+              local_dir = Path('assets/products') / str(product_id)
+              local_files = []
+              if local_dir.exists():
+                  local_files = [str(path).replace('\\', '/') for path in sorted(local_dir.iterdir()) if path.is_file()]
+              result.append({
+                  'id': product_id,
+                  'name': p.get('name'),
+                  'specs': p.get('specs'),
+                  'code': p.get('code'),
+                  'directImage': p.get('directImage'),
+                  'images': p.get('images') or [],
+                  'localFiles': local_files,
+              })
+
+          output = Path('data/primary-photo-candidates.json')
+          output.parent.mkdir(parents=True, exist_ok=True)
+          output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(f'Wrote {len(result)} products to {output}')
+          PY
+
+      - name: Commit extracted candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/primary-photo-candidates.json
+          git commit -m "Extract primary photo candidates"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
