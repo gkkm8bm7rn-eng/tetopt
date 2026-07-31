@@ -3,7 +3,7 @@ name: Apply exact Manzana 107
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
     paths:
       - data/run-apply-exact-manzana-107.trigger
 
