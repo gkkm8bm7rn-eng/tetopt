@@ -1,0 +1,105 @@
+name: Classify product photo angles
+
+on:
+  push:
+    branches:
+      - agent/fix-primary-product-photos
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Install free local vision model
+        run: python -m pip install --quiet pillow transformers torch torchvision
+
+      - name: Score front, side and rear views
+        shell: bash
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          from transformers import CLIPModel, CLIPProcessor
+          import json
+          import torch
+
+          TARGET_IDS = [
+              493, 896, 189, 136, 70, 1477, 33, 656, 843, 1182,
+              312, 1037, 1005, 893, 863, 855, 307, 897,
+          ]
+
+          prompts = [
+              'a product photo from the front three-quarter angle, clearly showing the seat and front surface',
+              'a product photo straight from the front, clearly showing the functional front surface',
+              'a product photo from the side profile',
+              'a product photo from the rear three-quarter angle, showing the back side',
+              'a product photo straight from the rear, showing the back side',
+              'a close-up detail photo instead of the complete product',
+          ]
+          labels = ['front_three_quarter', 'front', 'side', 'rear_three_quarter', 'rear', 'detail']
+
+          model_name = 'openai/clip-vit-base-patch32'
+          model = CLIPModel.from_pretrained(model_name)
+          processor = CLIPProcessor.from_pretrained(model_name)
+          model.eval()
+
+          rows = []
+          for product_id in TARGET_IDS:
+              candidates = []
+              for path in sorted((Path('assets/products') / str(product_id)).glob('*')):
+                  if not path.is_file():
+                      continue
+                  try:
+                      image = Image.open(path).convert('RGB')
+                  except Exception:
+                      continue
+                  inputs = processor(text=prompts, images=image, return_tensors='pt', padding=True)
+                  with torch.no_grad():
+                      logits = model(**inputs).logits_per_image[0]
+                      probabilities = logits.softmax(dim=0).tolist()
+                  scores = dict(zip(labels, probabilities))
+                  front_score = scores['front_three_quarter'] * 1.15 + scores['front']
+                  reject_score = scores['rear_three_quarter'] + scores['rear'] + scores['side'] * 0.65 + scores['detail']
+                  candidates.append({
+                      'path': str(path).replace('\\', '/'),
+                      'scores': {key: round(value, 6) for key, value in scores.items()},
+                      'frontScore': round(front_score, 6),
+                      'rejectScore': round(reject_score, 6),
+                      'commercialFrontScore': round(front_score - reject_score * 0.7, 6),
+                  })
+              candidates.sort(key=lambda item: item['commercialFrontScore'], reverse=True)
+              rows.append({'id': product_id, 'ranking': candidates})
+
+          output = Path('data/product-photo-angle-classification.json')
+          output.parent.mkdir(parents=True, exist_ok=True)
+          output.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Commit angle classification
+        shell: bash
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/product-photo-angle-classification.json
+          git commit -m "Classify catalog photo angles with local vision model"
+          git push origin "HEAD:${TARGET_BRANCH}"
