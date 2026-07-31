@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
 
-      - name: Extract selected product galleries
+      - name: Diagnose catalog and extract selected galleries
         shell: bash
         run: |
           python - <<'PY'
@@ -31,41 +31,138 @@ jobs:
 
           source_path = Path('catalog-source.html')
           text = source_path.read_text(encoding='utf-8')
-          match = re.search(r'const\s+products\s*=\s*', text)
-          if not match:
-              raise SystemExit('products array marker not found')
-          products, _ = json.JSONDecoder().raw_decode(text[match.end():])
-
-          target_ids = [
-              493, 896, 189, 136, 70, 1477, 33, 656, 843, 1182,
-              310, 294, 307, 854, 306
+          report = [
+              f'path={source_path}',
+              f'characters={len(text)}',
+              f'lines={text.count(chr(10)) + 1}',
+              '',
+              'FIRST_1200_CHARS:',
+              text[:1200],
+              '',
+              'LAST_1200_CHARS:',
+              text[-1200:],
+              '',
+              'SEARCH_TERMS:',
           ]
-          result = []
-          for product_id in target_ids:
-              if product_id < 1 or product_id > len(products):
-                  continue
-              p = products[product_id - 1]
-              local_dir = Path('assets/products') / str(product_id)
-              local_files = []
-              if local_dir.exists():
-                  local_files = [str(path).replace('\\', '/') for path in sorted(local_dir.iterdir()) if path.is_file()]
-              result.append({
-                  'id': product_id,
-                  'name': p.get('name'),
-                  'specs': p.get('specs'),
-                  'code': p.get('code'),
-                  'directImage': p.get('directImage'),
-                  'images': p.get('images') or [],
-                  'localFiles': local_files,
-              })
 
-          output = Path('data/primary-photo-candidates.json')
-          output.parent.mkdir(parents=True, exist_ok=True)
-          output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-          print(f'Wrote {len(result)} products to {output}')
+          for term in ['Амура', 'Amura', '26023', 'products', 'PRODUCTS', 'catalog', 'images', 'directImage']:
+              positions = [m.start() for m in re.finditer(re.escape(term), text, flags=re.IGNORECASE)][:10]
+              report.append(f'{term}: {positions}')
+              for pos in positions[:3]:
+                  report.append(text[max(0, pos - 180):min(len(text), pos + 420)].replace('\n', '\\n'))
+
+          assignment_pattern = re.compile(
+              r'(?:(?:const|let|var)\s+|window\.)?([A-Za-z_$][\w$]*)\s*=\s*(\[)',
+              flags=re.MULTILINE,
+          )
+          assignments = list(assignment_pattern.finditer(text))
+          report.extend(['', f'ARRAY_ASSIGNMENTS={len(assignments)}'])
+
+          decoder = json.JSONDecoder()
+          decoded_arrays = []
+          for match in assignments[:500]:
+              name = match.group(1)
+              start = match.start(2)
+              snippet = text[max(0, match.start() - 80):min(len(text), match.end() + 120)].replace('\n', '\\n')
+              try:
+                  value, consumed = decoder.raw_decode(text[start:])
+                  length = len(value) if isinstance(value, list) else None
+                  sample_keys = []
+                  if isinstance(value, list) and value and isinstance(value[0], dict):
+                      sample_keys = sorted(value[0].keys())[:30]
+                  report.append(
+                      f'name={name!r} pos={start} decoded={type(value).__name__} '
+                      f'length={length} consumed={consumed} sample_keys={sample_keys} snippet={snippet}'
+                  )
+                  if isinstance(value, list):
+                      decoded_arrays.append((name, start, value))
+              except Exception as exc:
+                  report.append(f'name={name!r} pos={start} decode_error={type(exc).__name__}: {exc} snippet={snippet}')
+
+          # Fallback: try JSON-looking arrays immediately before a known product token.
+          for token in ['26023', 'Амура', 'Amura']:
+              token_pos = text.lower().find(token.lower())
+              if token_pos < 0:
+                  continue
+              starts = [m.start() for m in re.finditer(r'\[', text[:token_pos])]
+              for start in reversed(starts[-200:]):
+                  try:
+                      value, consumed = decoder.raw_decode(text[start:])
+                  except Exception:
+                      continue
+                  if isinstance(value, list) and len(value) > 100:
+                      decoded_arrays.append((f'fallback_{token}', start, value))
+                      report.append(f'fallback token={token!r} pos={start} length={len(value)} consumed={consumed}')
+                      break
+
+          products = None
+          source_name = None
+          source_start = None
+          for name, start, value in sorted(decoded_arrays, key=lambda item: len(item[2]), reverse=True):
+              if len(value) < 100:
+                  continue
+              dict_items = [item for item in value[:50] if isinstance(item, dict)]
+              keys = set().union(*(item.keys() for item in dict_items)) if dict_items else set()
+              if {'name', 'images'} & keys or {'name', 'price'} <= keys or {'name', 'specs'} <= keys:
+                  products = value
+                  source_name = name
+                  source_start = start
+                  break
+
+          output_dir = Path('data')
+          output_dir.mkdir(parents=True, exist_ok=True)
+          diagnostics_path = output_dir / 'catalog-source-diagnostics.txt'
+
+          if products is None:
+              report.extend(['', 'PRODUCT_ARRAY_NOT_FOUND'])
+          else:
+              report.extend([
+                  '',
+                  f'PRODUCT_ARRAY_FOUND name={source_name!r} start={source_start} length={len(products)}',
+              ])
+              target_ids = [
+                  493, 896, 189, 136, 70, 1477, 33, 656, 843, 1182,
+                  310, 294, 307, 854, 306,
+              ]
+              result = []
+              for product_id in target_ids:
+                  if product_id < 1 or product_id > len(products):
+                      continue
+                  product = products[product_id - 1]
+                  if not isinstance(product, dict):
+                      continue
+                  local_dir = Path('assets/products') / str(product_id)
+                  local_files = []
+                  if local_dir.exists():
+                      local_files = [
+                          str(path).replace('\\', '/')
+                          for path in sorted(local_dir.iterdir())
+                          if path.is_file()
+                      ]
+                  result.append({
+                      'id': product_id,
+                      'name': product.get('name'),
+                      'specs': product.get('specs'),
+                      'code': product.get('code'),
+                      'image': product.get('image'),
+                      'directImage': product.get('directImage'),
+                      'images': product.get('images') or [],
+                      'photoBank': product.get('photoBank'),
+                      'productUrl': product.get('productUrl'),
+                      'localFiles': local_files,
+                  })
+              candidates_path = output_dir / 'primary-photo-candidates.json'
+              candidates_path.write_text(
+                  json.dumps(result, ensure_ascii=False, indent=2) + '\n',
+                  encoding='utf-8',
+              )
+              report.append(f'WROTE_CANDIDATES={len(result)} path={candidates_path}')
+
+          diagnostics_path.write_text('\n'.join(report) + '\n', encoding='utf-8')
+          print(f'Wrote diagnostics to {diagnostics_path}')
           PY
 
-      - name: Commit extracted candidates
+      - name: Commit diagnostics and candidates
         shell: bash
         env:
           TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
@@ -77,6 +174,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/primary-photo-candidates.json
-          git commit -m "Extract primary photo candidates"
+          git add data/catalog-source-diagnostics.txt data/primary-photo-candidates.json 2>/dev/null || true
+          git commit -m "Diagnose catalog source and extract photo candidates"
           git push origin "HEAD:${TARGET_BRANCH}"
