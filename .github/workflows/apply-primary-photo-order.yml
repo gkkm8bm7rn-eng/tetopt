@@ -1,0 +1,124 @@
+name: Apply primary photo order
+
+on:
+  push:
+    branches:
+      - agent/fix-primary-product-photos
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Apply verified first-photo order
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          # Only verified choices are applied. Rear and side views remain in the gallery,
+          # but are moved after the front or front-three-quarter view.
+          VERIFIED_ORDERS = {
+              493: [
+                  'assets/products/493/03.webp',
+                  'assets/products/493/02.webp',
+                  'assets/products/493/01.webp',
+              ],
+              136: [
+                  'assets/products/136/03.webp',
+                  'assets/products/136/02.webp',
+                  'assets/products/136/01.webp',
+              ],
+              656: [
+                  'assets/products/656/03.webp',
+                  'assets/products/656/02.webp',
+                  'assets/products/656/01.webp',
+              ],
+              1182: [
+                  'assets/products/1182/01.webp',
+                  'assets/products/1182/02.webp',
+                  'assets/products/1182/03.webp',
+              ],
+              843: [
+                  'assets/products/843/01.webp',
+                  'assets/products/843/02.webp',
+                  'assets/products/843/03.webp',
+              ],
+              189: [
+                  'assets/products/189/02.webp',
+                  'assets/products/189/01.webp',
+                  'assets/products/189/03.webp',
+              ],
+          }
+
+          source = Path('catalog-source.html')
+          text = source.read_text(encoding='utf-8')
+          marker = '    const PRODUCTS = '
+          start = text.find(marker)
+          if start < 0:
+              raise SystemExit('PRODUCTS marker not found')
+          value_start = start + len(marker)
+          end = text.find(';\n', value_start)
+          if end < 0:
+              raise SystemExit('PRODUCTS array end not found')
+
+          products = json.loads(text[value_start:end])
+          by_id = {int(product['id']): product for product in products}
+          audit = []
+
+          for product_id, verified_order in VERIFIED_ORDERS.items():
+              product = by_id.get(product_id)
+              if product is None:
+                  raise SystemExit(f'Product {product_id} not found')
+              before = [image for image in product.get('images', []) if image]
+              if set(before) != set(verified_order):
+                  raise SystemExit(
+                      f'Product {product_id} gallery changed unexpectedly: '
+                      f'before={before!r}, expected_set={verified_order!r}'
+                  )
+              product['images'] = verified_order
+              product['directImage'] = verified_order[0]
+              audit.append({
+                  'id': product_id,
+                  'name': product.get('name'),
+                  'before': before,
+                  'after': verified_order,
+                  'status': 'verified_front_first',
+              })
+
+          new_array = json.dumps(products, ensure_ascii=False, separators=(',', ':'))
+          source.write_text(text[:value_start] + new_array + text[end:], encoding='utf-8')
+
+          audit_path = Path('data/primary-photo-order-audit.json')
+          audit_path.parent.mkdir(parents=True, exist_ok=True)
+          audit_path.write_text(json.dumps(audit, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(f'Updated {len(audit)} product galleries')
+          PY
+
+      - name: Commit verified order
+        shell: bash
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-source.html data/primary-photo-order-audit.json
+          git commit -m "Put verified front views first for priority products"
+          git push origin "HEAD:${TARGET_BRANCH}"
