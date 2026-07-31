@@ -8,7 +8,7 @@
   ],
   "unresolvedIds": [],
   "assetVersion": "20260731-0731-b03-resolved",
-  "status": "resolved_pending_live_verification",
+  "status": "completed_final_verified",
   "updatedAt": "2026-07-31T07:31:39.493519+00:00",
   "products": [
     {
@@ -102,5 +102,10 @@
         }
       ]
     }
+  ],
+  "verifiedAt": "2026-07-31T07:39:31.998771+00:00",
+  "verifiedSites": [
+    "github-pages",
+    "cloudflare"
   ]
 }

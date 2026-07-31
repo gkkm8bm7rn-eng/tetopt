@@ -30,7 +30,7 @@
     90
   ],
   "assetVersion": "20260731-0730-b03-curated",
-  "status": "curated_with_unresolved",
+  "status": "completed_final_verified",
   "products": [
     {
       "id": 67,
@@ -293,5 +293,10 @@
       "removed": []
     }
   ],
-  "updatedAt": "2026-07-31T07:30:46.579551+00:00"
+  "updatedAt": "2026-07-31T07:30:46.579551+00:00",
+  "verifiedAt": "2026-07-31T07:39:31.998771+00:00",
+  "verifiedSites": [
+    "github-pages",
+    "cloudflare"
+  ]
 }
