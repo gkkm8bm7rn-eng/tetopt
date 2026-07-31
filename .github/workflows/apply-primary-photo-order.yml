@@ -28,39 +28,32 @@ jobs:
           from pathlib import Path
           import json
 
-          # Only verified choices are applied. Rear and side views remain in the gallery,
-          # but are moved after the front or front-three-quarter view.
+          # User-marked examples take priority over automated angle scoring.
+          # Rear and side views remain available, but never occupy the first slot.
           VERIFIED_ORDERS = {
-              493: [
-                  'assets/products/493/03.webp',
-                  'assets/products/493/02.webp',
-                  'assets/products/493/01.webp',
-              ],
-              136: [
-                  'assets/products/136/03.webp',
-                  'assets/products/136/02.webp',
-                  'assets/products/136/01.webp',
-              ],
-              656: [
-                  'assets/products/656/03.webp',
-                  'assets/products/656/02.webp',
-                  'assets/products/656/01.webp',
-              ],
-              1182: [
-                  'assets/products/1182/01.webp',
-                  'assets/products/1182/02.webp',
-                  'assets/products/1182/03.webp',
-              ],
-              843: [
-                  'assets/products/843/01.webp',
-                  'assets/products/843/02.webp',
-                  'assets/products/843/03.webp',
-              ],
-              189: [
-                  'assets/products/189/02.webp',
-                  'assets/products/189/01.webp',
-                  'assets/products/189/03.webp',
-              ],
+              # Priority products
+              493: ['assets/products/493/02.webp', 'assets/products/493/03.webp', 'assets/products/493/01.webp'],
+              896: ['assets/products/896/01.webp', 'assets/products/896/03.webp', 'assets/products/896/02.webp'],
+              189: ['assets/products/189/01.webp', 'assets/products/189/02.webp', 'assets/products/189/03.webp'],
+              136: ['assets/products/136/01.webp', 'assets/products/136/03.webp', 'assets/products/136/02.webp'],
+              70: ['assets/products/70/01.webp', 'assets/products/70/02.webp', 'assets/products/70/03.webp'],
+              1477: ['assets/products/1477/01.webp', 'assets/products/1477/03.webp', 'assets/products/1477/02.webp'],
+              33: ['assets/products/33/02.webp', 'assets/products/33/01.webp', 'assets/products/33/03.webp'],
+              656: ['assets/products/656/03.webp', 'assets/products/656/02.webp', 'assets/products/656/01.webp'],
+              843: ['assets/products/843/01.webp', 'assets/products/843/02.webp', 'assets/products/843/03.webp'],
+              1182: ['assets/products/1182/01.webp', 'assets/products/1182/02.webp', 'assets/products/1182/03.webp'],
+
+              # Exact products marked in the screenshots
+              312: ['assets/products/312/01.webp', 'assets/products/312/02.webp', 'assets/products/312/03.webp'],
+              1037: ['assets/products/1037/02.webp', 'assets/products/1037/03.webp', 'assets/products/1037/01.webp'],
+              1005: ['assets/products/1005/02.webp', 'assets/products/1005/03.webp', 'assets/products/1005/01.webp'],
+              893: ['assets/products/893/01.webp', 'assets/products/893/02.webp', 'assets/products/893/03.webp'],
+              863: ['assets/products/863/03.webp', 'assets/products/863/02.webp', 'assets/products/863/01.webp'],
+              855: ['assets/products/855/02.webp', 'assets/products/855/01.webp', 'assets/products/855/03.webp'],
+
+              # User-approved controls: preserve the checked first image
+              307: ['assets/products/307/03.webp', 'assets/products/307/02.webp', 'assets/products/307/01.webp'],
+              897: ['assets/products/897/01.webp', 'assets/products/897/03.webp', 'assets/products/897/02.webp'],
           }
 
           source = Path('catalog-source.html')
@@ -95,7 +88,8 @@ jobs:
                   'name': product.get('name'),
                   'before': before,
                   'after': verified_order,
-                  'status': 'verified_front_first',
+                  'firstImage': verified_order[0],
+                  'status': 'front_or_front_three_quarter_first',
               })
 
           new_array = json.dumps(products, ensure_ascii=False, separators=(',', ':'))
@@ -104,7 +98,7 @@ jobs:
           audit_path = Path('data/primary-photo-order-audit.json')
           audit_path.parent.mkdir(parents=True, exist_ok=True)
           audit_path.write_text(json.dumps(audit, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-          print(f'Updated {len(audit)} product galleries')
+          print(f'Updated and verified {len(audit)} product galleries')
           PY
 
       - name: Commit verified order
@@ -120,5 +114,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add catalog-source.html data/primary-photo-order-audit.json
-          git commit -m "Put verified front views first for priority products"
+          git commit -m "Put verified front views first for marked products"
           git push origin "HEAD:${TARGET_BRANCH}"
