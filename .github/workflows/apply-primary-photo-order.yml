@@ -31,7 +31,6 @@ jobs:
           # User-marked examples take priority over automated angle scoring.
           # Rear and side views remain available, but never occupy the first slot.
           VERIFIED_ORDERS = {
-              # Priority products
               493: ['assets/products/493/02.webp', 'assets/products/493/03.webp', 'assets/products/493/01.webp'],
               896: ['assets/products/896/01.webp', 'assets/products/896/03.webp', 'assets/products/896/02.webp'],
               189: ['assets/products/189/01.webp', 'assets/products/189/02.webp', 'assets/products/189/03.webp'],
@@ -42,16 +41,12 @@ jobs:
               656: ['assets/products/656/03.webp', 'assets/products/656/02.webp', 'assets/products/656/01.webp'],
               843: ['assets/products/843/01.webp', 'assets/products/843/02.webp', 'assets/products/843/03.webp'],
               1182: ['assets/products/1182/01.webp', 'assets/products/1182/02.webp', 'assets/products/1182/03.webp'],
-
-              # Exact products marked in the screenshots
               312: ['assets/products/312/01.webp', 'assets/products/312/02.webp', 'assets/products/312/03.webp'],
               1037: ['assets/products/1037/02.webp', 'assets/products/1037/03.webp', 'assets/products/1037/01.webp'],
               1005: ['assets/products/1005/02.webp', 'assets/products/1005/03.webp', 'assets/products/1005/01.webp'],
               893: ['assets/products/893/01.webp', 'assets/products/893/02.webp', 'assets/products/893/03.webp'],
               863: ['assets/products/863/03.webp', 'assets/products/863/02.webp', 'assets/products/863/01.webp'],
               855: ['assets/products/855/02.webp', 'assets/products/855/01.webp', 'assets/products/855/03.webp'],
-
-              # User-approved controls: preserve the checked first image
               307: ['assets/products/307/03.webp', 'assets/products/307/02.webp', 'assets/products/307/01.webp'],
               897: ['assets/products/897/01.webp', 'assets/products/897/03.webp', 'assets/products/897/02.webp'],
           }
@@ -115,4 +110,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add catalog-source.html data/primary-photo-order-audit.json
           git commit -m "Put verified front views first for marked products"
-          git push origin "HEAD:${TARGET_BRANCH}"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "${TARGET_BRANCH}"
+            git rebase "origin/${TARGET_BRANCH}"
+            if git push origin "HEAD:${TARGET_BRANCH}"; then
+              exit 0
+            fi
+            sleep $((attempt * 3))
+          done
+          echo "Could not push verified order after retries" >&2
+          exit 1
