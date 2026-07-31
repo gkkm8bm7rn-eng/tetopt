@@ -27,18 +27,14 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import json
+          import re
 
           source_path = Path('catalog-source.html')
           text = source_path.read_text(encoding='utf-8')
-          marker = '    const products = '
-          start = text.find(marker)
-          if start < 0:
+          match = re.search(r'const\s+products\s*=\s*', text)
+          if not match:
               raise SystemExit('products array marker not found')
-          value_start = start + len(marker)
-          end = text.find(';\n', value_start)
-          if end < 0:
-              raise SystemExit('products array end not found')
-          products = json.loads(text[value_start:end])
+          products, _ = json.JSONDecoder().raw_decode(text[match.end():])
 
           target_ids = [
               493, 896, 189, 136, 70, 1477, 33, 656, 843, 1182,
