@@ -1,0 +1,43 @@
+name: Audit next batch
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - data/run-next-batch-audit.trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-next-batch-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install audit dependencies
+        run: python -m pip install --disable-pip-version-check pillow numpy opencv-python-headless
+
+      - name: Select and audit next active batch
+        run: python scripts/run_next_batch_audit.py
+
+      - name: Commit audit evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data photo-processing-progress.json
+          git commit -m "Провести аудит следующей активной партии"
+          git push origin HEAD:${{ github.head_ref || github.ref_name }}
