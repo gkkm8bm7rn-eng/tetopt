@@ -3,6 +3,7 @@ name: Audit next batch
 on:
   workflow_dispatch:
   pull_request:
+    types: [opened, reopened]
     paths:
       - data/run-next-batch-audit.trigger
 
