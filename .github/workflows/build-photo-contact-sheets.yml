@@ -6,6 +6,9 @@ on:
       - agent/visually-fix-primary-photos
     paths-ignore:
       - 'data/photo-review/**'
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -86,7 +89,14 @@ jobs:
           (out_dir / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
           PY
 
+      - name: Upload contact sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: primary-photo-contact-sheets
+          path: data/photo-review
+
       - name: Commit contact sheets
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
