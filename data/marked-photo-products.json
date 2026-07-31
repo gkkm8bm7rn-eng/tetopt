@@ -1,0 +1,250 @@
+[
+  {
+    "label": "Murano beige",
+    "matches": [
+      {
+        "id": 312,
+        "name": "Кресло Мурано/Murano",
+        "specs": "опора 360, велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/312/03.webp",
+        "images": [
+          "assets/products/312/03.webp",
+          "assets/products/312/02.webp",
+          "assets/products/312/01.webp"
+        ]
+      },
+      {
+        "id": 314,
+        "name": "Кресло Мурано/Murano",
+        "specs": "опора 360, велюр/букле (HYP) /экокожа, бежевый/коричневый",
+        "directImage": "assets/products/314/02.webp",
+        "images": [
+          "assets/products/314/02.webp",
+          "assets/products/314/03.webp",
+          "assets/products/314/01.webp"
+        ]
+      },
+      {
+        "id": 318,
+        "name": "Кресло Мурано/Murano",
+        "specs": "опора 360, экокожа Модерн/букле, кремовый/бежевый, 13-02",
+        "directImage": "assets/products/318/01.webp",
+        "images": [
+          "assets/products/318/01.webp",
+          "assets/products/318/02.webp",
+          "assets/products/318/03.webp"
+        ]
+      },
+      {
+        "id": 1037,
+        "name": "Кресло Мурано/Murano хром",
+        "specs": "велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/1037/01.webp",
+        "images": [
+          "assets/products/1037/01.webp",
+          "assets/products/1037/02.webp",
+          "assets/products/1037/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Murano chrome beige",
+    "matches": [
+      {
+        "id": 1037,
+        "name": "Кресло Мурано/Murano хром",
+        "specs": "велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/1037/01.webp",
+        "images": [
+          "assets/products/1037/01.webp",
+          "assets/products/1037/02.webp",
+          "assets/products/1037/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Fluffy beige",
+    "matches": [
+      {
+        "id": 288,
+        "name": "Кресло Флаффи/Fluffy",
+        "specs": "опора 360, вельвет, бежевый",
+        "directImage": "assets/products/288/01.webp",
+        "images": [
+          "assets/products/288/01.webp",
+          "assets/products/288/02.webp",
+          "assets/products/288/03.webp"
+        ]
+      },
+      {
+        "id": 293,
+        "name": "Кресло Флаффи/Fluffy",
+        "specs": "опора 360 Д40, вельвет, бежевый",
+        "directImage": "assets/products/293/01.webp",
+        "images": [
+          "assets/products/293/01.webp",
+          "assets/products/293/02.webp",
+          "assets/products/293/03.webp"
+        ]
+      },
+      {
+        "id": 294,
+        "name": "Кресло Флаффи/Fluffy",
+        "specs": "крестовина 64см, вельвет, бежевый",
+        "directImage": "assets/products/294/01.webp",
+        "images": [
+          "assets/products/294/01.webp",
+          "assets/products/294/02.webp",
+          "assets/products/294/03.webp"
+        ]
+      },
+      {
+        "id": 1005,
+        "name": "Кресло Флаффи/Fluffy",
+        "specs": "велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/1005/01.webp",
+        "images": [
+          "assets/products/1005/01.webp",
+          "assets/products/1005/02.webp",
+          "assets/products/1005/03.webp"
+        ]
+      },
+      {
+        "id": 1009,
+        "name": "Кресло Флаффи/Fluffy",
+        "specs": "вельвет, бежевый",
+        "directImage": "assets/products/1009/01.webp",
+        "images": [
+          "assets/products/1009/01.webp",
+          "assets/products/1009/02.webp",
+          "assets/products/1009/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Agnet light beige natural",
+    "matches": [
+      {
+        "id": 893,
+        "name": "Кресло лаунж Агнет/Agnet",
+        "specs": "букле/металл, светло-бежевый/натуральный",
+        "directImage": "assets/products/893/03.webp",
+        "images": [
+          "assets/products/893/03.webp",
+          "assets/products/893/02.webp",
+          "assets/products/893/01.webp"
+        ]
+      },
+      {
+        "id": 907,
+        "name": "Кресло-качалка лаунж Агнет/Agnet",
+        "specs": "букле/металл/бук, светло-бежевый/черный/натуральный",
+        "directImage": "assets/products/907/02.webp",
+        "images": [
+          "assets/products/907/02.webp",
+          "assets/products/907/01.webp",
+          "assets/products/907/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Charli Lux bench cacao",
+    "matches": [
+      {
+        "id": 863,
+        "name": "Банкетка-обувница Чарли Люкс/Charli Lux",
+        "specs": "велюр/букле, vt шейп какао",
+        "directImage": "assets/products/863/01.webp",
+        "images": [
+          "assets/products/863/01.webp",
+          "assets/products/863/02.webp",
+          "assets/products/863/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Cosmo beige",
+    "matches": [
+      {
+        "id": 855,
+        "name": "Кресло лаунж Космо/Cosmo",
+        "specs": "велюр/букле, vt шейп бежевый",
+        "directImage": "assets/products/855/03.webp",
+        "images": [
+          "assets/products/855/03.webp",
+          "assets/products/855/01.webp",
+          "assets/products/855/02.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Moncler beige",
+    "matches": [
+      {
+        "id": 307,
+        "name": "Кресло Монклер/Moncler",
+        "specs": "опора 360, велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/307/03.webp",
+        "images": [
+          "assets/products/307/03.webp",
+          "assets/products/307/02.webp",
+          "assets/products/307/01.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Relax ottoman beige",
+    "matches": [
+      {
+        "id": 897,
+        "name": "Кресло Релакс/Relax с пуфом",
+        "specs": "велюр/букле (HYP), бежевый",
+        "directImage": "assets/products/897/01.webp",
+        "images": [
+          "assets/products/897/01.webp",
+          "assets/products/897/03.webp",
+          "assets/products/897/02.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Charli Lux sofa beige",
+    "matches": [
+      {
+        "id": 843,
+        "name": "Диван Чарли Люкс/Charli Lux",
+        "specs": "металл белый, букле, бежевый",
+        "directImage": "assets/products/843/01.webp",
+        "images": [
+          "assets/products/843/01.webp",
+          "assets/products/843/02.webp",
+          "assets/products/843/03.webp"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Nordic black",
+    "matches": [
+      {
+        "id": 1182,
+        "name": "Кресло Нордик/Nordic",
+        "specs": "сетка/кож.зам, черный",
+        "directImage": "assets/products/1182/01.webp",
+        "images": [
+          "assets/products/1182/01.webp",
+          "assets/products/1182/02.webp",
+          "assets/products/1182/03.webp"
+        ]
+      }
+    ]
+  }
+]
