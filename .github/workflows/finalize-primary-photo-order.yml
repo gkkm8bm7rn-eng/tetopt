@@ -1,0 +1,127 @@
+name: Finalize primary photo order
+
+on:
+  push:
+    branches:
+      - agent/fix-primary-product-photos
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout working branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/fix-primary-product-photos
+          fetch-depth: 0
+
+      - name: Wait for diagnostic jobs and sync branch
+        shell: bash
+        run: |
+          sleep 90
+          git pull --rebase origin agent/fix-primary-product-photos
+
+      - name: Validate order, refresh cache and remove temporary files
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          expected = {
+              493: 'assets/products/493/02.webp',
+              896: 'assets/products/896/01.webp',
+              189: 'assets/products/189/01.webp',
+              136: 'assets/products/136/01.webp',
+              70: 'assets/products/70/01.webp',
+              1477: 'assets/products/1477/01.webp',
+              33: 'assets/products/33/02.webp',
+              656: 'assets/products/656/03.webp',
+              843: 'assets/products/843/01.webp',
+              1182: 'assets/products/1182/01.webp',
+              312: 'assets/products/312/01.webp',
+              1037: 'assets/products/1037/02.webp',
+              1005: 'assets/products/1005/02.webp',
+              893: 'assets/products/893/01.webp',
+              863: 'assets/products/863/03.webp',
+              855: 'assets/products/855/02.webp',
+              307: 'assets/products/307/03.webp',
+              897: 'assets/products/897/01.webp',
+          }
+
+          source = Path('catalog-source.html')
+          text = source.read_text(encoding='utf-8')
+          marker = '    const PRODUCTS = '
+          start = text.find(marker)
+          value_start = start + len(marker)
+          end = text.find(';\n', value_start)
+          products = json.loads(text[value_start:end])
+          by_id = {int(product['id']): product for product in products}
+
+          for product_id, first_image in expected.items():
+              product = by_id.get(product_id)
+              if product is None:
+                  raise SystemExit(f'Product {product_id} missing')
+              images = [image for image in product.get('images', []) if image]
+              if not images or images[0] != first_image:
+                  raise SystemExit(f'Product {product_id} first image mismatch: {images[:1]} != {first_image}')
+              if product.get('directImage') != first_image:
+                  raise SystemExit(f'Product {product_id} directImage mismatch')
+
+          loader = Path('catalog-loader.js')
+          loader_text = loader.read_text(encoding='utf-8')
+          loader_text = loader_text.replace(
+              'const assetVersion="20260731-0916-b04-manzana-exact";',
+              'const assetVersion="20260731-primary-photo-order-v1";'
+          )
+          if '20260731-primary-photo-order-v1' not in loader_text:
+              raise SystemExit('Asset version replacement failed')
+          loader.write_text(loader_text, encoding='utf-8')
+
+          index = Path('index.html')
+          index_text = index.read_text(encoding='utf-8')
+          index_text = index_text.replace('catalog-loader.js?v=19', 'catalog-loader.js?v=20')
+          if 'catalog-loader.js?v=20' not in index_text:
+              raise SystemExit('Catalog loader version replacement failed')
+          index.write_text(index_text, encoding='utf-8')
+          PY
+
+          rm -f \
+            .github/workflows/apply-primary-photo-order.yml \
+            .github/workflows/classify-product-photo-angles.yml \
+            .github/workflows/compare-front-photo-hashes.yml \
+            .github/workflows/compare-primary-photo-hashes.yml \
+            .github/workflows/extract-primary-photo-candidates.yml \
+            .github/workflows/find-marked-photo-products.yml \
+            .github/workflows/finalize-primary-photo-order.yml \
+            data/catalog-source-diagnostics.txt \
+            data/primary-photo-candidates.json \
+            data/primary-photo-hash-comparison.json \
+            data/front-photo-hash-comparison.json \
+            data/marked-photo-products.json \
+            data/product-photo-angle-classification.json
+
+      - name: Commit clean final change set
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No final changes."
+            exit 0
+          fi
+          git commit -m "Finalize verified first photos and clear diagnostics"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin agent/fix-primary-product-photos
+            git rebase origin/agent/fix-primary-product-photos
+            if git push origin HEAD:agent/fix-primary-product-photos; then
+              exit 0
+            fi
+            sleep $((attempt * 3))
+          done
+          exit 1
