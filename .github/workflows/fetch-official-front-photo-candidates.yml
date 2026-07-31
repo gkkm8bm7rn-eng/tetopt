@@ -1,0 +1,176 @@
+name: Fetch official front photo candidates
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/visually-fix-primary-photos
+
+      - name: Install image and HTML tools
+        run: python -m pip install --quiet pillow requests beautifulsoup4
+
+      - name: Download official candidates and build contact sheets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import urljoin, urlparse
+          from bs4 import BeautifulSoup
+          from PIL import Image, ImageDraw, ImageFont
+          import hashlib, io, json, re, requests, zipfile
+
+          ITEMS = [
+            (298, 'Луц — серый', 'https://tetchair.ru/products/kreslo-lutz-luts-opora-360-velyur-bukle-vt-shape-silver.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25405&page=1'),
+            (894, 'Осло — серый', 'https://tetchair.ru/products/kreslo-launzh-oslo-velyur-bukle-vt-shape-silver.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25433&page=1'),
+            (899, 'Рефлекс с пуфом — светло-серый', 'https://tetchair.ru/products/kreslo-launzh-reflex-reflex-velyur-bukle-hyp-svetlo-seryy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25506&page=1'),
+            (908, 'Пуф Чарли Люкс — серый', 'https://tetchair.ru/products/puf-charli-lux-charli-lyux-velyur-bukle-vt-shape-silver.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25118&page=1'),
+            (893, 'Агнет — светло-бежевый', 'https://tetchair.ru/products/kreslo-launzh-agnet-agnet-bukle-metall-svetlo-bezhevyy-natural-noe-derevo-76h80h98-sm.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25718&page=1'),
+            (863, 'Банкетка Чарли Люкс — какао', 'https://tetchair.ru/products/banketka-obuvnitsa-charli-lux-charli-lyux-velyur-bukle-vt-shape-wood-rose.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25122&page=1'),
+            (855, 'Космо — бежевый', 'https://tetchair.ru/products/kreslo-launzh-cosmo-velyur-bukle-vt-shape-latte.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25273&page=1'),
+            (307, 'Монклер — бежевый', 'https://tetchair.ru/products/kreslo-moncler-monkler-opora-360-velyur-bukle-hyp-bezhevyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25707&page=1'),
+            (33, 'Гленд — черный', 'https://tetchair.ru/products/stolik-zhurnal-nyy-gland-metall-40-40-45sm-chernyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=19252&page=1'),
+            (656, 'Чавари — золотой', 'https://tetchair.ru/products/stul-chavari-mod-101-plastik-40-5-h-49-h-88-5-sm-golden-zolotoy-.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=20437&page=1'),
+            (843, 'Диван Чарли Люкс — бежевый', 'https://tetchair.ru/products/divan-charli-lux-charli-lyux-metall-belyy-bukle-bezhevyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25842&page=1'),
+            (1182, 'Нордик — черный', 'https://tetchair.ru/products/kreslo-nordic-hh-6008-kozhzam-chernyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25661&page=1'),
+            (493, 'Амура — бежевый', 'https://tetchair.ru/products/stul-obedennyy-amura-amura-2-sht-v-upakovke-bukle-bezhevyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=26023&page=1'),
+            (896, 'Осло — горчичный', 'https://tetchair.ru/products/kreslo-launzh-oslo-velyur-bukle-vt-shape-amber.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25435&page=1'),
+            (189, 'Синди Софт — бежевый', 'https://tetchair.ru/products/stul-cindy-soft-mod-c1021f1-1-2-sht-v-upakovke-fakturnyy-velyur-derevo-buk-55-h-48-h-83-sm-bezhevyy-ly1701-4-natural-nyy.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=24554&page=1'),
+            (136, 'Бари полубарный — бежевый', 'https://tetchair.ru/products/polubarnyy-stul-bari-bari-velyur-bezhevyy-7-42h55h99-sm.html', 'https://tetchair.ru/about/foto/?catalog_id=&good_id=24914&page=1'),
+          ]
+
+          session = requests.Session()
+          session.headers.update({'User-Agent': 'Mozilla/5.0 photo-review/1.0'})
+          root = Path('official-photo-review')
+          root.mkdir(exist_ok=True)
+          font = ImageFont.load_default()
+          manifest = []
+
+          def safe_name(value):
+              return re.sub(r'[^A-Za-z0-9._-]+', '_', value)[:100]
+
+          def discover_urls(page_url):
+              response = session.get(page_url, timeout=30)
+              response.raise_for_status()
+              text = response.text
+              soup = BeautifulSoup(text, 'html.parser')
+              found = []
+              attrs = ['src','href','data-src','data-original','data-lazy','data-zoom-image','data-large-image','data-image','content']
+              for tag in soup.find_all(True):
+                  for attr in attrs:
+                      value = tag.get(attr)
+                      if not value or not isinstance(value, str):
+                          continue
+                      for part in re.split(r'\s*,\s*|\s+', value.strip()):
+                          if not part or part.startswith('data:'):
+                              continue
+                          found.append(urljoin(page_url, part))
+              for match in re.findall(r'https?://[^\"\'<>\s]+', text):
+                  found.append(match.replace('\\/','/'))
+              result = []
+              seen = set()
+              for url in found:
+                  url = url.strip('"\'(),;')
+                  if url in seen:
+                      continue
+                  seen.add(url)
+                  lower = url.lower().split('?')[0]
+                  if lower.endswith(('.jpg','.jpeg','.png','.webp','.zip')):
+                      result.append(url)
+              return result
+
+          def add_image_bytes(bucket, content, source_url, label):
+              digest = hashlib.sha256(content).hexdigest()
+              if digest in bucket:
+                  return
+              try:
+                  with Image.open(io.BytesIO(content)) as im:
+                      im.verify()
+                  bucket[digest] = {'bytes': content, 'source': source_url, 'label': label}
+              except Exception:
+                  pass
+
+          for product_id, title, product_url, photo_url in ITEMS:
+              bucket = {}
+              errors = []
+              urls = []
+              for page in [product_url, photo_url]:
+                  try:
+                      urls.extend(discover_urls(page))
+                  except Exception as exc:
+                      errors.append(f'{page}: {type(exc).__name__}: {exc}')
+              urls = list(dict.fromkeys(urls))
+              for url in urls[:120]:
+                  try:
+                      response = session.get(url, timeout=40)
+                      response.raise_for_status()
+                      ctype = response.headers.get('content-type','').lower()
+                      if 'zip' in ctype or url.lower().split('?')[0].endswith('.zip'):
+                          with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+                              for name in archive.namelist():
+                                  if name.lower().endswith(('.jpg','.jpeg','.png','.webp')):
+                                      add_image_bytes(bucket, archive.read(name), url, f'zip:{name}')
+                      elif 'image/' in ctype or url.lower().split('?')[0].endswith(('.jpg','.jpeg','.png','.webp')):
+                          add_image_bytes(bucket, response.content, url, Path(urlparse(url).path).name)
+                  except Exception as exc:
+                      errors.append(f'{url}: {type(exc).__name__}: {exc}')
+
+              items = list(bucket.values())
+              # Prefer larger product photographs and reject tiny icons.
+              enriched = []
+              for item in items:
+                  try:
+                      with Image.open(io.BytesIO(item['bytes'])) as im:
+                          w, h = im.size
+                      if w < 300 or h < 300:
+                          continue
+                      enriched.append((w*h, w, h, item))
+                  except Exception:
+                      continue
+              enriched.sort(key=lambda row: row[0], reverse=True)
+              enriched = enriched[:24]
+
+              cols = 4
+              cell = 280
+              label_h = 46
+              rows = max(1, (len(enriched)+cols-1)//cols)
+              sheet = Image.new('RGB', (cols*cell, 40+rows*(cell+label_h)), 'white')
+              draw = ImageDraw.Draw(sheet)
+              draw.text((10,10), f'ID {product_id} — {title} — candidates: {len(enriched)}', fill='black', font=font)
+              record = {'id': product_id, 'title': title, 'productUrl': product_url, 'photoBank': photo_url, 'candidates': [], 'errors': errors[:30]}
+              for index, (_, w, h, item) in enumerate(enriched):
+                  row, col = divmod(index, cols)
+                  x0 = col*cell
+                  y0 = 40 + row*(cell+label_h)
+                  with Image.open(io.BytesIO(item['bytes'])) as im:
+                      im = im.convert('RGB')
+                      im.thumbnail((cell-18, cell-18), Image.Resampling.LANCZOS)
+                      sheet.paste(im, (x0+(cell-im.width)//2, y0+(cell-im.height)//2))
+                  draw.rectangle((x0,y0,x0+cell-1,y0+cell+label_h-1), outline='black', width=1)
+                  draw.text((x0+5,y0+cell+4), f'{index+1:02d} {w}x{h} {item["label"][:28]}', fill='black', font=font)
+                  ext = '.jpg'
+                  out_name = f'{index+1:02d}{ext}'
+                  (root / f'{product_id}-{out_name}').write_bytes(item['bytes'])
+                  record['candidates'].append({'index': index+1, 'file': f'{product_id}-{out_name}', 'width': w, 'height': h, 'source': item['source'], 'label': item['label']})
+              sheet.save(root / f'{product_id}-contact-sheet.jpg', quality=90)
+              manifest.append(record)
+
+          (root/'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+          PY
+
+      - name: Upload official candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-front-photo-candidates
+          path: official-photo-review
