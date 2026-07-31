@@ -1,0 +1,156 @@
+{
+  "batch": 4,
+  "selectedAt": "2026-07-31T07:50:07.509424+00:00",
+  "activeTarget": 1362,
+  "completedBefore": 60,
+  "ids": [
+    97,
+    99,
+    100,
+    101,
+    102,
+    103,
+    107,
+    114,
+    116,
+    118,
+    119,
+    120,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129
+  ],
+  "products": [
+    {
+      "id": 97,
+      "name": "Стол Соната Люкс/Sonata Lux, 75х75х75см",
+      "category": "Столы",
+      "collection": "ДЕЛЬФИЙСКАЯ (обеденная группа)"
+    },
+    {
+      "id": 99,
+      "name": "Стол Соната Люкс/Sonata Lux, 75х75х75см",
+      "category": "Столы",
+      "collection": "ДЕЛЬФИЙСКАЯ (обеденная группа)"
+    },
+    {
+      "id": 100,
+      "name": "Стол Бертоя/Bertoia (мод.GT21)",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 101,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 102,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 103,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 107,
+      "name": "Стол обеденный Манзана/Manzana",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 114,
+      "name": "Стол обеденный раздвижной Виго/Vigo",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 116,
+      "name": "Стол обеденный Остин/Austen 120х80х75см",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 118,
+      "name": "Стол обеденный Балморал/Balmoral 120-160x80x75см",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 119,
+      "name": "Стол обеденный Балморал/Balmoral 120-160x80x75см",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 120,
+      "name": "Стол обеденный Биркхолл/Birkhall",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 122,
+      "name": "Стол обеденный Винстон/Winston",
+      "category": "Столы",
+      "collection": "MODERN (обеденная группа)"
+    },
+    {
+      "id": 123,
+      "name": "Стул барный Бари/Bari",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 124,
+      "name": "Стул барный Бари/Bari",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 125,
+      "name": "Стул барный Бари/Bari",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 126,
+      "name": "Стул барный Бари/Bari",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 127,
+      "name": "Стул барный Медео/Medeo",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 128,
+      "name": "Стул барный Медео/Medeo",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    },
+    {
+      "id": 129,
+      "name": "Стул барный Медео/Medeo",
+      "category": "Кресла и стулья",
+      "collection": "Modern РФ/Модерн РФ (обеденная группа)"
+    }
+  ],
+  "auditJson": "data/photo-audit-batch-04.json",
+  "auditText": "data/photo-audit-batch-04.txt",
+  "manualReviewIds": [
+    107
+  ],
+  "status": "audit_completed_pending_curation"
+}
