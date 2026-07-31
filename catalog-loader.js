@@ -1,7 +1,7 @@
 (async()=>{
   try{
     const version=Date.now();
-    const assetVersion="20260731-0731-b03-resolved";
+    const assetVersion="20260731-1131-b04-commercial-rank";
     const withAssetVersion=url=>{
       if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
       const hashIndex=url.indexOf("#");
@@ -43,6 +43,117 @@
     const verifiedInteriorImages=new Map([]);
     const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
 
+    // Первые позиции зафиксированы по результатам анализа спроса для Авито.
+    const priorityProductIds=[493,896,189,136,70,1477,33,656,843,1182];
+    const priorityOrder=new Map(priorityProductIds.map((id,index)=>[id,index]));
+    const categoryBaseScore=new Map([
+      ["Кресла и стулья",34],
+      ["Столы",32],
+      ["Хранение",30],
+      ["Диваны",28],
+      ["Комплекты",25],
+      ["Декор",19],
+      ["Вешалки",17],
+      ["Спальня",16],
+      ["Ротанг",14],
+      ["Другое",11],
+      ["Комплектующие",7]
+    ]);
+
+    function productSearchText(product){
+      return `${product.name||""} ${product.specs||""} ${product.collection||""} ${product.category||""}`
+        .toLowerCase()
+        .replace(/ё/g,"е");
+    }
+
+    function commercialScore(product){
+      const text=productSearchText(product);
+      let score=categoryBaseScore.get(product.category)||10;
+      const signals=[
+        ["букле",18],["фактурн",8],["велюр",7],["вельвет",6],["ротанг",6],["керамик",8],
+        ["массив",5],["дерево",3],["металл",2],["раздвиж",15],["расклад",13],["трансформ",12],
+        ["углов",8],["этажерк",10],["стеллаж",9],["комод",7],["обувниц",9],["банкетк",8],
+        ["полубарн",10],["барный стул",8],["комплект",7],["набор столик",7],["журнальн",8],
+        ["лаунж",9],["пуф",6],["кресло",6],["стул",4],["стол",4],
+        ["бежев",6],["серый",4],["натуральн",5],["черный",4],["оливков",4],["горчич",4],["мрамор",7]
+      ];
+      signals.forEach(([signal,points])=>{if(text.includes(signal))score+=points});
+
+      if(text.includes("2 шт. в упаковке")||text.includes("2шт.в упаковке")||text.includes("4шт. в упаковке"))score+=5;
+      if(text.includes("1 шт. в упаковке")||text.includes("1шт.в упаковке"))score+=2;
+
+      const wholesale=Number(product.wholesalePrice||0);
+      if(wholesale>=2500&&wholesale<=12000)score+=18;
+      else if(wholesale>12000&&wholesale<=25000)score+=12;
+      else if(wholesale>=1200&&wholesale<2500)score+=10;
+      else if(wholesale>25000&&wholesale<=45000)score+=4;
+      else if(wholesale>100000)score-=30;
+      else if(wholesale>60000)score-=18;
+      else if(wholesale>45000)score-=8;
+      else if(wholesale>0&&wholesale<1200)score+=3;
+      else score-=8;
+
+      const retail=Number(product.retailPrice||0);
+      if(wholesale&&retail){
+        const ratio=retail/wholesale;
+        if(ratio>=1.48)score+=6;
+        else if(ratio>=1.38)score+=4;
+        else if(ratio>=1.28)score+=2;
+      }
+
+      const penalties=[
+        ["подстолье",-12],["матрас для",-10],["надстройка",-12],["комплектующие",-8],
+        ["шкафы для книг (набор 3",-18],["300-350-400",-22],["кровать",-6],["стол туалетный",-4]
+      ];
+      penalties.forEach(([signal,points])=>{if(text.includes(signal))score+=points});
+
+      const images=Array.isArray(product.images)?product.images.filter(Boolean):[];
+      score+=Math.min(images.length,3)*2;
+      if(product.directImage)score+=2;
+      return score;
+    }
+
+    function productFamilyKey(product){
+      return String(product.name||"")
+        .toLowerCase()
+        .replace(/ё/g,"е")
+        .replace(/\/\s*\d+\s*шт\.?\s*в упаковке/gi,"")
+        .replace(/\(\d+\s*шт\.?\s*в упаковке\)/gi,"")
+        .replace(/\([^)]*мод\.[^)]*\)/gi,"")
+        .replace(/\s+/g," ")
+        .trim()
+        .replace(/[ /]+$/g,"");
+    }
+
+    function rankVisibleProducts(products){
+      const pinned=products
+        .filter(product=>priorityOrder.has(Number(product.id)))
+        .sort((a,b)=>priorityOrder.get(Number(a.id))-priorityOrder.get(Number(b.id)));
+      const regular=products
+        .filter(product=>!priorityOrder.has(Number(product.id)))
+        .map((product,index)=>({product,index,baseScore:commercialScore(product),adjustedScore:0}));
+
+      regular.sort((a,b)=>b.baseScore-a.baseScore||a.index-b.index);
+      const familyCounts=new Map();
+      const categoryCounts=new Map();
+      pinned.forEach(product=>{
+        const family=productFamilyKey(product);
+        familyCounts.set(family,(familyCounts.get(family)||0)+1);
+        categoryCounts.set(product.category,(categoryCounts.get(product.category)||0)+1);
+      });
+      regular.forEach(entry=>{
+        const family=productFamilyKey(entry.product);
+        const familyPosition=familyCounts.get(family)||0;
+        familyCounts.set(family,familyPosition+1);
+        const category=entry.product.category||"";
+        const categoryPosition=categoryCounts.get(category)||0;
+        categoryCounts.set(category,categoryPosition+1);
+        entry.adjustedScore=entry.baseScore-familyPosition*16-Math.floor(categoryPosition/6)*3;
+      });
+      regular.sort((a,b)=>b.adjustedScore-a.adjustedScore||b.baseScore-a.baseScore||a.index-b.index);
+      return [...pinned,...regular.map(entry=>entry.product)];
+    }
+
     const products=readConstArray("PRODUCTS").map(product=>{
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
       // Порядок в product.images меняется только после завершения всей партии и двойной проверки сайта.
@@ -56,7 +167,7 @@
         directImage:images[0]||withAssetVersion(product.directImage)||null
       };
     });
-    const visibleProducts=products.filter(product=>!hiddenIds.has(Number(product.id)));
+    const visibleProducts=rankVisibleProducts(products.filter(product=>!hiddenIds.has(Number(product.id))));
     const matchedHiddenCount=products.length-visibleProducts.length;
     if(matchedHiddenCount!==hiddenIds.size){
       console.warn(`Скрыто ${matchedHiddenCount} из ${hiddenIds.size} указанных товаров`);
