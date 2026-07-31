@@ -93,8 +93,15 @@ jobs:
           (root/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           PY
 
-      - name: Upload official photo archives
+      - name: Keep only lightweight review files
+        shell: bash
+        run: |
+          find official-zip-photo-review -type f \
+            ! -name '*-contact-sheet.jpg' \
+            ! -name 'manifest.json' -delete
+
+      - name: Upload official photo contact sheets
         uses: actions/upload-artifact@v4
         with:
-          name: official-product-photo-archives
+          name: official-product-photo-contact-sheets
           path: official-zip-photo-review
