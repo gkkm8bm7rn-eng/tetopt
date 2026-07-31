@@ -3,9 +3,10 @@
 
 The source catalog intentionally no longer contains supplier URLs, therefore
 `data/supplier-good-ids.json` is used to map stable catalog IDs to TetChair
-`good_id` values. Only visible products are processed. Existing gallery images
-are preserved; an official main image is reused when it already exists locally,
-or saved as an optimized `00-main.webp` otherwise.
+`good_id` values. The mapping is an active-only allowlist prepared from
+`hidden-products.json`; products absent from it are never downloaded or changed.
+Existing gallery images are preserved; an official main image is reused when it
+already exists locally, or saved as an optimized `00-main.webp` otherwise.
 """
 from __future__ import annotations
 
@@ -288,12 +289,17 @@ def main() -> int:
     mapping = json.loads(mapping_path.read_text(encoding="utf-8"))
     if not isinstance(mapping, dict):
         raise ValueError("supplier-good-ids.json должен быть объектом ID → good_id")
+    if len(mapping) != 1362:
+        raise ValueError(f"Активная таблица должна содержать 1362 ID, получено {len(mapping)}")
 
     html, products, start, end = read_products(index_path)
-    visible = [product for product in products if not product.get("excludedFromStore")]
-    missing_mapping = [int(product["id"]) for product in visible if str(product["id"]) not in mapping]
-    if missing_mapping:
-        raise ValueError(f"Нет good_id для видимых товаров: {missing_mapping[:20]}")
+    catalog_ids = {str(product["id"]) for product in products}
+    unknown_mapping = sorted(set(mapping) - catalog_ids, key=int)
+    if unknown_mapping:
+        raise ValueError(f"В активной таблице есть неизвестные ID: {unknown_mapping[:20]}")
+    visible = [product for product in products if str(product["id"]) in mapping]
+    if len(visible) != 1362:
+        raise ValueError(f"В каталоге найдено {len(visible)} активных товаров вместо 1362")
 
     assets_dir = Path(args.assets_dir)
     results: list[SyncResult] = []
@@ -345,8 +351,8 @@ def main() -> int:
 
     results.sort(key=lambda item: item.product_id)
     report = {
-        "version": 2,
-        "rule": "supplier_designated_main_photo_first",
+        "version": 3,
+        "rule": "supplier_designated_main_photo_first_active_only",
         "total_products": len(products),
         "visible_products": len(visible),
         "processed_products": len(results),
