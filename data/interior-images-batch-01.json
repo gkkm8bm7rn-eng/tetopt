@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "createdAt": "2026-07-31",
+  "purpose": "Гиперреалистичные интерьерные изображения для десяти приоритетных товаров каталога",
+  "publicationPolicy": {
+    "publishAutomatically": false,
+    "realProductPhotoMustRemainFirst": true,
+    "interiorImagePosition": 2,
+    "requireManualModelMatch": true,
+    "rejectOnGeometryMismatch": true,
+    "rejectOnMaterialMismatch": true,
+    "rejectOnColorMismatch": true,
+    "rejectOnScaleMismatch": true
+  },
+  "generationProfile": {
+    "aspectRatio": "1:1",
+    "targetSize": "1600x1600",
+    "targetFormat": "webp",
+    "style": "гиперреалистичная профессиональная интерьерная фотосъемка",
+    "camera": "50 мм, естественная перспектива, без широкоугольных искажений",
+    "lighting": "мягкий естественный дневной свет",
+    "rule": "изменять только фон, освещение и окружение; конструкцию товара не изменять"
+  },
+  "products": [
+    {
+      "rank": 1,
+      "id": 493,
+      "name": "Стул Амура / Amura — бежевое букле",
+      "sourceDirectory": "assets/products/493/",
+      "outputPath": "assets/interiors/493.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 2,
+      "id": 896,
+      "name": "Кресло лаунж Осло / Oslo — горчичное букле",
+      "sourceDirectory": "assets/products/896/",
+      "outputPath": "assets/interiors/896.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 3,
+      "id": 189,
+      "name": "Стул Синди Софт / Cindy Soft — бежевый фактурный велюр",
+      "sourceDirectory": "assets/products/189/",
+      "outputPath": "assets/interiors/189.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 4,
+      "id": 136,
+      "name": "Стул полубарный Бари / Bari — бежевый велюр",
+      "sourceDirectory": "assets/products/136/",
+      "outputPath": "assets/interiors/136.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 5,
+      "id": 70,
+      "name": "Стол раздвижной Фокс / Fox — черно-белый мрамор",
+      "sourceDirectory": "assets/products/70/",
+      "outputPath": "assets/interiors/70.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 6,
+      "id": 1477,
+      "name": "Этажерка угловая Селин / Celine — черная",
+      "sourceDirectory": "assets/products/1477/",
+      "outputPath": "assets/interiors/1477.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 7,
+      "id": 33,
+      "name": "Стол журнальный Гленд / Gland — черный",
+      "sourceDirectory": "assets/products/33/",
+      "outputPath": "assets/interiors/33.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 8,
+      "id": 656,
+      "name": "Стул Чавари / Chavari — золотой",
+      "sourceDirectory": "assets/products/656/",
+      "outputPath": "assets/interiors/656.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 9,
+      "id": 843,
+      "name": "Диван Чарли Люкс / Charli Lux — бежевое букле",
+      "sourceDirectory": "assets/products/843/",
+      "outputPath": "assets/interiors/843.webp",
+      "status": "ready_for_generation"
+    },
+    {
+      "rank": 10,
+      "id": 1182,
+      "name": "Кресло Нордик / Nordic — черное",
+      "sourceDirectory": "assets/products/1182/",
+      "outputPath": "assets/interiors/1182.webp",
+      "status": "ready_for_generation"
+    }
+  ]
+}
