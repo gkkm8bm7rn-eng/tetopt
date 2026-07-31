@@ -1,0 +1,94 @@
+name: Verify final catalog first photos
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/visually-fix-primary-photos
+
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+
+      - name: Build contact sheets from actual catalog first images
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          import json
+
+          TARGET_IDS = [298,894,899,908,893,863,855,307,33,656,843,1182,493,896,189,136]
+          source = Path('catalog-source.html').read_text(encoding='utf-8')
+          marker = '    const PRODUCTS = '
+          start = source.find(marker)
+          value_start = start + len(marker)
+          end = source.find(';\n', value_start)
+          products = json.loads(source[value_start:end])
+          by_id = {int(product['id']): product for product in products}
+
+          out = Path('final-primary-photo-review')
+          out.mkdir(exist_ok=True)
+          font = ImageFont.load_default()
+          records = []
+
+          for sheet_index in range(2):
+            ids = TARGET_IDS[sheet_index*8:(sheet_index+1)*8]
+            cell_w, cell_h = 620, 480
+            sheet = Image.new('RGB', (cell_w*2, cell_h*4), 'white')
+            draw = ImageDraw.Draw(sheet)
+            for index, product_id in enumerate(ids):
+              product = by_id[product_id]
+              images = [value for value in product.get('images', []) if value]
+              if not images:
+                raise SystemExit(f'Product {product_id} has no images')
+              first = images[0].split('?',1)[0]
+              path = Path(first)
+              if not path.is_file():
+                raise SystemExit(f'First image missing for {product_id}: {first}')
+              row, col = divmod(index, 2)
+              x0, y0 = col*cell_w, row*cell_h
+              draw.rectangle((x0,y0,x0+cell_w-1,y0+cell_h-1), outline='black', width=2)
+              draw.text((x0+10,y0+8), f'ID {product_id}: {product.get("name")}', fill='black', font=font)
+              draw.text((x0+10,y0+28), f'FIRST: {first}', fill='black', font=font)
+              with Image.open(path) as image:
+                image = image.convert('RGB')
+                original_size = image.size
+                image.thumbnail((cell_w-30, cell_h-75), Image.Resampling.LANCZOS)
+                x = x0 + (cell_w-image.width)//2
+                y = y0 + 58 + (cell_h-70-image.height)//2
+                sheet.paste(image, (x,y))
+              records.append({
+                'id': product_id,
+                'name': product.get('name'),
+                'firstImage': first,
+                'directImage': product.get('directImage'),
+                'originalSize': list(original_size),
+                'galleryCount': len(images),
+                'directMatchesFirst': str(product.get('directImage','')).split('?',1)[0] == first,
+              })
+            sheet.save(out / f'final-first-photos-{sheet_index+1}.jpg', quality=94)
+
+          if len(records) != len(TARGET_IDS):
+            raise SystemExit('Not all target products were verified')
+          if not all(row['directMatchesFirst'] for row in records):
+            raise SystemExit('directImage differs from images[0]')
+          (out/'verification.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(f'Verified {len(records)} actual catalog first images')
+          PY
+
+      - name: Upload final verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-catalog-first-photo-review
+          path: final-primary-photo-review
