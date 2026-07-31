@@ -29,39 +29,28 @@
     88,
     90
   ],
-  "assetVersion": "20260731-0722-b03-curated",
+  "assetVersion": "20260731-0730-b03-curated",
   "status": "curated_with_unresolved",
   "products": [
     {
       "id": 67,
       "name": "Стол обеденный Клеар/Claire квадратный",
       "before": [
-        "assets/products/67/01.webp",
-        "assets/products/67/02.webp",
-        "assets/products/67/03.webp"
+        "assets/products/67/01.webp"
       ],
       "after": [
         "assets/products/67/01.webp"
       ],
       "recommendedFirst": "assets/products/67/01.webp",
-      "confidence": 0.706,
-      "removed": [
-        {
-          "path": "assets/products/67/02.webp",
-          "reason": "too_blurry"
-        },
-        {
-          "path": "assets/products/67/03.webp",
-          "reason": "too_blurry"
-        }
-      ]
+      "confidence": 1.0,
+      "removed": []
     },
     {
       "id": 69,
       "name": "Стол обеденный раздвижной Фокс/Fox",
       "before": [
-        "assets/products/69/03.webp",
         "assets/products/69/02.webp",
+        "assets/products/69/03.webp",
         "assets/products/69/01.webp"
       ],
       "after": [
@@ -77,9 +66,9 @@
       "id": 70,
       "name": "Стол обеденный раздвижной Фокс/Fox",
       "before": [
+        "assets/products/70/02.webp",
         "assets/products/70/03.webp",
-        "assets/products/70/01.webp",
-        "assets/products/70/02.webp"
+        "assets/products/70/01.webp"
       ],
       "after": [
         "assets/products/70/02.webp",
@@ -94,8 +83,8 @@
       "id": 71,
       "name": "Стол обеденный раздвижной Гент/Gent",
       "before": [
-        "assets/products/71/03.webp",
         "assets/products/71/01.webp",
+        "assets/products/71/03.webp",
         "assets/products/71/02.webp"
       ],
       "after": [
@@ -111,8 +100,8 @@
       "id": 72,
       "name": "Стол обеденный раздвижной Гент/Gent",
       "before": [
-        "assets/products/72/03.webp",
         "assets/products/72/02.webp",
+        "assets/products/72/03.webp",
         "assets/products/72/01.webp"
       ],
       "after": [
@@ -146,8 +135,7 @@
       "name": "Стол обеденный Макс/Max",
       "before": [
         "assets/products/74/01.webp",
-        "assets/products/74/02.webp",
-        "assets/products/74/03.webp"
+        "assets/products/74/02.webp"
       ],
       "after": [
         "assets/products/74/01.webp",
@@ -155,20 +143,14 @@
       ],
       "recommendedFirst": "assets/products/74/01.webp",
       "confidence": 0.958,
-      "removed": [
-        {
-          "path": "assets/products/74/03.webp",
-          "reason": "cropped_or_detail"
-        }
-      ]
+      "removed": []
     },
     {
       "id": 75,
       "name": "Стол обеденный Макс/Max",
       "before": [
         "assets/products/75/01.webp",
-        "assets/products/75/02.webp",
-        "assets/products/75/03.webp"
+        "assets/products/75/02.webp"
       ],
       "after": [
         "assets/products/75/01.webp",
@@ -176,19 +158,14 @@
       ],
       "recommendedFirst": "assets/products/75/01.webp",
       "confidence": 0.903,
-      "removed": [
-        {
-          "path": "assets/products/75/03.webp",
-          "reason": "cropped_or_detail"
-        }
-      ]
+      "removed": []
     },
     {
       "id": 77,
       "name": "Стол обеденный раздвижной Смарт/Smart",
       "before": [
-        "assets/products/77/03.webp",
         "assets/products/77/02.webp",
+        "assets/products/77/03.webp",
         "assets/products/77/01.webp"
       ],
       "after": [
@@ -204,8 +181,8 @@
       "id": 78,
       "name": "Стол обеденный раздвижной Смарт/Smart",
       "before": [
-        "assets/products/78/03.webp",
         "assets/products/78/02.webp",
+        "assets/products/78/03.webp",
         "assets/products/78/01.webp"
       ],
       "after": [
@@ -239,8 +216,7 @@
       "name": "Стол обеденный раздвижной Свелто/Svelto",
       "before": [
         "assets/products/80/02.webp",
-        "assets/products/80/01.webp",
-        "assets/products/80/03.webp"
+        "assets/products/80/01.webp"
       ],
       "after": [
         "assets/products/80/02.webp",
@@ -248,12 +224,7 @@
       ],
       "recommendedFirst": "assets/products/80/02.webp",
       "confidence": 0.852,
-      "removed": [
-        {
-          "path": "assets/products/80/03.webp",
-          "reason": "cropped_or_detail"
-        }
-      ]
+      "removed": []
     },
     {
       "id": 89,
@@ -293,8 +264,8 @@
       "id": 93,
       "name": "Стол раздвижной Соната Люкс/Sonata Lux, 120(150)х75х75см",
       "before": [
-        "assets/products/93/03.webp",
         "assets/products/93/01.webp",
+        "assets/products/93/03.webp",
         "assets/products/93/02.webp"
       ],
       "after": [
@@ -310,9 +281,8 @@
       "id": 94,
       "name": "Стол Соната Люкс/Sonata Lux, 120х75х75см",
       "before": [
-        "assets/products/94/02.webp",
         "assets/products/94/01.webp",
-        "assets/products/94/03.webp"
+        "assets/products/94/02.webp"
       ],
       "after": [
         "assets/products/94/01.webp",
@@ -320,13 +290,8 @@
       ],
       "recommendedFirst": "assets/products/94/01.webp",
       "confidence": 0.894,
-      "removed": [
-        {
-          "path": "assets/products/94/03.webp",
-          "reason": "cropped_or_detail"
-        }
-      ]
+      "removed": []
     }
   ],
-  "updatedAt": "2026-07-31T07:22:47.932159+00:00"
+  "updatedAt": "2026-07-31T07:30:46.579551+00:00"
 }
