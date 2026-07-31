@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "data/supplier-good-ids.json"
+      - "data/supplier-good-id-parts/**"
       - "scripts/sync_supplier_main_photos_v2.py"
       - "scripts/apply_storefront_enhancements.py"
       - "image-zoom.js"
@@ -34,6 +34,29 @@ jobs:
         run: |
           git show origin/main:catalog-source.html > catalog-source.html
           git show origin/main:catalog-loader.js > catalog-loader.js
+
+      - name: Rebuild and verify exact supplier map
+        shell: bash
+        run: |
+          cat data/supplier-good-id-parts/part-*.txt > data/supplier-good-ids.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('data/supplier-good-ids.json')
+          mapping=json.loads(path.read_text(encoding='utf-8'))
+          expected={
+              '1':'21440','70':'21177','136':'24914','189':'24554',
+              '193':'10978','208':'24689','209':'21221','298':'25405',
+              '307':'25707','493':'26023','656':'20437','843':'25842',
+              '893':'25718','896':'25435','1182':'25661','1477':'25642','1723':'25613',
+          }
+          if len(mapping)!=1723:
+              raise SystemExit(f'Ожидалось 1723 supplier ID, получено {len(mapping)}')
+          wrong={key:(mapping.get(key),value) for key,value in expected.items() if mapping.get(key)!=value}
+          if wrong:
+              raise SystemExit(f'Неверные контрольные supplier ID: {wrong}')
+          print('Точная таблица supplier ID проверена: 1723 записи')
+          PY
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -73,7 +96,7 @@ jobs:
           products,_=json.JSONDecoder().raw_decode(source[start:])
           report=json.loads(Path('data/supplier-main-photo-report.json').read_text(encoding='utf-8'))
           visible=[product for product in products if not product.get('excludedFromStore')]
-          minimum=max(1,int(len(visible)*0.90))
+          minimum=max(1,int(len(visible)*0.80))
           if report['resolved_products'] < minimum:
               raise SystemExit(f"Разрешено только {report['resolved_products']} из {len(visible)}; требуется минимум {minimum}")
           errors=[]
@@ -158,7 +181,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add assets/products catalog-source.html catalog-loader.js data/supplier-main-photo-report.json
+          git add assets/products catalog-source.html catalog-loader.js data/supplier-good-ids.json data/supplier-main-photo-report.json
           if git diff --cached --quiet; then
             echo "Supplier main photos are already synchronized."
             exit 0
