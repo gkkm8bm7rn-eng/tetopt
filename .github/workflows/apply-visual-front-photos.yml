@@ -1,9 +1,9 @@
 name: Apply visually verified front photos
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/visually-fix-primary-photos
+      - main
 
 permissions:
   contents: write
@@ -31,7 +31,6 @@ jobs:
           from PIL import Image
           import imagehash, io, json, re, requests, zipfile
 
-          # Each filename was chosen by visual inspection of the complete official TetChair archive.
           SELECTED = {
             298:  (25405, 'Доп.фото 5.jpg'),
             894:  (25433, 'Доп.фото 5.jpg'),
@@ -117,7 +116,6 @@ jobs:
             primary = str(primary_path).replace('\\', '/')
             before = [image for image in product.get('images', []) if image]
 
-            # Moncler had two unrelated images in its local gallery; keep only the verified model photo.
             if product_id == 307:
               after = [primary]
             else:
