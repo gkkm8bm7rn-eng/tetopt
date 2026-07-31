@@ -1,0 +1,82 @@
+name: Discover official photo ZIP links
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: agent/visually-fix-primary-photos
+
+      - name: Install parser
+        run: python -m pip install --quiet requests beautifulsoup4
+
+      - name: Discover ZIP and image links
+        shell: bash
+        run: |
+          python - <<'PY'
+          from bs4 import BeautifulSoup
+          from urllib.parse import urljoin
+          from pathlib import Path
+          import json, re, requests
+
+          pages = {
+            298: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25405&page=1',
+            894: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25433&page=1',
+            899: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25506&page=1',
+            908: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25118&page=1',
+            893: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25718&page=1',
+            863: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25122&page=1',
+            855: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25273&page=1',
+            307: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25707&page=1',
+            33: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=19252&page=1',
+            656: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=20437&page=1',
+            843: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25842&page=1',
+            1182: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25661&page=1',
+            493: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=26023&page=1',
+            896: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=25435&page=1',
+            189: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=24554&page=1',
+            136: 'https://tetchair.ru/about/foto/?catalog_id=&good_id=24914&page=1',
+          }
+          s=requests.Session(); s.headers['User-Agent']='Mozilla/5.0'
+          result=[]
+          for product_id,url in pages.items():
+            row={'id':product_id,'page':url,'status':None,'links':[],'error':None}
+            try:
+              r=s.get(url,timeout=20); row['status']=r.status_code; r.raise_for_status()
+              soup=BeautifulSoup(r.text,'html.parser')
+              links=[]
+              for tag in soup.find_all(['a','img','source']):
+                for attr in ['href','src','data-src','data-original','data-file']:
+                  value=tag.get(attr)
+                  if value:
+                    links.append(urljoin(url,value))
+              links += [m.replace('\\/','/') for m in re.findall(r'https?://[^\"\'<>\s]+',r.text)]
+              seen=[]
+              for link in links:
+                clean=link.strip('"\'(),;')
+                low=clean.lower()
+                if any(token in low for token in ['.zip','.jpg','.jpeg','.png','.webp','download','foto','photo']):
+                  if clean not in seen: seen.append(clean)
+              row['links']=seen[:200]
+            except Exception as e:
+              row['error']=f'{type(e).__name__}: {e}'
+            result.append(row)
+          out=Path('official-photo-links.json')
+          out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+
+      - name: Upload link manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-photo-links
+          path: official-photo-links.json
