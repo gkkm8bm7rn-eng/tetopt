@@ -3,6 +3,7 @@ name: Inspect current unresolved sources
 on:
   workflow_dispatch:
   pull_request:
+    types: [opened, reopened]
     paths:
       - data/run-inspect-current-unresolved.trigger
 
