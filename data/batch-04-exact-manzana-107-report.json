@@ -1,0 +1,75 @@
+{
+  "batch": 4,
+  "id": 107,
+  "supplierCode": 19729,
+  "officialVariant": "ЛДСП/HPL/металл, 100-130х100х75см, мрамор светлый/белый",
+  "archiveBytes": 7007116,
+  "before": {
+    "images": [
+      "assets/products/107/01.webp",
+      "assets/products/107/03.webp",
+      "assets/products/107/02.webp"
+    ],
+    "directImage": "assets/products/107/01.webp",
+    "specs": "ЛДСП/HPL/металл, 80х80х75см, мрамор светлый/белый"
+  },
+  "selected": [
+    {
+      "slot": 1,
+      "path": "assets/products/107/01.webp",
+      "sourceMember": "Основное фото.jpg",
+      "sourceSize": [
+        4500,
+        4500
+      ],
+      "sourceBytes": 367005,
+      "wholeObjectScore": 96.83,
+      "sharpness": 12.44,
+      "publishedSize": [
+        1800,
+        1800
+      ],
+      "publishedBytes": 49810,
+      "sha256": "d06f710a7b29e69ea2c2cb75f38ff3b0b6a10668839fb36eefbf32b59ce402f1"
+    },
+    {
+      "slot": 2,
+      "path": "assets/products/107/02.webp",
+      "sourceMember": "Доп.фото 7.jpg",
+      "sourceSize": [
+        4500,
+        4500
+      ],
+      "sourceBytes": 1098229,
+      "wholeObjectScore": -27.0,
+      "sharpness": 23.1,
+      "publishedSize": [
+        1800,
+        1800
+      ],
+      "publishedBytes": 195998,
+      "sha256": "d27e90cc4f0a29c7a45838e817a78364703c48029f9758cefa45652d88805ddd"
+    },
+    {
+      "slot": 3,
+      "path": "assets/products/107/03.webp",
+      "sourceMember": "Доп.фото 8.jpg",
+      "sourceSize": [
+        4500,
+        4500
+      ],
+      "sourceBytes": 916833,
+      "wholeObjectScore": -29.43,
+      "sharpness": 12.16,
+      "publishedSize": [
+        1800,
+        1800
+      ],
+      "publishedBytes": 150652,
+      "sha256": "25729c3b6d79275187b2606618e073f7a48080bfc55c6fc266dbcba8fbed691d"
+    }
+  ],
+  "assetVersion": "20260731-0759-b04-manzana-exact",
+  "status": "exact_supplier_photos_applied_pending_curation",
+  "updatedAt": "2026-07-31T07:59:53.624144+00:00"
+}
