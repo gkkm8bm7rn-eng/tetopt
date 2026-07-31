@@ -1,0 +1,351 @@
+[
+  {
+    "id": 298,
+    "name": "Кресло Луц/Lutz",
+    "specs": "опора 360, велюр/букле, vt шейп серый",
+    "officialCode": 25405,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/298/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 64,
+    "before": [
+      "assets/products/298/03.webp",
+      "assets/products/298/02.webp",
+      "assets/products/298/01.webp"
+    ],
+    "after": [
+      "assets/products/298/00-front.webp",
+      "assets/products/298/03.webp",
+      "assets/products/298/02.webp",
+      "assets/products/298/01.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 894,
+    "name": "Кресло лаунж Осло/Oslo",
+    "specs": "велюр/букле, vt шейп серый",
+    "officialCode": 25433,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/894/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 94,
+    "before": [
+      "assets/products/894/03.webp",
+      "assets/products/894/01.webp",
+      "assets/products/894/02.webp"
+    ],
+    "after": [
+      "assets/products/894/00-front.webp",
+      "assets/products/894/03.webp",
+      "assets/products/894/01.webp",
+      "assets/products/894/02.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 899,
+    "name": "Кресло Рефлекс/Reflex с пуфом",
+    "specs": "велюр/букле (HYP), светло-серый",
+    "officialCode": 25506,
+    "officialArchiveImage": "Основное фото.jpg",
+    "primaryImage": "assets/products/899/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 132,
+    "before": [
+      "assets/products/899/01.webp",
+      "assets/products/899/02.webp",
+      "assets/products/899/03.webp"
+    ],
+    "after": [
+      "assets/products/899/00-front.webp",
+      "assets/products/899/01.webp",
+      "assets/products/899/02.webp",
+      "assets/products/899/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 908,
+    "name": "Пуф Чарли Люкс/Charli Lux",
+    "specs": "велюр/букле, vt шейп серый",
+    "officialCode": 25118,
+    "officialArchiveImage": "Основное фото.jpg",
+    "primaryImage": "assets/products/908/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 114,
+    "before": [
+      "assets/products/908/01.webp",
+      "assets/products/908/02.webp",
+      "assets/products/908/03.webp"
+    ],
+    "after": [
+      "assets/products/908/00-front.webp",
+      "assets/products/908/01.webp",
+      "assets/products/908/02.webp",
+      "assets/products/908/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 893,
+    "name": "Кресло лаунж Агнет/Agnet",
+    "specs": "букле/металл, светло-бежевый/натуральный",
+    "officialCode": 25718,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/893/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 88,
+    "before": [
+      "assets/products/893/01.webp",
+      "assets/products/893/02.webp",
+      "assets/products/893/03.webp"
+    ],
+    "after": [
+      "assets/products/893/00-front.webp",
+      "assets/products/893/01.webp",
+      "assets/products/893/02.webp",
+      "assets/products/893/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 863,
+    "name": "Банкетка-обувница Чарли Люкс/Charli Lux",
+    "specs": "велюр/букле, vt шейп какао",
+    "officialCode": 25122,
+    "officialArchiveImage": "Основное фото.jpg",
+    "primaryImage": "assets/products/863/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 112,
+    "before": [
+      "assets/products/863/03.webp",
+      "assets/products/863/02.webp",
+      "assets/products/863/01.webp"
+    ],
+    "after": [
+      "assets/products/863/00-front.webp",
+      "assets/products/863/03.webp",
+      "assets/products/863/02.webp",
+      "assets/products/863/01.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 855,
+    "name": "Кресло лаунж Космо/Cosmo",
+    "specs": "велюр/букле, vt шейп бежевый",
+    "officialCode": 25273,
+    "officialArchiveImage": "Доп.фото 6.jpg",
+    "primaryImage": "assets/products/855/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 68,
+    "before": [
+      "assets/products/855/02.webp",
+      "assets/products/855/01.webp",
+      "assets/products/855/03.webp"
+    ],
+    "after": [
+      "assets/products/855/00-front.webp",
+      "assets/products/855/02.webp",
+      "assets/products/855/01.webp",
+      "assets/products/855/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 307,
+    "name": "Кресло Монклер/Moncler",
+    "specs": "опора 360, велюр/букле (HYP), бежевый",
+    "officialCode": 25707,
+    "officialArchiveImage": "Основное фото.jpg",
+    "primaryImage": "assets/products/307/01.webp",
+    "sourceKind": "existing_visual_match",
+    "closestExistingHashDistance": 4,
+    "before": [
+      "assets/products/307/03.webp",
+      "assets/products/307/02.webp",
+      "assets/products/307/01.webp"
+    ],
+    "after": [
+      "assets/products/307/01.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 33,
+    "name": "Стол журнальный Гленд/Gland",
+    "specs": "металл, 40х40х45см, черный",
+    "officialCode": 19252,
+    "officialArchiveImage": "Основное фото.jpg",
+    "primaryImage": "assets/products/33/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 94,
+    "before": [
+      "assets/products/33/02.webp",
+      "assets/products/33/01.webp",
+      "assets/products/33/03.webp"
+    ],
+    "after": [
+      "assets/products/33/00-front.webp",
+      "assets/products/33/02.webp",
+      "assets/products/33/01.webp",
+      "assets/products/33/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 656,
+    "name": "Стул Чавари/Chavari (мод.101)",
+    "specs": "пластик, 40,5х49х88,5см, золотой ",
+    "officialCode": 20437,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/656/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 82,
+    "before": [
+      "assets/products/656/03.webp",
+      "assets/products/656/02.webp",
+      "assets/products/656/01.webp"
+    ],
+    "after": [
+      "assets/products/656/00-front.webp",
+      "assets/products/656/03.webp",
+      "assets/products/656/02.webp",
+      "assets/products/656/01.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 843,
+    "name": "Диван Чарли Люкс/Charli Lux",
+    "specs": "металл белый, букле, бежевый",
+    "officialCode": 25842,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/843/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 104,
+    "before": [
+      "assets/products/843/01.webp",
+      "assets/products/843/02.webp",
+      "assets/products/843/03.webp"
+    ],
+    "after": [
+      "assets/products/843/00-front.webp",
+      "assets/products/843/01.webp",
+      "assets/products/843/02.webp",
+      "assets/products/843/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 1182,
+    "name": "Кресло Нордик/Nordic",
+    "specs": "сетка/кож.зам, черный",
+    "officialCode": 25661,
+    "officialArchiveImage": "Доп.фото 6.jpg",
+    "primaryImage": "assets/products/1182/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 92,
+    "before": [
+      "assets/products/1182/01.webp",
+      "assets/products/1182/02.webp",
+      "assets/products/1182/03.webp"
+    ],
+    "after": [
+      "assets/products/1182/00-front.webp",
+      "assets/products/1182/01.webp",
+      "assets/products/1182/02.webp",
+      "assets/products/1182/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 493,
+    "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)",
+    "specs": "букле, бежевый",
+    "officialCode": 26023,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/493/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 80,
+    "before": [
+      "assets/products/493/02.webp",
+      "assets/products/493/03.webp",
+      "assets/products/493/01.webp"
+    ],
+    "after": [
+      "assets/products/493/00-front.webp",
+      "assets/products/493/02.webp",
+      "assets/products/493/03.webp",
+      "assets/products/493/01.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 896,
+    "name": "Кресло лаунж Осло/Oslo",
+    "specs": "велюр/букле, vt шейп горчичный",
+    "officialCode": 25435,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/896/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 92,
+    "before": [
+      "assets/products/896/01.webp",
+      "assets/products/896/03.webp",
+      "assets/products/896/02.webp"
+    ],
+    "after": [
+      "assets/products/896/00-front.webp",
+      "assets/products/896/01.webp",
+      "assets/products/896/03.webp",
+      "assets/products/896/02.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 189,
+    "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/2 шт. в упаковке",
+    "specs": "фактурный велюр/дерево бук, 55х48х83см, бежевый/натуральный",
+    "officialCode": 24554,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/189/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 106,
+    "before": [
+      "assets/products/189/01.webp",
+      "assets/products/189/02.webp",
+      "assets/products/189/03.webp"
+    ],
+    "after": [
+      "assets/products/189/00-front.webp",
+      "assets/products/189/01.webp",
+      "assets/products/189/02.webp",
+      "assets/products/189/03.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  },
+  {
+    "id": 136,
+    "name": "Стул полубарный Бари/Bari",
+    "specs": "велюр, бежевый, 7, 42х55х99см",
+    "officialCode": 24914,
+    "officialArchiveImage": "Доп.фото 5.jpg",
+    "primaryImage": "assets/products/136/00-front.webp",
+    "sourceKind": "new_official_front",
+    "closestExistingHashDistance": 74,
+    "before": [
+      "assets/products/136/01.webp",
+      "assets/products/136/03.webp",
+      "assets/products/136/02.webp"
+    ],
+    "after": [
+      "assets/products/136/00-front.webp",
+      "assets/products/136/01.webp",
+      "assets/products/136/03.webp",
+      "assets/products/136/02.webp"
+    ],
+    "rule": "whole_product_front_or_front_three_quarter"
+  }
+]
