@@ -1,0 +1,290 @@
+[
+  {
+    "id": 493,
+    "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)",
+    "before": [
+      "assets/products/493/02.webp",
+      "assets/products/493/03.webp",
+      "assets/products/493/01.webp"
+    ],
+    "after": [
+      "assets/products/493/02.webp",
+      "assets/products/493/03.webp",
+      "assets/products/493/01.webp"
+    ],
+    "firstImage": "assets/products/493/02.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 896,
+    "name": "Кресло лаунж Осло/Oslo",
+    "before": [
+      "assets/products/896/01.webp",
+      "assets/products/896/03.webp",
+      "assets/products/896/02.webp"
+    ],
+    "after": [
+      "assets/products/896/01.webp",
+      "assets/products/896/03.webp",
+      "assets/products/896/02.webp"
+    ],
+    "firstImage": "assets/products/896/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 189,
+    "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/2 шт. в упаковке",
+    "before": [
+      "assets/products/189/01.webp",
+      "assets/products/189/02.webp",
+      "assets/products/189/03.webp"
+    ],
+    "after": [
+      "assets/products/189/01.webp",
+      "assets/products/189/02.webp",
+      "assets/products/189/03.webp"
+    ],
+    "firstImage": "assets/products/189/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 136,
+    "name": "Стул полубарный Бари/Bari",
+    "before": [
+      "assets/products/136/01.webp",
+      "assets/products/136/03.webp",
+      "assets/products/136/02.webp"
+    ],
+    "after": [
+      "assets/products/136/01.webp",
+      "assets/products/136/03.webp",
+      "assets/products/136/02.webp"
+    ],
+    "firstImage": "assets/products/136/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 70,
+    "name": "Стол обеденный раздвижной Фокс/Fox",
+    "before": [
+      "assets/products/70/01.webp",
+      "assets/products/70/02.webp",
+      "assets/products/70/03.webp"
+    ],
+    "after": [
+      "assets/products/70/01.webp",
+      "assets/products/70/02.webp",
+      "assets/products/70/03.webp"
+    ],
+    "firstImage": "assets/products/70/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 1477,
+    "name": "Этажерка угловая Secret de Maison Селин/Celine",
+    "before": [
+      "assets/products/1477/01.webp",
+      "assets/products/1477/03.webp",
+      "assets/products/1477/02.webp"
+    ],
+    "after": [
+      "assets/products/1477/01.webp",
+      "assets/products/1477/03.webp",
+      "assets/products/1477/02.webp"
+    ],
+    "firstImage": "assets/products/1477/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 33,
+    "name": "Стол журнальный Гленд/Gland",
+    "before": [
+      "assets/products/33/02.webp",
+      "assets/products/33/01.webp",
+      "assets/products/33/03.webp"
+    ],
+    "after": [
+      "assets/products/33/02.webp",
+      "assets/products/33/01.webp",
+      "assets/products/33/03.webp"
+    ],
+    "firstImage": "assets/products/33/02.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 656,
+    "name": "Стул Чавари/Chavari (мод.101)",
+    "before": [
+      "assets/products/656/03.webp",
+      "assets/products/656/02.webp",
+      "assets/products/656/01.webp"
+    ],
+    "after": [
+      "assets/products/656/03.webp",
+      "assets/products/656/02.webp",
+      "assets/products/656/01.webp"
+    ],
+    "firstImage": "assets/products/656/03.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 843,
+    "name": "Диван Чарли Люкс/Charli Lux",
+    "before": [
+      "assets/products/843/01.webp",
+      "assets/products/843/02.webp",
+      "assets/products/843/03.webp"
+    ],
+    "after": [
+      "assets/products/843/01.webp",
+      "assets/products/843/02.webp",
+      "assets/products/843/03.webp"
+    ],
+    "firstImage": "assets/products/843/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 1182,
+    "name": "Кресло Нордик/Nordic",
+    "before": [
+      "assets/products/1182/01.webp",
+      "assets/products/1182/02.webp",
+      "assets/products/1182/03.webp"
+    ],
+    "after": [
+      "assets/products/1182/01.webp",
+      "assets/products/1182/02.webp",
+      "assets/products/1182/03.webp"
+    ],
+    "firstImage": "assets/products/1182/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 312,
+    "name": "Кресло Мурано/Murano",
+    "before": [
+      "assets/products/312/01.webp",
+      "assets/products/312/02.webp",
+      "assets/products/312/03.webp"
+    ],
+    "after": [
+      "assets/products/312/01.webp",
+      "assets/products/312/02.webp",
+      "assets/products/312/03.webp"
+    ],
+    "firstImage": "assets/products/312/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 1037,
+    "name": "Кресло Мурано/Murano хром",
+    "before": [
+      "assets/products/1037/02.webp",
+      "assets/products/1037/03.webp",
+      "assets/products/1037/01.webp"
+    ],
+    "after": [
+      "assets/products/1037/02.webp",
+      "assets/products/1037/03.webp",
+      "assets/products/1037/01.webp"
+    ],
+    "firstImage": "assets/products/1037/02.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 1005,
+    "name": "Кресло Флаффи/Fluffy",
+    "before": [
+      "assets/products/1005/02.webp",
+      "assets/products/1005/03.webp",
+      "assets/products/1005/01.webp"
+    ],
+    "after": [
+      "assets/products/1005/02.webp",
+      "assets/products/1005/03.webp",
+      "assets/products/1005/01.webp"
+    ],
+    "firstImage": "assets/products/1005/02.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 893,
+    "name": "Кресло лаунж Агнет/Agnet",
+    "before": [
+      "assets/products/893/01.webp",
+      "assets/products/893/02.webp",
+      "assets/products/893/03.webp"
+    ],
+    "after": [
+      "assets/products/893/01.webp",
+      "assets/products/893/02.webp",
+      "assets/products/893/03.webp"
+    ],
+    "firstImage": "assets/products/893/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 863,
+    "name": "Банкетка-обувница Чарли Люкс/Charli Lux",
+    "before": [
+      "assets/products/863/03.webp",
+      "assets/products/863/02.webp",
+      "assets/products/863/01.webp"
+    ],
+    "after": [
+      "assets/products/863/03.webp",
+      "assets/products/863/02.webp",
+      "assets/products/863/01.webp"
+    ],
+    "firstImage": "assets/products/863/03.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 855,
+    "name": "Кресло лаунж Космо/Cosmo",
+    "before": [
+      "assets/products/855/02.webp",
+      "assets/products/855/01.webp",
+      "assets/products/855/03.webp"
+    ],
+    "after": [
+      "assets/products/855/02.webp",
+      "assets/products/855/01.webp",
+      "assets/products/855/03.webp"
+    ],
+    "firstImage": "assets/products/855/02.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 307,
+    "name": "Кресло Монклер/Moncler",
+    "before": [
+      "assets/products/307/03.webp",
+      "assets/products/307/02.webp",
+      "assets/products/307/01.webp"
+    ],
+    "after": [
+      "assets/products/307/03.webp",
+      "assets/products/307/02.webp",
+      "assets/products/307/01.webp"
+    ],
+    "firstImage": "assets/products/307/03.webp",
+    "status": "front_or_front_three_quarter_first"
+  },
+  {
+    "id": 897,
+    "name": "Кресло Релакс/Relax с пуфом",
+    "before": [
+      "assets/products/897/01.webp",
+      "assets/products/897/03.webp",
+      "assets/products/897/02.webp"
+    ],
+    "after": [
+      "assets/products/897/01.webp",
+      "assets/products/897/03.webp",
+      "assets/products/897/02.webp"
+    ],
+    "firstImage": "assets/products/897/01.webp",
+    "status": "front_or_front_three_quarter_first"
+  }
+]
