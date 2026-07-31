@@ -1,0 +1,296 @@
+[
+  {
+    "id": 493,
+    "approvedReference": {
+      "ahash": "ffffe07fe07fe07ff03ff03ff03ff00ff00ffa4ffa6ff26ff26ff6e7feefffff",
+      "dhash": "0b00b720b520b600120058105b0058005c202b242ba41a341a345a1012500200"
+    },
+    "bestMatch": {
+      "path": "assets/products/493/02.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "ffffe1ffe1ffe0fff0fff0fff03ff007f80ffa2ffaaff2a7f2a7f6f7fef7ffff",
+      "dhash": "3000b000b0803c001800580058005c422ca029342b541a501a525a5a121a0240",
+      "ahashDistance": 24,
+      "dhashDistance": 48,
+      "combinedDistance": 72
+    },
+    "candidates": [
+      {
+        "path": "assets/products/493/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffe1ffe1ffe0fff0fff0fff03ff007f80ffa2ffaaff2a7f2a7f6f7fef7ffff",
+        "dhash": "3000b000b0803c001800580058005c422ca029342b541a501a525a5a121a0240",
+        "ahashDistance": 24,
+        "dhashDistance": 48,
+        "combinedDistance": 72
+      },
+      {
+        "path": "assets/products/493/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffe7ffe3fff3fff3fff3fff3fff00ff80ff8cff9cff9cff9cff9effbeffbef",
+        "dhash": "1000b200300058005900190019e009802c641c6014600ca42d242d3429340830",
+        "ahashDistance": 49,
+        "dhashDistance": 85,
+        "combinedDistance": 134
+      },
+      {
+        "path": "assets/products/493/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff01ff00ff00ff01ff01ff01ff01ff01ff99ff99ffb9ffbdffbdffbdfffff",
+        "dhash": "0cc05800582058205800582058005b005cc02d482d4829482968296829680860",
+        "ahashDistance": 48,
+        "dhashDistance": 89,
+        "combinedDistance": 137
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "approvedReference": {
+      "ahash": "fffff07ff07ff07ff03ff00ff81ffa5ff00ff00ff00ff00ff42ff4effcffffff",
+      "dhash": "0f005b20592059005b005c042ea02aa82aa01aa01aa45aa45ab452b416700680"
+    },
+    "bestMatch": {
+      "path": "assets/products/136/02.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "ffffe3ffe1fff1fff03ff00ff85ff05ff04ff44ff00ff00ff42ff4effcffffff",
+      "dhash": "2000b100b800580058005c400aa81aa85aa05aa05aa45aa456b476b406300680",
+      "ahashDistance": 15,
+      "dhashDistance": 37,
+      "combinedDistance": 52
+    },
+    "candidates": [
+      {
+        "path": "assets/products/136/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffe3ffe1fff1fff03ff00ff85ff05ff04ff44ff00ff00ff42ff4effcffffff",
+        "dhash": "2000b100b800580058005c400aa81aa85aa05aa05aa45aa456b476b406300680",
+        "ahashDistance": 15,
+        "dhashDistance": 37,
+        "combinedDistance": 52
+      },
+      {
+        "path": "assets/products/136/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff01ff01ff01ff01ff81ff99ff99ff9dff9dff81ff81ff80ff3cff3cfffff",
+        "dhash": "08c018001c001c001c001c400d482d482d682c682d682d682960282078a01820",
+        "ahashDistance": 42,
+        "dhashDistance": 99,
+        "combinedDistance": 141
+      },
+      {
+        "path": "assets/products/136/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffe7fff3fff3fff03ff80ff99ff99ff99ff9dff81ff81ff80ffbcffbcfffff",
+        "dhash": "180032005200580019002c400cc00d480d482c682d682d682d68282029a00820",
+        "ahashDistance": 44,
+        "dhashDistance": 99,
+        "combinedDistance": 143
+      }
+    ]
+  },
+  {
+    "id": 656,
+    "approvedReference": {
+      "ahash": "fffff07ff07ff07ff07ff07ff37ff00ff007f067f607f667e667e6e7feffffff",
+      "dhash": "37003300530059005920592019001b005a405a3053105310333033102a500200"
+    },
+    "bestMatch": {
+      "path": "assets/products/656/02.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "fffff1fff1fff0fff0fff8fff8fff807f807f207f2a7f697f4b7f4f7fcf7ffff",
+      "dhash": "10005880588058801a402a102a402d422c5a1b421a5a5a5a52da52da16980640",
+      "ahashDistance": 35,
+      "dhashDistance": 88,
+      "combinedDistance": 123
+    },
+    "candidates": [
+      {
+        "path": "assets/products/656/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff1fff1fff0fff0fff8fff8fff807f807f207f2a7f697f4b7f4f7fcf7ffff",
+        "dhash": "10005880588058801a402a102a402d422c5a1b421a5a5a5a52da52da16980640",
+        "ahashDistance": 35,
+        "dhashDistance": 88,
+        "combinedDistance": 123
+      },
+      {
+        "path": "assets/products/656/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff7fff3fff3fff3fffbfff9fff80ff80ff80ffbcff3cff3cff3cff7efffff",
+        "dhash": "100052005a001800080029002c002de42c242c242824082418a45aa452b41020",
+        "ahashDistance": 52,
+        "dhashDistance": 89,
+        "combinedDistance": 141
+      },
+      {
+        "path": "assets/products/656/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff81ff81ff81ff81ff81ff81ff80ff80ff80ffbcffbcffbcffbcffbcfffff",
+        "dhash": "0860294828482d482d482d482d402d402d602860286029602860086018201820",
+        "ahashDistance": 56,
+        "dhashDistance": 104,
+        "combinedDistance": 160
+      }
+    ]
+  },
+  {
+    "id": 1182,
+    "approvedReference": {
+      "ahash": "fffff0fff0fff0fff07ff07ff00ff06ff00ff80ffe3fff7ffc3ff18ff6efffff",
+      "dhash": "02005a405a405a405a205b005f041d241b203f84078013200d4055c413240740"
+    },
+    "bestMatch": {
+      "path": "assets/products/1182/03.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "fffff1fff0fff0fff0fff0fff0dff80ff80ff80ffe3fff7ffc3ff18ff6effeff",
+      "dhash": "0000588058805c0058405a003c402c242e042e80038011200d4055c413240740",
+      "ahashDistance": 11,
+      "dhashDistance": 34,
+      "combinedDistance": 45
+    },
+    "candidates": [
+      {
+        "path": "assets/products/1182/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff1fff0fff0fff0fff0fff0dff80ff80ff80ffe3fff7ffc3ff18ff6effeff",
+        "dhash": "0000588058805c0058405a003c402c242e042e80038011200d4055c413240740",
+        "ahashDistance": 11,
+        "dhashDistance": 34,
+        "combinedDistance": 45
+      },
+      {
+        "path": "assets/products/1182/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fffff3fff3fff3fff3fffbfff83ff83ff81ff80ffc3fff3ff83ff10ff64ffeff",
+        "dhash": "0000580058005a00584029002c0014900d481680179011a00d4055c413240740",
+        "ahashDistance": 28,
+        "dhashDistance": 39,
+        "combinedDistance": 67
+      },
+      {
+        "path": "assets/products/1182/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffffffcfffcfffefffe7ffe03ff03ff81ff81ff83fff7ff83ff00ff64ffeff",
+        "dhash": "2000000060006400a400b000730058902d482e801f9011200d4055c413240740",
+        "ahashDistance": 43,
+        "dhashDistance": 57,
+        "combinedDistance": 100
+      }
+    ]
+  },
+  {
+    "id": 896,
+    "approvedReference": {
+      "ahash": "ffffffffc07f807f803fc03fc03fc001e001e003fe3ff67ff00ff81ff7cfffff",
+      "dhash": "40001e00fe20d120d310d2806c806184703cbe604f8051045f043cc030700200"
+    },
+    "bestMatch": {
+      "path": "assets/products/896/02.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "ffffffffcfff80ff807fc07fc03fc001e001f007fe3ffe5ff00ff01ff7cfffff",
+      "dhash": "400003004000c040c520e8006a806a04b94c5e20278019685f045cc030700200",
+      "ahashDistance": 13,
+      "dhashDistance": 53,
+      "combinedDistance": 66
+    },
+    "candidates": [
+      {
+        "path": "assets/products/896/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffffffcfff80ff807fc07fc03fc001e001f007fe3ffe5ff00ff01ff7cfffff",
+        "dhash": "400003004000c040c520e8006a806a04b94c5e20278019685f045cc030700200",
+        "ahashDistance": 13,
+        "dhashDistance": 53,
+        "combinedDistance": 66
+      },
+      {
+        "path": "assets/products/896/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffffffe7ffc7ffc3ffe3ffe007f003f003f803fe3ffe3ff00ff00ff3cfffff",
+        "dhash": "08003000f200620061087000b0f07a4158693e010f901b405f045cc030700200",
+        "ahashDistance": 36,
+        "dhashDistance": 60,
+        "combinedDistance": 96
+      },
+      {
+        "path": "assets/products/896/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffffffffffffe007e007e007e007e007e007f00ffe3ffe67f00ff01ff7cfffff",
+        "dhash": "1040000818c0b412b412b212b412b112b132be020f5039125f045cc030700200",
+        "ahashDistance": 38,
+        "dhashDistance": 69,
+        "combinedDistance": 107
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "approvedReference": {
+      "ahash": "fc1fe007e007f81ffc3ff83ffa9ff59ff5afe5afedb7edd7c83be013f9e7fdff",
+      "dhash": "0f00b982b0721e0026882cc02a885aa056d4b4d0a45264486d49bd491c302480"
+    },
+    "bestMatch": {
+      "path": "assets/products/33/01.webp",
+      "width": 1200,
+      "height": 1200,
+      "ahash": "fc1fe007e007f80ffcbffdbffd9ff9dffbcff3cff3eff7e7f7e7f007f1c7fbef",
+      "dhash": "0f80bbc0b0701e80228816d014482d68296019a45ab450125332735254621930",
+      "ahashDistance": 52,
+      "dhashDistance": 100,
+      "combinedDistance": 152
+    },
+    "candidates": [
+      {
+        "path": "assets/products/33/01.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "fc1fe007e007f80ffcbffdbffd9ff9dffbcff3cff3eff7e7f7e7f007f1c7fbef",
+        "dhash": "0f80bbc0b0701e80228816d014482d68296019a45ab450125332735254621930",
+        "ahashDistance": 52,
+        "dhashDistance": 100,
+        "combinedDistance": 152
+      },
+      {
+        "path": "assets/products/33/02.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ff7ff00fe007e007e007e00ff81fff9ff7dffddffdaff07ffe97fdeffdffffff",
+        "dhash": "27085f04b8e2b212b612b9205e002a4052e83664b4d45d120d4a1e722c900d28",
+        "ahashDistance": 65,
+        "dhashDistance": 91,
+        "combinedDistance": 156
+      },
+      {
+        "path": "assets/products/33/03.webp",
+        "width": 1200,
+        "height": 1200,
+        "ahash": "ffff07ff01ff00ff007f007f007f007f007f00ff00ff03ff0fffdfffcfffe7ff",
+        "dhash": "04000100f080cc40fb203d201f200f20052012000c40f0804100440064007000",
+        "ahashDistance": 124,
+        "dhashDistance": 98,
+        "combinedDistance": 222
+      }
+    ]
+  }
+]
