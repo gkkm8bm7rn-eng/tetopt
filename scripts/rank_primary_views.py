@@ -21,14 +21,38 @@ from typing import Any
 from PIL import Image, ImageFilter, ImageStat, UnidentifiedImageError
 
 
-PROMPT_TEMPLATES = (
-    "a clean catalog product photo of the whole {subject} viewed from the front at a slight three-quarter angle",
-    "a clean catalog product photo of the whole {subject} viewed straight from the front",
-    "a clean catalog product photo of the whole {subject} viewed from the side",
-    "a clean catalog product photo showing the back or rear of the {subject}",
-    "a close-up detail photo showing only part of the {subject}",
-    "a room interior lifestyle photo containing the {subject}",
-)
+CLASS_PROMPTS = {
+    "front_three_quarter": (
+        "front three-quarter catalog view of the whole {subject}",
+        "the whole {subject} facing the camera and turned slightly to the left",
+        "the whole {subject} facing the camera and turned slightly to the right",
+        "the front and one side of the whole {subject} are visible at the same time",
+    ),
+    "front": (
+        "straight front catalog view of the whole {subject}",
+        "the whole {subject} facing directly toward the camera",
+        "front elevation of the whole {subject}",
+    ),
+    "side": (
+        "exact profile side view of the whole {subject}",
+        "the whole {subject} viewed only from the left side",
+        "the whole {subject} viewed only from the right side",
+    ),
+    "rear": (
+        "rear view of the whole {subject}",
+        "the back of the {subject} facing the camera",
+        "the whole {subject} facing away from the camera",
+    ),
+    "detail": (
+        "close-up detail photo showing only part of the {subject}",
+        "cropped macro photo of a furniture leg, joint, mechanism, texture, or edge",
+        "a fragment of the {subject}, not the whole product",
+    ),
+    "interior": (
+        "room interior lifestyle photo containing the {subject}",
+        "the {subject} placed inside a furnished room scene",
+    ),
+}
 LABELS = ("front_three_quarter", "front", "side", "rear", "detail", "interior")
 
 
@@ -192,10 +216,16 @@ def score_candidates(candidates: list[Candidate], model_name: str, pretrained: s
 
     with torch.inference_mode():
         for subject, group in grouped.items():
-            prompts = [template.format(subject=subject) for template in PROMPT_TEMPLATES]
-            text_tokens = tokenizer(prompts).to(device)
-            text_features = model.encode_text(text_tokens)
-            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+            class_features = []
+            for label in LABELS:
+                prompts = [template.format(subject=subject) for template in CLASS_PROMPTS[label]]
+                text_tokens = tokenizer(prompts).to(device)
+                prompt_features = model.encode_text(text_tokens)
+                prompt_features = prompt_features / prompt_features.norm(dim=-1, keepdim=True)
+                class_feature = prompt_features.mean(dim=0)
+                class_feature = class_feature / class_feature.norm()
+                class_features.append(class_feature)
+            text_features = torch.stack(class_features)
 
             for offset in range(0, len(group), batch_size):
                 chunk = group[offset:offset + batch_size]
@@ -221,19 +251,22 @@ def score_candidates(candidates: list[Candidate], model_name: str, pretrained: s
                     full_component = max(-0.35, min(0.45, candidate.full_view_score / 150.0))
                     quality_component = 0.10 if candidate.quality_ok else -0.08
                     sharpness_component = min(0.08, candidate.sharpness / 9000.0)
-                    official_front_bonus = 0.42 if Path(candidate.path).name.startswith("00-front") else 0.0
-                    candidate.ranking_score = (
-                        2.80 * p3q
-                        + 1.05 * pfront
-                        - 1.20 * pside
-                        - 1.70 * prear
-                        - 1.45 * pdetail
-                        - 1.10 * pinterior
-                        + full_component
-                        + quality_component
-                        + sharpness_component
-                        + official_front_bonus
-                    )
+                    if candidate.subject == "chair or seat":
+                        orientation_score = (
+                            3.80 * p3q + 0.90 * pfront - 2.20 * pside
+                            - 2.80 * prear - 2.10 * pdetail - 1.20 * pinterior
+                        )
+                    elif candidate.subject in {"table", "cabinet or shelving unit", "furniture set"}:
+                        orientation_score = (
+                            3.20 * p3q + 0.80 * pfront - 1.20 * pside
+                            - 1.40 * prear - 2.40 * pdetail - 1.20 * pinterior
+                        )
+                    else:
+                        orientation_score = (
+                            3.30 * p3q + 0.90 * pfront - 1.60 * pside
+                            - 2.00 * prear - 2.20 * pdetail - 1.20 * pinterior
+                        )
+                    candidate.ranking_score = orientation_score + full_component + quality_component + sharpness_component
 
 
 def main() -> int:
@@ -292,15 +325,16 @@ def main() -> int:
         if not candidates:
             continue
 
-        locked = next((item for item in candidates if item.original_index == 0 and Path(item.path).name.startswith("00-front")), None)
-        candidates.sort(key=lambda item: (item.ranking_score, -item.original_index), reverse=True)
-        best = locked or candidates[0]
-        alternatives = [item for item in candidates if item is not best]
+        full_candidates = [item for item in candidates if item.full_view_score >= 8.0]
+        pool = full_candidates or candidates
+        pool.sort(key=lambda item: (item.ranking_score, item.full_view_score, -item.original_index), reverse=True)
+        best = pool[0]
+        alternatives = [item for item in pool if item is not best]
         second_score = max((item.ranking_score for item in alternatives), default=best.ranking_score)
         margin = best.ranking_score - second_score
         p3q, pfront, pside, prear, pdetail, pinterior = best.probabilities or [0.0] * 6
         front_probability = p3q + pfront
-        uncertain = margin < 0.055 or front_probability < 0.40
+        uncertain = margin < 0.060 or front_probability < 0.45 or best.full_view_score < 8.0
         if uncertain:
             low_confidence += 1
 
@@ -327,7 +361,17 @@ def main() -> int:
             "detail_probability": round(pdetail, 4),
             "interior_probability": round(pinterior, 4),
             "ranking_score": round(best.ranking_score, 4),
+            "full_view_score": round(best.full_view_score, 2),
             "margin": round(margin, 4),
+            "candidates": [
+                {
+                    "path": item.path,
+                    "full_view_score": round(item.full_view_score, 2),
+                    "ranking_score": round(item.ranking_score, 4),
+                    "probabilities": {label: round(value, 4) for label, value in zip(LABELS, item.probabilities or [])},
+                }
+                for item in sorted(candidates, key=lambda candidate: candidate.original_index)
+            ],
             "low_confidence": uncertain,
             "gallery_count": len(reordered),
         })
