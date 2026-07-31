@@ -1,0 +1,100 @@
+name: Build photo contact sheets
+
+on:
+  push:
+    branches:
+      - agent/visually-fix-primary-photos
+    paths-ignore:
+      - 'data/photo-review/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/visually-fix-primary-photos
+          fetch-depth: 0
+
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+
+      - name: Build labeled contact sheets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          import json
+
+          products = [
+              (298, 'Луц — серый'),
+              (894, 'Осло — серый'),
+              (899, 'Рефлекс с пуфом — светло-серый'),
+              (908, 'Пуф Чарли Люкс — серый'),
+              (893, 'Агнет — светло-бежевый'),
+              (863, 'Банкетка Чарли Люкс — какао'),
+              (855, 'Космо — бежевый'),
+              (307, 'Монклер — бежевый'),
+              (33, 'Гленд — черный'),
+              (656, 'Чавари — золотой'),
+              (843, 'Диван Чарли Люкс — бежевый'),
+              (1182, 'Нордик — черный'),
+              (493, 'Амура — бежевый'),
+              (896, 'Осло — горчичный'),
+              (189, 'Синди Софт — бежевый'),
+              (136, 'Бари полубарный — бежевый'),
+          ]
+
+          out_dir = Path('data/photo-review')
+          out_dir.mkdir(parents=True, exist_ok=True)
+          font = ImageFont.load_default()
+          rows_per_sheet = 8
+          cell = 320
+          label_h = 54
+          row_h = cell + label_h + 42
+          sheet_w = cell * 3
+
+          manifest = []
+          for sheet_index in range((len(products) + rows_per_sheet - 1) // rows_per_sheet):
+              chunk = products[sheet_index*rows_per_sheet:(sheet_index+1)*rows_per_sheet]
+              sheet = Image.new('RGB', (sheet_w, row_h * len(chunk)), 'white')
+              draw = ImageDraw.Draw(sheet)
+              for row, (product_id, title) in enumerate(chunk):
+                  y0 = row * row_h
+                  draw.rectangle((0, y0, sheet_w-1, y0+row_h-1), outline='black', width=2)
+                  draw.text((12, y0+8), f'ID {product_id} — {title}', fill='black', font=font)
+                  files = sorted((Path('assets/products') / str(product_id)).glob('*'))
+                  record = {'id': product_id, 'title': title, 'files': []}
+                  for col, path in enumerate(files[:3]):
+                      with Image.open(path) as im:
+                          im = im.convert('RGB')
+                          im.thumbnail((cell-24, cell-24), Image.Resampling.LANCZOS)
+                          x = col*cell + (cell-im.width)//2
+                          y = y0 + 38 + (cell-im.height)//2
+                          sheet.paste(im, (x, y))
+                      draw.text((col*cell+10, y0+38+cell+6), path.name, fill='black', font=font)
+                      record['files'].append(str(path).replace('\\','/'))
+                  manifest.append(record)
+              sheet_path = out_dir / f'contact-sheet-{sheet_index+1}.jpg'
+              sheet.save(sheet_path, quality=92)
+
+          (out_dir / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+          PY
+
+      - name: Commit contact sheets
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$(git status --porcelain data/photo-review)" ]]; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/photo-review
+          git commit -m "Add visual photo review sheets"
+          git push origin HEAD:agent/visually-fix-primary-photos
