@@ -1,0 +1,1693 @@
+{
+  "batch": 2,
+  "checkedAt": "2026-07-31T07:15:11.189170+00:00",
+  "assetVersion": "20260730-2055-b02-final",
+  "activeTarget": 1362,
+  "batchIds": [
+    21,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    36,
+    41,
+    45,
+    50,
+    51,
+    52,
+    56,
+    57,
+    62,
+    63,
+    64,
+    65
+  ],
+  "completedCount": 20,
+  "completedTotal": 40,
+  "checks": {
+    "javascriptSyntax": "passed",
+    "firstPhotoAndGalleryOrder": "passed",
+    "noDuplicates": "passed",
+    "noUnverifiedInteriors": "passed",
+    "localWebpIntegrity": "passed",
+    "liveCoreFilesMatchMain": "passed",
+    "allLiveImagesHttpContentTypeAndHash": "passed"
+  },
+  "products": [
+    {
+      "id": 21,
+      "name": "Комплект обеденный Соната/Sonata (стол+4стула)",
+      "first": "assets/products/21/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/21/01.webp",
+          "bytes": 46530,
+          "sha256": "7a36d15b17f5dae8fc481efa65e26163fb3600ab45e5ccb72b6183e6d0cde308"
+        },
+        {
+          "path": "assets/products/21/02.webp",
+          "bytes": 13370,
+          "sha256": "ab9ef8a3d6dfc7d8ea7dc067b831ebe5affb766178036685fba6aa7ed86e2d14"
+        },
+        {
+          "path": "assets/products/21/03.webp",
+          "bytes": 17328,
+          "sha256": "45a8d1dc6daa97a80252e496b13afaa160a0be1ff8cabc5bb87fdd4aacfcf578"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 28,
+      "name": "Подстолье Полукруглое (2детали)",
+      "first": "assets/products/28/01.webp",
+      "imageCount": 1,
+      "assets": [
+        {
+          "path": "assets/products/28/01.webp",
+          "bytes": 71692,
+          "sha256": "75311b95d4e9d0a8aaf502f2ca70b5a7f98f61318577edaa070e3e1b6ce7c719"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 29,
+      "name": "Стол кофейный/подставка Остерия/Osteria",
+      "first": "assets/products/29/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/29/01.webp",
+          "bytes": 52150,
+          "sha256": "f4f27d952379a4d7d7c7a4f646eaa20f96adf42536e3d2b31eaa4d7c2b5fb86a"
+        },
+        {
+          "path": "assets/products/29/02.webp",
+          "bytes": 73922,
+          "sha256": "3d0a08a9b90482ed4c7ceb5208d9409004f381a48a20ee33c523d1bda5a138cb"
+        },
+        {
+          "path": "assets/products/29/03.webp",
+          "bytes": 58014,
+          "sha256": "5b9400cfd1d56ad20150e35266fc145012323a318e42888d149df07bd4e9ff61"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 30,
+      "name": "Стол журнальный Гленд 1/Gland 1(1шт. в упаковке)",
+      "first": "assets/products/30/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/30/02.webp",
+          "bytes": 9444,
+          "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+        },
+        {
+          "path": "assets/products/30/01.webp",
+          "bytes": 9806,
+          "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+        },
+        {
+          "path": "assets/products/30/03.webp",
+          "bytes": 6658,
+          "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 31,
+      "name": "Стол журнальный Гленд/Gland",
+      "first": "assets/products/31/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/31/02.webp",
+          "bytes": 9444,
+          "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+        },
+        {
+          "path": "assets/products/31/01.webp",
+          "bytes": 9806,
+          "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+        },
+        {
+          "path": "assets/products/31/03.webp",
+          "bytes": 6658,
+          "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 32,
+      "name": "Стол журнальный Гленд 1/Gland 1(1шт. в упаковке)",
+      "first": "assets/products/32/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/32/02.webp",
+          "bytes": 17096,
+          "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+        },
+        {
+          "path": "assets/products/32/01.webp",
+          "bytes": 22472,
+          "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+        },
+        {
+          "path": "assets/products/32/03.webp",
+          "bytes": 20302,
+          "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 33,
+      "name": "Стол журнальный Гленд/Gland",
+      "first": "assets/products/33/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/33/02.webp",
+          "bytes": 17096,
+          "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+        },
+        {
+          "path": "assets/products/33/01.webp",
+          "bytes": 22472,
+          "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+        },
+        {
+          "path": "assets/products/33/03.webp",
+          "bytes": 20302,
+          "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 34,
+      "name": "Стол обеденный раздвижной Алигери/Aligery",
+      "first": "assets/products/34/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/34/02.webp",
+          "bytes": 8214,
+          "sha256": "19d5dac17a7cc604261e08bc738f915c82ab9af44573ad082b2806eae6de4a35"
+        },
+        {
+          "path": "assets/products/34/01.webp",
+          "bytes": 9326,
+          "sha256": "1006e9bd38916c15c0b85ab731e7a45ce19b6474f0ed724f171ef61403bc6971"
+        },
+        {
+          "path": "assets/products/34/03.webp",
+          "bytes": 7220,
+          "sha256": "f8224fd364f5cd5702453fcb73abc7c2e78fc37a3bcb26c9fdd541ca1591d99f"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 36,
+      "name": "Стол обеденный раздвижной Катерина/Caterina",
+      "first": "assets/products/36/03.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/36/03.webp",
+          "bytes": 18040,
+          "sha256": "c1ce466937043ba1075cc412c16da10c94b3c9b5980310cff5b391a1571ae6cc"
+        },
+        {
+          "path": "assets/products/36/01.webp",
+          "bytes": 17986,
+          "sha256": "ca772c23dbd2c57ae819e502a5176c1ea89be97073946d6af616b3e40baea678"
+        },
+        {
+          "path": "assets/products/36/02.webp",
+          "bytes": 18164,
+          "sha256": "0aac4466f029391bbed0aef1eb511e566af57900d03d5b835d209969d75581e3"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 41,
+      "name": "Стол обеденный Синди Некст/Cindy Next (мод.70-80 MDF)",
+      "first": "assets/products/41/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/41/01.webp",
+          "bytes": 37988,
+          "sha256": "a7905324ce6e576866873a0d4b7c6a19ea938662bd006c94c32435417a370939"
+        },
+        {
+          "path": "assets/products/41/02.webp",
+          "bytes": 69226,
+          "sha256": "23645b5a105b8983ab28e0e63a92d479ed8846162f91c0471df6ec5840e5c409"
+        },
+        {
+          "path": "assets/products/41/03.webp",
+          "bytes": 57376,
+          "sha256": "c3264f51eb483e0df5bece11641e89cdf6638356e2fc99ab4f7a1138ec7cc6e2"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 45,
+      "name": "Стол обеденный раздвижной Диамант/Diamante",
+      "first": "assets/products/45/03.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/45/03.webp",
+          "bytes": 7522,
+          "sha256": "13caf1e5292546797b5eba528318314999ad11e9aa5f83b897d686e2b72aec41"
+        },
+        {
+          "path": "assets/products/45/02.webp",
+          "bytes": 6526,
+          "sha256": "e2e4a5b94ff19a46c65ca36ef1399d5bafaf72d036aead0002cfbc1a0ca82a14"
+        },
+        {
+          "path": "assets/products/45/01.webp",
+          "bytes": 7312,
+          "sha256": "574db7d07095f59a49ed58e8a1171e21ca075ad04896c2dc4b535e7b2cf337ad"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 50,
+      "name": "Стол Джон/John (мод.T1003)",
+      "first": "assets/products/50/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/50/01.webp",
+          "bytes": 16914,
+          "sha256": "5454be3e3c245756fe5b9c55da1b88ff1b399a34b9c46ab8980b969fdf7a7503"
+        },
+        {
+          "path": "assets/products/50/03.webp",
+          "bytes": 12222,
+          "sha256": "599933e0bbc3470e9afe0f5ef1f50fea19772c1576dd862b3fdbf739af1e9cbd"
+        },
+        {
+          "path": "assets/products/50/02.webp",
+          "bytes": 12850,
+          "sha256": "f056add89c8d35d82a1fafc3ca113fdda2f86e2b653479c696beed041e12d358"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 51,
+      "name": "Стол обеденный Марс/Mars (мод.T1004)",
+      "first": "assets/products/51/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/51/01.webp",
+          "bytes": 50262,
+          "sha256": "f636c8347d836af6b8b56187b0cafbc223634515777e983ae0e602c19f8e67e4"
+        },
+        {
+          "path": "assets/products/51/02.webp",
+          "bytes": 48154,
+          "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+        },
+        {
+          "path": "assets/products/51/03.webp",
+          "bytes": 21674,
+          "sha256": "d676dbbce40414f37c21b87855e55514e06ead2b08e51c546529de19c14f7301"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 52,
+      "name": "Стол обеденный Марс/Mars (мод.T1004)",
+      "first": "assets/products/52/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/52/01.webp",
+          "bytes": 58484,
+          "sha256": "a431fdb0a909260a5483bd261a4244c039163e7a6fac970994be32e157fdcfc5"
+        },
+        {
+          "path": "assets/products/52/02.webp",
+          "bytes": 48154,
+          "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+        },
+        {
+          "path": "assets/products/52/03.webp",
+          "bytes": 34576,
+          "sha256": "69798db74704bdf4dd33bdff02e4c68210626434700fe0687f8c3927668969b1"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 56,
+      "name": "Стол обеденный раздвижной Стефано/Stefano круглый",
+      "first": "assets/products/56/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/56/01.webp",
+          "bytes": 7706,
+          "sha256": "b88e98bef7832e2aa0ff7b20d441fee50318146e9a005a542e1231f70da9452b"
+        },
+        {
+          "path": "assets/products/56/03.webp",
+          "bytes": 10778,
+          "sha256": "e28645826ec7f6f24847ed1053fb47d0e01d12916c4d1ecc121dd4be2aeff47d"
+        },
+        {
+          "path": "assets/products/56/02.webp",
+          "bytes": 9174,
+          "sha256": "6c8e4dc8a1358fcb7fe8835aec812998f9b66b290062c8c677c3f1dde73cd8c7"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 57,
+      "name": "Стол Тонет/Thonet (мод.T9108)",
+      "first": "assets/products/57/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/57/01.webp",
+          "bytes": 169014,
+          "sha256": "e42d378142b0b623737f315873039782f28f3f603aff1f3507ac3cc82dc557a2"
+        },
+        {
+          "path": "assets/products/57/02.webp",
+          "bytes": 131724,
+          "sha256": "41c0a6ce031f1ce0bd265c70fa34df666688224a41a41d29f004801f530092cc"
+        },
+        {
+          "path": "assets/products/57/03.webp",
+          "bytes": 99464,
+          "sha256": "f04f1b5098b09edadddb97d03dc3d0ec0ae2c115528d12dda372efab8880b681"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 62,
+      "name": "Стол обеденный раздвижной Версаль/Versal",
+      "first": "assets/products/62/03.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/62/03.webp",
+          "bytes": 18744,
+          "sha256": "04cdd23b7c0ff6dbbd2e50df4d0e8f239b6e6815895cc9bff377324a2c1ce167"
+        },
+        {
+          "path": "assets/products/62/01.webp",
+          "bytes": 56364,
+          "sha256": "0178b0266d675498c4c18f20ebd38498b4802bf71b6efea7d8b3e6d5c3d873b0"
+        },
+        {
+          "path": "assets/products/62/02.webp",
+          "bytes": 23070,
+          "sha256": "59fb334e27e5c7f7044b5b1ba93c691fc0185b772691c2b8a0c3879632ac2645"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 63,
+      "name": "Стол круглый раскладной обеденный Боско/Вosco",
+      "first": "assets/products/63/01.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/63/01.webp",
+          "bytes": 11594,
+          "sha256": "cbad8788d090bedd9af84f82e8b0a9fbc79890071ebaa4d5737130fa2068efa6"
+        },
+        {
+          "path": "assets/products/63/03.webp",
+          "bytes": 4956,
+          "sha256": "d235721da33623aeea4a0f406974d6d88929a7da8f3b87e501190799e3a07707"
+        },
+        {
+          "path": "assets/products/63/02.webp",
+          "bytes": 10576,
+          "sha256": "7f5004eb069cfadb7a19a1a525e9ded0b52b2a1fc8b870a0e990c42b9d7809a7"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 64,
+      "name": "Стол круглый раскладной обеденный Боско/Вosco",
+      "first": "assets/products/64/03.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/64/03.webp",
+          "bytes": 13798,
+          "sha256": "9cfd91f304bf3001b89c236fedcdd23afef0fe2f2f5da0db4268d1665d1fa969"
+        },
+        {
+          "path": "assets/products/64/01.webp",
+          "bytes": 13402,
+          "sha256": "8a05569a22414312cbc8392325d200337eedc0e31db7b32dec49b026047e8d4a"
+        },
+        {
+          "path": "assets/products/64/02.webp",
+          "bytes": 10754,
+          "sha256": "b19e35470564e3ebfbd8339482eda6a60ed3cffd9fe9911ae9bdead0d4f32378"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "id": 65,
+      "name": "Стол обеденный Боско/Bosco",
+      "first": "assets/products/65/02.webp",
+      "imageCount": 3,
+      "assets": [
+        {
+          "path": "assets/products/65/02.webp",
+          "bytes": 63760,
+          "sha256": "7129618ed93eddb77bf1f1f222215e9ee8fe6801402dde4f23195576ad3d1c61"
+        },
+        {
+          "path": "assets/products/65/01.webp",
+          "bytes": 74304,
+          "sha256": "febb43acb1d34399a495f34ee35e6e4dd2a669bb53208fc949eb2b280d85ce25"
+        },
+        {
+          "path": "assets/products/65/03.webp",
+          "bytes": 127372,
+          "sha256": "7fad427ebed7a96b27a2f585ff3b319cb7d2bd9f6d29063923f1c3fe4bc6e311"
+        }
+      ],
+      "status": "passed"
+    }
+  ],
+  "sites": {
+    "github-pages": {
+      "root": "https://gkkm8bm7rn-eng.github.io/tetopt/",
+      "coreFiles": {
+        "index.html": {
+          "http": 200,
+          "bytes": 744,
+          "sha256": "1696956ce49eee028b86a24dbf464980f5a606ece10559066ca9d0aeca862694"
+        },
+        "catalog-loader.js": {
+          "http": 200,
+          "bytes": 5296,
+          "sha256": "8a13b2654e39d6a5149b18c712843029f34258b19879d5c085c1d9ecb890c417"
+        },
+        "catalog-source.html": {
+          "http": 200,
+          "bytes": 800956,
+          "sha256": "53ca30c13ec8bb3c274797ebcb6d61a0eb00827091b13e9fc71be15bada2ca5e"
+        }
+      },
+      "products": [
+        {
+          "id": 21,
+          "first": "assets/products/21/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/21/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 46530,
+              "sha256": "7a36d15b17f5dae8fc481efa65e26163fb3600ab45e5ccb72b6183e6d0cde308"
+            },
+            {
+              "path": "assets/products/21/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13370,
+              "sha256": "ab9ef8a3d6dfc7d8ea7dc067b831ebe5affb766178036685fba6aa7ed86e2d14"
+            },
+            {
+              "path": "assets/products/21/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17328,
+              "sha256": "45a8d1dc6daa97a80252e496b13afaa160a0be1ff8cabc5bb87fdd4aacfcf578"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 28,
+          "first": "assets/products/28/01.webp",
+          "imageCount": 1,
+          "assets": [
+            {
+              "path": "assets/products/28/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 71692,
+              "sha256": "75311b95d4e9d0a8aaf502f2ca70b5a7f98f61318577edaa070e3e1b6ce7c719"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 29,
+          "first": "assets/products/29/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/29/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 52150,
+              "sha256": "f4f27d952379a4d7d7c7a4f646eaa20f96adf42536e3d2b31eaa4d7c2b5fb86a"
+            },
+            {
+              "path": "assets/products/29/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 73922,
+              "sha256": "3d0a08a9b90482ed4c7ceb5208d9409004f381a48a20ee33c523d1bda5a138cb"
+            },
+            {
+              "path": "assets/products/29/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 58014,
+              "sha256": "5b9400cfd1d56ad20150e35266fc145012323a318e42888d149df07bd4e9ff61"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 30,
+          "first": "assets/products/30/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/30/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9444,
+              "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+            },
+            {
+              "path": "assets/products/30/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9806,
+              "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+            },
+            {
+              "path": "assets/products/30/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6658,
+              "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 31,
+          "first": "assets/products/31/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/31/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9444,
+              "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+            },
+            {
+              "path": "assets/products/31/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9806,
+              "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+            },
+            {
+              "path": "assets/products/31/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6658,
+              "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 32,
+          "first": "assets/products/32/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/32/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17096,
+              "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+            },
+            {
+              "path": "assets/products/32/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 22472,
+              "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+            },
+            {
+              "path": "assets/products/32/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 20302,
+              "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 33,
+          "first": "assets/products/33/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/33/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17096,
+              "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+            },
+            {
+              "path": "assets/products/33/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 22472,
+              "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+            },
+            {
+              "path": "assets/products/33/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 20302,
+              "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 34,
+          "first": "assets/products/34/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/34/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 8214,
+              "sha256": "19d5dac17a7cc604261e08bc738f915c82ab9af44573ad082b2806eae6de4a35"
+            },
+            {
+              "path": "assets/products/34/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9326,
+              "sha256": "1006e9bd38916c15c0b85ab731e7a45ce19b6474f0ed724f171ef61403bc6971"
+            },
+            {
+              "path": "assets/products/34/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7220,
+              "sha256": "f8224fd364f5cd5702453fcb73abc7c2e78fc37a3bcb26c9fdd541ca1591d99f"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 36,
+          "first": "assets/products/36/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/36/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18040,
+              "sha256": "c1ce466937043ba1075cc412c16da10c94b3c9b5980310cff5b391a1571ae6cc"
+            },
+            {
+              "path": "assets/products/36/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17986,
+              "sha256": "ca772c23dbd2c57ae819e502a5176c1ea89be97073946d6af616b3e40baea678"
+            },
+            {
+              "path": "assets/products/36/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18164,
+              "sha256": "0aac4466f029391bbed0aef1eb511e566af57900d03d5b835d209969d75581e3"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 41,
+          "first": "assets/products/41/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/41/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 37988,
+              "sha256": "a7905324ce6e576866873a0d4b7c6a19ea938662bd006c94c32435417a370939"
+            },
+            {
+              "path": "assets/products/41/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 69226,
+              "sha256": "23645b5a105b8983ab28e0e63a92d479ed8846162f91c0471df6ec5840e5c409"
+            },
+            {
+              "path": "assets/products/41/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 57376,
+              "sha256": "c3264f51eb483e0df5bece11641e89cdf6638356e2fc99ab4f7a1138ec7cc6e2"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 45,
+          "first": "assets/products/45/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/45/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7522,
+              "sha256": "13caf1e5292546797b5eba528318314999ad11e9aa5f83b897d686e2b72aec41"
+            },
+            {
+              "path": "assets/products/45/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6526,
+              "sha256": "e2e4a5b94ff19a46c65ca36ef1399d5bafaf72d036aead0002cfbc1a0ca82a14"
+            },
+            {
+              "path": "assets/products/45/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7312,
+              "sha256": "574db7d07095f59a49ed58e8a1171e21ca075ad04896c2dc4b535e7b2cf337ad"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 50,
+          "first": "assets/products/50/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/50/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 16914,
+              "sha256": "5454be3e3c245756fe5b9c55da1b88ff1b399a34b9c46ab8980b969fdf7a7503"
+            },
+            {
+              "path": "assets/products/50/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 12222,
+              "sha256": "599933e0bbc3470e9afe0f5ef1f50fea19772c1576dd862b3fdbf739af1e9cbd"
+            },
+            {
+              "path": "assets/products/50/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 12850,
+              "sha256": "f056add89c8d35d82a1fafc3ca113fdda2f86e2b653479c696beed041e12d358"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 51,
+          "first": "assets/products/51/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/51/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 50262,
+              "sha256": "f636c8347d836af6b8b56187b0cafbc223634515777e983ae0e602c19f8e67e4"
+            },
+            {
+              "path": "assets/products/51/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 48154,
+              "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+            },
+            {
+              "path": "assets/products/51/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 21674,
+              "sha256": "d676dbbce40414f37c21b87855e55514e06ead2b08e51c546529de19c14f7301"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 52,
+          "first": "assets/products/52/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/52/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 58484,
+              "sha256": "a431fdb0a909260a5483bd261a4244c039163e7a6fac970994be32e157fdcfc5"
+            },
+            {
+              "path": "assets/products/52/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 48154,
+              "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+            },
+            {
+              "path": "assets/products/52/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 34576,
+              "sha256": "69798db74704bdf4dd33bdff02e4c68210626434700fe0687f8c3927668969b1"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 56,
+          "first": "assets/products/56/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/56/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7706,
+              "sha256": "b88e98bef7832e2aa0ff7b20d441fee50318146e9a005a542e1231f70da9452b"
+            },
+            {
+              "path": "assets/products/56/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10778,
+              "sha256": "e28645826ec7f6f24847ed1053fb47d0e01d12916c4d1ecc121dd4be2aeff47d"
+            },
+            {
+              "path": "assets/products/56/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9174,
+              "sha256": "6c8e4dc8a1358fcb7fe8835aec812998f9b66b290062c8c677c3f1dde73cd8c7"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 57,
+          "first": "assets/products/57/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/57/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 169014,
+              "sha256": "e42d378142b0b623737f315873039782f28f3f603aff1f3507ac3cc82dc557a2"
+            },
+            {
+              "path": "assets/products/57/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 131724,
+              "sha256": "41c0a6ce031f1ce0bd265c70fa34df666688224a41a41d29f004801f530092cc"
+            },
+            {
+              "path": "assets/products/57/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 99464,
+              "sha256": "f04f1b5098b09edadddb97d03dc3d0ec0ae2c115528d12dda372efab8880b681"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 62,
+          "first": "assets/products/62/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/62/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18744,
+              "sha256": "04cdd23b7c0ff6dbbd2e50df4d0e8f239b6e6815895cc9bff377324a2c1ce167"
+            },
+            {
+              "path": "assets/products/62/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 56364,
+              "sha256": "0178b0266d675498c4c18f20ebd38498b4802bf71b6efea7d8b3e6d5c3d873b0"
+            },
+            {
+              "path": "assets/products/62/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 23070,
+              "sha256": "59fb334e27e5c7f7044b5b1ba93c691fc0185b772691c2b8a0c3879632ac2645"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 63,
+          "first": "assets/products/63/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/63/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 11594,
+              "sha256": "cbad8788d090bedd9af84f82e8b0a9fbc79890071ebaa4d5737130fa2068efa6"
+            },
+            {
+              "path": "assets/products/63/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 4956,
+              "sha256": "d235721da33623aeea4a0f406974d6d88929a7da8f3b87e501190799e3a07707"
+            },
+            {
+              "path": "assets/products/63/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10576,
+              "sha256": "7f5004eb069cfadb7a19a1a525e9ded0b52b2a1fc8b870a0e990c42b9d7809a7"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 64,
+          "first": "assets/products/64/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/64/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13798,
+              "sha256": "9cfd91f304bf3001b89c236fedcdd23afef0fe2f2f5da0db4268d1665d1fa969"
+            },
+            {
+              "path": "assets/products/64/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13402,
+              "sha256": "8a05569a22414312cbc8392325d200337eedc0e31db7b32dec49b026047e8d4a"
+            },
+            {
+              "path": "assets/products/64/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10754,
+              "sha256": "b19e35470564e3ebfbd8339482eda6a60ed3cffd9fe9911ae9bdead0d4f32378"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 65,
+          "first": "assets/products/65/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/65/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 63760,
+              "sha256": "7129618ed93eddb77bf1f1f222215e9ee8fe6801402dde4f23195576ad3d1c61"
+            },
+            {
+              "path": "assets/products/65/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 74304,
+              "sha256": "febb43acb1d34399a495f34ee35e6e4dd2a669bb53208fc949eb2b280d85ce25"
+            },
+            {
+              "path": "assets/products/65/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 127372,
+              "sha256": "7fad427ebed7a96b27a2f585ff3b319cb7d2bd9f6d29063923f1c3fe4bc6e311"
+            }
+          ],
+          "status": "passed"
+        }
+      ],
+      "status": "passed"
+    },
+    "cloudflare": {
+      "root": "https://tetopt.m78m6cfc2v.workers.dev/",
+      "coreFiles": {
+        "index.html": {
+          "http": 200,
+          "bytes": 744,
+          "sha256": "1696956ce49eee028b86a24dbf464980f5a606ece10559066ca9d0aeca862694"
+        },
+        "catalog-loader.js": {
+          "http": 200,
+          "bytes": 5296,
+          "sha256": "8a13b2654e39d6a5149b18c712843029f34258b19879d5c085c1d9ecb890c417"
+        },
+        "catalog-source.html": {
+          "http": 200,
+          "bytes": 800956,
+          "sha256": "53ca30c13ec8bb3c274797ebcb6d61a0eb00827091b13e9fc71be15bada2ca5e"
+        }
+      },
+      "products": [
+        {
+          "id": 21,
+          "first": "assets/products/21/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/21/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 46530,
+              "sha256": "7a36d15b17f5dae8fc481efa65e26163fb3600ab45e5ccb72b6183e6d0cde308"
+            },
+            {
+              "path": "assets/products/21/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13370,
+              "sha256": "ab9ef8a3d6dfc7d8ea7dc067b831ebe5affb766178036685fba6aa7ed86e2d14"
+            },
+            {
+              "path": "assets/products/21/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17328,
+              "sha256": "45a8d1dc6daa97a80252e496b13afaa160a0be1ff8cabc5bb87fdd4aacfcf578"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 28,
+          "first": "assets/products/28/01.webp",
+          "imageCount": 1,
+          "assets": [
+            {
+              "path": "assets/products/28/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 71692,
+              "sha256": "75311b95d4e9d0a8aaf502f2ca70b5a7f98f61318577edaa070e3e1b6ce7c719"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 29,
+          "first": "assets/products/29/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/29/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 52150,
+              "sha256": "f4f27d952379a4d7d7c7a4f646eaa20f96adf42536e3d2b31eaa4d7c2b5fb86a"
+            },
+            {
+              "path": "assets/products/29/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 73922,
+              "sha256": "3d0a08a9b90482ed4c7ceb5208d9409004f381a48a20ee33c523d1bda5a138cb"
+            },
+            {
+              "path": "assets/products/29/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 58014,
+              "sha256": "5b9400cfd1d56ad20150e35266fc145012323a318e42888d149df07bd4e9ff61"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 30,
+          "first": "assets/products/30/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/30/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9444,
+              "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+            },
+            {
+              "path": "assets/products/30/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9806,
+              "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+            },
+            {
+              "path": "assets/products/30/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6658,
+              "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 31,
+          "first": "assets/products/31/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/31/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9444,
+              "sha256": "cd5d796ebacc28918a7c195d54727094ccd32943e0ba445678f994a3a9335852"
+            },
+            {
+              "path": "assets/products/31/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9806,
+              "sha256": "5b299a89e05526531be1070f1ccea3631258bb2ff8e74eb8b7d4bb3e7160b777"
+            },
+            {
+              "path": "assets/products/31/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6658,
+              "sha256": "99b0b1485774902796591b7009b94e5243180d6f229c39d5baa96f83ee003863"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 32,
+          "first": "assets/products/32/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/32/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17096,
+              "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+            },
+            {
+              "path": "assets/products/32/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 22472,
+              "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+            },
+            {
+              "path": "assets/products/32/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 20302,
+              "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 33,
+          "first": "assets/products/33/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/33/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17096,
+              "sha256": "46f07d41c716c227bea28826d39d64738a2df4e131677997a70fe31c3ba89f56"
+            },
+            {
+              "path": "assets/products/33/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 22472,
+              "sha256": "998b90aecc840bb77b91a1f1ed0516b691959a4a52b32f0d935563936f7db5f3"
+            },
+            {
+              "path": "assets/products/33/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 20302,
+              "sha256": "aa2adf11cc60c8f68cd4ba53b0f92ece21ebf7393c1abbaf9b23905c4998b874"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 34,
+          "first": "assets/products/34/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/34/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 8214,
+              "sha256": "19d5dac17a7cc604261e08bc738f915c82ab9af44573ad082b2806eae6de4a35"
+            },
+            {
+              "path": "assets/products/34/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9326,
+              "sha256": "1006e9bd38916c15c0b85ab731e7a45ce19b6474f0ed724f171ef61403bc6971"
+            },
+            {
+              "path": "assets/products/34/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7220,
+              "sha256": "f8224fd364f5cd5702453fcb73abc7c2e78fc37a3bcb26c9fdd541ca1591d99f"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 36,
+          "first": "assets/products/36/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/36/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18040,
+              "sha256": "c1ce466937043ba1075cc412c16da10c94b3c9b5980310cff5b391a1571ae6cc"
+            },
+            {
+              "path": "assets/products/36/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 17986,
+              "sha256": "ca772c23dbd2c57ae819e502a5176c1ea89be97073946d6af616b3e40baea678"
+            },
+            {
+              "path": "assets/products/36/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18164,
+              "sha256": "0aac4466f029391bbed0aef1eb511e566af57900d03d5b835d209969d75581e3"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 41,
+          "first": "assets/products/41/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/41/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 37988,
+              "sha256": "a7905324ce6e576866873a0d4b7c6a19ea938662bd006c94c32435417a370939"
+            },
+            {
+              "path": "assets/products/41/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 69226,
+              "sha256": "23645b5a105b8983ab28e0e63a92d479ed8846162f91c0471df6ec5840e5c409"
+            },
+            {
+              "path": "assets/products/41/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 57376,
+              "sha256": "c3264f51eb483e0df5bece11641e89cdf6638356e2fc99ab4f7a1138ec7cc6e2"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 45,
+          "first": "assets/products/45/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/45/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7522,
+              "sha256": "13caf1e5292546797b5eba528318314999ad11e9aa5f83b897d686e2b72aec41"
+            },
+            {
+              "path": "assets/products/45/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 6526,
+              "sha256": "e2e4a5b94ff19a46c65ca36ef1399d5bafaf72d036aead0002cfbc1a0ca82a14"
+            },
+            {
+              "path": "assets/products/45/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7312,
+              "sha256": "574db7d07095f59a49ed58e8a1171e21ca075ad04896c2dc4b535e7b2cf337ad"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 50,
+          "first": "assets/products/50/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/50/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 16914,
+              "sha256": "5454be3e3c245756fe5b9c55da1b88ff1b399a34b9c46ab8980b969fdf7a7503"
+            },
+            {
+              "path": "assets/products/50/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 12222,
+              "sha256": "599933e0bbc3470e9afe0f5ef1f50fea19772c1576dd862b3fdbf739af1e9cbd"
+            },
+            {
+              "path": "assets/products/50/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 12850,
+              "sha256": "f056add89c8d35d82a1fafc3ca113fdda2f86e2b653479c696beed041e12d358"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 51,
+          "first": "assets/products/51/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/51/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 50262,
+              "sha256": "f636c8347d836af6b8b56187b0cafbc223634515777e983ae0e602c19f8e67e4"
+            },
+            {
+              "path": "assets/products/51/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 48154,
+              "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+            },
+            {
+              "path": "assets/products/51/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 21674,
+              "sha256": "d676dbbce40414f37c21b87855e55514e06ead2b08e51c546529de19c14f7301"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 52,
+          "first": "assets/products/52/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/52/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 58484,
+              "sha256": "a431fdb0a909260a5483bd261a4244c039163e7a6fac970994be32e157fdcfc5"
+            },
+            {
+              "path": "assets/products/52/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 48154,
+              "sha256": "59a116526c2cdd43beb8795f6dca9c2b455d4a1d62427169f07016c43761804b"
+            },
+            {
+              "path": "assets/products/52/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 34576,
+              "sha256": "69798db74704bdf4dd33bdff02e4c68210626434700fe0687f8c3927668969b1"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 56,
+          "first": "assets/products/56/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/56/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 7706,
+              "sha256": "b88e98bef7832e2aa0ff7b20d441fee50318146e9a005a542e1231f70da9452b"
+            },
+            {
+              "path": "assets/products/56/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10778,
+              "sha256": "e28645826ec7f6f24847ed1053fb47d0e01d12916c4d1ecc121dd4be2aeff47d"
+            },
+            {
+              "path": "assets/products/56/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 9174,
+              "sha256": "6c8e4dc8a1358fcb7fe8835aec812998f9b66b290062c8c677c3f1dde73cd8c7"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 57,
+          "first": "assets/products/57/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/57/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 169014,
+              "sha256": "e42d378142b0b623737f315873039782f28f3f603aff1f3507ac3cc82dc557a2"
+            },
+            {
+              "path": "assets/products/57/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 131724,
+              "sha256": "41c0a6ce031f1ce0bd265c70fa34df666688224a41a41d29f004801f530092cc"
+            },
+            {
+              "path": "assets/products/57/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 99464,
+              "sha256": "f04f1b5098b09edadddb97d03dc3d0ec0ae2c115528d12dda372efab8880b681"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 62,
+          "first": "assets/products/62/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/62/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 18744,
+              "sha256": "04cdd23b7c0ff6dbbd2e50df4d0e8f239b6e6815895cc9bff377324a2c1ce167"
+            },
+            {
+              "path": "assets/products/62/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 56364,
+              "sha256": "0178b0266d675498c4c18f20ebd38498b4802bf71b6efea7d8b3e6d5c3d873b0"
+            },
+            {
+              "path": "assets/products/62/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 23070,
+              "sha256": "59fb334e27e5c7f7044b5b1ba93c691fc0185b772691c2b8a0c3879632ac2645"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 63,
+          "first": "assets/products/63/01.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/63/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 11594,
+              "sha256": "cbad8788d090bedd9af84f82e8b0a9fbc79890071ebaa4d5737130fa2068efa6"
+            },
+            {
+              "path": "assets/products/63/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 4956,
+              "sha256": "d235721da33623aeea4a0f406974d6d88929a7da8f3b87e501190799e3a07707"
+            },
+            {
+              "path": "assets/products/63/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10576,
+              "sha256": "7f5004eb069cfadb7a19a1a525e9ded0b52b2a1fc8b870a0e990c42b9d7809a7"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 64,
+          "first": "assets/products/64/03.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/64/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13798,
+              "sha256": "9cfd91f304bf3001b89c236fedcdd23afef0fe2f2f5da0db4268d1665d1fa969"
+            },
+            {
+              "path": "assets/products/64/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 13402,
+              "sha256": "8a05569a22414312cbc8392325d200337eedc0e31db7b32dec49b026047e8d4a"
+            },
+            {
+              "path": "assets/products/64/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 10754,
+              "sha256": "b19e35470564e3ebfbd8339482eda6a60ed3cffd9fe9911ae9bdead0d4f32378"
+            }
+          ],
+          "status": "passed"
+        },
+        {
+          "id": 65,
+          "first": "assets/products/65/02.webp",
+          "imageCount": 3,
+          "assets": [
+            {
+              "path": "assets/products/65/02.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 63760,
+              "sha256": "7129618ed93eddb77bf1f1f222215e9ee8fe6801402dde4f23195576ad3d1c61"
+            },
+            {
+              "path": "assets/products/65/01.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 74304,
+              "sha256": "febb43acb1d34399a495f34ee35e6e4dd2a669bb53208fc949eb2b280d85ce25"
+            },
+            {
+              "path": "assets/products/65/03.webp",
+              "http": 200,
+              "contentType": "image/webp",
+              "bytes": 127372,
+              "sha256": "7fad427ebed7a96b27a2f585ff3b319cb7d2bd9f6d29063923f1c3fe4bc6e311"
+            }
+          ],
+          "status": "passed"
+        }
+      ],
+      "status": "passed"
+    }
+  },
+  "status": "passed",
+  "summary": "Вторая партия прошла окончательную проверку: 20/20 карточек. GitHub Pages и Cloudflare публикуют текущие файлы main; все изображения доступны, имеют корректный тип и побайтно совпадают с репозиторием. Порядок галерей корректен, дублей и непроверенных интерьерных визуализаций нет."
+}

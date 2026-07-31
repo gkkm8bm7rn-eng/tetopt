@@ -175,5 +175,10 @@
   "errors": [],
   "assetVersion": "20260730-2035-b02-exact",
   "completedCount": 6,
-  "status": "assets_applied_pending_live_review"
+  "status": "completed_final_verified",
+  "verifiedAt": "2026-07-31T07:15:11.189170+00:00",
+  "verifiedSites": [
+    "github-pages",
+    "cloudflare"
+  ]
 }
