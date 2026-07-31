@@ -6,11 +6,11 @@
         "id": 312,
         "name": "Кресло Мурано/Murano",
         "specs": "опора 360, велюр/букле (HYP), бежевый",
-        "directImage": "assets/products/312/03.webp",
+        "directImage": "assets/products/312/01.webp",
         "images": [
-          "assets/products/312/03.webp",
+          "assets/products/312/01.webp",
           "assets/products/312/02.webp",
-          "assets/products/312/01.webp"
+          "assets/products/312/03.webp"
         ]
       },
       {
@@ -39,11 +39,11 @@
         "id": 1037,
         "name": "Кресло Мурано/Murano хром",
         "specs": "велюр/букле (HYP), бежевый",
-        "directImage": "assets/products/1037/01.webp",
+        "directImage": "assets/products/1037/02.webp",
         "images": [
-          "assets/products/1037/01.webp",
           "assets/products/1037/02.webp",
-          "assets/products/1037/03.webp"
+          "assets/products/1037/03.webp",
+          "assets/products/1037/01.webp"
         ]
       }
     ]
@@ -55,11 +55,11 @@
         "id": 1037,
         "name": "Кресло Мурано/Murano хром",
         "specs": "велюр/букле (HYP), бежевый",
-        "directImage": "assets/products/1037/01.webp",
+        "directImage": "assets/products/1037/02.webp",
         "images": [
-          "assets/products/1037/01.webp",
           "assets/products/1037/02.webp",
-          "assets/products/1037/03.webp"
+          "assets/products/1037/03.webp",
+          "assets/products/1037/01.webp"
         ]
       }
     ]
@@ -104,11 +104,11 @@
         "id": 1005,
         "name": "Кресло Флаффи/Fluffy",
         "specs": "велюр/букле (HYP), бежевый",
-        "directImage": "assets/products/1005/01.webp",
+        "directImage": "assets/products/1005/02.webp",
         "images": [
-          "assets/products/1005/01.webp",
           "assets/products/1005/02.webp",
-          "assets/products/1005/03.webp"
+          "assets/products/1005/03.webp",
+          "assets/products/1005/01.webp"
         ]
       },
       {
@@ -131,11 +131,11 @@
         "id": 893,
         "name": "Кресло лаунж Агнет/Agnet",
         "specs": "букле/металл, светло-бежевый/натуральный",
-        "directImage": "assets/products/893/03.webp",
+        "directImage": "assets/products/893/01.webp",
         "images": [
-          "assets/products/893/03.webp",
+          "assets/products/893/01.webp",
           "assets/products/893/02.webp",
-          "assets/products/893/01.webp"
+          "assets/products/893/03.webp"
         ]
       },
       {
@@ -158,11 +158,11 @@
         "id": 863,
         "name": "Банкетка-обувница Чарли Люкс/Charli Lux",
         "specs": "велюр/букле, vt шейп какао",
-        "directImage": "assets/products/863/01.webp",
+        "directImage": "assets/products/863/03.webp",
         "images": [
-          "assets/products/863/01.webp",
+          "assets/products/863/03.webp",
           "assets/products/863/02.webp",
-          "assets/products/863/03.webp"
+          "assets/products/863/01.webp"
         ]
       }
     ]
@@ -174,11 +174,11 @@
         "id": 855,
         "name": "Кресло лаунж Космо/Cosmo",
         "specs": "велюр/букле, vt шейп бежевый",
-        "directImage": "assets/products/855/03.webp",
+        "directImage": "assets/products/855/02.webp",
         "images": [
-          "assets/products/855/03.webp",
+          "assets/products/855/02.webp",
           "assets/products/855/01.webp",
-          "assets/products/855/02.webp"
+          "assets/products/855/03.webp"
         ]
       }
     ]
