@@ -32,8 +32,8 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --disable-pip-version-check requests pillow
 
-      - name: Fetch and apply official supplier photos
-        run: python scripts/apply_exact_manzana_107.py
+      - name: Fetch and apply exact 80x80 supplier photos
+        run: python scripts/apply_exact_manzana_107_20620.py
 
       - name: Validate loader syntax
         run: node --check catalog-loader.js
@@ -43,5 +43,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A assets/products/107 catalog-source.html catalog-loader.js index.html photo-processing-progress.json data/batch-04-exact-manzana-107-report.json
-          git commit -m "Применить точные фото Manzana для ID 107"
+          git commit -m "Применить точные фото Manzana 80x80 для ID 107"
           git push origin HEAD:${{ github.head_ref || github.ref_name }}
