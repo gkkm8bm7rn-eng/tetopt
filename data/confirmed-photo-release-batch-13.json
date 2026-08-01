@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 13,
+  "published_products": 33,
+  "published_ids": [
+    1061,
+    1064,
+    1065,
+    1066,
+    1068,
+    1069,
+    1071,
+    1078,
+    1080,
+    1083,
+    1093,
+    1099,
+    1102,
+    1103,
+    1108,
+    1109,
+    1110,
+    1115,
+    1117,
+    1120,
+    1121,
+    1122,
+    1123,
+    1125,
+    1126,
+    1127,
+    1128,
+    1130,
+    1132,
+    1153,
+    1154,
+    1159,
+    1160
+  ],
+  "skipped_as_uncertain": [
+    1058,
+    1060,
+    1063,
+    1067,
+    1072,
+    1073,
+    1075,
+    1076,
+    1077,
+    1084,
+    1085,
+    1086,
+    1087,
+    1088,
+    1089,
+    1090,
+    1091,
+    1092,
+    1100,
+    1104,
+    1118,
+    1119,
+    1131,
+    1133,
+    1137,
+    1149,
+    1162
+  ],
+  "copied_files": 30,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 586,
+  "total_confirmed_after_release": 619,
+  "products": [
+    {
+      "product_id": 1061,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1061/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1061/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1064,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1064/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1064/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1065,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1065/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1065/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1066,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1066/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1066/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1068,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1068/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1068/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1069,
+      "name": "Кресло Софти Люкс/Softy Lux",
+      "cover": "assets/products/1069/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1069/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1071,
+      "name": "Кресло Стайл/Style",
+      "cover": "assets/products/1071/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1071/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1078,
+      "name": "Кресло Сван/Swan",
+      "cover": "assets/products/1078/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1078/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1080,
+      "name": "Кресло Сван/Swan",
+      "cover": "assets/products/1080/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1080/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1083,
+      "name": "Кресло Сван/Swan",
+      "cover": "assets/products/1083/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1083/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1093,
+      "name": "Кресло Траст Люкс/Trust Lux",
+      "cover": "assets/products/1093/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1093/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1099,
+      "name": "Кресло Урбан/Urban",
+      "cover": "assets/products/1099/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1099/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1102,
+      "name": "Кресло Урбан С/Urban S (на полозьях, 2 шт. в 1 упаковке)",
+      "cover": "assets/products/1102/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1102/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1103,
+      "name": "Кресло Урбан-Лоу/Urban-Low",
+      "cover": "assets/products/1103/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1103/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1108,
+      "name": "Кресло Йорк/York",
+      "cover": "assets/products/1108/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1108/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1109,
+      "name": "Кресло Йорк/York",
+      "cover": "assets/products/1109/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1109/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1110,
+      "name": "Кресло Йорк/York",
+      "cover": "assets/products/1110/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1110/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1115,
+      "name": "Кресло Бергамо/Bergamo хром (22)",
+      "cover": "assets/products/1115/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1115/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1117,
+      "name": "Кресло Йорк/York",
+      "cover": "assets/products/1117/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1120,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1120/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1120/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1121,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1121/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1121/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1122,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1122/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1122/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1123,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1123/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1123/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1125,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1125/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1125/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1126,
+      "name": "Кресло СН747",
+      "cover": "assets/products/1126/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1126/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1127,
+      "name": "Кресло СН747 хром",
+      "cover": "assets/products/1127/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1128,
+      "name": "Кресло СН833",
+      "cover": "assets/products/1128/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1130,
+      "name": "Кресло СН833",
+      "cover": "assets/products/1130/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1130/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1132,
+      "name": "Кресло СН888 (22)",
+      "cover": "assets/products/1132/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1132/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1153,
+      "name": "Кресло Айбир/Ibear",
+      "cover": "assets/products/1153/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1153/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1154,
+      "name": "Кресло Айбир/Ibear",
+      "cover": "assets/products/1154/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1154/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1159,
+      "name": "Кресло Айволф/Iwolf",
+      "cover": "assets/products/1159/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1159/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1160,
+      "name": "Кресло Айволф/Iwolf",
+      "cover": "assets/products/1160/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1160/00-main.webp"
+      ]
+    }
+  ]
+}
