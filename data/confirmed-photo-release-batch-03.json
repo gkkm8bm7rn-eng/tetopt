@@ -1,0 +1,518 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 3,
+  "published_products": 49,
+  "published_ids": [
+    155,
+    156,
+    173,
+    176,
+    177,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    190,
+    191,
+    192,
+    194,
+    195,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    217,
+    219,
+    222,
+    223,
+    224,
+    225,
+    226,
+    227,
+    228,
+    229,
+    231,
+    234,
+    239,
+    241,
+    243,
+    244,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250
+  ],
+  "skipped_as_uncertain": [
+    62,
+    122,
+    134,
+    147,
+    148,
+    151,
+    152,
+    157,
+    158,
+    159,
+    242
+  ],
+  "copied_files": 49,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 82,
+  "total_confirmed_after_release": 131,
+  "products": [
+    {
+      "product_id": 155,
+      "name": "Стул барный Чилли/Chilly (мод.7095б) (1шт.в упаковке)",
+      "cover": "assets/products/155/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/155/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 156,
+      "name": "Стул барный Чилли/Chilly (мод. 7095б)",
+      "cover": "assets/products/156/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/156/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 173,
+      "name": "Стул полубарный Чилли/Chilly (мод. 7095пб)",
+      "cover": "assets/products/173/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/173/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 176,
+      "name": "Кресло Локи/Loki",
+      "cover": "assets/products/176/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/176/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 177,
+      "name": "Кресло Локи/Loki",
+      "cover": "assets/products/177/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/177/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 180,
+      "name": "Стул Андромеда/Andromeda/1 шт. в упаковке",
+      "cover": "assets/products/180/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/180/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 181,
+      "name": "Стул Балдур/Baldur",
+      "cover": "assets/products/181/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/181/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 182,
+      "name": "Стул Балдур/Baldur",
+      "cover": "assets/products/182/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/182/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 183,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1)/1 шт. в упаковке",
+      "cover": "assets/products/183/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/183/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 184,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)",
+      "cover": "assets/products/184/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/184/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 185,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/1 шт. в упаковке",
+      "cover": "assets/products/185/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/185/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 186,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/1 шт. в упаковке",
+      "cover": "assets/products/186/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/186/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 187,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)",
+      "cover": "assets/products/187/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/187/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 188,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/1 шт. в упаковке",
+      "cover": "assets/products/188/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/188/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 190,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)",
+      "cover": "assets/products/190/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/190/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 191,
+      "name": "Стул Синди Софт/Cindy Soft (мод.C1021F1-1)/1 шт. в упаковке",
+      "cover": "assets/products/191/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/191/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 192,
+      "name": "Стул Кросс/Cross (мод.CB2001)",
+      "cover": "assets/products/192/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/192/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 194,
+      "name": "Стул Кросс/Cross (мод.CB2001)",
+      "cover": "assets/products/194/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/194/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 195,
+      "name": "Стул Кросс/Cross (мод.CB2001)",
+      "cover": "assets/products/195/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/195/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 197,
+      "name": "Стул Кроссман/Crossman",
+      "cover": "assets/products/197/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/197/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 198,
+      "name": "Стул Кроссман/Crossman",
+      "cover": "assets/products/198/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/198/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 199,
+      "name": "Стул Кроссман/Crossman",
+      "cover": "assets/products/199/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/199/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 200,
+      "name": "Стул Кроссман/Crossman",
+      "cover": "assets/products/200/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/200/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 201,
+      "name": "Стул Диамант/Diamante жесткое сиденье",
+      "cover": "assets/products/201/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/201/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 202,
+      "name": "Стул Диамант/Diamante жесткое сиденье (1шт.в упаковке)",
+      "cover": "assets/products/202/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/202/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 203,
+      "name": "Стул Диамант/Diamante жесткое сиденье",
+      "cover": "assets/products/203/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/203/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 204,
+      "name": "Стул Диамант/Diamante жесткое сиденье (1шт.в упаковке)",
+      "cover": "assets/products/204/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/204/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 217,
+      "name": "Стул Фенрир/Fenrir",
+      "cover": "assets/products/217/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/217/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 219,
+      "name": "Стул Фрея/Freya",
+      "cover": "assets/products/219/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/219/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 222,
+      "name": "Стул Ландо/Lando (мод.8036)",
+      "cover": "assets/products/222/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/222/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 223,
+      "name": "Стул Ландо/Lando (мод.8036)",
+      "cover": "assets/products/223/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/223/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 224,
+      "name": "Стул Локи/Loki",
+      "cover": "assets/products/224/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/224/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 225,
+      "name": "Стул Локи/Loki",
+      "cover": "assets/products/225/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/225/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 226,
+      "name": "Стул Мани/Mani",
+      "cover": "assets/products/226/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/226/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 227,
+      "name": "Стул Мани/Mani",
+      "cover": "assets/products/227/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/227/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 228,
+      "name": "Стул Мидгард/Midgard",
+      "cover": "assets/products/228/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/228/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 229,
+      "name": "Стул Один/Odin",
+      "cover": "assets/products/229/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/229/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 231,
+      "name": "Стул Опера/Opera (OP-SC)/1 шт. в упаковке",
+      "cover": "assets/products/231/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/231/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 234,
+      "name": "Стул Palermo/Палермо ( PM-SC2 )",
+      "cover": "assets/products/234/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/234/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 239,
+      "name": "Стул Свиден/Sweden",
+      "cover": "assets/products/239/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/239/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 241,
+      "name": "Стул Тонет Классик Чаир/Thonet Classic Chair (мод.CB2345)",
+      "cover": "assets/products/241/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/241/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 243,
+      "name": "Стул Тор/Thor",
+      "cover": "assets/products/243/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/243/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 244,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.053V)/1 шт. в упаковке",
+      "cover": "assets/products/244/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/244/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 245,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.053V)/1 шт. в упаковке",
+      "cover": "assets/products/245/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/245/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 246,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.053V)",
+      "cover": "assets/products/246/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/246/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 247,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.053V)/1 шт. в упаковке",
+      "cover": "assets/products/247/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/247/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 248,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.053V)",
+      "cover": "assets/products/248/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/248/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 249,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.74)/1 шт. в упаковке",
+      "cover": "assets/products/249/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/249/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 250,
+      "name": "Стул Тулип Софт/Tulip Soft (мод.74)/1 шт. в упаковке",
+      "cover": "assets/products/250/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/250/00-main.webp"
+      ]
+    }
+  ]
+}
