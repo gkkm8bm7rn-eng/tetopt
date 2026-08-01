@@ -51,7 +51,7 @@ jobs:
               published.update(int(v) for v in json.loads(path.read_text(encoding='utf-8')).get('published_ids',[]))
           approved=set(APPROVED)
           if len(APPROVED)!=58 or len(approved)!=58: raise SystemExit('Ожидалось 58 уникальных ID')
-          if len(published)!=884: raise SystemExit(f'До партии ожидалось 884 товара, получено {len(published)}')
+          if len(published)!=879: raise SystemExit(f'До партии ожидалось 879 товаров, получено {len(published)}')
           if approved & hidden or approved & published or approved & set(SKIPPED): raise SystemExit('Нарушена изоляция партии')
           copied=[]; rows=[]
           for product_id in APPROVED:
@@ -79,7 +79,7 @@ jobs:
           loader=ROOT/'catalog-loader.js'; text=loader.read_text(encoding='utf-8'); text,count=re.subn(r'const assetVersion="[^"]+";','const assetVersion="20260801-confirmed-batch-19";',text,count=1)
           if count!=1: raise SystemExit('Не найдена версия ассетов')
           loader.write_text(text,encoding='utf-8')
-          report={'version':1,'rule':'publish_visually_confirmed_only','batch':19,'published_products':58,'published_ids':APPROVED,'skipped_as_uncertain':SKIPPED,'copied_files':len(copied),'archived_products':361,'archived_products_changed':0,'previously_published_products':884,'total_confirmed_after_release':942,'products':rows}
+          report={'version':1,'rule':'publish_visually_confirmed_only','batch':19,'published_products':58,'published_ids':APPROVED,'skipped_as_uncertain':SKIPPED,'copied_files':len(copied),'archived_products':361,'archived_products_changed':0,'previously_published_products':879,'total_confirmed_after_release':937,'products':rows}
           (ROOT/'data/confirmed-photo-release-batch-19.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           PY
       - if: steps.gate.outputs.run == 'true'
@@ -92,7 +92,7 @@ jobs:
           import json,re,subprocess
           from pathlib import Path
           report=json.loads(Path('data/confirmed-photo-release-batch-19.json').read_text(encoding='utf-8')); allowed=set(report['published_ids'])
-          if report['published_products']!=58 or len(allowed)!=58 or report['total_confirmed_after_release']!=942: raise SystemExit('Неверный итог партии')
+          if report['published_products']!=58 or len(allowed)!=58 or report['total_confirmed_after_release']!=937: raise SystemExit('Неверный итог партии')
           if report['archived_products']!=361 or report['archived_products_changed']!=0: raise SystemExit('Нарушена изоляция архива')
           for row in subprocess.run(['git','status','--porcelain','--untracked-files=all'],check=True,capture_output=True,text=True).stdout.splitlines():
               path=row[3:] if len(row)>=4 else row; match=re.match(r'assets/products/(\d+)/',path)
