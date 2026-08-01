@@ -75,7 +75,7 @@ jobs:
               if not source_images:
                   continue
               source_cover=source_images[0].split('?',1)[0]
-              main_cover=(main_images[0] if main_images else str(main.get('directImage') or '')).split('?',1')[0]
+              main_cover=(main_images[0] if main_images else str(main.get('directImage') or '')).split('?',1)[0]
               source_path=SOURCE/source_cover
               if source_cover==main_cover or not source_path.is_file():
                   continue
