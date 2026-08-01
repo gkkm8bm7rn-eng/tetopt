@@ -1,0 +1,139 @@
+name: Publish corrected deferred covers batch 26
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [".github/workflows/publish-deferred-galleries-batch-26.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-corrected-deferred-batch-26
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event.pull_request.head.ref == 'agent/publish-deferred-galleries-batch-26'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/publish-deferred-galleries-batch-26
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          if test -f data/confirmed-photo-release-batch-26.json; then echo "run=false" >> "$GITHUB_OUTPUT"; else echo "run=true" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.gate.outputs.run == 'true'
+        run: |
+          git fetch origin agent/front-three-quarter-and-image-zoom
+          git worktree add /tmp/source origin/agent/front-three-quarter-and-image-zoom
+      - if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import copy,json,re,shutil
+          from pathlib import Path
+          ROOT=Path('.'); SOURCE=Path('/tmp/source')
+          SELECTED={
+            16:'assets/products/16/02.webp',
+            17:'assets/products/17/02.webp',
+            62:'assets/products/62/01.webp',
+            122:'assets/products/122/00-main.webp',
+            123:'assets/products/123/02.webp',
+            124:'assets/products/124/02.webp',
+            125:'assets/products/125/02.webp',
+            126:'assets/products/126/02.webp',
+            127:'assets/products/127/03.webp',
+            128:'assets/products/128/03.webp',
+            129:'assets/products/129/03.webp',
+            130:'assets/products/130/03.webp',
+            132:'assets/products/132/03.webp',
+            134:'assets/products/134/03.webp',
+            138:'assets/products/138/02.webp',
+            147:'assets/products/147/02.webp',
+            148:'assets/products/148/02.webp',
+            149:'assets/products/149/03.webp',
+          }
+          STILL_DEFERRED=[140,142]
+          def read_products(path):
+              text=path.read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+              while text[start].isspace(): start+=1
+              products,used=json.JSONDecoder().raw_decode(text[start:]); return text,products,start,start+used
+          main_text,products,start,end=read_products(ROOT/'catalog-source.html'); _,source_products,_,_=read_products(SOURCE/'catalog-source.html')
+          baseline=copy.deepcopy(products); by_id={int(p['id']):p for p in products}; source_by_id={int(p['id']):p for p in source_products}; baseline_by_id={int(p['id']):p for p in baseline}
+          hidden={int(v) for v in json.loads((ROOT/'hidden-products.json').read_text(encoding='utf-8')).get('ids',[])}
+          published=set(); deferred=set()
+          for path in [ROOT/'data/confident-photo-release.json']+sorted(ROOT.glob('data/confirmed-photo-release-batch-*.json')):
+              report=json.loads(path.read_text(encoding='utf-8')); published.update(int(v) for v in report.get('published_ids',[])); deferred.update(int(v) for v in report.get('skipped_as_uncertain',[]))
+          approved=set(SELECTED)
+          unresolved=deferred-published-hidden
+          if len(published)!=1039 or len(unresolved)!=323: raise SystemExit(f'Неверные исходные количества: published={len(published)}, unresolved={len(unresolved)}')
+          if len(approved)!=18 or not approved.issubset(unresolved) or approved & hidden or approved & set(STILL_DEFERRED): raise SystemExit('Нарушена изоляция исправляемой партии')
+          copied=[]; rows=[]
+          for product_id,cover in SELECTED.items():
+              product=by_id[product_id]; source=source_by_id.get(product_id,{})
+              clean_cover=cover.split('?',1)[0]
+              if not (ROOT/clean_cover).is_file():
+                  src=SOURCE/clean_cover
+                  if not src.is_file(): raise SystemExit(f'ID {product_id}: не найден выбранный файл {clean_cover}')
+                  dst=ROOT/clean_cover; dst.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(src,dst); copied.append(clean_cover)
+              interiors=[v for v in product.get('images',[]) if isinstance(v,str) and v.startswith('assets/interiors/')]
+              candidates=[]; seen=set()
+              def add(value):
+                  if not isinstance(value,str) or not value: return
+                  clean=value.split('?',1)[0]
+                  if clean.startswith(('http://','https://','assets/interiors/')) or clean in seen: return
+                  base=ROOT if (ROOT/clean).is_file() else SOURCE
+                  if not (base/clean).is_file(): return
+                  if not (ROOT/clean).is_file():
+                      dst=ROOT/clean; dst.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(base/clean,dst); copied.append(clean)
+                  seen.add(clean); candidates.append(clean)
+              add(clean_cover)
+              for value in product.get('images',[]) if isinstance(product.get('images'),list) else []: add(value)
+              for value in source.get('images',[]) if isinstance(source.get('images'),list) else []: add(value)
+              gallery=candidates+interiors
+              if not gallery or gallery[0]!=clean_cover: raise SystemExit(f'ID {product_id}: выбранная обложка не первая')
+              product['images']=gallery; product['directImage']=clean_cover
+              rows.append({'product_id':product_id,'name':product.get('name',''),'cover':clean_cover,'gallery_size':len(gallery),'cover_changed':baseline_by_id[product_id].get('directImage')!=clean_cover})
+          for product_id,product in by_id.items():
+              if product_id not in approved and product!=baseline_by_id[product_id]: raise SystemExit(f'Изменена посторонняя карточка {product_id}')
+          (ROOT/'catalog-source.html').write_text(main_text[:start]+json.dumps(products,ensure_ascii=False,separators=(',',':'))+main_text[end:],encoding='utf-8')
+          loader=ROOT/'catalog-loader.js'; text=loader.read_text(encoding='utf-8'); text,count=re.subn(r'const assetVersion="[^"]+";','const assetVersion="20260801-corrected-deferred-batch-26";',text,count=1)
+          if count!=1: raise SystemExit('Не найдена версия ассетов')
+          loader.write_text(text,encoding='utf-8')
+          report={'version':1,'rule':'resolve_deferred_with_verified_gallery_cover','batch':26,'reviewed_products':20,'published_products':18,'published_ids':list(SELECTED),'skipped_as_uncertain':STILL_DEFERRED,'resolved_from_deferred':18,'copied_files':len(set(copied)),'archived_products':361,'archived_products_changed':0,'previously_published_products':1039,'total_confirmed_after_release':1057,'remaining_deferred_after_release':305,'products':rows}
+          (ROOT/'data/confirmed-photo-release-batch-26.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          node --check image-zoom.js
+          grep -q touchstart image-zoom.js
+          grep -q touchend image-zoom.js
+          python - <<'PY'
+          import json,re,subprocess
+          from pathlib import Path
+          report=json.loads(Path('data/confirmed-photo-release-batch-26.json').read_text(encoding='utf-8')); allowed=set(report['published_ids'])
+          if report['published_products']!=18 or len(allowed)!=18 or report['total_confirmed_after_release']!=1057 or report['remaining_deferred_after_release']!=305: raise SystemExit('Неверный итог партии')
+          if report['archived_products']!=361 or report['archived_products_changed']!=0: raise SystemExit('Нарушена изоляция архива')
+          for row in subprocess.run(['git','status','--porcelain','--untracked-files=all'],check=True,capture_output=True,text=True).stdout.splitlines():
+              path=row[3:] if len(row)>=4 else row; match=re.match(r'assets/products/(\d+)/',path)
+              if match and int(match.group(1)) not in allowed: raise SystemExit(f'Посторонний файл {path}')
+          text=Path('catalog-source.html').read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+          while text[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(text[start:]); by_id={int(p['id']):p for p in products}
+          for item in report['products']:
+              product=by_id[item['product_id']]; first=str(product['images'][0]).split('?',1)[0]; direct=str(product.get('directImage') or '').split('?',1)[0]; expected=item['cover']
+              if first!=expected or direct!=expected or not Path(first).is_file(): raise SystemExit(f"ID {item['product_id']}: ошибка обложки")
+          PY
+      - if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          git add assets/products catalog-source.html catalog-loader.js data/confirmed-photo-release-batch-26.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Resolve 18 deferred product covers in batch 26"
+          git push origin HEAD:agent/publish-deferred-galleries-batch-26
