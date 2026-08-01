@@ -1,7 +1,7 @@
 (async()=>{
   try{
     const version=Date.now();
-    const assetVersion="20260801-confirmed-batch-07";
+    const assetVersion="20260801-confirmed-batch-08";
     const withAssetVersion=url=>{
       if(typeof url!=="string" || !url || !/^assets\//i.test(url))return url;
       const hashIndex=url.indexOf("#");
