@@ -1,0 +1,547 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 2,
+  "published_products": 54,
+  "published_ids": [
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    18,
+    19,
+    20,
+    21,
+    29,
+    30,
+    31,
+    32,
+    34,
+    36,
+    45,
+    50,
+    56,
+    64,
+    65,
+    67,
+    69,
+    71,
+    72,
+    73,
+    74,
+    75,
+    79,
+    80,
+    81,
+    87,
+    88,
+    89,
+    91,
+    93,
+    94,
+    97,
+    99,
+    100,
+    101,
+    102,
+    103,
+    107,
+    116,
+    118,
+    119,
+    120,
+    133,
+    135,
+    137,
+    139,
+    141
+  ],
+  "skipped_as_uncertain": [
+    62,
+    122,
+    134,
+    147,
+    148,
+    151
+  ],
+  "copied_files": 46,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 28,
+  "total_confirmed_after_release": 82,
+  "products": [
+    {
+      "product_id": 7,
+      "name": "Вешалка Джет/Jet",
+      "cover": "assets/products/7/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/7/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 8,
+      "name": "Вешалка Джет/Jet",
+      "cover": "assets/products/8/02.webp",
+      "gallery_size": 2,
+      "copied_files": []
+    },
+    {
+      "product_id": 9,
+      "name": "Вешалка Одент/Odent",
+      "cover": "assets/products/9/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/9/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 12,
+      "name": "Кресло Бомбей (CW-6374) Нью/New",
+      "cover": "assets/products/12/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/12/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 13,
+      "name": "Набор столиков Бомбей-1414-I-SH",
+      "cover": "assets/products/13/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/13/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 14,
+      "name": "Стол Бомбей G06547-SH",
+      "cover": "assets/products/14/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/14/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 15,
+      "name": "Стол Бомбей GL4-160",
+      "cover": "assets/products/15/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/15/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 18,
+      "name": "Шкафы для книг (набор 3 шт.) Бомбей-0761A",
+      "cover": "assets/products/18/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/18/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 19,
+      "name": "Комплект обеденный Соната/Sonata (стол+4стула)",
+      "cover": "assets/products/19/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/19/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 20,
+      "name": "Комплект обеденный Соната/Sonata (стол+4стула)",
+      "cover": "assets/products/20/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/20/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 21,
+      "name": "Комплект обеденный Соната/Sonata (стол+4стула)",
+      "cover": "assets/products/21/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/21/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 29,
+      "name": "Стол кофейный/подставка Остерия/Osteria",
+      "cover": "assets/products/29/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/29/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 30,
+      "name": "Стол журнальный Гленд 1/Gland 1(1шт. в упаковке)",
+      "cover": "assets/products/30/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/30/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 31,
+      "name": "Стол журнальный Гленд/Gland",
+      "cover": "assets/products/31/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/31/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 32,
+      "name": "Стол журнальный Гленд 1/Gland 1(1шт. в упаковке)",
+      "cover": "assets/products/32/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/32/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 34,
+      "name": "Стол обеденный раздвижной Алигери/Aligery",
+      "cover": "assets/products/34/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/34/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 36,
+      "name": "Стол обеденный раздвижной Катерина/Caterina",
+      "cover": "assets/products/36/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/36/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 45,
+      "name": "Стол обеденный раздвижной Диамант/Diamante",
+      "cover": "assets/products/45/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/45/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 50,
+      "name": "Стол Джон/John (мод.T1003)",
+      "cover": "assets/products/50/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/50/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 56,
+      "name": "Стол обеденный раздвижной Стефано/Stefano круглый",
+      "cover": "assets/products/56/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/56/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 64,
+      "name": "Стол круглый раскладной обеденный Боско/Вosco",
+      "cover": "assets/products/64/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 65,
+      "name": "Стол обеденный Боско/Bosco",
+      "cover": "assets/products/65/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 67,
+      "name": "Стол обеденный Клеар/Claire квадратный",
+      "cover": "assets/products/67/00-main.webp",
+      "gallery_size": 2,
+      "copied_files": [
+        "assets/products/67/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 69,
+      "name": "Стол обеденный раздвижной Фокс/Fox",
+      "cover": "assets/products/69/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/69/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 71,
+      "name": "Стол обеденный раздвижной Гент/Gent",
+      "cover": "assets/products/71/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 72,
+      "name": "Стол обеденный раздвижной Гент/Gent",
+      "cover": "assets/products/72/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/72/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 73,
+      "name": "Стол обеденный раздвижной Гент/Gent",
+      "cover": "assets/products/73/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 74,
+      "name": "Стол обеденный Макс/Max",
+      "cover": "assets/products/74/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/74/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 75,
+      "name": "Стол обеденный Макс/Max",
+      "cover": "assets/products/75/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/75/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 79,
+      "name": "Стол обеденный раздвижной Смарт/Smart",
+      "cover": "assets/products/79/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/79/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 80,
+      "name": "Стол обеденный раздвижной Свелто/Svelto",
+      "cover": "assets/products/80/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/80/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 81,
+      "name": "Стол обеденный раздвижной Свелто/Svelto",
+      "cover": "assets/products/81/00-main.webp",
+      "gallery_size": 2,
+      "copied_files": [
+        "assets/products/81/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 87,
+      "name": "Стол обеденный раскладной Боско/Bosco",
+      "cover": "assets/products/87/03.webp",
+      "gallery_size": 2,
+      "copied_files": []
+    },
+    {
+      "product_id": 88,
+      "name": "Стол обеденный раскладной Боско/Bosco",
+      "cover": "assets/products/88/01.webp",
+      "gallery_size": 2,
+      "copied_files": []
+    },
+    {
+      "product_id": 89,
+      "name": "Стол обеденный раскладной Павильон/Pavillion",
+      "cover": "assets/products/89/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/89/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 91,
+      "name": "Стол раздвижной Соната Люкс/Sonata Lux, 120(150)х75х75см",
+      "cover": "assets/products/91/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/91/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 93,
+      "name": "Стол раздвижной Соната Люкс/Sonata Lux, 120(150)х75х75см",
+      "cover": "assets/products/93/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/93/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 94,
+      "name": "Стол Соната Люкс/Sonata Lux, 120х75х75см",
+      "cover": "assets/products/94/00-main.webp",
+      "gallery_size": 3,
+      "copied_files": [
+        "assets/products/94/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 97,
+      "name": "Стол Соната Люкс/Sonata Lux, 75х75х75см",
+      "cover": "assets/products/97/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/97/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 99,
+      "name": "Стол Соната Люкс/Sonata Lux, 75х75х75см",
+      "cover": "assets/products/99/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/99/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 100,
+      "name": "Стол Бертоя/Bertoia (мод.GT21)",
+      "cover": "assets/products/100/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/100/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 101,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "cover": "assets/products/101/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/101/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 102,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "cover": "assets/products/102/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/102/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 103,
+      "name": "Стол обеденный раздвижной Малтидо/Maltido",
+      "cover": "assets/products/103/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/103/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 107,
+      "name": "Стол обеденный Манзана/Manzana",
+      "cover": "assets/products/107/00-main.webp",
+      "gallery_size": 2,
+      "copied_files": [
+        "assets/products/107/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 116,
+      "name": "Стол обеденный Остин/Austen 120х80х75см",
+      "cover": "assets/products/116/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/116/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 118,
+      "name": "Стол обеденный Балморал/Balmoral 120-160x80x75см",
+      "cover": "assets/products/118/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/118/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 119,
+      "name": "Стол обеденный Балморал/Balmoral 120-160x80x75см",
+      "cover": "assets/products/119/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/119/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 120,
+      "name": "Стол обеденный Биркхолл/Birkhall",
+      "cover": "assets/products/120/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/120/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 133,
+      "name": "Стул барный Вимта/Vimta (мод.4021S)",
+      "cover": "assets/products/133/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 135,
+      "name": "Стул полубарный Бари/Bari",
+      "cover": "assets/products/135/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/135/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 137,
+      "name": "Стул полубарный Бари/Bari",
+      "cover": "assets/products/137/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/137/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 139,
+      "name": "Стул полубарный Медео/Medeo",
+      "cover": "assets/products/139/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/139/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 141,
+      "name": "Стул полубарный Медео/Medeo",
+      "cover": "assets/products/141/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/141/00-main.webp"
+      ]
+    }
+  ]
+}
