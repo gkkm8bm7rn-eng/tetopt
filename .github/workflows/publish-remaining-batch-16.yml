@@ -1,0 +1,145 @@
+name: Publish confirmed remaining covers batch 16
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-remaining-batch-16.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-confirmed-remaining-batch-16
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event.pull_request.head.ref == 'agent/publish-remaining-batch-16'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/publish-remaining-batch-16
+          fetch-depth: 0
+
+      - name: Check whether release is already built
+        id: gate
+        shell: bash
+        run: |
+          if test -f data/confirmed-photo-release-batch-16.json; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch verified photo source
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          git fetch origin agent/front-three-quarter-and-image-zoom
+          git worktree add /tmp/source origin/agent/front-three-quarter-and-image-zoom
+
+      - name: Build selective release
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import copy, json, re, shutil
+          from pathlib import Path
+          ROOT=Path('.'); SOURCE=Path('/tmp/source')
+          APPROVED=[1375,1377,1378,1379,1388,1389,1390,1391,1396,1397,1398,1399,1400,1401,1402,1403,1404,1405,1410,1420,1422,1423,1424,1425,1426,1427,1428,1429,1430,1432,1434,1436,1437,1438,1439,1440,1441,1442,1443,1444,1445,1446,1447,1449,1450,1451,1452,1453,1454,1455,1456,1458,1459,1460,1461,1462,1463,1465,1466,1467]
+          SKIPPED=[]
+          def read_products(path):
+              text=path.read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+              while text[start].isspace(): start+=1
+              products,consumed=json.JSONDecoder().raw_decode(text[start:])
+              return text,products,start,start+consumed
+          main_text,products,start,end=read_products(ROOT/'catalog-source.html')
+          _,source_products,_,_=read_products(SOURCE/'catalog-source.html')
+          baseline=copy.deepcopy(products)
+          by_id={int(p['id']):p for p in products}; source_by_id={int(p['id']):p for p in source_products}; baseline_by_id={int(p['id']):p for p in baseline}
+          hidden={int(v) for v in json.loads((ROOT/'hidden-products.json').read_text(encoding='utf-8')).get('ids',[])}
+          published=set()
+          for path in [ROOT/'data/confident-photo-release.json']+sorted(ROOT.glob('data/confirmed-photo-release-batch-*.json')):
+              report=json.loads(path.read_text(encoding='utf-8')); published.update(int(v) for v in report.get('published_ids',[]))
+          approved=set(APPROVED)
+          if len(APPROVED)!=60 or len(approved)!=60: raise SystemExit('Список подтверждённых товаров должен содержать 60 уникальных ID')
+          if len(published)!=706: raise SystemExit(f'До партии ожидалось 706 подтверждённых товаров, получено {len(published)}')
+          if approved & hidden: raise SystemExit(f'В подтверждённую партию попал архив: {sorted(approved & hidden)}')
+          if approved & published: raise SystemExit(f'Повторно включены опубликованные ID: {sorted(approved & published)}')
+          copied=[]; rows=[]
+          for product_id in APPROVED:
+              product=by_id[product_id]; source=source_by_id[product_id]
+              source_images=[v for v in source.get('images',[]) if isinstance(v,str) and v]
+              product_images=[v for v in source_images if not v.startswith('assets/interiors/')]
+              interiors=[v for v in product.get('images',[]) if isinstance(v,str) and v.startswith('assets/interiors/')]
+              if not product_images: raise SystemExit(f'ID {product_id}: в проверочной ветке нет товарных фотографий')
+              gallery=[]; seen=set(); product_copied=[]
+              for value in product_images+interiors:
+                  clean=value.split('?',1)[0]
+                  if clean in seen: continue
+                  seen.add(clean); gallery.append(value)
+                  if clean.startswith(f'assets/products/{product_id}/'):
+                      source_path=SOURCE/clean; target=ROOT/clean
+                      if not target.is_file():
+                          if not source_path.is_file(): raise SystemExit(f'ID {product_id}: отсутствует исходный файл {clean}')
+                          target.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(source_path,target); copied.append(clean); product_copied.append(clean)
+              cover=gallery[0]; product['images']=gallery; product['directImage']=cover
+              rows.append({'product_id':product_id,'name':product.get('name',''),'cover':cover,'gallery_size':len(gallery),'copied_files':product_copied})
+          for product_id,product in by_id.items():
+              if product_id not in approved and product!=baseline_by_id[product_id]: raise SystemExit(f'Изменена карточка вне подтверждённого списка: {product_id}')
+          payload=json.dumps(products,ensure_ascii=False,separators=(',',':'))
+          (ROOT/'catalog-source.html').write_text(main_text[:start]+payload+main_text[end:],encoding='utf-8')
+          loader=ROOT/'catalog-loader.js'; loader_text=loader.read_text(encoding='utf-8')
+          updated,count=re.subn(r'const assetVersion="[^"]+";','const assetVersion="20260801-confirmed-batch-16";',loader_text,count=1)
+          if count!=1: raise SystemExit('Не найдена версия ассетов в catalog-loader.js')
+          loader.write_text(updated,encoding='utf-8')
+          report={'version':1,'rule':'publish_visually_confirmed_only','batch':16,'published_products':len(APPROVED),'published_ids':APPROVED,'skipped_as_uncertain':SKIPPED,'copied_files':len(copied),'archived_products':len(hidden),'archived_products_changed':0,'previously_published_products':len(published),'total_confirmed_after_release':len(published)+len(APPROVED),'products':rows}
+          (ROOT/'data/confirmed-photo-release-batch-16.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(f"Подготовлено {len(APPROVED)} подтверждённых карточек; скопировано файлов: {len(copied)}")
+          PY
+
+      - name: Validate selective release
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          node --check image-zoom.js
+          grep -q 'touchstart' image-zoom.js
+          grep -q 'touchend' image-zoom.js
+          python - <<'PY'
+          import json, re, subprocess
+          from pathlib import Path
+          report=json.loads(Path('data/confirmed-photo-release-batch-16.json').read_text(encoding='utf-8'))
+          allowed=set(report['published_ids'])
+          if report['published_products']!=60 or len(allowed)!=60: raise SystemExit('Неверное количество подтверждённых товаров')
+          if report['archived_products']!=361 or report['archived_products_changed']!=0: raise SystemExit('Нарушена изоляция архива')
+          if report['total_confirmed_after_release']!=766: raise SystemExit('После партии должно быть 766 подтверждённых товаров')
+          status=subprocess.run(['git','status','--porcelain','--untracked-files=all'],check=True,capture_output=True,text=True).stdout.splitlines()
+          bad=[]
+          for row in status:
+              path=row[3:] if len(row)>=4 else row
+              match=re.match(r'assets/products/(\d+)/',path)
+              if match and int(match.group(1)) not in allowed: bad.append(path)
+          if bad: raise SystemExit('Изменены файлы вне подтверждённой партии:\n'+'\n'.join(bad[:30]))
+          text=Path('catalog-source.html').read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+          while text[start].isspace(): start+=1
+          products,_=json.JSONDecoder().raw_decode(text[start:]); by_id={int(p['id']):p for p in products}
+          for item in report['products']:
+              product=by_id[item['product_id']]
+              first=str(product['images'][0]).split('?',1)[0]; direct=str(product.get('directImage') or '').split('?',1)[0]; expected=str(item['cover']).split('?',1)[0]
+              if first!=expected or direct!=expected or not Path(first).is_file(): raise SystemExit(f"ID {item['product_id']}: некорректная обложка")
+          print('Проверены 60 подтверждённых товаров, архив и свайп-галерея')
+          PY
+
+      - name: Commit confirmed release
+        if: steps.gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/products catalog-source.html catalog-loader.js data/confirmed-photo-release-batch-16.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Publish 60 confirmed product covers in batch 16"
+          git push origin HEAD:agent/publish-remaining-batch-16
