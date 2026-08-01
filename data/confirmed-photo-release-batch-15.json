@@ -1,0 +1,589 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 15,
+  "published_products": 58,
+  "published_ids": [
+    1308,
+    1309,
+    1310,
+    1311,
+    1312,
+    1313,
+    1314,
+    1315,
+    1316,
+    1317,
+    1318,
+    1319,
+    1320,
+    1325,
+    1326,
+    1327,
+    1328,
+    1329,
+    1330,
+    1331,
+    1332,
+    1333,
+    1334,
+    1335,
+    1336,
+    1337,
+    1338,
+    1339,
+    1340,
+    1341,
+    1342,
+    1343,
+    1344,
+    1345,
+    1346,
+    1347,
+    1348,
+    1349,
+    1350,
+    1351,
+    1352,
+    1353,
+    1354,
+    1355,
+    1356,
+    1357,
+    1358,
+    1359,
+    1360,
+    1361,
+    1362,
+    1363,
+    1364,
+    1365,
+    1366,
+    1369,
+    1372,
+    1373
+  ],
+  "skipped_as_uncertain": [
+    1370,
+    1371
+  ],
+  "copied_files": 53,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 648,
+  "total_confirmed_after_release": 706,
+  "products": [
+    {
+      "product_id": 1308,
+      "name": "Комплект Пеланги/Pelangi (02/15) (стол со стеклом + 4 кресла) [с подушками]",
+      "cover": "assets/products/1308/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1308/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1309,
+      "name": "Кресло Пеланги/Pelangi (02/15B) /без подушки/",
+      "cover": "assets/products/1309/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1309/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1310,
+      "name": "Кресло Пеланги/Pelangi (02/15B) /без подушки/",
+      "cover": "assets/products/1310/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1310/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1311,
+      "name": "Комплект террасный \"Пеланги/Pelangi\" (стол со стеклом + 2 кресла) /без подушек/",
+      "cover": "assets/products/1311/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1311/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1312,
+      "name": "Комплект террасный \"Пеланги/Pelangi\" (стол со стеклом + 2 кресла) /без подушек/",
+      "cover": "assets/products/1312/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1312/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1313,
+      "name": "Комплект Нью Богота/New Bogota (диван + 2 кресла + стол со стеклом) /с подушками/",
+      "cover": "assets/products/1313/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1313/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1314,
+      "name": "Комплект Нью Богота/New Bogota (диван + 2 кресла + стол со стеклом) /с подушками/",
+      "cover": "assets/products/1314/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1314/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1315,
+      "name": "Комплект террасный \"Нью Богота/New Bogota\" (2 кресла + стол) /с подушками/",
+      "cover": "assets/products/1315/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1315/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1316,
+      "name": "Комплект террасный \"Нью Богота/New Bogota\" (2 кресла + стол) /с подушками/",
+      "cover": "assets/products/1316/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1316/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1317,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /без подушки/",
+      "cover": "assets/products/1317/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1317/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1318,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /без подушки/",
+      "cover": "assets/products/1318/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1318/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1319,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /без подушки/",
+      "cover": "assets/products/1319/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1319/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1320,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /без подушки/",
+      "cover": "assets/products/1320/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1320/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1325,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1325/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1325/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1326,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1326/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1326/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1327,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1327/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1327/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1328,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1328/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1328/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1329,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1329/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1329/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1330,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1330/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1330/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1331,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1331/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1331/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1332,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1332/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1332/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1333,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1333/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1333/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1334,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1334/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1334/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1335,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1335/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1335/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1336,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1336/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1336/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1337,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1337/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1337/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1338,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1338/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1339,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1339/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1339/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1340,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1340/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1340/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1341,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1341/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1341/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1342,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1342/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1342/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1343,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1343/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1343/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1344,
+      "name": "Диван Мамасан/Mamasan (23/02 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1344/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1344/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1345,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1345/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1345/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1346,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1346/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1346/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1347,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1347/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1347/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1348,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1348/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1348/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1349,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1349/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1349/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1350,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1350/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1350/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1351,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1351/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1351/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1352,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1352/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1352/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1353,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1353/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1353/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1354,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1354/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1354/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1355,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1355/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1355/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1356,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1356/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1356/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1357,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1357/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1357/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1358,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1358/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1358/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1359,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1359/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1359/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1360,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1360/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1360/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1361,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1361/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1361/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1362,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1362/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1362/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1363,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1363/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1363/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1364,
+      "name": "Кресло Папасан/Papasan (23/01 W) /с подушкой и ремешками/",
+      "cover": "assets/products/1364/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1364/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1365,
+      "name": "Кресло Папасан/Papasan (23/01 W) /без подушки/",
+      "cover": "assets/products/1365/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1366,
+      "name": "Кресло Папасан/Papasan (23/01 W) /без подушки/",
+      "cover": "assets/products/1366/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1369,
+      "name": "Кресло Джамби/Jambi с подушкой",
+      "cover": "assets/products/1369/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1369/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1372,
+      "name": "Кресло-качалка Папасан/Papasan (W 23/01 B) /без подушки/",
+      "cover": "assets/products/1372/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1373,
+      "name": "Кресло-качалка Папасан/Papasan (W 23/01 B) /без подушки/",
+      "cover": "assets/products/1373/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    }
+  ]
+}
