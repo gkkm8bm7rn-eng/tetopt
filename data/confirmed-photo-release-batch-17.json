@@ -1,0 +1,589 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 17,
+  "published_products": 58,
+  "published_ids": [
+    1468,
+    1469,
+    1470,
+    1471,
+    1472,
+    1474,
+    1478,
+    1479,
+    1480,
+    1481,
+    1482,
+    1483,
+    1484,
+    1485,
+    1486,
+    1487,
+    1488,
+    1489,
+    1490,
+    1492,
+    1497,
+    1499,
+    1501,
+    1503,
+    1504,
+    1506,
+    1508,
+    1509,
+    1510,
+    1512,
+    1513,
+    1515,
+    1516,
+    1520,
+    1525,
+    1526,
+    1528,
+    1532,
+    1533,
+    1534,
+    1537,
+    1541,
+    1542,
+    1543,
+    1544,
+    1545,
+    1546,
+    1547,
+    1548,
+    1549,
+    1550,
+    1551,
+    1552,
+    1553,
+    1554,
+    1555,
+    1556,
+    1557
+  ],
+  "skipped_as_uncertain": [
+    1511,
+    1514
+  ],
+  "copied_files": 53,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 766,
+  "total_confirmed_after_release": 824,
+  "products": [
+    {
+      "product_id": 1468,
+      "name": "Стул Secret de Maison Вилла/Villa",
+      "cover": "assets/products/1468/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1468/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1469,
+      "name": "Стул Secret de Maison Вилла/Villa",
+      "cover": "assets/products/1469/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1469/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1470,
+      "name": "Этажерка Secret de Maison Шарлотта/Charlotte",
+      "cover": "assets/products/1470/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1470/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1471,
+      "name": "Этажерка Secret de Maison Шарлотта/Charlotte",
+      "cover": "assets/products/1471/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1471/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1472,
+      "name": "Этажерка Secret de Maison Эмили/Emilie",
+      "cover": "assets/products/1472/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1474,
+      "name": "Этажерка Secret de Maison Эмма/Emma",
+      "cover": "assets/products/1474/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1478,
+      "name": "Комплект Secret de Maison Квартет/Quartet (стол+4 стула)",
+      "cover": "assets/products/1478/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1478/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1479,
+      "name": "Комплект Secret de Maison Романс/Romance (стол+2 стула)",
+      "cover": "assets/products/1479/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1479/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1480,
+      "name": "Комплект Secret de Maison Романс/Romance (стол+2 стула)",
+      "cover": "assets/products/1480/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1480/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1481,
+      "name": "Комплект Secret de Maison Романс/Romance (стол+2 стула)",
+      "cover": "assets/products/1481/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1481/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1482,
+      "name": "Комплект Secret de Maison Вальс Цветов/Waltz of Flowers (стол+2 стула)",
+      "cover": "assets/products/1482/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1482/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1483,
+      "name": "Комплект Secret de Maison Вальс Цветов/Waltz of Flowers (стол+2 стула)",
+      "cover": "assets/products/1483/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1483/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1484,
+      "name": "Скамья Secret de Maison Штраус/Strauss",
+      "cover": "assets/products/1484/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1484/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1485,
+      "name": "Скамья Secret de Maison Штраус/Strauss",
+      "cover": "assets/products/1485/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1485/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1486,
+      "name": "Скамья Secret de Maison Штраус/Strauss",
+      "cover": "assets/products/1486/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1486/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1487,
+      "name": "Скамья Secret de Maison Симфония/Symphonie",
+      "cover": "assets/products/1487/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1487/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1488,
+      "name": "Скамья Secret de Maison Симфония/Symphonie",
+      "cover": "assets/products/1488/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1488/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1489,
+      "name": "Скамья Secret de Maison Симфония/Symphonie",
+      "cover": "assets/products/1489/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1489/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1490,
+      "name": "Стул Secret de Maison Моцарт/Mozart",
+      "cover": "assets/products/1490/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1490/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1492,
+      "name": "Стул Secret de Maison Моцарт/Mozart",
+      "cover": "assets/products/1492/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1492/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1497,
+      "name": "Кровать AT-8077",
+      "cover": "assets/products/1497/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1497/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1499,
+      "name": "Кровать AT-808",
+      "cover": "assets/products/1499/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1499/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1501,
+      "name": "Кровать AT-915",
+      "cover": "assets/products/1501/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1501/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1503,
+      "name": "Кровать двухъярусная Болеро/Bolero",
+      "cover": "assets/products/1503/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1503/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1504,
+      "name": "Кровать Рокси/Roxie",
+      "cover": "assets/products/1504/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1504/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1506,
+      "name": "Кровать Румба/Rumba (мод.AT-203)",
+      "cover": "assets/products/1506/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1506/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1508,
+      "name": "Модуль мягкий Миракл/Miracle",
+      "cover": "assets/products/1508/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1508/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1509,
+      "name": "Модуль мягкий Миракл/Miracle",
+      "cover": "assets/products/1509/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1509/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1510,
+      "name": "Модуль мягкий Миракл/Miracle",
+      "cover": "assets/products/1510/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1510/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1512,
+      "name": "Модуль мягкий прямой Миракл/Miracle",
+      "cover": "assets/products/1512/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1512/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1513,
+      "name": "Модуль мягкий прямой Миракл/Miracle",
+      "cover": "assets/products/1513/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1513/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1515,
+      "name": "Модуль мягкий угловой Миракл/Miracle",
+      "cover": "assets/products/1515/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1515/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1516,
+      "name": "Модуль мягкий угловой Миракл/Miracle",
+      "cover": "assets/products/1516/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1516/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1520,
+      "name": "Столик Secret de Maison Голден Хевели/Golden Havely (мод. BJ-002)",
+      "cover": "assets/products/1520/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1520/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1525,
+      "name": "Блюдо Secret de Maison Лиф1/Leaf1 (мод. 9376)",
+      "cover": "assets/products/1525/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1525/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1526,
+      "name": "Блюдо Secret de Maison Лиф2/Leaf2 (мод. 9440)",
+      "cover": "assets/products/1526/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1526/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1528,
+      "name": "Декор Secret de Maison Лиф4/Leaf4 (мод. 9762)",
+      "cover": "assets/products/1528/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1532,
+      "name": "Ложка для обуви Secret de Maison Дракон1/Dragon1 (мод. 229)",
+      "cover": "assets/products/1532/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1532/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1533,
+      "name": "Ложка для обуви Secret de Maison Дракон1/Dragon1 (мод. 229)",
+      "cover": "assets/products/1533/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1533/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1534,
+      "name": "Ложка для обуви Secret de Maison Дракон2/Dragon2 (мод. 230)",
+      "cover": "assets/products/1534/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1534/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1537,
+      "name": "Ложка для обуви Secret de Maison Мопс/Mops (мод. 223)",
+      "cover": "assets/products/1537/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1537/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1541,
+      "name": "Монетница Secret de Maison Мапле3/Maple3 (мод. 9350)",
+      "cover": "assets/products/1541/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1541/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1542,
+      "name": "Монетница Secret de Maison Октопус1/Octopus1 (мод. 9608)",
+      "cover": "assets/products/1542/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1542/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1543,
+      "name": "Монетница Secret de Maison Октопус2/Octopus2 (мод. 9612)",
+      "cover": "assets/products/1543/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1543/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1544,
+      "name": "Монетница Secret de Maison Октопус3/Octopus3 (мод. 9613)",
+      "cover": "assets/products/1544/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1544/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1545,
+      "name": "Набор столиков Secret de Maison Руна/Runa (мод. 11870)",
+      "cover": "assets/products/1545/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1545/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1546,
+      "name": "Поднос Secret de Maison Мапле2/Maple2 (мод. 9586)",
+      "cover": "assets/products/1546/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1546/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1547,
+      "name": "Поднос Secret de Maison Мапле2/Maple2 (мод. 9586)",
+      "cover": "assets/products/1547/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1547/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1548,
+      "name": "Поднос Secret de Maison Октопус1/Octopus1 (мод. 9309)",
+      "cover": "assets/products/1548/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1548/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1549,
+      "name": "Поднос Secret de Maison Октопус2/Octopus2 (мод. 9310)",
+      "cover": "assets/products/1549/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1549/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1550,
+      "name": "Подсвечник Secret de Maison Лиф1/Leaf1 (мод. 9378)",
+      "cover": "assets/products/1550/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1551,
+      "name": "Подсвечник Secret de Maison Лиф2/Leaf2 (мод. 9379)",
+      "cover": "assets/products/1551/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1552,
+      "name": "Подсвечник Secret de Maison Лиф3/Leaf3 (мод. 9408)",
+      "cover": "assets/products/1552/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1552/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1553,
+      "name": "Подсвечник Secret de Maison Мапле1/Maple1 (мод. 9373)",
+      "cover": "assets/products/1553/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1553/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1554,
+      "name": "Подсвечник Secret de Maison Мапле2/Maple2 (мод. 9374)",
+      "cover": "assets/products/1554/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1554/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1555,
+      "name": "Подсвечник Secret de Maison Октопус2/Octopus2 (мод. 3933)",
+      "cover": "assets/products/1555/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1555/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1556,
+      "name": "Подсвечник Secret de Maison Октопус3/Octopus3 (мод. 3923)",
+      "cover": "assets/products/1556/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1556/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1557,
+      "name": "Столик кофейный Secret de Maison Блум/Bloom (мод. 11873-B)",
+      "cover": "assets/products/1557/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1557/00-main.webp"
+      ]
+    }
+  ]
+}
