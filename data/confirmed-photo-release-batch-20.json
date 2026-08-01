@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 20,
+  "published_products": 3,
+  "published_ids": [
+    1721,
+    1722,
+    1723
+  ],
+  "skipped_as_uncertain": [],
+  "copied_files": 1,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 937,
+  "total_confirmed_after_release": 940,
+  "products": [
+    {
+      "product_id": 1721,
+      "name": "Тумба Secret de Maison Вайтвуд/Whitewood (мод.7905)",
+      "cover": "assets/products/1721/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1721/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1722,
+      "name": "Шкаф Secret de Maison Вайтвуд/Whitewood (мод.7902)",
+      "cover": "assets/products/1722/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1723,
+      "name": "Витрина Secret de Maison Вайтвуд/Whitewood (мод.7903)",
+      "cover": "assets/products/1723/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    }
+  ]
+}
