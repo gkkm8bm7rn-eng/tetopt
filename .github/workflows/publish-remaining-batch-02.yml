@@ -158,7 +158,9 @@ jobs:
         shell: bash
         run: |
           node --check image-zoom.js
-          grep -q 'swipe' image-zoom.js
+          grep -q 'touchstart' image-zoom.js
+          grep -q 'touchend' image-zoom.js
+          grep -q 'ArrowRight' image-zoom.js
           python - <<'PY'
           import json
           import re
