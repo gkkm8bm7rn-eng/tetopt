@@ -1,0 +1,582 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 18,
+  "published_products": 60,
+  "published_ids": [
+    1558,
+    1559,
+    1560,
+    1561,
+    1563,
+    1572,
+    1575,
+    1576,
+    1583,
+    1584,
+    1585,
+    1586,
+    1587,
+    1588,
+    1589,
+    1590,
+    1591,
+    1593,
+    1594,
+    1595,
+    1596,
+    1597,
+    1598,
+    1599,
+    1600,
+    1601,
+    1602,
+    1603,
+    1604,
+    1605,
+    1606,
+    1607,
+    1608,
+    1609,
+    1610,
+    1612,
+    1613,
+    1614,
+    1615,
+    1618,
+    1621,
+    1622,
+    1623,
+    1624,
+    1625,
+    1626,
+    1627,
+    1628,
+    1629,
+    1630,
+    1632,
+    1633,
+    1634,
+    1635,
+    1638,
+    1641,
+    1642,
+    1643,
+    1646,
+    1648
+  ],
+  "skipped_as_uncertain": [],
+  "copied_files": 43,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 824,
+  "total_confirmed_after_release": 884,
+  "products": [
+    {
+      "product_id": 1558,
+      "name": "Столик кофейный Secret de Maison Фенди/Fendy (мод. 11980)",
+      "cover": "assets/products/1558/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1558/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1559,
+      "name": "Столик кофейный Secret de Maison Кватро/Quattro (мод. 14153)",
+      "cover": "assets/products/1559/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1559/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1560,
+      "name": "Тортница Secret de Maison Октопус/Octopus (мод. 9647)",
+      "cover": "assets/products/1560/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1560/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1561,
+      "name": "Часы настольные Secret de Maison Октопус/Octopus (мод. 9686)",
+      "cover": "assets/products/1561/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1563,
+      "name": "Кресло Secret de Maison Немо/Nemo (мод. M-3240)",
+      "cover": "assets/products/1563/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1563/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1572,
+      "name": "Стул Secret de Maison Бриделл/Bridell (мод. M-9474)",
+      "cover": "assets/products/1572/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1572/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1575,
+      "name": "Стул Secret de Maison Гетц/Gets (мод. M-14529)",
+      "cover": "assets/products/1575/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1575/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1576,
+      "name": "Стул Secret de Maison Хорн/Horn (мод. M-19852)",
+      "cover": "assets/products/1576/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1576/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1583,
+      "name": "Стакан Secret de Maison Лионалс/Lyonnals (мод. 626561)",
+      "cover": "assets/products/1583/03.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1584,
+      "name": "Тарелка салатная Secret de Maison Версалес/Versailles (мод. 634701)",
+      "cover": "assets/products/1584/02.webp",
+      "gallery_size": 2,
+      "copied_files": []
+    },
+    {
+      "product_id": 1585,
+      "name": "Обувница Secret de Maison Рими/Rimi с 2-я корзинами (мод.TT-BH003)",
+      "cover": "assets/products/1585/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1585/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1586,
+      "name": "Модуль мягкий Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1586/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1586/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1587,
+      "name": "Модуль мягкий Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1587/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1587/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1588,
+      "name": "Модуль мягкий Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1588/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1588/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1589,
+      "name": "Модуль мягкий Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1589/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1590,
+      "name": "Модуль мягкий кресельный Secret de Maison Баско/Basco (мод. MA-112)",
+      "cover": "assets/products/1590/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1590/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1591,
+      "name": "Модуль мягкий прямой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1591/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1593,
+      "name": "Модуль мягкий прямой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1593/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1594,
+      "name": "Модуль мягкий прямой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1594/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1595,
+      "name": "Модуль мягкий прямой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1595/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1596,
+      "name": "Модуль мягкий угловой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1596/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1597,
+      "name": "Модуль мягкий угловой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1597/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1597/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1598,
+      "name": "Модуль мягкий угловой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1598/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1598/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1599,
+      "name": "Модуль мягкий угловой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1599/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1599/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1600,
+      "name": "Модуль мягкий угловой Secret de Maison Личи/Lici (мод. 10099)",
+      "cover": "assets/products/1600/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1600/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1601,
+      "name": "Комод Secret de Maison Сити/City (мод. CTY D01)",
+      "cover": "assets/products/1601/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1601/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1602,
+      "name": "Комод Secret de Maison Сити/City (мод. CTY D01ABOIS2-180)",
+      "cover": "assets/products/1602/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1602/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1603,
+      "name": "Стеллаж Secret de Maison Сити/City (мод. CTY L04-60)",
+      "cover": "assets/products/1603/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1603/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1604,
+      "name": "Стеллаж Secret de Maison Сити/City (мод. CTY L04-80)",
+      "cover": "assets/products/1604/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1605,
+      "name": "Стол кофейный Secret de Maison Сити/City (мод. CTY L11)",
+      "cover": "assets/products/1605/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1605/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1606,
+      "name": "Стол обеденный Secret de Maison Сити/City (мод. CTY D04-110*70)",
+      "cover": "assets/products/1606/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1606/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1607,
+      "name": "Стол письменный Secret de Maison Сити/City (мод. CTY L09-3D)",
+      "cover": "assets/products/1607/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1608,
+      "name": "Столик Secret de Maison Сити/City (мод. CTY L12)",
+      "cover": "assets/products/1608/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1608/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1609,
+      "name": "Шкаф Secret de Maison Сити/City (мод. CTY L03)",
+      "cover": "assets/products/1609/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1609/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1610,
+      "name": "Ваза Secret de Maison Пантер/Panter (мод. LS-0078)",
+      "cover": "assets/products/1610/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1612,
+      "name": "Ваза Secret de Maison Семус/Semus (мод. LS-0081)",
+      "cover": "assets/products/1612/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1613,
+      "name": "Зеркало Secret de Maison Принцесс/Princess (мод. LS-0051)",
+      "cover": "assets/products/1613/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1613/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1614,
+      "name": "Зеркало Secret de Maison Виндоу/Window (мод. LS-0169)",
+      "cover": "assets/products/1614/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1614/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1615,
+      "name": "Кресло Secret de Maison Имес Булл/Eames Bull (мод. M-17668)",
+      "cover": "assets/products/1615/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1615/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1618,
+      "name": "Набор ваз Secret de Maison Глант/Glanta (мод. LS-0228)",
+      "cover": "assets/products/1618/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1618/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1621,
+      "name": "Набор ваз Secret de Maison Теша/Tesha (мод. LS-0244)",
+      "cover": "assets/products/1621/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1621/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1622,
+      "name": "Набор ваз Secret de Maison Венч/Vench (мод. LS-0184)",
+      "cover": "assets/products/1622/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1622/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1623,
+      "name": "Набор ваз Secret de Maison Вина/Vina (мод. LS-0182)",
+      "cover": "assets/products/1623/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1623/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1624,
+      "name": "Набор корзин Secret de Maison Лэйла/Laila (мод. LS-0023)",
+      "cover": "assets/products/1624/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1624/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1625,
+      "name": "Набор подносов Secret de Maison Арани/Arani (мод. LS-0123)",
+      "cover": "assets/products/1625/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1625/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1626,
+      "name": "Набор подсвечников Secret de Maison Дойяна/Doyina (мод. LS-0202)",
+      "cover": "assets/products/1626/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1626/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1627,
+      "name": "Набор подсвечников Secret de Maison Глоси/Glosi (мод. LS-0158)",
+      "cover": "assets/products/1627/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1627/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1628,
+      "name": "Набор подсвечников Secret de Maison Клев/Klev (мод. LS-0072)",
+      "cover": "assets/products/1628/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1628/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1629,
+      "name": "Набор подсвечников Secret de Maison Левана/Levuana (мод. LS-0203)",
+      "cover": "assets/products/1629/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1629/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1630,
+      "name": "Набор разделочных досок Secret de Maison Лорена/Lorena (мод. LS-0252)",
+      "cover": "assets/products/1630/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1630/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1632,
+      "name": "Набор чаш Secret de Maison Винз/Vinz (мод. LS-0186)",
+      "cover": "assets/products/1632/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1632/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1633,
+      "name": "Подсвечник Secret de Maison Фанта/Fanta (мод. LS-0077)",
+      "cover": "assets/products/1633/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1634,
+      "name": "Подушка Secret de Maison Британ/Britain (мод. M-3943)",
+      "cover": "assets/products/1634/01.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1635,
+      "name": "Стул Secret de Maison Имес Родео/Eames Rodeo (мод. M-13098)",
+      "cover": "assets/products/1635/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1635/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1638,
+      "name": "Стул Secret de Maison Зиппо/Zippo (мод. M-19485)",
+      "cover": "assets/products/1638/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1638/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1641,
+      "name": "Фоторамка Secret de Maison ЛяАмур/L`Amour (мод. M-9237)",
+      "cover": "assets/products/1641/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1642,
+      "name": "Фоторамка Secret de Maison ЛяАмур/L`Amour (мод. M-9237)",
+      "cover": "assets/products/1642/02.webp",
+      "gallery_size": 3,
+      "copied_files": []
+    },
+    {
+      "product_id": 1643,
+      "name": "Банкетка Secret de Maison Монтро/Montro (мод. 4354)",
+      "cover": "assets/products/1643/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1643/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1646,
+      "name": "Диван 3-х местный Secret de Maison Манчестер/Manchester (мод. M 129 S)",
+      "cover": "assets/products/1646/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1646/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 1648,
+      "name": "Диван Secret de Maison Паганель/Paganel (мод. 2106 D)",
+      "cover": "assets/products/1648/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/1648/00-main.webp"
+      ]
+    }
+  ]
+}
