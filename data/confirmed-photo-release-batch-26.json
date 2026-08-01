@@ -1,0 +1,166 @@
+{
+  "version": 1,
+  "rule": "resolve_deferred_with_verified_gallery_cover",
+  "batch": 26,
+  "reviewed_products": 20,
+  "published_products": 18,
+  "published_ids": [
+    16,
+    17,
+    62,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    132,
+    134,
+    138,
+    147,
+    148,
+    149
+  ],
+  "skipped_as_uncertain": [
+    140,
+    142
+  ],
+  "resolved_from_deferred": 18,
+  "copied_files": 1,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 1039,
+  "total_confirmed_after_release": 1057,
+  "remaining_deferred_after_release": 305,
+  "products": [
+    {
+      "product_id": 16,
+      "name": "Стул Бомбей-6565",
+      "cover": "assets/products/16/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 17,
+      "name": "Стул Бомбей-6565-C-OL",
+      "cover": "assets/products/17/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 62,
+      "name": "Стол обеденный раздвижной Версаль/Versal",
+      "cover": "assets/products/62/01.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 122,
+      "name": "Стол обеденный Винстон/Winston",
+      "cover": "assets/products/122/00-main.webp",
+      "gallery_size": 4,
+      "cover_changed": true
+    },
+    {
+      "product_id": 123,
+      "name": "Стул барный Бари/Bari",
+      "cover": "assets/products/123/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 124,
+      "name": "Стул барный Бари/Bari",
+      "cover": "assets/products/124/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 125,
+      "name": "Стул барный Бари/Bari",
+      "cover": "assets/products/125/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 126,
+      "name": "Стул барный Бари/Bari",
+      "cover": "assets/products/126/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 127,
+      "name": "Стул барный Медео/Medeo",
+      "cover": "assets/products/127/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 128,
+      "name": "Стул барный Медео/Medeo",
+      "cover": "assets/products/128/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 129,
+      "name": "Стул барный Медео/Medeo",
+      "cover": "assets/products/129/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 130,
+      "name": "Стул барный Медео/Medeo",
+      "cover": "assets/products/130/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 132,
+      "name": "Стул барный Ландо/Lando (мод.4036)",
+      "cover": "assets/products/132/03.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 134,
+      "name": "Стул барный Вимта/Vimta (мод.4021S)",
+      "cover": "assets/products/134/03.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 138,
+      "name": "Стул полубарный Бари/Bari",
+      "cover": "assets/products/138/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 147,
+      "name": "Стул барный Барбер/Barber (мод.KY711D)",
+      "cover": "assets/products/147/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 148,
+      "name": "Стул барный Барбер/Barber (мод.KY711D)/1 шт. в упаковке",
+      "cover": "assets/products/148/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 149,
+      "name": "Стул барный Барбер/Barber (мод.KY711D)",
+      "cover": "assets/products/149/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    }
+  ]
+}
