@@ -40,7 +40,7 @@ jobs:
           for path in [ROOT/'data/confident-photo-release.json']+sorted(ROOT.glob('data/confirmed-photo-release-batch-*.json')):
               report=json.loads(path.read_text(encoding='utf-8')); published.update(int(v) for v in report.get('published_ids',[])); deferred.update(int(v) for v in report.get('skipped_as_uncertain',[]))
           active=[int(p['id']) for p in main_products if int(p['id']) not in hidden]
-          if len(active)!=1362 or len(hidden)!=361 or len(published)!=879: raise SystemExit(f'Неверные количества: active={len(active)}, hidden={len(hidden)}, published={len(published)}')
+          if len(active)!=1362 or len(hidden)!=361 or len(published)!=884: raise SystemExit(f'Неверные количества: active={len(active)}, hidden={len(hidden)}, published={len(published)}')
           candidates=[]
           for product_id in active:
               if product_id in published or product_id in deferred: continue
