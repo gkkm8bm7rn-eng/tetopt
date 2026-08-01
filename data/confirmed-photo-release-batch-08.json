@@ -1,0 +1,554 @@
+{
+  "version": 1,
+  "rule": "publish_visually_confirmed_only",
+  "batch": 8,
+  "published_products": 53,
+  "published_ids": [
+    609,
+    610,
+    611,
+    613,
+    614,
+    615,
+    616,
+    617,
+    621,
+    625,
+    626,
+    627,
+    628,
+    629,
+    630,
+    631,
+    632,
+    633,
+    634,
+    635,
+    636,
+    638,
+    639,
+    640,
+    641,
+    642,
+    643,
+    644,
+    645,
+    646,
+    648,
+    649,
+    650,
+    654,
+    655,
+    657,
+    660,
+    661,
+    662,
+    663,
+    689,
+    692,
+    693,
+    694,
+    695,
+    696,
+    697,
+    698,
+    699,
+    700,
+    701,
+    702,
+    703
+  ],
+  "skipped_as_uncertain": [
+    618,
+    619,
+    620,
+    673,
+    674,
+    675,
+    690
+  ],
+  "copied_files": 53,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 359,
+  "total_confirmed_after_release": 412,
+  "products": [
+    {
+      "product_id": 609,
+      "name": "Стул обеденный Монте Карло/Monte Carlo",
+      "cover": "assets/products/609/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/609/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 610,
+      "name": "Стул обеденный Монте Карло/Monte Carlo",
+      "cover": "assets/products/610/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/610/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 611,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/611/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/611/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 613,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/613/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/613/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 614,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/614/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/614/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 615,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/615/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/615/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 616,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/616/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/616/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 617,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/617/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/617/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 621,
+      "name": "Стул обеденный Свит/Sweet",
+      "cover": "assets/products/621/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/621/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 625,
+      "name": "Кресло Тинто/Tinto (мод.PC59)",
+      "cover": "assets/products/625/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/625/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 626,
+      "name": "Кресло Валутто/Valutto (мод.54)",
+      "cover": "assets/products/626/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/626/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 627,
+      "name": "Стул Адде/Adde (мод.C-049)",
+      "cover": "assets/products/627/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/627/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 628,
+      "name": "Стул Адде/Adde (мод.C-049)/1 шт. в упаковке",
+      "cover": "assets/products/628/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/628/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 629,
+      "name": "Стул Адде/Adde (мод.C-049)",
+      "cover": "assets/products/629/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/629/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 630,
+      "name": "Стул Адде/Adde (мод.C-049)",
+      "cover": "assets/products/630/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/630/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 631,
+      "name": "Стул Адде/Adde (мод.C-049)/1 шт. в упаковке",
+      "cover": "assets/products/631/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/631/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 632,
+      "name": "Стул Адде/Adde (мод.C-049)",
+      "cover": "assets/products/632/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/632/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 633,
+      "name": "Стул Адде/Adde (мод.C-049)/1 шт. в упаковке",
+      "cover": "assets/products/633/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/633/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 634,
+      "name": "Стул Адде/Adde (мод.C-049)",
+      "cover": "assets/products/634/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/634/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 635,
+      "name": "Стул Адде/Adde (мод.C-049)/1 шт. в упаковке",
+      "cover": "assets/products/635/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/635/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 636,
+      "name": "Стул Адде/Adde (мод.C-049)/2 шт. в упаковке",
+      "cover": "assets/products/636/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/636/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 638,
+      "name": "Стул Адде/Adde (мод.C-049)/2 шт. в упаковке",
+      "cover": "assets/products/638/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/638/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 639,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)",
+      "cover": "assets/products/639/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/639/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 640,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)/1 шт. в упаковке",
+      "cover": "assets/products/640/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/640/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 641,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)/2 шт. в упаковке",
+      "cover": "assets/products/641/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/641/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 642,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)",
+      "cover": "assets/products/642/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/642/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 643,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)/1 шт. в упаковке",
+      "cover": "assets/products/643/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/643/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 644,
+      "name": "Стул Адоре/Adore (мод.XRB-1025)/2 шт. в упаковке",
+      "cover": "assets/products/644/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/644/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 645,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)",
+      "cover": "assets/products/645/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/645/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 646,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)/1 шт. в упаковке",
+      "cover": "assets/products/646/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/646/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 648,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)/1 шт. в упаковке",
+      "cover": "assets/products/648/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/648/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 649,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)",
+      "cover": "assets/products/649/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/649/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 650,
+      "name": "Стул Кет Чаир/Cat Chair (мод.028)/1 шт. в упаковке",
+      "cover": "assets/products/650/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/650/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 654,
+      "name": "Стул Чавари/Chavari (мод.101)",
+      "cover": "assets/products/654/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/654/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 655,
+      "name": "Стул Чавари/Chavari (мод.101)/1 шт. в упаковке",
+      "cover": "assets/products/655/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/655/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 657,
+      "name": "Стул Чавари/Chavari (мод.101)/1 шт. в упаковке",
+      "cover": "assets/products/657/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/657/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 660,
+      "name": "Стул Синди Имс/Cindy Eames (мод.001)",
+      "cover": "assets/products/660/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/660/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 661,
+      "name": "Стул Синди Имс/Cindy Eames (мод.1801)",
+      "cover": "assets/products/661/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/661/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 662,
+      "name": "Стул Синди Имс/Cindy Eames (мод.1801)/1 шт. в упаковке",
+      "cover": "assets/products/662/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/662/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 663,
+      "name": "Стул Синди Имс/Cindy Eames (мод.1801)/2 шт. в упаковке",
+      "cover": "assets/products/663/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/663/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 689,
+      "name": "Стул Синди Айрон Чаир Имс/Cindy Iron Chair Eames (мод.002)",
+      "cover": "assets/products/689/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/689/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 692,
+      "name": "Стул Джениус/Genius (мод. 75)",
+      "cover": "assets/products/692/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/692/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 693,
+      "name": "Стул Джениус/Genius (мод. 75) (1шт.в упаковке)",
+      "cover": "assets/products/693/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/693/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 694,
+      "name": "Стул Джениус/Genius (мод. 75) (2шт.в упаковке)",
+      "cover": "assets/products/694/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/694/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 695,
+      "name": "Стул Джениус/Genius (мод. 75)",
+      "cover": "assets/products/695/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/695/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 696,
+      "name": "Стул Джениус/Genius (мод. 75) (1шт.в упаковке)",
+      "cover": "assets/products/696/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/696/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 697,
+      "name": "Стул Джениус/Genius (мод. 75) (2шт.в упаковке)",
+      "cover": "assets/products/697/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/697/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 698,
+      "name": "Стул Джениус/Genius (мод. 75)",
+      "cover": "assets/products/698/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/698/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 699,
+      "name": "Стул Джениус/Genius (мод. 75) (1шт.в упаковке)",
+      "cover": "assets/products/699/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/699/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 700,
+      "name": "Стул Джениус/Genius (мод. 75) (2шт.в упаковке)",
+      "cover": "assets/products/700/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/700/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 701,
+      "name": "Стул Джениус/Genius (мод. 75)",
+      "cover": "assets/products/701/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/701/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 702,
+      "name": "Стул Джениус/Genius (мод. 75) (1шт.в упаковке)",
+      "cover": "assets/products/702/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/702/00-main.webp"
+      ]
+    },
+    {
+      "product_id": 703,
+      "name": "Стул Джениус/Genius (мод. 75) (2шт.в упаковке)",
+      "cover": "assets/products/703/00-main.webp",
+      "gallery_size": 4,
+      "copied_files": [
+        "assets/products/703/00-main.webp"
+      ]
+    }
+  ]
+}
