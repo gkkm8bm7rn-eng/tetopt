@@ -1,0 +1,68 @@
+name: Review current product covers batch 21
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [".github/workflows/review-current-covers-batch-21.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    if: github.event.pull_request.head.ref == 'agent/review-current-covers-batch-21'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/review-current-covers-batch-21
+          fetch-depth: 0
+      - run: python -m pip install --quiet pillow
+      - shell: bash
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          from PIL import Image,ImageDraw,ImageFont,ImageOps
+          ROOT=Path('.'); OUT=Path('current-cover-batch-21-review'); OUT.mkdir(exist_ok=True)
+          def read_products(path):
+              text=path.read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+              while text[start].isspace(): start+=1
+              return json.JSONDecoder().raw_decode(text[start:])[0]
+          products=read_products(ROOT/'catalog-source.html'); by_id={int(p['id']):p for p in products}
+          hidden={int(v) for v in json.loads((ROOT/'hidden-products.json').read_text(encoding='utf-8')).get('ids',[])}
+          published=set(); deferred=set()
+          for path in [ROOT/'data/confident-photo-release.json']+sorted(ROOT.glob('data/confirmed-photo-release-batch-*.json')):
+              report=json.loads(path.read_text(encoding='utf-8')); published.update(int(v) for v in report.get('published_ids',[])); deferred.update(int(v) for v in report.get('skipped_as_uncertain',[]))
+          active=[int(p['id']) for p in products if int(p['id']) not in hidden]
+          if len(active)!=1362 or len(hidden)!=361 or len(published)!=940: raise SystemExit(f'Неверные количества: active={len(active)}, hidden={len(hidden)}, published={len(published)}')
+          remaining=[pid for pid in active if pid not in published and pid not in deferred]
+          candidates=[]
+          for product_id in remaining[:60]:
+              product=by_id[product_id]
+              images=[v for v in product.get('images',[]) if isinstance(v,str) and v and not v.startswith('assets/interiors/')]
+              cover=(images[0] if images else str(product.get('directImage') or '')).split('?',1)[0]
+              local=bool(cover) and not cover.startswith(('http://','https://')) and (ROOT/cover).is_file()
+              candidates.append({'product_id':product_id,'name':str(product.get('name') or ''),'category':str(product.get('category') or ''),'current_cover':cover,'local_file_exists':local})
+          if not candidates: raise SystemExit('Не осталось необработанных активных товаров')
+          font=ImageFont.load_default(); cols=4; rows=5; cw=390; ch=360; per=cols*rows
+          for sheet_index in range(math.ceil(len(candidates)/per)):
+              chunk=candidates[sheet_index*per:(sheet_index+1)*per]; sheet=Image.new('RGB',(cols*cw,rows*ch),'white'); draw=ImageDraw.Draw(sheet)
+              for idx,item in enumerate(chunk):
+                  r,c=divmod(idx,cols); x0,y0=c*cw,r*ch; draw.rectangle((x0,y0,x0+cw-1,y0+ch-1),outline='black',width=2)
+                  draw.text((x0+8,y0+7),f"ID {item['product_id']} | {item['category']}"[:58],fill='black',font=font); draw.text((x0+8,y0+24),item['name'][:62],fill='black',font=font); draw.text((x0+8,y0+41),Path(item['current_cover']).name if item['current_cover'] else 'NO COVER',fill='black',font=font)
+                  if item['local_file_exists']:
+                      with Image.open(ROOT/item['current_cover']) as image:
+                          image=ImageOps.exif_transpose(image).convert('RGB'); image.thumbnail((cw-22,ch-74),Image.Resampling.LANCZOS); sheet.paste(image,(x0+(cw-image.width)//2,y0+62+(ch-68-image.height)//2))
+                  else:
+                      draw.text((x0+95,y0+170),'NO LOCAL PHOTO',fill='black',font=font)
+              sheet.save(OUT/f'current-cover-batch-21-sheet-{sheet_index+1}.jpg',quality=90,optimize=True)
+          manifest={'version':1,'batch':21,'mode':'review_existing_current_covers','active_products':1362,'already_confirmed':len(published),'deferred_from_previous_batches':len(deferred),'remaining_unprocessed':len(remaining),'candidate_products':len(candidates),'archived_products':361,'candidates':candidates}
+          (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: current-cover-batch-21-review
+          path: current-cover-batch-21-review
+          retention-days: 1
