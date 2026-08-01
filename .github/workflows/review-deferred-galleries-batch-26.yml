@@ -1,0 +1,83 @@
+name: Review deferred product galleries batch 26
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [".github/workflows/review-deferred-galleries-batch-26.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    if: github.event.pull_request.head.ref == 'agent/review-deferred-galleries-batch-26'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/review-deferred-galleries-batch-26
+          fetch-depth: 0
+      - run: |
+          git fetch origin agent/front-three-quarter-and-image-zoom
+          git worktree add /tmp/source origin/agent/front-three-quarter-and-image-zoom
+      - run: python -m pip install --quiet pillow
+      - shell: bash
+        run: |
+          python - <<'PY'
+          import json,math
+          from pathlib import Path
+          from PIL import Image,ImageDraw,ImageFont,ImageOps
+          ROOT=Path('.'); SOURCE=Path('/tmp/source'); OUT=Path('deferred-gallery-batch-26-review'); OUT.mkdir(exist_ok=True)
+          def read_products(path):
+              text=path.read_text(encoding='utf-8'); marker='const PRODUCTS ='; start=text.index(marker)+len(marker)
+              while text[start].isspace(): start+=1
+              return json.JSONDecoder().raw_decode(text[start:])[0]
+          main_products=read_products(ROOT/'catalog-source.html'); source_products=read_products(SOURCE/'catalog-source.html')
+          main_by_id={int(p['id']):p for p in main_products}; source_by_id={int(p['id']):p for p in source_products}
+          hidden={int(v) for v in json.loads((ROOT/'hidden-products.json').read_text(encoding='utf-8')).get('ids',[])}
+          published=set(); deferred=set()
+          for path in [ROOT/'data/confident-photo-release.json']+sorted(ROOT.glob('data/confirmed-photo-release-batch-*.json')):
+              report=json.loads(path.read_text(encoding='utf-8')); published.update(int(v) for v in report.get('published_ids',[])); deferred.update(int(v) for v in report.get('skipped_as_uncertain',[]))
+          unresolved=sorted(deferred-published-hidden)
+          if len(published)!=1039 or len(unresolved)!=323: raise SystemExit(f'Неверные количества: published={len(published)}, unresolved={len(unresolved)}')
+          candidates=[]
+          for product_id in unresolved[:20]:
+              main=main_by_id[product_id]; source=source_by_id.get(product_id,{})
+              values=[]; seen=set()
+              for origin,product,base in [('main',main,ROOT),('source',source,SOURCE)]:
+                  for value in product.get('images',[]) if isinstance(product.get('images'),list) else []:
+                      if not isinstance(value,str) or not value or value.startswith('assets/interiors/'): continue
+                      clean=value.split('?',1)[0]
+                      if clean in seen or clean.startswith(('http://','https://')): continue
+                      path=base/clean
+                      if not path.is_file(): continue
+                      seen.add(clean); values.append({'path':clean,'origin':origin})
+              current=''
+              main_images=[v for v in main.get('images',[]) if isinstance(v,str) and v and not v.startswith('assets/interiors/')]
+              if main_images: current=main_images[0].split('?',1)[0]
+              candidates.append({'product_id':product_id,'name':str(main.get('name') or ''),'category':str(main.get('category') or ''),'current_cover':current,'gallery':values[:6]})
+          font=ImageFont.load_default(); width=1560; row_h=330; rows_per=4
+          for sheet_index in range(math.ceil(len(candidates)/rows_per)):
+              chunk=candidates[sheet_index*rows_per:(sheet_index+1)*rows_per]; sheet=Image.new('RGB',(width,row_h*rows_per),'white'); draw=ImageDraw.Draw(sheet)
+              for row,item in enumerate(chunk):
+                  y0=row*row_h; draw.rectangle((0,y0,width-1,y0+row_h-1),outline='black',width=2)
+                  draw.text((8,y0+7),f"ID {item['product_id']} | {item['category']} | {item['name']}"[:150],fill='black',font=font)
+                  gallery=item['gallery']; thumb_w=245; thumb_h=250; gap=10; start_x=8
+                  for idx,entry in enumerate(gallery):
+                      x0=start_x+idx*(thumb_w+gap); label=f"{idx+1}: {Path(entry['path']).name} ({entry['origin']})"
+                      if entry['path']==item['current_cover']: label+=' CURRENT'
+                      draw.text((x0,y0+27),label[:38],fill='black',font=font)
+                      base=ROOT if entry['origin']=='main' else SOURCE
+                      with Image.open(base/entry['path']) as image:
+                          image=ImageOps.exif_transpose(image).convert('RGB'); image.thumbnail((thumb_w,thumb_h),Image.Resampling.LANCZOS)
+                          sheet.paste(image,(x0+(thumb_w-image.width)//2,y0+55+(thumb_h-image.height)//2))
+              sheet.save(OUT/f'deferred-gallery-batch-26-sheet-{sheet_index+1}.jpg',quality=90,optimize=True)
+          manifest={'version':1,'batch':26,'mode':'review_deferred_full_galleries','confirmed_products':len(published),'deferred_products':len(unresolved),'candidate_products':len(candidates),'archived_products':361,'candidates':candidates}
+          (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deferred-gallery-batch-26-review
+          path: deferred-gallery-batch-26-review
+          retention-days: 1
