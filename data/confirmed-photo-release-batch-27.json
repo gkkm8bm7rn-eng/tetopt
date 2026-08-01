@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "rule": "resolve_deferred_with_verified_gallery_cover",
+  "batch": 27,
+  "reviewed_products": 20,
+  "published_products": 16,
+  "published_ids": [
+    150,
+    151,
+    152,
+    153,
+    154,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    165,
+    166,
+    169,
+    170,
+    193
+  ],
+  "skipped_as_uncertain": [
+    140,
+    142,
+    163,
+    164
+  ],
+  "resolved_from_deferred": 16,
+  "copied_files": 0,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 1057,
+  "total_confirmed_after_release": 1073,
+  "remaining_deferred_after_release": 289,
+  "products": [
+    {
+      "product_id": 150,
+      "name": "Стул барный Барбер/Barber (мод.KY711D)/1 шт. в упаковке",
+      "cover": "assets/products/150/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 151,
+      "name": "Стул барный Биаджио/Biaggio (мод.KY717)",
+      "cover": "assets/products/151/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 152,
+      "name": "Стул барный Биаджио/Biaggio (мод.KY717)/1 шт. в упаковке",
+      "cover": "assets/products/152/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 153,
+      "name": "Стул барный Биаджио/Biaggio (мод.KY717)",
+      "cover": "assets/products/153/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 154,
+      "name": "Стул барный Биаджио/Biaggio (мод.KY717)/1 шт. в упаковке",
+      "cover": "assets/products/154/03.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 157,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)",
+      "cover": "assets/products/157/02.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 158,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)/1 шт. в упаковке",
+      "cover": "assets/products/158/02.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 159,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)/2 шт. в упаковке",
+      "cover": "assets/products/159/02.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 160,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)",
+      "cover": "assets/products/160/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 161,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)/1 шт. в упаковке",
+      "cover": "assets/products/161/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 162,
+      "name": "Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)/2 шт. в упаковке",
+      "cover": "assets/products/162/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 165,
+      "name": "Стул барный Месси/Messy (мод.KY704C)",
+      "cover": "assets/products/165/02.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 166,
+      "name": "Стул барный Месси/Messy (мод.KY704C)/1 шт. в упаковке",
+      "cover": "assets/products/166/02.webp",
+      "gallery_size": 3,
+      "cover_changed": true
+    },
+    {
+      "product_id": 169,
+      "name": "Стул барный Наил/Nail (мод.KY801)",
+      "cover": "assets/products/169/01.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 170,
+      "name": "Стул барный Наил/Nail (мод.KY801)/1 шт. в упаковке",
+      "cover": "assets/products/170/01.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    },
+    {
+      "product_id": 193,
+      "name": "Стул Кросс/Cross (мод.CB2001)",
+      "cover": "assets/products/193/02.webp",
+      "gallery_size": 3,
+      "cover_changed": false
+    }
+  ]
+}
