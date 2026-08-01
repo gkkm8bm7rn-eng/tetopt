@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "rule": "confirm_existing_front_or_front_three_quarter_cover",
+  "batch": 22,
+  "reviewed_products": 60,
+  "published_products": 17,
+  "published_ids": [308, 415, 495, 498, 584, 676, 677, 678, 679, 680, 681, 682, 683, 686, 688, 724, 725],
+  "skipped_as_uncertain": [290, 291, 292, 293, 294, 301, 302, 311, 312, 314, 317, 416, 462, 463, 474, 479, 480, 483, 496, 500, 501, 525, 529, 531, 532, 533, 537, 539, 540, 549, 552, 556, 567, 578, 600, 601, 607, 608, 612, 691, 742, 800, 801],
+  "copied_files": 0,
+  "archived_products": 361,
+  "archived_products_changed": 0,
+  "previously_published_products": 963,
+  "total_confirmed_after_release": 980,
+  "products": [
+    {"product_id": 308, "name": "Кресло Монклер/Moncler", "cover": "assets/products/308/01.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 415, "name": "Стул Чилли/Chilly (мод.7094-1)/1 шт. в упаковке", "cover": "assets/products/415/01.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 495, "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)", "cover": "assets/products/495/01.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 498, "name": "Стул обеденный Амура/Amura (2 шт. в упаковке)", "cover": "assets/products/498/01.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 584, "name": "Стул обеденный Медео/Medeo", "cover": "assets/products/584/01.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 676, "name": "Стул Синди Имс/Cindy Eames (мод.1801)", "cover": "assets/products/676/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 677, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/1 шт. в упаковке", "cover": "assets/products/677/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 678, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/2 шт. в упаковке", "cover": "assets/products/678/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 679, "name": "Стул Синди Имс/Cindy Eames (мод.1801)", "cover": "assets/products/679/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 680, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/1 шт. в упаковке", "cover": "assets/products/680/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 681, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/2 шт. в упаковке", "cover": "assets/products/681/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 682, "name": "Стул Синди Имс/Cindy Eames (мод.1801)", "cover": "assets/products/682/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 683, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/1 шт. в упаковке", "cover": "assets/products/683/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 686, "name": "Стул Синди Имс/Cindy Eames (мод.1801)/1 шт. в упаковке", "cover": "assets/products/686/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 688, "name": "Стул Синди Айрон Чаир Имс/Cindy Iron Chair Eames (мод.002)/1 шт. в упаковке", "cover": "assets/products/688/02.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 724, "name": "Стул Джениус/Genius (мод. 75)", "cover": "assets/products/724/03.webp", "source": "existing_current_cover", "local_file_exists": true},
+    {"product_id": 725, "name": "Стул Джениус/Genius (мод. 75) (2шт.в упаковке)", "cover": "assets/products/725/03.webp", "source": "existing_current_cover", "local_file_exists": true}
+  ]
+}
