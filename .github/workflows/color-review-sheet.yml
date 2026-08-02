@@ -1,0 +1,152 @@
+name: Generate color review sheet
+
+on:
+  push:
+    branches:
+      - agent/color-review-sheets
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Build first review sheet
+        run: |
+          cat > /tmp/build_sheet.py <<'PY'
+          import json, re, textwrap
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+
+          root = Path('.')
+          html = (root / 'catalog-source.html').read_text(encoding='utf-8')
+          match = re.search(r'const PRODUCTS\s*=\s*(\[.*?\]);\s*\n\s*const ', html, re.S)
+          if not match:
+              raise SystemExit('PRODUCTS array not found')
+          products = json.loads(match.group(1))
+
+          confirmed = {1,2,3,4,5,6,7,8,10,11,19,20,21,22,23,24,25,26,27}
+          hidden = set(json.loads((root / 'hidden-products.json').read_text(encoding='utf-8')).get('ids', []))
+          color_words = {
+              'белый','белая','белое','черный','чёрный','черная','чёрная','серый','серая','бежевый','бежевая',
+              'зеленый','зелёный','зеленая','зелёная','синий','синяя','голубой','голубая','розовый','розовая',
+              'коричневый','коричневая','графит','антрацит','оливковый','оливковая','горчичный','горчичная',
+              'красный','красная','оранжевый','оранжевая','молочный','молочная','кремовый','кремовая',
+              'натуральный','натуральная','орех','венге','золото','золотой','хром','серебро','серебристый'
+          }
+
+          def norm(v):
+              return re.sub(r'\s+', ' ', re.sub(r'[^a-zа-я0-9]+', ' ', str(v or '').lower().replace('ё','е'))).strip()
+
+          def key(p):
+              # Exact model title is deliberately preserved. Only terminal colour words are removed.
+              words = norm(p.get('name')).split()
+              cleaned = [w for w in words if w not in color_words]
+              return (norm(p.get('category')), norm(p.get('collection')), ' '.join(cleaned))
+
+          groups = {}
+          for p in products:
+              pid = int(p.get('id', 0))
+              if pid in confirmed or pid in hidden:
+                  continue
+              groups.setdefault(key(p), []).append(p)
+
+          candidates = []
+          for group_key, items in groups.items():
+              if 2 <= len(items) <= 8:
+                  specs = {norm(x.get('specs')) for x in items}
+                  images = [x for x in items if x.get('directImage') or x.get('images')]
+                  if len(specs) >= 2 and len(images) >= 2:
+                      candidates.append((min(int(x['id']) for x in items), group_key, items))
+          candidates.sort(key=lambda x: x[0])
+
+          chosen = []
+          selected_groups = []
+          for _, group_key, items in candidates:
+              if len(chosen) >= 12:
+                  break
+              room = 12 - len(chosen)
+              picked = sorted(items, key=lambda p: int(p['id']))[:room]
+              if len(picked) < 2:
+                  continue
+              start = len(chosen) + 1
+              chosen.extend(picked)
+              selected_groups.append({'suggested_numbers': list(range(start, start + len(picked))), 'key': group_key})
+
+          if len(chosen) < 2:
+              raise SystemExit('Not enough candidate products')
+
+          W, CARD_W, CARD_H, COLS = 1800, 570, 520, 3
+          gap, top = 30, 110
+          rows = (len(chosen) + COLS - 1) // COLS
+          H = top + rows * CARD_H + (rows + 1) * gap
+          canvas = Image.new('RGB', (W, H), '#f5f2ec')
+          draw = ImageDraw.Draw(canvas)
+          font_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          bold_path = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          title_font = ImageFont.truetype(bold_path, 34)
+          num_font = ImageFont.truetype(bold_path, 34)
+          name_font = ImageFont.truetype(bold_path, 22)
+          text_font = ImageFont.truetype(font_path, 17)
+          small_font = ImageFont.truetype(font_path, 15)
+          draw.text((30, 28), 'Проверка цветовых вариантов — партия 1', font=title_font, fill='#201f1b')
+          draw.text((30, 72), 'Напишите номера, которые относятся к одной модели. Разные конструкции не объединяем.', font=text_font, fill='#706d65')
+
+          mapping = []
+          for i, p in enumerate(chosen, 1):
+              r, c = divmod(i - 1, COLS)
+              x = gap + c * (CARD_W + gap)
+              y = top + gap + r * (CARD_H + gap)
+              draw.rounded_rectangle((x, y, x + CARD_W, y + CARD_H), radius=22, fill='white', outline='#ded8cc', width=2)
+              draw.ellipse((x + 18, y + 18, x + 68, y + 68), fill='#201f1b')
+              bbox = draw.textbbox((0,0), str(i), font=num_font)
+              draw.text((x + 43 - (bbox[2]-bbox[0])/2, y + 43 - (bbox[3]-bbox[1])/2 - 3), str(i), font=num_font, fill='white')
+
+              image_path = p.get('directImage') or (p.get('images') or [None])[0]
+              image_path = re.sub(r'[?#].*$', '', image_path or '')
+              path = root / image_path
+              img_box = (x + 85, y + 18, x + CARD_W - 18, y + 300)
+              if path.exists():
+                  try:
+                      im = Image.open(path).convert('RGB')
+                      im.thumbnail((img_box[2]-img_box[0], img_box[3]-img_box[1]), Image.Resampling.LANCZOS)
+                      px = img_box[0] + (img_box[2]-img_box[0]-im.width)//2
+                      py = img_box[1] + (img_box[3]-img_box[1]-im.height)//2
+                      canvas.paste(im, (px, py))
+                  except Exception as e:
+                      draw.text((img_box[0], img_box[1]+100), f'Фото не открылось: {e}', font=small_font, fill='#a34036')
+              else:
+                  draw.text((img_box[0], img_box[1]+100), 'Фото отсутствует', font=text_font, fill='#a34036')
+
+              name = f"ID {p['id']} · {p.get('name','')}"
+              lines = textwrap.wrap(name, width=43)[:3]
+              ty = y + 318
+              for line in lines:
+                  draw.text((x + 20, ty), line, font=name_font, fill='#201f1b')
+                  ty += 29
+              specs = textwrap.wrap(str(p.get('specs','')), width=60)[:3]
+              for line in specs:
+                  draw.text((x + 20, ty + 4), line, font=small_font, fill='#706d65')
+                  ty += 21
+              price = p.get('wholesalePrice') or p.get('price') or ''
+              draw.text((x + 20, y + CARD_H - 34), f"Оптовая цена: {price} ₽", font=text_font, fill='#201f1b')
+              mapping.append({'number': i, 'id': p['id'], 'name': p.get('name'), 'specs': p.get('specs'), 'price': price, 'image': image_path})
+
+          out = root / 'review-output'
+          out.mkdir(exist_ok=True)
+          canvas.save(out / 'color-review-batch-01.png', quality=95)
+          (out / 'color-review-batch-01.json').write_text(json.dumps({'products': mapping, 'suggested_groups': selected_groups}, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps({'count': len(mapping), 'groups': selected_groups}, ensure_ascii=False))
+          PY
+          python /tmp/build_sheet.py
+      - name: Upload review sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: color-review-batch-01
+          path: review-output/
+          retention-days: 1
