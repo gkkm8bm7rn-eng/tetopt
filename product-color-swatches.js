@@ -1,171 +1,55 @@
 (() => {
   "use strict";
-
   const originalWrite = document.write.bind(document);
 
-  function colorSwatchesRuntime() {
+  function runtime() {
     "use strict";
-
     const COLORS = [
-      ["светло-серый", "#c9c9c5"], ["светло серый", "#c9c9c5"],
-      ["темно-серый", "#555753"], ["тёмно-серый", "#555753"], ["темно серый", "#555753"], ["тёмно серый", "#555753"],
-      ["серо-бежевый", "#a99f91"], ["серо бежевый", "#a99f91"], ["пыльно-розовый", "#c99b9c"], ["пыльно розовый", "#c99b9c"],
-      ["темно-синий", "#23344d"], ["тёмно-синий", "#23344d"], ["темно-зеленый", "#284c3b"], ["тёмно-зелёный", "#284c3b"],
-      ["горчичный", "#b8872f"], ["терракотовый", "#a75735"], ["бордовый", "#6f2638"], ["антрацит", "#343735"],
-      ["графит", "#4b4d4b"], ["серый", "#8d8f8c"], ["черный", "#171715"], ["чёрный", "#171715"], ["белый", "#f5f3ed"],
-      ["молочный", "#eee5d5"], ["кремовый", "#e8dcc5"], ["бежевый", "#c9b69c"], ["песочный", "#c5a979"],
-      ["коричневый", "#76513c"], ["коньячный", "#985c32"], ["желтый", "#d5b23b"], ["жёлтый", "#d5b23b"],
-      ["оранжевый", "#d97a32"], ["красный", "#b63d38"], ["розовый", "#d5a0aa"], ["пудровый", "#cfaaa5"],
-      ["фиолетовый", "#70517d"], ["сиреневый", "#9b83aa"], ["синий", "#355d88"], ["голубой", "#78a9c4"],
-      ["бирюзовый", "#3e9694"], ["зеленый", "#587454"], ["зелёный", "#587454"], ["оливковый", "#73764a"],
-      ["хаки", "#77745a"], ["мятный", "#91b6a3"], ["натуральный", "#c7a978"], ["дуб", "#b98f5f"],
-      ["орех", "#765438"], ["венге", "#3d2b24"], ["золотой", "#c6a052"], ["золото", "#c6a052"],
-      ["серебро", "#b9bab7"], ["серебристый", "#b9bab7"], ["хром", "#c8c9c7"]
+      ["светло-серый","#c9c9c5"],["темно-серый","#555753"],["тёмно-серый","#555753"],["серо-бежевый","#a99f91"],
+      ["пыльно-розовый","#c99b9c"],["темно-синий","#23344d"],["тёмно-синий","#23344d"],["темно-зеленый","#284c3b"],
+      ["тёмно-зелёный","#284c3b"],["горчичный","#b8872f"],["терракотовый","#a75735"],["бордовый","#6f2638"],
+      ["антрацит","#343735"],["графит","#4b4d4b"],["черный","#171715"],["чёрный","#171715"],["белый","#f5f3ed"],
+      ["молочный","#eee5d5"],["кремовый","#e8dcc5"],["бежевый","#c9b69c"],["песочный","#c5a979"],
+      ["коричневый","#76513c"],["коньячный","#985c32"],["желтый","#d5b23b"],["жёлтый","#d5b23b"],
+      ["оранжевый","#d97a32"],["красный","#b63d38"],["розовый","#d5a0aa"],["пудровый","#cfaaa5"],
+      ["фиолетовый","#70517d"],["сиреневый","#9b83aa"],["синий","#355d88"],["голубой","#78a9c4"],
+      ["бирюзовый","#3e9694"],["зеленый","#587454"],["зелёный","#587454"],["оливковый","#73764a"],
+      ["хаки","#77745a"],["мятный","#91b6a3"],["натуральный","#c7a978"],["дуб","#b98f5f"],
+      ["орех","#765438"],["венге","#3d2b24"],["золотой","#c6a052"],["золото","#c6a052"],
+      ["серебро","#b9bab7"],["серебристый","#b9bab7"],["хром","#c8c9c7"],["серый","#8d8f8c"]
     ];
-
-    const COLOR_WORDS = [...new Set(COLORS.map(([name]) => normalize(name)))].sort((a, b) => b.length - a.length);
     let scheduled = false;
 
-    function normalize(value) {
-      return String(value || "").toLowerCase().replace(/ё/g, "е").replace(/[^a-zа-я0-9]+/gi, " ").trim().replace(/\s+/g, " ");
-    }
-
-    function removeColors(value) {
-      let text = ` ${normalize(value)} `;
-      for (const color of COLOR_WORDS) text = text.replace(new RegExp(`\\s${color.replace(/\s+/g, "\\s+")}\\s`, "g"), " ");
-      return text.replace(/\s+/g, " ").trim();
-    }
-
-    function exactArticle(product) {
-      const direct = [product?.article, product?.sku, product?.vendorCode, product?.articleNumber, product?.productCode, product?.code]
-        .find(value => String(value || "").trim());
-      if (direct) return normalize(direct);
-      const text = `${product?.name || ""} ${product?.specs || ""}`;
-      const match = text.match(/(?:артикул|арт\.?|sku|код товара)\s*[:№#-]?\s*([a-zа-я0-9][a-zа-я0-9._\/-]{2,})/i);
-      return match ? normalize(match[1]) : "";
-    }
-
-    function explicitFamilyArticle(product) {
-      const value = [product?.baseArticle, product?.base_article, product?.modelArticle, product?.model_article, product?.parentArticle, product?.parent_article]
-        .find(item => String(item || "").trim());
-      return value ? normalize(value) : "";
-    }
-
-    function modelFingerprint(product) {
-      return removeColors(product?.name)
-        .replace(/\b(?:цвет|цвета|обивка|ткань)\b/g, " ")
-        .replace(/\s+/g, " ").trim();
-    }
-
-    function constructionSignature(product) {
-      const text = normalize(`${product?.name || ""} ${product?.specs || ""}`);
-      const flags = [
-        /(?:опора 360|360 градусов|поворотн|вращающ)/.test(text) ? "swivel" : "fixed",
-        /колес|ролик/.test(text) ? "wheels" : "no-wheels",
-        /подлокот/.test(text) ? "armrests" : "no-armrests",
-        /подголов/.test(text) ? "headrest" : "no-headrest",
-        /механизм качан|топ ган|top gun|мультиблок|синхромеханизм/.test(text) ? "mechanism" : "no-mechanism",
-        /хром/.test(text) ? "chrome-base" : /дерев|массив|бук|дуб/.test(text) && /(?:нож|опор|основан)/.test(text) ? "wood-base" : /металл/.test(text) && /(?:нож|опор|основан)/.test(text) ? "metal-base" : "base-material-unspecified",
-        /черн(?:ая|ые|ый).*?(?:опор|нож|основан)|(?:опор|нож|основан).*?черн/.test(text) ? "black-base" : /бел(?:ая|ые|ый).*?(?:опор|нож|основан)|(?:опор|нож|основан).*?бел/.test(text) ? "white-base" : "base-color-unspecified"
-      ];
-      const pack = text.match(/(\d+)\s*шт\.?\s*в\s*упаковк/);
-      flags.push(pack ? `pack-${pack[1]}` : "pack-unspecified");
-      const dimensions = [...text.matchAll(/(?:^|\s)(\d{2,4})\s*[xх×]\s*(\d{2,4})(?:\s*[xх×]\s*(\d{2,4}))?/g)]
-        .map(match => match.slice(1).filter(Boolean).join("x")).sort().join(",");
-      flags.push(dimensions ? `dims-${dimensions}` : "dims-unspecified");
-      return flags.join("|");
-    }
-
-    function priceFor(product) {
-      const raw = product?.price ?? product?.wholesalePrice ?? product?.wholesale_price;
-      const value = Number(String(raw ?? "").replace(/[^0-9.,]/g, "").replace(",", "."));
-      return Number.isFinite(value) && value > 0 ? value : 0;
-    }
-
-    function familyKey(product) {
-      const family = explicitFamilyArticle(product);
-      const article = exactArticle(product);
-      const identity = family || article;
-      if (!identity) return "";
-      return [
-        identity,
-        normalize(product?.category),
-        normalize(product?.collection),
-        modelFingerprint(product),
-        constructionSignature(product)
-      ].join("|");
-    }
-
-    function colorFor(product) {
-      const sources = [product?.specs, product?.name].map(normalize);
-      for (const source of sources) {
-        for (const [label, css] of COLORS) if (source.includes(normalize(label))) return { label, css };
-      }
-      return null;
-    }
-
-    function productsList() {
-      if (Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+    const normalize = value => String(value || "").toLowerCase().replace(/ё/g,"е").replace(/[^a-zа-я0-9]+/gi," ").trim();
+    const productList = () => {
       try { if (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)) return PRODUCTS; } catch {}
-      return [];
-    }
+      return Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+    };
+    const productByIdSafe = id => {
+      try { if (typeof productById === "function") return productById(Number(id)); } catch {}
+      return productList().find(p => Number(p.id) === Number(id)) || null;
+    };
+    const colorFor = product => {
+      const text = normalize(`${product?.specs || ""} ${product?.name || ""}`);
+      for (const [label, css] of COLORS) if (text.includes(normalize(label))) return { label, css };
+      return { label: "Вариант", css: "#d8d3ca" };
+    };
 
-    function auditGroups() {
-      const candidates = new Map();
-      const blocked = [];
+    function verifiedGroups() {
+      const byId = new Map();
       const accepted = [];
-
-      for (const product of productsList()) {
-        const color = colorFor(product);
-        const key = familyKey(product);
-        if (!color || !key) continue;
-        if (!candidates.has(key)) candidates.set(key, []);
-        candidates.get(key).push({ product, color });
+      for (const group of Array.isArray(window.PRODUCT_COLOR_GROUPS) ? window.PRODUCT_COLOR_GROUPS : []) {
+        const variants = [...new Set((group.ids || []).map(Number).filter(Number.isFinite))]
+          .map(productByIdSafe).filter(Boolean)
+          .map(product => ({ product, color: colorFor(product) }));
+        const uniqueProducts = [...new Map(variants.map(item => [Number(item.product.id), item])).values()];
+        const uniqueColors = new Set(uniqueProducts.map(item => normalize(item.color.label)));
+        if (uniqueProducts.length < 2 || uniqueColors.size < 2) continue;
+        uniqueProducts.forEach(item => byId.set(Number(item.product.id), uniqueProducts));
+        accepted.push({ name: group.name || "", ids: uniqueProducts.map(item => Number(item.product.id)), colors: uniqueProducts.map(item => item.color.label) });
       }
-
-      const safe = new Map();
-      for (const [key, variants] of candidates) {
-        const unique = [...new Map(variants.map(item => [normalize(item.color.label), item])).values()];
-        if (unique.length < 2) continue;
-
-        const reasons = [];
-        const articles = new Set(unique.map(item => exactArticle(item.product)).filter(Boolean));
-        const familyArticles = new Set(unique.map(item => explicitFamilyArticle(item.product)).filter(Boolean));
-        const models = new Set(unique.map(item => modelFingerprint(item.product)));
-        const constructions = new Set(unique.map(item => constructionSignature(item.product)));
-        const categories = new Set(unique.map(item => normalize(item.product?.category)));
-        const collections = new Set(unique.map(item => normalize(item.product?.collection)));
-        const prices = unique.map(item => priceFor(item.product)).filter(Boolean);
-
-        if (models.size !== 1) reasons.push("different-model-name");
-        if (constructions.size !== 1) reasons.push("different-construction");
-        if (categories.size !== 1) reasons.push("different-category");
-        if (collections.size !== 1) reasons.push("different-collection");
-        if (familyArticles.size === 0 && articles.size !== 1) reasons.push("different-articles-without-base-article");
-        if (familyArticles.size > 1) reasons.push("different-base-articles");
-        if (prices.length > 1 && Math.max(...prices) / Math.min(...prices) > 1.35) reasons.push("price-gap-over-35-percent");
-
-        const record = {
-          key,
-          ids: unique.map(item => item.product.id),
-          names: unique.map(item => item.product.name),
-          articles: unique.map(item => exactArticle(item.product)),
-          colors: unique.map(item => item.color.label),
-          reasons
-        };
-
-        if (reasons.length) blocked.push(record);
-        else { safe.set(key, unique); accepted.push(record); }
-      }
-
-      window.__COLOR_VARIANT_AUDIT__ = {
-        checkedAt: new Date().toISOString(),
-        acceptedGroups: accepted,
-        blockedGroups: blocked,
-        acceptedCount: accepted.length,
-        blockedCount: blocked.length
-      };
-      return safe;
+      window.__COLOR_VARIANT_AUDIT__ = { mode: "explicit-registry", acceptedGroups: accepted, acceptedCount: accepted.length };
+      return byId;
     }
 
     function addStyles() {
@@ -198,15 +82,13 @@
       return wrap;
     }
 
-    function productByCard(card) {
-      const id = Number(card?.dataset?.product);
-      try { return typeof productById === "function" ? productById(id) : null; } catch { return null; }
-    }
-
-    function addCardSwatches(groupMap) {
+    function refresh() {
+      scheduled = false;
+      addStyles();
+      const groups = verifiedGroups();
       document.querySelectorAll("[data-product]").forEach(card => {
-        const product = productByCard(card);
-        const variants = product ? groupMap.get(familyKey(product)) : null;
+        const product = productByIdSafe(card.dataset.product);
+        const variants = product ? groups.get(Number(product.id)) : null;
         const existing = card.querySelector("[data-color-swatches]");
         if (!variants) { existing?.remove(); return; }
         if (existing?.dataset.colorSwatches === String(product.id)) return;
@@ -217,39 +99,25 @@
         if (specs) specs.insertAdjacentElement("afterend", node);
         else if (bottom) bottom.insertAdjacentElement("beforebegin", node);
       });
-    }
 
-    function activeModalProduct() {
-      try {
-        const id = Number(activeGallery?.productId);
-        return typeof productById === "function" ? productById(id) : null;
-      } catch { return null; }
-    }
-
-    function addModalSwatches(groupMap) {
       const modal = document.getElementById("modal");
       const content = modal?.querySelector(".modal-content");
-      if (!modal?.classList.contains("show") || !content) return;
-      const product = activeModalProduct();
-      const variants = product ? groupMap.get(familyKey(product)) : null;
-      const existing = content.querySelector("[data-color-swatches]");
-      if (!variants) { existing?.remove(); return; }
-      if (existing?.dataset.colorSwatches === String(product.id)) return;
-      existing?.remove();
-      const node = swatchesNode(product, variants);
-      const specs = content.querySelector(".modal-specs,.specs");
-      const actions = content.querySelector(".journey-actions,.modal-actions");
-      if (specs) specs.insertAdjacentElement("afterend", node);
-      else if (actions) actions.insertAdjacentElement("beforebegin", node);
-      else content.appendChild(node);
-    }
-
-    function refresh() {
-      scheduled = false;
-      addStyles();
-      const groupMap = auditGroups();
-      addCardSwatches(groupMap);
-      addModalSwatches(groupMap);
+      if (modal?.classList.contains("show") && content) {
+        let product = null;
+        try { product = productByIdSafe(activeGallery?.productId); } catch {}
+        const variants = product ? groups.get(Number(product.id)) : null;
+        const existing = content.querySelector("[data-color-swatches]");
+        if (!variants) existing?.remove();
+        else if (existing?.dataset.colorSwatches !== String(product.id)) {
+          existing?.remove();
+          const node = swatchesNode(product, variants);
+          const specs = content.querySelector(".modal-specs,.specs");
+          const actions = content.querySelector(".journey-actions,.modal-actions");
+          if (specs) specs.insertAdjacentElement("afterend", node);
+          else if (actions) actions.insertAdjacentElement("beforebegin", node);
+          else content.appendChild(node);
+        }
+      }
     }
 
     function schedule() {
@@ -263,10 +131,8 @@
       if (!swatch) return;
       event.preventDefault();
       event.stopPropagation();
-      const id = Number(swatch.dataset.colorProduct);
-      try { if (typeof openProduct === "function") openProduct(id); } catch (error) { console.error("Не удалось открыть цветовой вариант", error); }
-      schedule();
-      setTimeout(schedule, 50);
+      try { if (typeof openProduct === "function") openProduct(Number(swatch.dataset.colorProduct)); } catch (error) { console.error(error); }
+      setTimeout(schedule, 40);
     }, true);
 
     new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
@@ -275,10 +141,7 @@
 
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
-    if (typeof html === "string" && html.includes("</body>")) {
-      const runtime = `<script>(${colorSwatchesRuntime.toString()})();<\/script>`;
-      html = html.replace("</body>", `${runtime}</body>`);
-    }
+    if (typeof html === "string" && html.includes("</body>")) html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
     return originalWrite(html);
   };
 })();
