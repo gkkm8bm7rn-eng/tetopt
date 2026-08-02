@@ -18,27 +18,27 @@
 
     text = replaceOnce(
       text,
-      /\.load-wrap\{display:flex;justify-content:center;margin-top:30px\}\s*\.load-more\{border:1px solid var\(--gold\);background:transparent;color:var\(--gold\);border-radius:10px;padding:13px 28px;font-weight:800;cursor:pointer\}/,
-      `.pagination-wrap{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:30px}
-    .page-btn{min-width:42px;height:42px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:0 13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
-    .page-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
-    .page-btn.active{background:var(--gold);border-color:var(--gold);color:#fff}
-    .page-btn:disabled{opacity:.45;cursor:not-allowed}
-    .page-ellipsis{padding:0 4px;color:var(--muted)}`,
+      ".load-wrap{text-align:center;padding:34px 0 76px}",
+      `.pagination-wrap{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;padding:34px 0 76px}
+    .page-btn{min-width:42px;height:42px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:0 14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+    .page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+    .page-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+    .page-btn:disabled{opacity:.4;cursor:not-allowed}
+    .page-ellipsis{padding:0 3px;color:var(--muted)}`,
       "pagination styles"
     );
 
     text = replaceOnce(
       text,
-      '<div class="load-wrap"><button class="load-more" id="loadMore">Показать ещё</button></div>',
+      '<div class="load-wrap"><button class="btn btn-primary" id="loadMore">Показать ещё</button></div>',
       '<nav class="pagination-wrap" id="pagination" aria-label="Страницы каталога"></nav>',
       "pagination markup"
     );
 
     text = replaceOnce(
       text,
-      /const state=\{search:"",category:"Все",sort:"default",visible:PAGE_SIZE\};/,
-      'const state={search:"",category:"Все",sort:"default",page:1};',
+      'let state = {search:"",collection:"",category:"Все",price:"",sort:"popular",visible:PAGE_SIZE};',
+      'let state = {search:"",collection:"",category:"Все",price:"",sort:"popular",page:1};',
       "catalog state"
     );
 
@@ -85,8 +85,8 @@
         return '<button class="page-btn'+(active?' active':'')+'" type="button" data-page="'+item+'"'+(active?' aria-current="page"':'')+' aria-label="Страница '+item+'">'+item+'</button>';
       }).join("");
       pagination.innerHTML=
-        '<button class="page-btn page-nav" type="button" data-page="'+(state.page-1)+'" '+(state.page===1?'disabled':'')+' aria-label="Предыдущая страница">← Назад</button>'+numbered+
-        '<button class="page-btn page-nav" type="button" data-page="'+(state.page+1)+'" '+(state.page===totalPages?'disabled':'')+' aria-label="Следующая страница">Вперёд →</button>';
+        '<button class="page-btn" type="button" data-page="'+(state.page-1)+'" '+(state.page===1?'disabled':'')+' aria-label="Предыдущая страница">← Назад</button>'+numbered+
+        '<button class="page-btn" type="button" data-page="'+(state.page+1)+'" '+(state.page===totalPages?'disabled':'')+' aria-label="Следующая страница">Вперёд →</button>';
     }
 
     function goToPage(page){
@@ -110,23 +110,27 @@
 
     text = replaceOnce(
       text,
-      /const visible=products\.slice\(0,state\.visible\);/,
-      `const totalPages=Math.max(1,Math.ceil(products.length/PAGE_SIZE));
+      "const all=filtered(), shown=all.slice(0,state.visible);",
+      `const all=filtered();
+      const totalPages=Math.max(1,Math.ceil(all.length/PAGE_SIZE));
       state.page=Math.min(Math.max(1,state.page),totalPages);
       const start=(state.page-1)*PAGE_SIZE;
-      const visible=products.slice(start,start+PAGE_SIZE);`,
+      const shown=all.slice(start,start+PAGE_SIZE);`,
       "page slice"
     );
 
     text = replaceOnce(
       text,
-      '$("#loadMore").style.display=state.visible<products.length?"inline-flex":"none";',
-      "renderPagination(products.length);",
+      '$("#loadMore").style.display = state.visible < all.length ? "inline-flex" : "none";',
+      "renderPagination(all.length);",
       "pagination render"
     );
 
     if (text.includes("Показать ещё") || text.includes("loadMore") || text.includes("state.visible")) {
       throw new Error("Legacy load-more logic remains after patching");
+    }
+    for (const token of ['id="pagination"', "function renderPagination", "function goToPage", 'aria-current="page"']) {
+      if (!text.includes(token)) throw new Error(`Missing pagination token: ${token}`);
     }
 
     return text;
