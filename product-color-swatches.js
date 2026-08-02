@@ -26,24 +26,37 @@
       ["серебро", "#b9bab7"], ["серебристый", "#b9bab7"], ["хром", "#c8c9c7"]
     ];
 
-    const COLOR_WORDS = [...new Set(COLORS.map(([name]) => name))].sort((a, b) => b.length - a.length);
     let scheduled = false;
 
     function normalize(value) {
       return String(value || "").toLowerCase().replace(/ё/g, "е").replace(/[^a-zа-я0-9]+/gi, " ").trim().replace(/\s+/g, " ");
     }
 
-    function modelName(product) {
-      let name = normalize(product?.name);
-      for (const word of COLOR_WORDS) {
-        const normalizedWord = normalize(word);
-        name = name.replace(new RegExp(`(^|\\s)${normalizedWord.replace(/\s+/g, "\\s+")}(?=\\s|$)`, "g"), " ");
-      }
-      return name.replace(/\s+/g, " ").trim();
+    function articleFor(product) {
+      const direct = [
+        product?.baseArticle, product?.modelArticle, product?.parentArticle, product?.groupArticle,
+        product?.article, product?.sku, product?.vendorCode, product?.articleNumber,
+        product?.productCode, product?.code
+      ].find(value => String(value || "").trim());
+      if (direct) return normalize(direct);
+      const text = `${product?.name || ""} ${product?.specs || ""}`;
+      const match = text.match(/(?:артикул|арт\.?|sku)\s*[:№#-]?\s*([a-zа-я0-9][a-zа-я0-9._\/-]{2,})/i);
+      return match ? normalize(match[1]) : "";
+    }
+
+    function constructionSignature(product) {
+      const text = normalize(`${product?.name || ""} ${product?.specs || ""}`);
+      const swivel = /(?:опора 360|360 градусов|поворотн|вращающ)/.test(text) ? "swivel" : "fixed";
+      const base = /хром/.test(text) ? "chrome" : /черн(?:ая|ые|ый).*?(?:опор|нож|основан)/.test(text) ? "black-base" : /бел(?:ая|ые|ый).*?(?:опор|нож|основан)/.test(text) ? "white-base" : "base-unspecified";
+      const wheels = /колес|ролик/.test(text) ? "wheels" : "no-wheels";
+      const pack = text.match(/(\d+)\s*шт\.?\s*в\s*упаковк/);
+      return [swivel, base, wheels, pack ? `pack-${pack[1]}` : "pack-unspecified"].join("|");
     }
 
     function modelKey(product) {
-      return [normalize(product?.category), normalize(product?.collection), modelName(product)].join("|");
+      const article = articleFor(product);
+      if (!article) return "";
+      return [article, constructionSignature(product), normalize(product?.category), normalize(product?.collection)].join("|");
     }
 
     function colorFor(product) {
@@ -56,19 +69,27 @@
       return null;
     }
 
+    function productsList() {
+      if (Array.isArray(window.PRODUCTS)) return window.PRODUCTS;
+      try { if (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)) return PRODUCTS; } catch {}
+      return [];
+    }
+
     function groups() {
       const map = new Map();
-      const products = Array.isArray(window.PRODUCTS) ? window.PRODUCTS : (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS) ? PRODUCTS : []);
-      for (const product of products) {
+      for (const product of productsList()) {
         const color = colorFor(product);
         const key = modelKey(product);
-        if (!color || !key.split("|")[2]) continue;
+        if (!color || !key) continue;
         if (!map.has(key)) map.set(key, []);
         map.get(key).push({ product, color });
       }
       for (const [key, variants] of map) {
-        const unique = [...new Map(variants.map(item => [normalize(item.color.label), item])).values()];
-        if (unique.length < 2) map.delete(key); else map.set(key, unique);
+        const uniqueColors = [...new Map(variants.map(item => [normalize(item.color.label), item])).values()];
+        const exactConstruction = new Set(uniqueColors.map(item => constructionSignature(item.product)));
+        const exactArticles = new Set(uniqueColors.map(item => articleFor(item.product)));
+        if (uniqueColors.length < 2 || exactConstruction.size !== 1 || exactArticles.size !== 1) map.delete(key);
+        else map.set(key, uniqueColors);
       }
       return map;
     }
@@ -77,20 +98,11 @@
       if (document.getElementById("colorSwatchesStyles")) return;
       const style = document.createElement("style");
       style.id = "colorSwatchesStyles";
-      style.textContent = `
-        .product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-        .product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-        .color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto}
-        .color-swatch:hover{transform:scale(1.08)}
-        .color-swatch.active{box-shadow:0 0 0 2px var(--ink)}
-        .color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}
-        .modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}
-        @media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}
-      `;
+      style.textContent = `.product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto}.color-swatch:hover{transform:scale(1.08)}.color-swatch.active{box-shadow:0 0 0 2px var(--ink)}.color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}.modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}@media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}`;
       document.head.appendChild(style);
     }
 
-    function swatchesNode(product, variants, modal = false) {
+    function swatchesNode(product, variants) {
       const wrap = document.createElement("div");
       wrap.className = "product-colors";
       wrap.dataset.colorSwatches = String(product.id);
@@ -112,18 +124,21 @@
       return wrap;
     }
 
+    function productByCard(card) {
+      const id = Number(card?.dataset?.product);
+      try { return typeof productById === "function" ? productById(id) : null; } catch { return null; }
+    }
+
     function addCardSwatches(groupMap) {
       document.querySelectorAll("[data-product]").forEach(card => {
-        if (card.querySelector("[data-color-swatches]")) return;
-        const id = Number(card.dataset.product);
-        let product = null;
-        try { product = typeof productById === "function" ? productById(id) : null; } catch {}
+        card.querySelector("[data-color-swatches]")?.remove();
+        const product = productByCard(card);
         if (!product) return;
         const variants = groupMap.get(modelKey(product));
         if (!variants) return;
+        const node = swatchesNode(product, variants);
         const specs = card.querySelector(".specs");
         const bottom = card.querySelector(".card-bottom");
-        const node = swatchesNode(product, variants);
         if (specs) specs.insertAdjacentElement("afterend", node);
         else if (bottom) bottom.insertAdjacentElement("beforebegin", node);
       });
@@ -138,17 +153,14 @@
 
     function addModalSwatches(groupMap) {
       const modal = document.getElementById("modal");
-      if (!modal?.classList.contains("show")) return;
-      const content = modal.querySelector(".modal-content");
-      if (!content) return;
+      const content = modal?.querySelector(".modal-content");
+      if (!modal?.classList.contains("show") || !content) return;
+      content.querySelector("[data-color-swatches]")?.remove();
       const product = activeModalProduct();
       if (!product) return;
-      const existing = content.querySelector("[data-color-swatches]");
-      if (existing?.dataset.colorSwatches === String(product.id)) return;
-      existing?.remove();
       const variants = groupMap.get(modelKey(product));
       if (!variants) return;
-      const node = swatchesNode(product, variants, true);
+      const node = swatchesNode(product, variants);
       const specs = content.querySelector(".modal-specs,.specs");
       const actions = content.querySelector(".journey-actions,.modal-actions");
       if (specs) specs.insertAdjacentElement("afterend", node);
@@ -181,8 +193,7 @@
       setTimeout(schedule, 50);
     }, true);
 
-    const observer = new MutationObserver(schedule);
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
     schedule();
   }
 
