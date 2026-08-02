@@ -1,0 +1,21 @@
+name: Build color review sheet on PR
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --disable-pip-version-check pillow
+      - run: python tools/build_color_review_sheet.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: color-review-batch-01
+          path: review-output/
+          retention-days: 1
