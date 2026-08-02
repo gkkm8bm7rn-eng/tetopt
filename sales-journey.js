@@ -1,9 +1,12 @@
 (() => {
   "use strict";
   const originalWrite = document.write.bind(document);
+
   function salesJourneyRuntime() {
     "use strict";
     const MAX_RECOMMENDATIONS = 4;
+    let scheduled = false;
+
     function addStyles() {
       if (document.getElementById("salesJourneyStyles")) return;
       const style = document.createElement("style");
@@ -18,46 +21,160 @@
       `;
       document.head.appendChild(style);
     }
-    function imageFor(product) { const images=Array.isArray(product?.images)?product.images.filter(Boolean):[]; return images[0]||product?.directImage||""; }
-    function uniqueProducts(items) { const seen=new Set(); return items.filter(product=>{const id=Number(product?.id);if(!Number.isFinite(id)||seen.has(id))return false;seen.add(id);return true;}); }
+
+    function imageFor(product) {
+      const images = Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
+      return images[0] || product?.directImage || "";
+    }
+
     function recommendationSets(product) {
-      const price=Number(typeof sellingPrice==="function"?sellingPrice(product):product.wholesalePrice||0);
-      const others=PRODUCTS.filter(item=>Number(item.id)!==Number(product.id));
-      const sameCollection=uniqueProducts(others.filter(item=>product.collection&&item.collection===product.collection)).slice(0,MAX_RECOMMENDATIONS);
-      const similar=others.filter(item=>item.category===product.category&&!sameCollection.some(saved=>Number(saved.id)===Number(item.id))).map(item=>{const itemPrice=Number(typeof sellingPrice==="function"?sellingPrice(item):item.wholesalePrice||0);return{item,score:price>0&&itemPrice>0?Math.abs(itemPrice-price)/price:2};}).sort((a,b)=>a.score-b.score).map(entry=>entry.item).slice(0,MAX_RECOMMENDATIONS);
-      return {sameCollection,similar};
+      const price = Number(sellingPrice(product) || 0);
+      const others = PRODUCTS.filter(item => Number(item.id) !== Number(product.id));
+      const sameCollection = others.filter(item => product.collection && item.collection === product.collection).slice(0, MAX_RECOMMENDATIONS);
+      const used = new Set(sameCollection.map(item => Number(item.id)));
+      const similar = others
+        .filter(item => item.category === product.category && !used.has(Number(item.id)))
+        .map(item => ({ item, distance: price > 0 ? Math.abs(Number(sellingPrice(item) || 0) - price) / price : 2 }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, MAX_RECOMMENDATIONS)
+        .map(entry => entry.item);
+      return { sameCollection, similar };
     }
-    function recommendationCard(product) { const image=imageFor(product);const price=typeof sellingPrice==="function"?sellingPrice(product):product.wholesalePrice;return `<button type="button" class="journey-product" data-journey-open="${product.id}">${image?`<img src="${image}" alt="" loading="lazy" decoding="async">`:""}<span class="journey-product-body"><span class="journey-product-name">${esc(product.name)}</span><span class="journey-product-price">${formatPrice(price)}</span></span></button>`; }
+
+    function recommendationCard(product) {
+      const image = imageFor(product);
+      return `<button type="button" class="journey-product" data-journey-open="${product.id}">${image ? `<img src="${image}" alt="" loading="lazy" decoding="async">` : ""}<span class="journey-product-body"><span class="journey-product-name">${esc(product.name)}</span><span class="journey-product-price">${formatPrice(sellingPrice(product))}</span></span></button>`;
+    }
+
     function enhanceModal() {
-      const modal=document.getElementById("modal"); if(!modal?.classList.contains("show"))return;
-      const id=Number(typeof activeGallery==="object"?activeGallery?.productId:NaN); const product=typeof productById==="function"?productById(id):null; if(!product)return;
-      const content=modal.querySelector(".modal-content"); const originalButton=content?.querySelector(".btn.btn-primary");
-      if(content&&originalButton&&!content.querySelector(".journey-actions")){
-        const actions=document.createElement("div");actions.className="journey-actions";originalButton.replaceWith(actions);originalButton.style.marginTop="0";actions.appendChild(originalButton);
-        const fast=document.createElement("button");fast.type="button";fast.className="btn journey-fast";fast.dataset.fastBuy=String(product.id);fast.textContent="Купить быстро";actions.appendChild(fast);
-        const benefits=document.createElement("div");benefits.className="journey-benefits";benefits.innerHTML=`<span class="journey-benefit">Без регистрации</span><span class="journey-benefit">Заказ через мессенджер</span><span class="journey-benefit">Контакты сохранятся в браузере</span>`;content.appendChild(benefits);
+      const modal = document.getElementById("modal");
+      if (!modal?.classList.contains("show")) return;
+      const product = productById(Number(activeGallery?.productId));
+      if (!product) return;
+
+      const content = modal.querySelector(".modal-content");
+      const originalButton = content?.querySelector(".btn.btn-primary");
+      if (content && originalButton && !content.querySelector(".journey-actions")) {
+        const actions = document.createElement("div");
+        actions.className = "journey-actions";
+        originalButton.replaceWith(actions);
+        originalButton.style.marginTop = "0";
+        actions.appendChild(originalButton);
+        const fast = document.createElement("button");
+        fast.type = "button";
+        fast.className = "btn journey-fast";
+        fast.dataset.fastBuy = String(product.id);
+        fast.textContent = "Купить быстро";
+        actions.appendChild(fast);
+        const benefits = document.createElement("div");
+        benefits.className = "journey-benefits";
+        benefits.innerHTML = `<span class="journey-benefit">Без регистрации</span><span class="journey-benefit">Заказ через мессенджер</span><span class="journey-benefit">Контакты сохранятся в браузере</span>`;
+        content.appendChild(benefits);
       }
-      if(!modal.querySelector(".journey-recommendations")){
-        const sets=recommendationSets(product),sections=[];
-        if(sets.sameCollection.length)sections.push(`<div class="journey-section"><h3>Из этой же серии</h3><p>Товары одной коллекции для целостного интерьера.</p><div class="journey-row">${sets.sameCollection.map(recommendationCard).join("")}</div></div>`);
-        if(sets.similar.length)sections.push(`<div class="journey-section"><h3>Похожие товары</h3><p>Близкие варианты по категории и цене.</p><div class="journey-row">${sets.similar.map(recommendationCard).join("")}</div></div>`);
-        if(sections.length){const recommendations=document.createElement("section");recommendations.className="journey-recommendations";recommendations.innerHTML=sections.join("");modal.querySelector(".modal-grid")?.appendChild(recommendations);}
+
+      if (modal.querySelector(".journey-recommendations")) return;
+      const sets = recommendationSets(product);
+      const sections = [];
+      if (sets.sameCollection.length) sections.push(`<div class="journey-section"><h3>Из этой же серии</h3><p>Товары одной коллекции для целостного интерьера.</p><div class="journey-row">${sets.sameCollection.map(recommendationCard).join("")}</div></div>`);
+      if (sets.similar.length) sections.push(`<div class="journey-section"><h3>Похожие товары</h3><p>Близкие варианты по категории и цене.</p><div class="journey-row">${sets.similar.map(recommendationCard).join("")}</div></div>`);
+      if (!sections.length) return;
+      const recommendations = document.createElement("section");
+      recommendations.className = "journey-recommendations";
+      recommendations.innerHTML = sections.join("");
+      modal.querySelector(".modal-grid")?.appendChild(recommendations);
+    }
+
+    function cartEntries() {
+      try {
+        return Object.entries(cart).map(([id, qty]) => ({ product: productById(id), qty: Number(qty) || 0 })).filter(entry => entry.product && entry.qty > 0);
+      } catch {
+        return [];
       }
     }
-    function cartEntries(){try{return Object.entries(cart).map(([id,qty])=>({product:productById(id),qty:Number(qty)||0})).filter(entry=>entry.product&&entry.qty>0)}catch{return[]}}
-    function enhanceCart(){
-      const drawer=document.getElementById("cartDrawer");if(!drawer?.classList.contains("show"))return;drawer.querySelector(".cart-journey")?.remove();const entries=cartEntries();if(!entries.length)return;
-      const inCart=new Set(entries.map(entry=>Number(entry.product.id))),categories=new Set(entries.map(entry=>entry.product.category)),collections=new Set(entries.map(entry=>entry.product.collection).filter(Boolean));
-      const candidates=PRODUCTS.filter(product=>!inCart.has(Number(product.id))).map(product=>({product,score:(collections.has(product.collection)?0:3)+(categories.has(product.category)?0:2)})).sort((a,b)=>a.score-b.score).slice(0,3).map(entry=>entry.product);if(!candidates.length)return;
-      const block=document.createElement("section");block.className="cart-journey";block.innerHTML=`<h3>Дополнить заказ</h3><div class="cart-journey-list">${candidates.map(product=>{const image=imageFor(product);return `<div class="cart-journey-item">${image?`<img src="${image}" alt="" loading="lazy" decoding="async">`:""}<div><div class="cart-journey-name">${esc(product.name)}</div><div class="cart-journey-price">${formatPrice(sellingPrice(product))}</div></div><button type="button" class="cart-journey-add" data-journey-add="${product.id}" aria-label="Добавить ${esc(product.name)}">+</button></div>`;}).join("")}</div>`;drawer.querySelector(".drawer-foot")?.before(block);
+
+    function enhanceCart() {
+      const drawer = document.getElementById("cartDrawer");
+      if (!drawer?.classList.contains("show")) return;
+      const entries = cartEntries();
+      const signature = entries.map(entry => `${entry.product.id}:${entry.qty}`).sort().join("|");
+      const existing = drawer.querySelector(".cart-journey");
+      if (drawer.dataset.journeySignature === signature && existing) return;
+      drawer.dataset.journeySignature = signature;
+      existing?.remove();
+      if (!entries.length) return;
+
+      const inCart = new Set(entries.map(entry => Number(entry.product.id)));
+      const categories = new Set(entries.map(entry => entry.product.category));
+      const collections = new Set(entries.map(entry => entry.product.collection).filter(Boolean));
+      const candidates = PRODUCTS
+        .filter(product => !inCart.has(Number(product.id)))
+        .map(product => ({ product, score: (collections.has(product.collection) ? 0 : 3) + (categories.has(product.category) ? 0 : 2) }))
+        .sort((a, b) => a.score - b.score)
+        .slice(0, 3)
+        .map(entry => entry.product);
+      if (!candidates.length) return;
+
+      const block = document.createElement("section");
+      block.className = "cart-journey";
+      block.innerHTML = `<h3>Дополнить заказ</h3><div class="cart-journey-list">${candidates.map(product => { const image = imageFor(product); return `<div class="cart-journey-item">${image ? `<img src="${image}" alt="" loading="lazy" decoding="async">` : ""}<div><div class="cart-journey-name">${esc(product.name)}</div><div class="cart-journey-price">${formatPrice(sellingPrice(product))}</div></div><button type="button" class="cart-journey-add" data-journey-add="${product.id}" aria-label="Добавить ${esc(product.name)}">+</button></div>`; }).join("")}</div>`;
+      drawer.querySelector(".drawer-foot")?.before(block);
     }
-    function prioritizeVisibleImages(){[...document.querySelectorAll("#grid .js-product-image")].slice(0,4).forEach((image,index)=>{image.fetchPriority=index===0?"high":"auto";image.decoding="async";});}
-    document.addEventListener("click",event=>{
-      const fast=event.target.closest("[data-fast-buy]");if(fast){addToCart(Number(fast.dataset.fastBuy));closeAll();openCart();setTimeout(()=>document.getElementById("checkoutOrder")?.click(),100);return;}
-      const open=event.target.closest("[data-journey-open]");if(open){openProduct(open.dataset.journeyOpen);setTimeout(enhanceModal,0);return;}
-      const add=event.target.closest("[data-journey-add]");if(add){addToCart(add.dataset.journeyAdd);setTimeout(enhanceCart,0);}
+
+    function prioritizeVisibleImages() {
+      [...document.querySelectorAll("#grid .js-product-image")].slice(0, 4).forEach((image, index) => {
+        image.fetchPriority = index === 0 ? "high" : "auto";
+        image.decoding = "async";
+      });
+    }
+
+    function refresh() {
+      scheduled = false;
+      enhanceModal();
+      enhanceCart();
+      prioritizeVisibleImages();
+    }
+
+    function scheduleRefresh() {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(refresh);
+    }
+
+    document.addEventListener("click", event => {
+      const fast = event.target.closest("[data-fast-buy]");
+      if (fast) {
+        addToCart(Number(fast.dataset.fastBuy));
+        closeAll();
+        openCart();
+        setTimeout(() => document.getElementById("checkoutOrder")?.click(), 100);
+        return;
+      }
+      const open = event.target.closest("[data-journey-open]");
+      if (open) {
+        openProduct(open.dataset.journeyOpen);
+        scheduleRefresh();
+        return;
+      }
+      const add = event.target.closest("[data-journey-add]");
+      if (add) {
+        addToCart(add.dataset.journeyAdd);
+        scheduleRefresh();
+      }
     });
-    const observer=new MutationObserver(()=>{enhanceModal();enhanceCart();prioritizeVisibleImages();});observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});addStyles();prioritizeVisibleImages();
+
+    const observer = new MutationObserver(scheduleRefresh);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    addStyles();
+    scheduleRefresh();
   }
-  document.write=function patchedWrite(...parts){let html=parts.join("");if(typeof html==="string"&&html.includes("</body>")){const runtime=`<script>(${salesJourneyRuntime.toString()})();<\/script>`;html=html.replace("</body>",`${runtime}</body>`);return originalWrite(html);}return originalWrite(...parts);};
+
+  document.write = function patchedWrite(...parts) {
+    let html = parts.join("");
+    if (typeof html === "string" && html.includes("</body>")) {
+      const runtime = `<script>(${salesJourneyRuntime.toString()})();<\/script>`;
+      html = html.replace("</body>", `${runtime}</body>`);
+      return originalWrite(html);
+    }
+    return originalWrite(...parts);
+  };
 })();
