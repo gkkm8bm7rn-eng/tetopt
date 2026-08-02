@@ -11,7 +11,7 @@ if not match:
     raise SystemExit("PRODUCTS array not found")
 products = json.loads(match.group(1))
 
-confirmed = {1,2,3,4,5,6,7,8,10,11,19,20,21,22,23,24,25,26,27}
+confirmed = {1,2,3,4,5,6,7,8,10,11,19,20,21,22,23,24,25,26,27,30,31,32,33,51,52,63,64,69,70,71,72}
 hidden = set(json.loads((ROOT / "hidden-products.json").read_text(encoding="utf-8")).get("ids", []))
 colors = {"белый","белая","черный","черная","чёрный","чёрная","серый","серая","бежевый","бежевая","зеленый","зеленая","зелёный","зелёная","синий","синяя","голубой","голубая","розовый","розовая","коричневый","коричневая","графит","антрацит","оливковый","оливковая","горчичный","горчичная","красный","красная","оранжевый","оранжевая","молочный","молочная","кремовый","кремовая","натуральный","натуральная","орех","венге","золото","золотой","хром","серебро","серебристый"}
 
@@ -29,15 +29,15 @@ for product in products:
         continue
     groups.setdefault(family_key(product), []).append(product)
 
-candidate_groups = []
+candidates = []
 for key, items in groups.items():
     if 2 <= len(items) <= 8 and len({norm(item.get("specs")) for item in items}) >= 2:
-        candidate_groups.append((min(int(item["id"]) for item in items), key, sorted(items, key=lambda item: int(item["id"]))))
-candidate_groups.sort(key=lambda row: row[0])
+        candidates.append((min(int(item["id"]) for item in items), key, sorted(items, key=lambda item: int(item["id"]))))
+candidates.sort(key=lambda row: row[0])
 
 chosen = []
 suggested = []
-for _, key, items in candidate_groups:
+for _, key, items in candidates:
     room = 12 - len(chosen)
     if room < 2:
         break
@@ -64,7 +64,7 @@ fonts = {
     "text": ImageFont.truetype(regular, 17),
     "small": ImageFont.truetype(regular, 15),
 }
-draw.text((30, 28), "Проверка цветовых вариантов — партия 1", font=fonts["title"], fill="#201f1b")
+draw.text((30, 28), "Проверка цветовых вариантов — партия 2", font=fonts["title"], fill="#201f1b")
 draw.text((30, 72), "Напишите номера, относящиеся к одной модели. Разные конструкции не объединяем.", font=fonts["text"], fill="#706d65")
 
 mapping = []
@@ -81,9 +81,12 @@ for number, product in enumerate(chosen, 1):
     image_path = re.sub(r"[?#].*$", "", image_path or "")
     local = ROOT / image_path
     if local.exists():
-        image = Image.open(local).convert("RGB")
-        image.thumbnail((450, 280), Image.Resampling.LANCZOS)
-        canvas.paste(image, (x + 85 + (467-image.width)//2, y + 18 + (282-image.height)//2))
+        try:
+            image = Image.open(local).convert("RGB")
+            image.thumbnail((450, 280), Image.Resampling.LANCZOS)
+            canvas.paste(image, (x + 85 + (467-image.width)//2, y + 18 + (282-image.height)//2))
+        except Exception:
+            draw.text((x + 160, y + 145), "Фото не открылось", font=fonts["text"], fill="#a34036")
     else:
         draw.text((x + 160, y + 145), "Фото отсутствует", font=fonts["text"], fill="#a34036")
 
@@ -100,6 +103,6 @@ for number, product in enumerate(chosen, 1):
 
 out = ROOT / "review-output"
 out.mkdir(exist_ok=True)
-canvas.save(out / "color-review-batch-01.png", quality=95)
-(out / "color-review-batch-01.json").write_text(json.dumps({"products": mapping, "suggested_groups": suggested}, ensure_ascii=False, indent=2), encoding="utf-8")
+canvas.save(out / "color-review-batch-02.png", quality=95)
+(out / "color-review-batch-02.json").write_text(json.dumps({"products": mapping, "suggested_groups": suggested}, ensure_ascii=False, indent=2), encoding="utf-8")
 print(json.dumps({"count": len(mapping), "groups": suggested}, ensure_ascii=False))
