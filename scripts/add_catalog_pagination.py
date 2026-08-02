@@ -1,0 +1,120 @@
+from pathlib import Path
+import re
+
+path = Path("catalog-source.html")
+text = path.read_text(encoding="utf-8")
+
+
+def replace_once(old: str, new: str, label: str) -> None:
+    global text
+    count = text.count(old)
+    if count != 1:
+        raise SystemExit(f"{label}: expected 1 occurrence, found {count}")
+    text = text.replace(old, new, 1)
+
+
+replace_once(
+    ".load-wrap{display:flex;justify-content:center;margin-top:30px}\n    .load-more{border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:10px;padding:13px 28px;font-weight:800;cursor:pointer}",
+    ".pagination-wrap{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:30px}\n    .page-btn{min-width:42px;height:42px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:0 13px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}\n    .page-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}\n    .page-btn.active{background:var(--gold);border-color:var(--gold);color:#fff}\n    .page-btn:disabled{opacity:.45;cursor:not-allowed}\n    .page-ellipsis{padding:0 4px;color:var(--muted)}",
+    "pagination styles",
+)
+
+replace_once(
+    '<div class="load-wrap"><button class="load-more" id="loadMore">Показать ещё</button></div>',
+    '<nav class="pagination-wrap" id="pagination" aria-label="Страницы каталога"></nav>',
+    "pagination markup",
+)
+
+text, count = re.subn(
+    r'const state=\{search:"",category:"Все",sort:"default",visible:PAGE_SIZE\};',
+    'const state={search:"",category:"Все",sort:"default",page:1};',
+    text,
+    count=1,
+)
+if count != 1:
+    raise SystemExit(f"catalog state: expected 1 occurrence, found {count}")
+
+replace_once(
+    '$("#loadMore").addEventListener("click",()=>{state.visible+=PAGE_SIZE;render()});',
+    '$("#pagination").addEventListener("click",e=>{\n        const button=e.target.closest("[data-page]");\n        if(!button||button.disabled)return;\n        goToPage(button.dataset.page);\n      });',
+    "pagination click handler",
+)
+
+replace_once(
+    "function resetAndRender(){state.visible=PAGE_SIZE;render()}",
+    "function resetAndRender(){state.page=1;render()}",
+    "pagination reset",
+)
+
+helpers = r'''
+    function paginationItems(current,total){
+      if(total<=7)return Array.from({length:total},(_,i)=>i+1);
+      const items=[1];
+      const start=Math.max(2,current-1);
+      const end=Math.min(total-1,current+1);
+      if(start>2)items.push("start");
+      for(let i=start;i<=end;i++)items.push(i);
+      if(end<total-1)items.push("end");
+      items.push(total);
+      return items;
+    }
+
+    function renderPagination(totalProducts){
+      const totalPages=Math.max(1,Math.ceil(totalProducts/PAGE_SIZE));
+      state.page=Math.min(Math.max(1,state.page),totalPages);
+      const pagination=$("#pagination");
+      if(totalPages<=1){pagination.hidden=true;pagination.innerHTML="";return}
+      pagination.hidden=false;
+      const numbered=paginationItems(state.page,totalPages).map(item=>{
+        if(typeof item!=="number")return '<span class="page-ellipsis" aria-hidden="true">…</span>';
+        return `<button class="page-btn${item===state.page?" active":""}" type="button" data-page="${item}"${item===state.page?' aria-current="page"':""} aria-label="Страница ${item}">${item}</button>`;
+      }).join("");
+      pagination.innerHTML=`
+        <button class="page-btn page-nav" type="button" data-page="${state.page-1}" ${state.page===1?"disabled":""} aria-label="Предыдущая страница">← Назад</button>
+        ${numbered}
+        <button class="page-btn page-nav" type="button" data-page="${state.page+1}" ${state.page===totalPages?"disabled":""} aria-label="Следующая страница">Вперёд →</button>`;
+    }
+
+    function goToPage(page){
+      const totalPages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));
+      const next=Math.min(Math.max(1,Number(page)||1),totalPages);
+      if(next===state.page)return;
+      state.page=next;
+      render();
+      const anchor=$("#catalog")||$("#grid");
+      if(anchor)anchor.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+
+'''
+marker = "    function bindEvents(){"
+if text.count(marker) != 1:
+    raise SystemExit(f"bindEvents marker: expected 1 occurrence, found {text.count(marker)}")
+text = text.replace(marker, helpers + marker, 1)
+
+text, count = re.subn(
+    r"const visible=products\.slice\(0,state\.visible\);",
+    "const totalPages=Math.max(1,Math.ceil(products.length/PAGE_SIZE));\n      state.page=Math.min(Math.max(1,state.page),totalPages);\n      const start=(state.page-1)*PAGE_SIZE;\n      const visible=products.slice(start,start+PAGE_SIZE);",
+    text,
+    count=1,
+)
+if count != 1:
+    raise SystemExit(f"product slice: expected 1 occurrence, found {count}")
+
+replace_once(
+    '$("#loadMore").style.display=state.visible<products.length?"inline-flex":"none";',
+    "renderPagination(products.length);",
+    "pagination render",
+)
+
+if "Показать ещё" in text or "loadMore" in text or "state.visible" in text:
+    raise SystemExit("legacy load-more logic remains")
+for required in (
+    'id="pagination"',
+    "function renderPagination",
+    "function goToPage",
+    'aria-current="page"',
+):
+    if required not in text:
+        raise SystemExit(f"missing required pagination token: {required}")
+
+path.write_text(text, encoding="utf-8")
