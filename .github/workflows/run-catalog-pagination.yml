@@ -1,0 +1,53 @@
+name: Run catalog pagination update
+
+on:
+  push:
+    branches:
+      - agent/catalog-pagination
+
+permissions:
+  contents: write
+
+jobs:
+  paginate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/catalog-pagination
+          fetch-depth: 0
+
+      - name: Apply pagination update
+        run: python3 scripts/add_catalog_pagination.py
+
+      - name: Validate catalog JavaScript
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('catalog-source.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script(?:\s[^>]*)?>(.*?)</script>', text, re.S)
+          if not scripts:
+              raise SystemExit('No inline scripts found')
+          Path('/tmp/catalog-inline.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+          node --check /tmp/catalog-inline.js
+
+      - name: Verify final scope
+        run: |
+          rm scripts/add_catalog_pagination.py
+          rm .github/workflows/run-catalog-pagination.yml
+          changed=$(git diff --name-only)
+          test "$changed" = "catalog-source.html"
+          ! grep -q 'Показать ещё' catalog-source.html
+          ! grep -q 'loadMore' catalog-source.html
+          grep -q 'id="pagination"' catalog-source.html
+          grep -q 'function renderPagination' catalog-source.html
+
+      - name: Commit verified pagination
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-source.html scripts/add_catalog_pagination.py .github/workflows/run-catalog-pagination.yml
+          git commit -m "Добавить постраничную навигацию каталога"
+          git push origin HEAD:agent/catalog-pagination
