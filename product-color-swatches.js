@@ -9,13 +9,10 @@
     const COLORS = [
       ["светло-серый", "#c9c9c5"], ["светло серый", "#c9c9c5"],
       ["темно-серый", "#555753"], ["тёмно-серый", "#555753"], ["темно серый", "#555753"], ["тёмно серый", "#555753"],
-      ["серо-бежевый", "#a99f91"], ["серо бежевый", "#a99f91"],
-      ["пыльно-розовый", "#c99b9c"], ["пыльно розовый", "#c99b9c"],
-      ["темно-синий", "#23344d"], ["тёмно-синий", "#23344d"],
-      ["темно-зеленый", "#284c3b"], ["тёмно-зелёный", "#284c3b"],
-      ["горчичный", "#b8872f"], ["терракотовый", "#a75735"], ["бордовый", "#6f2638"],
-      ["антрацит", "#343735"], ["графит", "#4b4d4b"], ["серый", "#8d8f8c"],
-      ["черный", "#171715"], ["чёрный", "#171715"], ["белый", "#f5f3ed"],
+      ["серо-бежевый", "#a99f91"], ["серо бежевый", "#a99f91"], ["пыльно-розовый", "#c99b9c"], ["пыльно розовый", "#c99b9c"],
+      ["темно-синий", "#23344d"], ["тёмно-синий", "#23344d"], ["темно-зеленый", "#284c3b"], ["тёмно-зелёный", "#284c3b"],
+      ["горчичный", "#b8872f"], ["терракотовый", "#a75735"], ["бордовый", "#6f2638"], ["антрацит", "#343735"],
+      ["графит", "#4b4d4b"], ["серый", "#8d8f8c"], ["черный", "#171715"], ["чёрный", "#171715"], ["белый", "#f5f3ed"],
       ["молочный", "#eee5d5"], ["кремовый", "#e8dcc5"], ["бежевый", "#c9b69c"], ["песочный", "#c5a979"],
       ["коричневый", "#76513c"], ["коньячный", "#985c32"], ["желтый", "#d5b23b"], ["жёлтый", "#d5b23b"],
       ["оранжевый", "#d97a32"], ["красный", "#b63d38"], ["розовый", "#d5a0aa"], ["пудровый", "#cfaaa5"],
@@ -26,45 +23,83 @@
       ["серебро", "#b9bab7"], ["серебристый", "#b9bab7"], ["хром", "#c8c9c7"]
     ];
 
+    const COLOR_WORDS = [...new Set(COLORS.map(([name]) => normalize(name)))].sort((a, b) => b.length - a.length);
     let scheduled = false;
 
     function normalize(value) {
       return String(value || "").toLowerCase().replace(/ё/g, "е").replace(/[^a-zа-я0-9]+/gi, " ").trim().replace(/\s+/g, " ");
     }
 
-    function articleFor(product) {
-      const direct = [
-        product?.baseArticle, product?.modelArticle, product?.parentArticle, product?.groupArticle,
-        product?.article, product?.sku, product?.vendorCode, product?.articleNumber,
-        product?.productCode, product?.code
-      ].find(value => String(value || "").trim());
+    function removeColors(value) {
+      let text = ` ${normalize(value)} `;
+      for (const color of COLOR_WORDS) text = text.replace(new RegExp(`\\s${color.replace(/\s+/g, "\\s+")}\\s`, "g"), " ");
+      return text.replace(/\s+/g, " ").trim();
+    }
+
+    function exactArticle(product) {
+      const direct = [product?.article, product?.sku, product?.vendorCode, product?.articleNumber, product?.productCode, product?.code]
+        .find(value => String(value || "").trim());
       if (direct) return normalize(direct);
       const text = `${product?.name || ""} ${product?.specs || ""}`;
-      const match = text.match(/(?:артикул|арт\.?|sku)\s*[:№#-]?\s*([a-zа-я0-9][a-zа-я0-9._\/-]{2,})/i);
+      const match = text.match(/(?:артикул|арт\.?|sku|код товара)\s*[:№#-]?\s*([a-zа-я0-9][a-zа-я0-9._\/-]{2,})/i);
       return match ? normalize(match[1]) : "";
+    }
+
+    function explicitFamilyArticle(product) {
+      const value = [product?.baseArticle, product?.base_article, product?.modelArticle, product?.model_article, product?.parentArticle, product?.parent_article]
+        .find(item => String(item || "").trim());
+      return value ? normalize(value) : "";
+    }
+
+    function modelFingerprint(product) {
+      return removeColors(product?.name)
+        .replace(/\b(?:цвет|цвета|обивка|ткань)\b/g, " ")
+        .replace(/\s+/g, " ").trim();
     }
 
     function constructionSignature(product) {
       const text = normalize(`${product?.name || ""} ${product?.specs || ""}`);
-      const swivel = /(?:опора 360|360 градусов|поворотн|вращающ)/.test(text) ? "swivel" : "fixed";
-      const base = /хром/.test(text) ? "chrome" : /черн(?:ая|ые|ый).*?(?:опор|нож|основан)/.test(text) ? "black-base" : /бел(?:ая|ые|ый).*?(?:опор|нож|основан)/.test(text) ? "white-base" : "base-unspecified";
-      const wheels = /колес|ролик/.test(text) ? "wheels" : "no-wheels";
+      const flags = [
+        /(?:опора 360|360 градусов|поворотн|вращающ)/.test(text) ? "swivel" : "fixed",
+        /колес|ролик/.test(text) ? "wheels" : "no-wheels",
+        /подлокот/.test(text) ? "armrests" : "no-armrests",
+        /подголов/.test(text) ? "headrest" : "no-headrest",
+        /механизм качан|топ ган|top gun|мультиблок|синхромеханизм/.test(text) ? "mechanism" : "no-mechanism",
+        /хром/.test(text) ? "chrome-base" : /дерев|массив|бук|дуб/.test(text) && /(?:нож|опор|основан)/.test(text) ? "wood-base" : /металл/.test(text) && /(?:нож|опор|основан)/.test(text) ? "metal-base" : "base-material-unspecified",
+        /черн(?:ая|ые|ый).*?(?:опор|нож|основан)|(?:опор|нож|основан).*?черн/.test(text) ? "black-base" : /бел(?:ая|ые|ый).*?(?:опор|нож|основан)|(?:опор|нож|основан).*?бел/.test(text) ? "white-base" : "base-color-unspecified"
+      ];
       const pack = text.match(/(\d+)\s*шт\.?\s*в\s*упаковк/);
-      return [swivel, base, wheels, pack ? `pack-${pack[1]}` : "pack-unspecified"].join("|");
+      flags.push(pack ? `pack-${pack[1]}` : "pack-unspecified");
+      const dimensions = [...text.matchAll(/(?:^|\s)(\d{2,4})\s*[xх×]\s*(\d{2,4})(?:\s*[xх×]\s*(\d{2,4}))?/g)]
+        .map(match => match.slice(1).filter(Boolean).join("x")).sort().join(",");
+      flags.push(dimensions ? `dims-${dimensions}` : "dims-unspecified");
+      return flags.join("|");
     }
 
-    function modelKey(product) {
-      const article = articleFor(product);
-      if (!article) return "";
-      return [article, constructionSignature(product), normalize(product?.category), normalize(product?.collection)].join("|");
+    function priceFor(product) {
+      const raw = product?.price ?? product?.wholesalePrice ?? product?.wholesale_price;
+      const value = Number(String(raw ?? "").replace(/[^0-9.,]/g, "").replace(",", "."));
+      return Number.isFinite(value) && value > 0 ? value : 0;
+    }
+
+    function familyKey(product) {
+      const family = explicitFamilyArticle(product);
+      const article = exactArticle(product);
+      const identity = family || article;
+      if (!identity) return "";
+      return [
+        identity,
+        normalize(product?.category),
+        normalize(product?.collection),
+        modelFingerprint(product),
+        constructionSignature(product)
+      ].join("|");
     }
 
     function colorFor(product) {
       const sources = [product?.specs, product?.name].map(normalize);
       for (const source of sources) {
-        for (const [label, css] of COLORS) {
-          if (source.includes(normalize(label))) return { label, css };
-        }
+        for (const [label, css] of COLORS) if (source.includes(normalize(label))) return { label, css };
       }
       return null;
     }
@@ -75,23 +110,62 @@
       return [];
     }
 
-    function groups() {
-      const map = new Map();
+    function auditGroups() {
+      const candidates = new Map();
+      const blocked = [];
+      const accepted = [];
+
       for (const product of productsList()) {
         const color = colorFor(product);
-        const key = modelKey(product);
+        const key = familyKey(product);
         if (!color || !key) continue;
-        if (!map.has(key)) map.set(key, []);
-        map.get(key).push({ product, color });
+        if (!candidates.has(key)) candidates.set(key, []);
+        candidates.get(key).push({ product, color });
       }
-      for (const [key, variants] of map) {
-        const uniqueColors = [...new Map(variants.map(item => [normalize(item.color.label), item])).values()];
-        const exactConstruction = new Set(uniqueColors.map(item => constructionSignature(item.product)));
-        const exactArticles = new Set(uniqueColors.map(item => articleFor(item.product)));
-        if (uniqueColors.length < 2 || exactConstruction.size !== 1 || exactArticles.size !== 1) map.delete(key);
-        else map.set(key, uniqueColors);
+
+      const safe = new Map();
+      for (const [key, variants] of candidates) {
+        const unique = [...new Map(variants.map(item => [normalize(item.color.label), item])).values()];
+        if (unique.length < 2) continue;
+
+        const reasons = [];
+        const articles = new Set(unique.map(item => exactArticle(item.product)).filter(Boolean));
+        const familyArticles = new Set(unique.map(item => explicitFamilyArticle(item.product)).filter(Boolean));
+        const models = new Set(unique.map(item => modelFingerprint(item.product)));
+        const constructions = new Set(unique.map(item => constructionSignature(item.product)));
+        const categories = new Set(unique.map(item => normalize(item.product?.category)));
+        const collections = new Set(unique.map(item => normalize(item.product?.collection)));
+        const prices = unique.map(item => priceFor(item.product)).filter(Boolean);
+
+        if (models.size !== 1) reasons.push("different-model-name");
+        if (constructions.size !== 1) reasons.push("different-construction");
+        if (categories.size !== 1) reasons.push("different-category");
+        if (collections.size !== 1) reasons.push("different-collection");
+        if (familyArticles.size === 0 && articles.size !== 1) reasons.push("different-articles-without-base-article");
+        if (familyArticles.size > 1) reasons.push("different-base-articles");
+        if (prices.length > 1 && Math.max(...prices) / Math.min(...prices) > 1.35) reasons.push("price-gap-over-35-percent");
+
+        const record = {
+          key,
+          ids: unique.map(item => item.product.id),
+          names: unique.map(item => item.product.name),
+          articles: unique.map(item => exactArticle(item.product)),
+          colors: unique.map(item => item.color.label),
+          reasons
+        };
+
+        if (reasons.length) blocked.push(record);
+        else { safe.set(key, unique); accepted.push(record); }
       }
-      return map;
+
+      window.__COLOR_VARIANT_AUDIT__ = {
+        checkedAt: new Date().toISOString(),
+        acceptedGroups: accepted,
+        blockedGroups: blocked,
+        acceptedCount: accepted.length,
+        blockedCount: blocked.length
+      };
+      return safe;
     }
 
     function addStyles() {
@@ -131,11 +205,12 @@
 
     function addCardSwatches(groupMap) {
       document.querySelectorAll("[data-product]").forEach(card => {
-        card.querySelector("[data-color-swatches]")?.remove();
         const product = productByCard(card);
-        if (!product) return;
-        const variants = groupMap.get(modelKey(product));
-        if (!variants) return;
+        const variants = product ? groupMap.get(familyKey(product)) : null;
+        const existing = card.querySelector("[data-color-swatches]");
+        if (!variants) { existing?.remove(); return; }
+        if (existing?.dataset.colorSwatches === String(product.id)) return;
+        existing?.remove();
         const node = swatchesNode(product, variants);
         const specs = card.querySelector(".specs");
         const bottom = card.querySelector(".card-bottom");
@@ -155,11 +230,12 @@
       const modal = document.getElementById("modal");
       const content = modal?.querySelector(".modal-content");
       if (!modal?.classList.contains("show") || !content) return;
-      content.querySelector("[data-color-swatches]")?.remove();
       const product = activeModalProduct();
-      if (!product) return;
-      const variants = groupMap.get(modelKey(product));
-      if (!variants) return;
+      const variants = product ? groupMap.get(familyKey(product)) : null;
+      const existing = content.querySelector("[data-color-swatches]");
+      if (!variants) { existing?.remove(); return; }
+      if (existing?.dataset.colorSwatches === String(product.id)) return;
+      existing?.remove();
       const node = swatchesNode(product, variants);
       const specs = content.querySelector(".modal-specs,.specs");
       const actions = content.querySelector(".journey-actions,.modal-actions");
@@ -171,7 +247,7 @@
     function refresh() {
       scheduled = false;
       addStyles();
-      const groupMap = groups();
+      const groupMap = auditGroups();
       addCardSwatches(groupMap);
       addModalSwatches(groupMap);
     }
