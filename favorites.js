@@ -1,11 +1,9 @@
 (() => {
   "use strict";
-
   const originalWrite = document.write.bind(document);
 
   function favoritesRuntime() {
     "use strict";
-
     const STORAGE_KEY = "formaFavoritesV1";
     const SHARE_PARAM = "favorites";
     const MAX_FAVORITES = 60;
@@ -14,11 +12,8 @@
     function readIds() {
       try {
         const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        if (!Array.isArray(value)) return [];
-        return [...new Set(value.map(Number).filter(Number.isFinite))].slice(0, MAX_FAVORITES);
-      } catch {
-        return [];
-      }
+        return Array.isArray(value) ? [...new Set(value.map(Number).filter(Number.isFinite))].slice(0, MAX_FAVORITES) : [];
+      } catch { return []; }
     }
 
     function writeIds(ids) {
@@ -28,27 +23,22 @@
       return clean;
     }
 
-    function validProduct(id) {
+    function product(id) {
       try { return typeof productById === "function" ? productById(id) : null; } catch { return null; }
     }
 
     function importSharedSelection() {
-      const url = new URL(location.href);
-      const raw = url.searchParams.get(SHARE_PARAM);
+      const raw = new URL(location.href).searchParams.get(SHARE_PARAM);
       if (!raw) return false;
-      const imported = raw.split(",").map(Number).filter(id => Number.isFinite(id) && validProduct(id));
+      const imported = raw.split(",").map(Number).filter(id => Number.isFinite(id) && product(id));
       if (!imported.length) return false;
       writeIds([...imported, ...readIds()]);
       return true;
     }
 
-    function isFavorite(id) {
-      return readIds().includes(Number(id));
-    }
-
     function toggle(id) {
       const numericId = Number(id);
-      if (!validProduct(numericId)) return;
+      if (!product(numericId)) return;
       const ids = readIds();
       const exists = ids.includes(numericId);
       writeIds(exists ? ids.filter(item => item !== numericId) : [numericId, ...ids]);
@@ -61,17 +51,13 @@
       const style = document.createElement("style");
       style.id = "favoritesStyles";
       style.textContent = `
-        .favorite-toggle{position:absolute;top:11px;right:11px;z-index:7;width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 5px 18px rgba(0,0,0,.13);display:grid;place-items:center;font-size:23px;line-height:1;color:var(--ink);padding:0}
-        .favorite-toggle.active{background:var(--ink);color:#fff}.favorite-toggle:hover{transform:scale(1.05)}
-        .modal-favorite{position:static;width:auto;height:46px;border:1px solid var(--line);box-shadow:none;border-radius:999px;padding:0 16px;display:inline-flex;gap:8px;font-size:15px;font-weight:800;margin-top:12px}
-        .favorites-nav{position:relative}.favorites-nav .badge{margin-left:2px}
-        .favorites-overlay{position:fixed;inset:0;background:rgba(20,19,17,.52);backdrop-filter:blur(5px);z-index:135;opacity:0;pointer-events:none;transition:.2s}
-        .favorites-overlay.show{opacity:1;pointer-events:auto}
-        .favorites-drawer{position:fixed;right:0;top:0;height:100%;width:min(560px,100%);background:var(--surface);z-index:140;transform:translateX(100%);transition:.28s;display:flex;flex-direction:column;box-shadow:-20px 0 70px rgba(0,0,0,.18)}
-        .favorites-drawer.show{transform:none}.favorites-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}.favorites-head h2{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:0}.favorites-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.favorites-close{border:0;background:var(--surface-2);border-radius:50%;width:42px;height:42px;font-size:22px}
-        .favorites-body{padding:16px 22px;overflow:auto;flex:1}.favorites-empty{padding:42px 18px;text-align:center;color:var(--muted);line-height:1.55}
-        .favorites-list{display:grid;gap:11px}.favorites-item{display:grid;grid-template-columns:88px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:9px;background:var(--surface)}.favorites-item-image{width:88px;height:88px;object-fit:contain;background:#fff;border-radius:11px;cursor:pointer}.favorites-item-name{font-weight:800;font-size:14px;line-height:1.3;cursor:pointer}.favorites-item-price{font-size:13px;color:var(--muted);margin-top:7px}.favorites-item-actions{display:flex;flex-direction:column;gap:7px}.favorites-item-actions button{width:38px;height:38px;border:0;border-radius:50%;font-size:18px}.favorites-add{background:var(--ink);color:#fff}.favorites-remove{background:var(--surface-2);color:var(--danger)}
-        .favorites-foot{padding:16px 22px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:9px}.favorites-foot button{border:0;border-radius:999px;padding:13px 15px;font-weight:800}.favorites-share{background:var(--accent);color:#fff}.favorites-clear{background:var(--surface-2);color:var(--ink)}
+        .favorite-toggle{position:absolute;top:11px;right:11px;z-index:7;width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 5px 18px rgba(0,0,0,.13);display:grid;place-items:center;font-size:23px;line-height:1;color:var(--ink);padding:0}.favorite-toggle.active{background:var(--ink);color:#fff}.favorite-toggle:hover{transform:scale(1.05)}
+        .modal-favorite{position:static;width:auto;height:46px;border:1px solid var(--line);box-shadow:none;border-radius:999px;padding:0 16px;display:inline-flex;gap:8px;font-size:15px;font-weight:800;margin-top:12px}.favorites-nav{position:relative}.favorites-nav .badge{margin-left:2px}
+        .favorites-overlay{position:fixed;inset:0;background:rgba(20,19,17,.52);backdrop-filter:blur(5px);z-index:135;opacity:0;pointer-events:none;transition:.2s}.favorites-overlay.show{opacity:1;pointer-events:auto}
+        .favorites-drawer{position:fixed;right:0;top:0;height:100%;width:min(560px,100%);background:var(--surface);z-index:140;transform:translateX(100%);transition:.28s;display:flex;flex-direction:column;box-shadow:-20px 0 70px rgba(0,0,0,.18)}.favorites-drawer.show{transform:none}
+        .favorites-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px}.favorites-head h2{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:0}.favorites-head p{margin:5px 0 0;color:var(--muted);font-size:12px}.favorites-close{border:0;background:var(--surface-2);border-radius:50%;width:42px;height:42px;font-size:22px}
+        .favorites-body{padding:16px 22px;overflow:auto;flex:1}.favorites-empty{padding:42px 18px;text-align:center;color:var(--muted);line-height:1.55}.favorites-list{display:grid;gap:11px}.favorites-item{display:grid;grid-template-columns:88px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:9px;background:var(--surface)}.favorites-item-image{width:88px;height:88px;object-fit:contain;background:#fff;border-radius:11px;cursor:pointer}.favorites-item-name{font-weight:800;font-size:14px;line-height:1.3;cursor:pointer}.favorites-item-price{font-size:13px;color:var(--muted);margin-top:7px}.favorites-item-actions{display:flex;flex-direction:column;gap:7px}.favorites-item-actions button{width:38px;height:38px;border:0;border-radius:50%;font-size:18px}.favorites-add{background:var(--ink);color:#fff}.favorites-remove{background:var(--surface-2);color:var(--danger)}
+        .favorites-foot{padding:16px 22px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:9px}.favorites-foot button{border:0;border-radius:999px;padding:13px 15px;font-weight:800}.favorites-foot button:disabled{opacity:.45}.favorites-share{background:var(--accent);color:#fff}.favorites-clear{background:var(--surface-2);color:var(--ink)}
         @media(max-width:700px){.favorite-toggle{width:44px;height:44px}.favorites-item{grid-template-columns:74px 1fr auto}.favorites-item-image{width:74px;height:74px}.favorites-foot{grid-template-columns:1fr}}
       `;
       document.head.appendChild(style);
@@ -97,23 +83,19 @@
       return { overlay, drawer };
     }
 
-    function imageFor(product) {
-      const images = Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
-      return images[0] || product?.directImage || "";
+    function imageFor(item) {
+      const images = Array.isArray(item?.images) ? item.images.filter(Boolean) : [];
+      return images[0] || item?.directImage || "";
     }
 
     function renderDrawer() {
       const { drawer } = ensureInterface();
       const body = drawer.querySelector("#favoritesBody");
-      const products = readIds().map(validProduct).filter(Boolean);
-      if (!products.length) {
-        body.innerHTML = `<div class="favorites-empty"><strong>В избранном пока ничего нет</strong><br><br>Нажимайте на сердечко у товаров, чтобы сохранить их и вернуться позже.</div>`;
-      } else {
-        body.innerHTML = `<div class="favorites-list">${products.map(product => {
-          const image = imageFor(product);
-          return `<article class="favorites-item" data-favorite-item="${product.id}">${image ? `<img class="favorites-item-image" src="${image}" alt="${esc(product.name)}" loading="lazy" decoding="async" data-favorite-open="${product.id}">` : `<div class="favorites-item-image" data-favorite-open="${product.id}"></div>`}<div><div class="favorites-item-name" data-favorite-open="${product.id}">${esc(product.name)}</div><div class="favorites-item-price">${formatPrice(sellingPrice(product))}</div></div><div class="favorites-item-actions"><button type="button" class="favorites-add" data-favorite-add="${product.id}" aria-label="Добавить в корзину">+</button><button type="button" class="favorites-remove" data-favorite-remove="${product.id}" aria-label="Удалить из избранного">×</button></div></article>`;
-        }).join("")}</div>`;
-      }
+      const products = readIds().map(product).filter(Boolean);
+      body.innerHTML = products.length ? `<div class="favorites-list">${products.map(item => {
+        const image = imageFor(item);
+        return `<article class="favorites-item">${image ? `<img class="favorites-item-image" src="${image}" alt="${esc(item.name)}" loading="lazy" decoding="async" data-favorite-open="${item.id}">` : `<div class="favorites-item-image" data-favorite-open="${item.id}"></div>`}<div><div class="favorites-item-name" data-favorite-open="${item.id}">${esc(item.name)}</div><div class="favorites-item-price">${formatPrice(sellingPrice(item))}</div></div><div class="favorites-item-actions"><button type="button" class="favorites-add" data-favorite-add="${item.id}" aria-label="Добавить в корзину">+</button><button type="button" class="favorites-remove" data-favorite-remove="${item.id}" aria-label="Удалить из избранного">×</button></div></article>`;
+      }).join("")}</div>` : `<div class="favorites-empty"><strong>В избранном пока ничего нет</strong><br><br>Нажимайте на сердечко у товаров, чтобы сохранить их и вернуться позже.</div>`;
       const count = products.length;
       document.querySelectorAll("[data-favorites-count]").forEach(node => { node.textContent = String(count); });
       drawer.querySelector("[data-favorites-share]").disabled = count === 0;
@@ -136,13 +118,12 @@
 
     function addCardButtons() {
       document.querySelectorAll("[data-product]").forEach(card => {
-        const id = Number(card.dataset.product);
         const visual = card.querySelector(".visual");
         if (!visual || visual.querySelector("[data-favorite-toggle]")) return;
         const button = document.createElement("button");
         button.type = "button";
         button.className = "favorite-toggle";
-        button.dataset.favoriteToggle = String(id);
+        button.dataset.favoriteToggle = card.dataset.product;
         visual.appendChild(button);
       });
     }
@@ -152,13 +133,13 @@
       if (!modal?.classList.contains("show")) return;
       const id = Number(activeGallery?.productId);
       const content = modal.querySelector(".modal-content");
-      if (!content || !validProduct(id) || content.querySelector(".modal-favorite")) return;
+      if (!content || !product(id) || content.querySelector(".modal-favorite")) return;
       const button = document.createElement("button");
       button.type = "button";
       button.className = "favorite-toggle modal-favorite";
       button.dataset.favoriteToggle = String(id);
-      const actions = content.querySelector(".journey-actions") || content.querySelector(".btn.btn-primary");
-      if (actions?.parentNode) actions.parentNode.insertBefore(button, actions); else content.appendChild(button);
+      const anchor = content.querySelector(".journey-actions") || content.querySelector(".btn.btn-primary");
+      if (anchor?.parentNode) anchor.parentNode.insertBefore(button, anchor); else content.appendChild(button);
     }
 
     function updateHearts() {
@@ -183,33 +164,27 @@
     }
 
     function closeDrawer() {
-      const overlay = document.getElementById("favoritesOverlay");
+      document.getElementById("favoritesOverlay")?.classList.remove("show");
       const drawer = document.getElementById("favoritesDrawer");
-      overlay?.classList.remove("show");
       drawer?.classList.remove("show");
       drawer?.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
-    function shareUrl() {
-      const url = new URL(location.href);
-      url.searchParams.delete("product");
-      url.searchParams.set(SHARE_PARAM, readIds().join(","));
-      return url.toString();
-    }
-
     async function shareSelection() {
       const ids = readIds();
       if (!ids.length) return;
-      const url = shareUrl();
-      const data = { title: "Подборка FORMA HOME", text: `Моя подборка товаров FORMA HOME (${ids.length})`, url };
+      const url = new URL(location.href);
+      url.searchParams.delete("product");
+      url.searchParams.set(SHARE_PARAM, ids.join(","));
+      const data = { title: "Подборка FORMA HOME", text: `Моя подборка товаров FORMA HOME (${ids.length})`, url: url.toString() };
       if (navigator.share) {
         try { await navigator.share(data); return; } catch (error) { if (error?.name === "AbortError") return; }
       }
-      try { await navigator.clipboard.writeText(url); }
+      try { await navigator.clipboard.writeText(data.url); }
       catch {
         const area = document.createElement("textarea");
-        area.value = url; area.style.position = "fixed"; area.style.opacity = "0";
+        area.value = data.url; area.style.position = "fixed"; area.style.opacity = "0";
         document.body.appendChild(area); area.select(); document.execCommand("copy"); area.remove();
       }
       if (typeof showToast === "function") showToast("Ссылка на подборку скопирована");
@@ -221,8 +196,6 @@
       addCardButtons();
       addModalButton();
       updateHearts();
-      const drawer = document.getElementById("favoritesDrawer");
-      if (drawer?.classList.contains("show")) renderDrawer();
     }
 
     function scheduleRefresh() {
@@ -232,18 +205,19 @@
     }
 
     document.addEventListener("click", event => {
-      const toggleButton = event.target.closest("[data-favorite-toggle]");
-      if (toggleButton) {
-        event.preventDefault(); event.stopPropagation();
-        toggle(toggleButton.dataset.favoriteToggle);
+      const favoriteButton = event.target.closest("[data-favorite-toggle]");
+      if (favoriteButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggle(favoriteButton.dataset.favoriteToggle);
         return;
       }
       if (event.target.closest("[data-open-favorites]")) { openDrawer(); return; }
       if (event.target.closest(".favorites-close") || event.target.id === "favoritesOverlay") { closeDrawer(); return; }
       const remove = event.target.closest("[data-favorite-remove]");
-      if (remove) { toggle(remove.dataset.favoriteRemove); return; }
+      if (remove) { toggle(remove.dataset.favoriteRemove); renderDrawer(); return; }
       const add = event.target.closest("[data-favorite-add]");
-      if (add) { addToCart(add.dataset.favoriteAdd); renderDrawer(); return; }
+      if (add) { addToCart(add.dataset.favoriteAdd); return; }
       const open = event.target.closest("[data-favorite-open]");
       if (open) { closeDrawer(); openProduct(open.dataset.favoriteOpen); scheduleRefresh(); return; }
       if (event.target.closest("[data-favorites-share]")) { shareSelection(); return; }
@@ -259,7 +233,10 @@
     ensureInterface();
     const imported = importSharedSelection();
     scheduleRefresh();
-    if (imported) setTimeout(() => { openDrawer(); if (typeof showToast === "function") showToast("Подборка добавлена в избранное"); }, 250);
+    if (imported) setTimeout(() => {
+      openDrawer();
+      if (typeof showToast === "function") showToast("Подборка добавлена в избранное");
+    }, 250);
   }
 
   document.write = function patchedWrite(...parts) {
