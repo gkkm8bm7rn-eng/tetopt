@@ -15,9 +15,11 @@ processed_ids = {
     325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,
     490,491,492,493,494,495,496,497,498,499,500,501,622,
 }
-registry = ROOT / "review-confirmations" / "color-and-duplicate-registry.json"
-if registry.exists():
-    data = json.loads(registry.read_text(encoding="utf-8"))
+
+registry_dir = ROOT / "review-confirmations"
+main_registry = registry_dir / "color-and-duplicate-registry.json"
+if main_registry.exists():
+    data = json.loads(main_registry.read_text(encoding="utf-8"))
     for group in data.get("color_groups", []):
         processed_ids.update(int(x) for x in group.get("ids", []))
         processed_ids.update(int(x) for x in group.get("duplicate_ids_excluded", []))
@@ -28,23 +30,41 @@ if registry.exists():
         processed_ids.add(int(row.get("keep_id", 0)))
         processed_ids.add(int(row.get("remove_id", 0)))
 
+# Read model-by-name confirmations without requiring the main registry to be rewritten each time.
+for confirmation_path in sorted(registry_dir.glob("by-name-*.json")):
+    data = json.loads(confirmation_path.read_text(encoding="utf-8"))
+    processed_ids.update(int(x) for x in data.get("color_group_ids", []))
+    for group in data.get("separate_constructions", []):
+        processed_ids.update(int(x) for x in group.get("ids", []))
+    for row in data.get("duplicates", []):
+        if row.get("keep_id") is not None:
+            processed_ids.add(int(row["keep_id"]))
+        processed_ids.update(int(x) for x in row.get("remove_ids", []))
+
 hidden_path = ROOT / "hidden-products.json"
 hidden = set()
 if hidden_path.exists():
     hidden = {int(x) for x in json.loads(hidden_path.read_text(encoding="utf-8")).get("ids", [])}
 
-PACK_RE = re.compile(r"\s*\([^)]*шт\.?\s*в\s*упаковке[^)]*\)", re.I)
-GENERIC = re.compile(r"^(стул|кресло)\s+(обеденный\s+|барный\s+|полубарный\s+|офисный\s+|компьютерный\s+|с\s+подлокотниками\s+)*", re.I)
+# Remove any packaging suffix from chair names. Chairs are sold individually.
+PACK_RE = re.compile(
+    r"(?:\s*[/(]?\s*\d+\s*шт\.?\s*в\s*упаковке\s*[)]?)",
+    re.I,
+)
+GENERIC = re.compile(
+    r"^стул\s+(?:обеденный\s+|барный\s+|полубарный\s+|офисный\s+|компьютерный\s+|с\s+подлокотниками\s+)*",
+    re.I,
+)
 
 def clean_name(name):
-    return re.sub(r"\s+", " ", PACK_RE.sub("", str(name or ""))).strip()
+    return re.sub(r"\s+", " ", PACK_RE.sub("", str(name or ""))).strip(" /-")
 
 def model_key(name):
     name = clean_name(name)
     left = name.split("/", 1)[0].strip()
     left = GENERIC.sub("", left).strip()
     left = re.sub(r"\([^)]*\)", "", left).strip()
-    left = re.sub(r"\b(мягкое|жесткое|жёсткое)\s+сиденье\b", "", left, flags=re.I).strip()
+    left = re.sub(r"\b(?:мягкое|жесткое|жёсткое)\s+сиденье\b", "", left, flags=re.I).strip()
     return re.sub(r"\s+", " ", left).lower().replace("ё", "е")
 
 groups = {}
@@ -53,19 +73,17 @@ for product in products:
     name = str(product.get("name", ""))
     if pid in processed_ids or pid in hidden:
         continue
-    if "стул" not in name.lower():
+    if not re.match(r"^\s*стул\b", name, re.I):
         continue
     key = model_key(name)
-    if not key:
-        continue
-    groups.setdefault(key, []).append(product)
+    if key:
+        groups.setdefault(key, []).append(product)
 
 candidates = []
 for key, items in groups.items():
     if len(items) >= 2:
         items = sorted(items, key=lambda p: int(p.get("id", 0)))
         candidates.append((min(int(p["id"]) for p in items), key, items))
-
 if not candidates:
     raise SystemExit("No unprocessed multi-card chair models found")
 
@@ -90,7 +108,7 @@ fonts = {
     "small": ImageFont.truetype(regular, 15),
 }
 draw.text((30, 24), f"Все варианты модели: {model_title}", font=fonts["title"], fill="#201f1b")
-draw.text((30, 70), "Отметьте цветовые группы, дубли и разные конструкции.", font=fonts["text"], fill="#706d65")
+draw.text((30, 70), "Сравните конструкцию, цвет, характеристики и цену.", font=fonts["text"], fill="#706d65")
 
 mapping = []
 for number, product in enumerate(chosen, 1):
@@ -136,7 +154,9 @@ for number, product in enumerate(chosen, 1):
 
 out = ROOT / "review-output"
 out.mkdir(exist_ok=True)
-slug = re.sub(r"[^a-z0-9]+", "-", key.lower()).strip("-") or "next-model"
 canvas.save(out / "next-model-by-name.png", quality=95)
-(out / "next-model-by-name.json").write_text(json.dumps({"model": model_title, "key": key, "products": mapping}, ensure_ascii=False, indent=2), encoding="utf-8")
+(out / "next-model-by-name.json").write_text(
+    json.dumps({"model": model_title, "key": key, "products": mapping}, ensure_ascii=False, indent=2),
+    encoding="utf-8",
+)
 print(json.dumps({"model": model_title, "count": len(mapping), "min_id": min(int(p["id"]) for p in chosen)}, ensure_ascii=False))
