@@ -39,6 +39,8 @@ for confirmation_path in sorted(registry_dir.glob("by-name-*.json")):
     for row in data.get("duplicates", []):
         if row.get("keep_id") is not None:
             processed_ids.add(int(row["keep_id"]))
+        if row.get("remove_id") is not None:
+            processed_ids.add(int(row["remove_id"]))
         processed_ids.update(int(x) for x in row.get("remove_ids", []))
 
 hidden_path = ROOT / "hidden-products.json"
