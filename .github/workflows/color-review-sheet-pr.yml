@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Build review sheet
-        run: python tools/run_color_review_batch_12.py
+      - name: Build Abruzzo review sheet
+        run: python tools/build_abruzzo_review_sheet.py
       - name: Upload review sheet
         uses: actions/upload-artifact@v4
         with:
-          name: color-review-batch-12
+          name: abruzzo-all-variants
           path: review-output/
           retention-days: 1
