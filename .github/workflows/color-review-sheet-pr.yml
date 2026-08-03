@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'tools/**'
+      - 'review-confirmations/**'
       - '.github/workflows/color-review-sheet-pr.yml'
   workflow_dispatch:
 
@@ -19,14 +20,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Build Amura review sheet
-        env:
-          MODEL_QUERY: "Амура|Amura"
-          MODEL_SLUG: "amura"
-        run: python tools/build_named_model_review.py
+      - name: Build next model review sheet
+        run: python tools/build_next_model_by_name.py
       - name: Upload review sheet
         uses: actions/upload-artifact@v4
         with:
-          name: amura-all-variants
+          name: next-model-by-name
           path: review-output/
           retention-days: 1
