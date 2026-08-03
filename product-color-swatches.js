@@ -37,6 +37,7 @@
 
     function verifiedGroups() {
       const byId = new Map();
+      const duplicateIds = new Set();
       const accepted = [];
       for (const group of Array.isArray(window.PRODUCT_COLOR_GROUPS) ? window.PRODUCT_COLOR_GROUPS : []) {
         const variants = [...new Set((group.ids || []).map(Number).filter(Number.isFinite))]
@@ -45,18 +46,33 @@
         const uniqueProducts = [...new Map(variants.map(item => [Number(item.product.id), item])).values()];
         const uniqueColors = new Set(uniqueProducts.map(item => normalize(item.color.label)));
         if (uniqueProducts.length < 2 || uniqueColors.size < 2) continue;
-        uniqueProducts.forEach(item => byId.set(Number(item.product.id), uniqueProducts));
-        accepted.push({ name: group.name || "", ids: uniqueProducts.map(item => Number(item.product.id)), colors: uniqueProducts.map(item => item.color.label) });
+        const primaryId = Number(uniqueProducts[0].product.id);
+        uniqueProducts.forEach(item => {
+          const id = Number(item.product.id);
+          byId.set(id, uniqueProducts);
+          if (id !== primaryId) duplicateIds.add(id);
+        });
+        accepted.push({
+          name: group.name || "",
+          primaryId,
+          ids: uniqueProducts.map(item => Number(item.product.id)),
+          colors: uniqueProducts.map(item => item.color.label)
+        });
       }
-      window.__COLOR_VARIANT_AUDIT__ = { mode: "explicit-registry", acceptedGroups: accepted, acceptedCount: accepted.length };
-      return byId;
+      window.__COLOR_VARIANT_AUDIT__ = {
+        mode: "explicit-registry-with-deduplication",
+        acceptedGroups: accepted,
+        acceptedCount: accepted.length,
+        hiddenDuplicateIds: [...duplicateIds]
+      };
+      return { byId, duplicateIds };
     }
 
     function addStyles() {
       if (document.getElementById("colorSwatchesStyles")) return;
       const style = document.createElement("style");
       style.id = "colorSwatchesStyles";
-      style.textContent = `.product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto}.color-swatch:hover{transform:scale(1.08)}.color-swatch.active{box-shadow:0 0 0 2px var(--ink)}.color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}.modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}@media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}`;
+      style.textContent = `.product-color-duplicate-hidden{display:none!important}.product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto}.color-swatch:hover{transform:scale(1.08)}.color-swatch.active{box-shadow:0 0 0 2px var(--ink)}.color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}.modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}@media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}`;
       document.head.appendChild(style);
     }
 
@@ -85,12 +101,14 @@
     function refresh() {
       scheduled = false;
       addStyles();
-      const groups = verifiedGroups();
+      const { byId, duplicateIds } = verifiedGroups();
       document.querySelectorAll("[data-product]").forEach(card => {
         const product = productByIdSafe(card.dataset.product);
-        const variants = product ? groups.get(Number(product.id)) : null;
+        const id = Number(product?.id);
+        const variants = product ? byId.get(id) : null;
+        card.classList.toggle("product-color-duplicate-hidden", duplicateIds.has(id));
         const existing = card.querySelector("[data-color-swatches]");
-        if (!variants) { existing?.remove(); return; }
+        if (!variants || duplicateIds.has(id)) { existing?.remove(); return; }
         if (existing?.dataset.colorSwatches === String(product.id)) return;
         existing?.remove();
         const node = swatchesNode(product, variants);
@@ -105,7 +123,7 @@
       if (modal?.classList.contains("show") && content) {
         let product = null;
         try { product = productByIdSafe(activeGallery?.productId); } catch {}
-        const variants = product ? groups.get(Number(product.id)) : null;
+        const variants = product ? byId.get(Number(product.id)) : null;
         const existing = content.querySelector("[data-color-swatches]");
         if (!variants) existing?.remove();
         else if (existing?.dataset.colorSwatches !== String(product.id)) {
