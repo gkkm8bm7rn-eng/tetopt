@@ -1,30 +1,101 @@
-// Автоматически рассчитанные группы по правилу:
-// тип + подтип + наименование модели + размер/конструкция.
-// Упаковка не создаёт отдельную модель; среди точных дублей первым стоит самый дешёвый товар.
+// Автоматическая группировка непроверенных карточек.
+// Правило: тип + подтип + название модели + размеры/конструкция.
+// Упаковка не создаёт новую модель; среди точных дублей остаётся самый дешёвый.
 (() => {
-  const autoColorGroups = [{"name":"Вешалка Бара/Bara (мод.GH-8606)","ids":[1,2]},{"name":"Вешалка Ханами/Hanami (мод.GH-8617)","ids":[3,4]},{"name":"Вешалка Химавари/Himawari (мод.GH-8014)","ids":[5,6]},{"name":"Вешалка Джет/Jet","ids":[7,8]},{"name":"Вешалка Сакура/Sakura (мод.GH-8606)","ids":[10,11]},{"name":"Комплект обеденный Соната/Sonata (стол+4стула)","ids":[19,20,21]},{"name":"Комплект кресло+стул Бари/Bari","ids":[22,23]},{"name":"Комплект кресло+стул Медео/Medeo","ids":[24,25]},{"name":"Комплект кресло+стул Свит/Sweet","ids":[26,27]},{"name":"Стол журнальный Гленд 1/Gland 1(1шт. в упаковке)","ids":[30,32]},{"name":"Стол обеденный раздвижной Катерина/Caterina","ids":[35,36,37]},{"name":"Стол обеденный раздвижной Катерина Прованс/Caterina Provence","ids":[38,39]},{"name":"Стол обеденный Синди Некст/Cindy Next (мод.70-80 MDF)","ids":[41,42]},{"name":"Стол обеденный раздвижной Коппола/Coppola","ids":[43,44]},{"name":"Стол Джон/John (мод.T1001)","ids":[47,48]},{"name":"Стол Джон/John (мод.T1003)","ids":[49,50]},{"name":"Стол обеденный Марс/Mars (мод.T1004)","ids":[51,52]},{"name":"Стол обеденный раздвижной Стефано/Stefano","ids":[53,54]},{"name":"Стол обеденный раздвижной Стефано/Stefano круглый","ids":[55,56]},{"name":"Стол обеденный раздвижной Версаль/Versal","ids":[60,61]},{"name":"Стол круглый раскладной обеденный Боско/Вosco","ids":[62,63]},{"name":"Стол обеденный Боско/Bosco","ids":[64,65]},{"name":"Стол обеденный раздвижной Фокс/Fox","ids":[68,69,70]},{"name":"Стол обеденный раздвижной Гент/Gent","ids":[71,72,73]},{"name":"Стол обеденный Макс/Max","ids":[74,75]},{"name":"Стол обеденный раздвижной Смарт/Smart","ids":[77,78,79]},{"name":"Стол обеденный раздвижной Свелто/Svelto","ids":[80,81]},{"name":"Стол обеденный раздвижной Вокс/Vox","ids":[83,84,85]},{"name":"Стол обеденный раскладной Боско/Bosco","ids":[86,87]},{"name":"Стол обеденный раскладной Павильон/Pavillion","ids":[88,89]},{"name":"Стол раздвижной Соната Люкс/Sonata Lux, 120(150)х75х75см","ids":[90,91,92]},{"name":"Стол Соната Люкс/Sonata Lux, 120х75х75см","ids":[93,94,95]},{"name":"Стол Соната Люкс/Sonata Lux, 75х75х75см","ids":[96,97,98]},{"name":"Стол обеденный раздвижной Малтидо/Maltido","ids":[100,101,102]},{"name":"Стол обеденный Манзана/Manzana","ids":[103,104,105]},{"name":"Стол Плуто/Pluto","ids":[107,108]},{"name":"Стол Уранус/Uranus","ids":[109,110]},{"name":"Стол обеденный раздвижной Виго/Vigo","ids":[111,112,113]},{"name":"Стол обеденный Остин/Austen 120х80х75см","ids":[114,115,116]},{"name":"Стол обеденный Балморал/Balmoral 120-160x80x75см","ids":[117,118]},{"name":"Стул барный Бари/Bari","ids":[122,123,124,125]},{"name":"Стул барный Медео/Medeo","ids":[126,127,128,129]},{"name":"Стул барный Ландо/Lando (мод.4036)","ids":[130,131]},{"name":"Стул барный Вимта/Vimta (мод.4021S)","ids":[132,133]},{"name":"Стул полубарный Бари/Bari","ids":[134,135,136,137]},{"name":"Стул полубарный Медео/Medeo","ids":[138,139,140,141]},{"name":"Стул барный Авионик/Avionic (мод.KY712A)","ids":[142,144]},{"name":"Стул барный Барбер/Barber (мод.KY711D)","ids":[146,148]},{"name":"Стул барный Биаджио/Biaggio (мод.KY717)","ids":[150,152]},{"name":"Стул барный Чилли/Chilly (мод.7095б) (1шт.в упаковке)","ids":[154,155]},{"name":"Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)","ids":[156,159]},{"name":"Стул барный Наил/Nail (мод.KY801)","ids":[166,168]},{"name":"Стул полубарный Чилли/Chilly (мод. 7095пб)","ids":[171,172]},{"name":"Кресло Локи/Loki","ids":[175,176]},{"name":"Стул Андромеда/Andromeda","ids":[179,180]},{"name":"Стул Балдур/Baldur","ids":[181,182]},{"name":"Стул Синди Софт/Cindy Soft (мод.C1021F1-1)","ids":[184,186,188,190]},{"name":"Стул Кросс/Cross (мод.CB2001)","ids":[192,193,194,195]},{"name":"Стул Кроссман/Crossman","ids":[196,197,198,199]},{"name":"Стул Диамант/Diamante жесткое сиденье","ids":[201,203]},{"name":"Стул Ландо/Lando (мод.8036)","ids":[221,222]},{"name":"Стул Локи/Loki","ids":[223,224]},{"name":"Стул Мани/Mani","ids":[225,226]},{"name":"Стул Свиден/Sweden","ids":[238,239]},{"name":"Стул Тонет Классик Чаир/Thonet Classic Chair (мод.CB2345)","ids":[240,241]},{"name":"Стул Тулип Софт/Tulip Soft (мод.053V)","ids":[244,246]},{"name":"Стул Вали/Vali","ids":[250,251]},{"name":"Стул Вимта/Vimta (мод.8021)","ids":[256,257]},{"name":"Стул Вишбон/Wishbone (мод.CB2212)","ids":[259,261]},{"name":"Стул жесткое сиденье Макси/Maxi","ids":[263,264]},{"name":"Стул мягкое сидение Булл/Bull","ids":[265,266]},{"name":"Стул Верса/Versa мягкое сиденье","ids":[269,270]},{"name":"Стул Макси/Maxi мягкое сиденье","ids":[272,274]},{"name":"Стул обеденный Хадсон/Hudson","ids":[275,276]},{"name":"Стул с подлокотниками Кросс/Cross (мод.CB2008)","ids":[277,278,279]},{"name":"Кресло Дублин/Dublin","ids":[285,286]},{"name":"Кресло Монклер/Moncler","ids":[306,307,308]},{"name":"Стул Арк/Arc","ids":[346,347]},{"name":"Кресло Флаффи/Fluffy","ids":[289,290,291,292,293,294,295]},{"name":"Кресло Луц/Lutz","ids":[297,299,300,301,302,303,304,305]},{"name":"Кресло Мурано/Murano","ids":[309,310,311,313,314,315,316]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[324,327,330,333,336,339,342]},{"name":"Стул обеденный Амура/Amura","ids":[489,490,491,492,493,494,495,496,497,498,499,500,621]}];
-  const autoDuplicateGroups = [{"name":"Стол журнальный Гленд/Gland","ids":[30,31]},{"name":"Стол журнальный Гленд/Gland","ids":[32,33]},{"name":"Стул барный Авионик/Avionic (мод.KY712A)","ids":[142,143]},{"name":"Стул барный Авионик/Avionic (мод.KY712A)","ids":[144,145]},{"name":"Стул барный Барбер/Barber (мод.KY711D)","ids":[146,147]},{"name":"Стул барный Барбер/Barber (мод.KY711D)","ids":[148,149]},{"name":"Стул барный Биаджио/Biaggio (мод.KY717)","ids":[150,151]},{"name":"Стул барный Биаджио/Biaggio (мод.KY717)","ids":[152,153]},{"name":"Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)","ids":[156,158,157]},{"name":"Стул барный Синди Бар Чаир/Cindy Bar Chair (мод.80-1)","ids":[159,161,160]},{"name":"Стул барный Кост/Kost (мод.KY509)","ids":[162,163]},{"name":"Стул барный Месси/Messy (мод.KY704C)","ids":[164,165]},{"name":"Стул барный Наил/Nail (мод.KY801)","ids":[166,167]},{"name":"Стул барный Наил/Nail (мод.KY801)","ids":[168,169]},{"name":"Стул барный Тулип Бар/Tulip Bar (мод.C1014H-1)","ids":[170,171]},{"name":"Стул Синди Софт/Cindy Soft (мод.C1021F1-1)","ids":[184,185]},{"name":"Стул Синди Софт/Cindy Soft (мод.C1021F1-1)","ids":[186,187]},{"name":"Стул Синди Софт/Cindy Soft (мод.C1021F1-1)","ids":[188,189]},{"name":"Стул Синди Софт/Cindy Soft (мод.C1021F1-1)","ids":[190,191]},{"name":"Стул Диамант/Diamante жесткое сиденье","ids":[201,200]},{"name":"Стул Диамант/Diamante жесткое сиденье","ids":[203,202]},{"name":"Стул Тулип Софт/Tulip Soft (мод.053V)","ids":[244,243]},{"name":"Стул Тулип Софт/Tulip Soft (мод.053V)","ids":[246,245]},{"name":"Стул Вишбон/Wishbone (мод.CB2212)","ids":[259,258]},{"name":"Стул Вишбон/Wishbone (мод.CB2212)","ids":[261,260]},{"name":"Стул мягкое сидение Булл/Bull","ids":[265,267]},{"name":"Стул мягкое сидение Булл/Bull","ids":[266,268]},{"name":"Стул Макси/Maxi мягкое сиденье","ids":[272,273]},{"name":"Стул Макси/Maxi мягкое сиденье","ids":[274,275]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[324,325,326]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[327,328,329]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[330,331,332]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[333,334,335]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[336,337,338]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[339,340,341]},{"name":"Стул Абруццо/Abruzzo (мод.8060)","ids":[342,343,344]}];
+  "use strict";
+  const originalWrite = document.write.bind(document);
 
-  const mergeUnique = (current, additions) => {
-    const result = Array.isArray(current) ? [...current] : [];
-    const seen = new Set(result.map(group => [...new Set((group.ids || []).map(Number))].sort((a,b)=>a-b).join(",")));
-    for (const group of additions) {
-      const ids = [...new Set((group.ids || []).map(Number).filter(Number.isFinite))];
-      if (ids.length < 2) continue;
-      const key = [...ids].sort((a,b)=>a-b).join(",");
-      if (seen.has(key)) continue;
-      seen.add(key);
-      result.push({ name: group.name || "", ids });
+  function runtime() {
+    "use strict";
+    const normalize = value => String(value || "").toLowerCase().replace(/ё/g,"е").replace(/\s+/g," ").trim();
+    const baseName = value => normalize(value)
+      .replace(/\s*\/\s*\d+\s*шт\.?\s*в\s*упаковке\s*$/i, "")
+      .replace(/\s*\(\s*\d+\s*шт\.?\s*в\s*упаковке\s*\)\s*$/i, "")
+      .replace(/\s*\/\s*\d+\s*шт\.?\s*в\s*уп\.?\s*$/i, "")
+      .trim();
+    const dimensions = value => {
+      const text = normalize(value).replace(/[×x]/g,"х").replace(/,/g,".");
+      return (text.match(/(?:д\s*)?\d+(?:\.\d+)?(?:\s*[-+]\s*\d+(?:\.\d+)?)*(?:\s*х\s*\d+(?:\.\d+)?(?:\s*[-+]\s*\d+(?:\.\d+)?)?){1,3}\s*см|d?\d{3,4}/gi) || [])
+        .map(item => item.replace(/\s+/g,""))
+        .join("|");
+    };
+    const construction = product => {
+      const text = normalize(`${product.name || ""} ${product.specs || ""}`);
+      const keys = [
+        [/\b360\b/,"360"],[/поворот/,"поворот"],[/фиксир/,"фикс"],[/крестовин/,"крестовина"],
+        [/колес/,"колеса"],[/газлифт/,"газлифт"],[/складн/,"складной"],[/раздвижн/,"раздвижной"],[/раскладн/,"раскладной"]
+      ];
+      return keys.filter(([pattern]) => pattern.test(text)).map(([,label]) => label).join("|");
+    };
+    const products = (() => {
+      try { if (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)) return PRODUCTS; } catch {}
+      return Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+    })();
+    if (!products.length) return;
+
+    const idOf = (product,index) => Number(product.id) || index + 1;
+    const manualColorIds = new Set((window.PRODUCT_COLOR_GROUPS || []).flatMap(group => group.ids || []).map(Number));
+    const manualDuplicateIds = new Set((window.PRODUCT_DUPLICATE_GROUPS || []).flatMap(group => group.ids || []).map(Number));
+    const buckets = new Map();
+
+    products.forEach((product,index) => {
+      const id = idOf(product,index);
+      const key = [baseName(product.name), dimensions(product.specs), construction(product)].join("||");
+      if (!buckets.has(key)) buckets.set(key, []);
+      buckets.get(key).push({ product, id });
+    });
+
+    const autoColors = [];
+    const autoDuplicates = [];
+    for (const items of buckets.values()) {
+      if (items.length < 2) continue;
+      const bySpecs = new Map();
+      for (const item of items) {
+        const signature = normalize(item.product.specs).replace(/\s+/g,"");
+        if (!bySpecs.has(signature)) bySpecs.set(signature, []);
+        bySpecs.get(signature).push(item);
+      }
+      const kept = [];
+      for (const same of bySpecs.values()) {
+        same.sort((a,b) => (Number(a.product.wholesalePrice) || Infinity) - (Number(b.product.wholesalePrice) || Infinity) || a.id - b.id);
+        kept.push(same[0]);
+        const newDuplicates = same.filter(item => !manualDuplicateIds.has(item.id));
+        if (newDuplicates.length > 1) autoDuplicates.push({ name: baseName(same[0].product.name), ids: newDuplicates.map(item => item.id) });
+      }
+      kept.sort((a,b) => a.id - b.id);
+      if (kept.length > 1 && !items.some(item => manualColorIds.has(item.id))) {
+        autoColors.push({ name: baseName(items[0].product.name), ids: kept.map(item => item.id) });
+      }
     }
-    return result;
-  };
 
-  window.PRODUCT_COLOR_GROUPS = mergeUnique(window.PRODUCT_COLOR_GROUPS, autoColorGroups);
-  window.PRODUCT_DUPLICATE_GROUPS = mergeUnique(window.PRODUCT_DUPLICATE_GROUPS, autoDuplicateGroups);
-  window.__AUTO_PRODUCT_GROUP_AUDIT__ = {
-    rule: "type+subtype+model+dimensions+construction; package ignored; cheapest exact duplicate kept",
-    colorGroupsAdded: autoColorGroups.length,
-    duplicateGroupsAdded: autoDuplicateGroups.length,
-    duplicateCardsHidden: autoDuplicateGroups.reduce((sum, group) => sum + Math.max(0, group.ids.length - 1), 0)
+    const merge = (current, additions) => {
+      const result = Array.isArray(current) ? [...current] : [];
+      const seen = new Set(result.map(group => [...new Set((group.ids || []).map(Number))].sort((a,b)=>a-b).join(",")));
+      for (const group of additions) {
+        const ids = [...new Set(group.ids.map(Number).filter(Number.isFinite))];
+        const key = [...ids].sort((a,b)=>a-b).join(",");
+        if (ids.length < 2 || seen.has(key)) continue;
+        seen.add(key);
+        result.push({ name: group.name, ids });
+      }
+      return result;
+    };
+
+    window.PRODUCT_COLOR_GROUPS = merge(window.PRODUCT_COLOR_GROUPS, autoColors);
+    window.PRODUCT_DUPLICATE_GROUPS = merge(window.PRODUCT_DUPLICATE_GROUPS, autoDuplicates);
+    window.__AUTO_PRODUCT_GROUP_AUDIT__ = {
+      rule: "type+subtype+model+dimensions+construction; package ignored; cheapest exact duplicate kept",
+      colorGroupsAdded: autoColors.length,
+      duplicateGroupsAdded: autoDuplicates.length,
+      duplicateCardsHidden: autoDuplicates.reduce((sum,group) => sum + group.ids.length - 1, 0)
+    };
+  }
+
+  document.write = function patchedWrite(...parts) {
+    let html = parts.join("");
+    if (typeof html === "string" && html.includes("</body>")) {
+      html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
+    }
+    return originalWrite(html);
   };
 })();
