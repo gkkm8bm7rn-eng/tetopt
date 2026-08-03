@@ -8,6 +8,7 @@
   let box=null;
   let input=null;
   let timer=0;
+  let composing=false;
 
   const norm=value=>String(value||'').toLowerCase().replace(/ё/g,'е').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zа-я0-9]+/g,' ').trim().replace(/\s+/g,' ');
   const swap=(value,map)=>[...String(value||'').toLowerCase()].map(c=>map.get(c)||c).join('');
@@ -78,7 +79,7 @@
     return box;
   }
 
-  function choose(value){
+  function chooseFromExplicitTap(value){
     if(!input||!value)return;
     input.value=value;
     input.dispatchEvent(new Event('input',{bubbles:true}));
@@ -87,9 +88,9 @@
   }
 
   function show(query){
-    const found=suggestions(query);
     const target=ensureBox();
-    if(!found.length||document.activeElement!==input){target.style.display='none';return}
+    const found=suggestions(query);
+    if(!found.length||document.activeElement!==input||composing){target.style.display='none';return}
     target.innerHTML=found.map(({item})=>`<button type="button" role="option" data-search-value="${item.name.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" style="display:block;width:100%;border:0;border-bottom:1px solid #eee9df;background:#fff;text-align:left;padding:11px 14px;color:#201f1b"><strong>${item.name}</strong><span style="display:block;margin-top:3px;font-size:12px;color:#706d65">${item.category||item.collection||''}</span></button>`).join('');
     target.style.display='block';
   }
@@ -97,27 +98,35 @@
   function attach(){
     const candidates=[...document.querySelectorAll('.filter-panel input')];
     input=candidates.find(el=>/поиск|назван|товар/i.test(el.placeholder||el.getAttribute('aria-label')||''))||candidates[0];
-    if(!input||input.dataset.adaptiveSearch==='2')return false;
-    input.dataset.adaptiveSearch='2';
+    if(!input||input.dataset.adaptiveSearch==='3')return false;
+    input.dataset.adaptiveSearch='3';
     input.setAttribute('autocomplete','off');
     input.setAttribute('autocorrect','off');
     input.setAttribute('autocapitalize','none');
     input.setAttribute('spellcheck','false');
+    input.setAttribute('enterkeyhint','search');
+
+    input.addEventListener('compositionstart',()=>{composing=true;if(box)box.style.display='none'});
+    input.addEventListener('compositionend',()=>{composing=false;clearTimeout(timer);timer=setTimeout(()=>show(input.value),350)});
     input.addEventListener('input',()=>{
+      if(composing)return;
       clearTimeout(timer);
-      const query=input.value;
-      timer=setTimeout(()=>show(query),320);
+      timer=setTimeout(()=>show(input.value),350);
     });
     input.addEventListener('focus',()=>{if(input.value.trim().length>=3)show(input.value)});
     input.addEventListener('keydown',event=>{
       if(event.key==='Escape'&&box)box.style.display='none';
+      if(event.key==='Enter'&&box)box.style.display='none';
     });
+
     document.addEventListener('pointerdown',event=>{
       if(box&&!box.contains(event.target)&&event.target!==input)box.style.display='none';
     });
     document.addEventListener('click',event=>{
       const button=event.target.closest?.('[data-search-value]');
-      if(button)choose(button.dataset.searchValue);
+      if(!button)return;
+      event.preventDefault();
+      chooseFromExplicitTap(button.dataset.searchValue);
     });
     return true;
   }
