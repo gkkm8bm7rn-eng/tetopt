@@ -1,0 +1,120 @@
+/* Мобильный каталог: стабильно две карточки товара в ряд на любом телефоне. */
+@media (max-width: 767px) {
+  #catalog .container {
+    width: calc(100% - 12px) !important;
+    max-width: none !important;
+  }
+
+  #grid.grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    align-items: stretch !important;
+  }
+
+  #grid > .card {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+
+  #grid .visual {
+    width: 100% !important;
+    aspect-ratio: 1 / 1.04 !important;
+    min-height: 0 !important;
+  }
+
+  #grid .product-photo {
+    padding: 5px !important;
+  }
+
+  #grid .collection-tag {
+    top: 5px !important;
+    left: 5px !important;
+    right: 5px !important;
+    padding: 4px 6px !important;
+    font-size: 8px !important;
+  }
+
+  #grid .card-body {
+    padding: 7px !important;
+    min-width: 0 !important;
+  }
+
+  #grid .category {
+    font-size: 8px !important;
+    letter-spacing: .06em !important;
+  }
+
+  #grid .card h3 {
+    margin: 4px 0 4px !important;
+    font-size: clamp(11px, 3.25vw, 14px) !important;
+    line-height: 1.2 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  #grid .specs {
+    font-size: clamp(9px, 2.7vw, 11px) !important;
+    line-height: 1.25 !important;
+    min-height: 25px !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  #grid .card-bottom {
+    gap: 4px !important;
+    padding-top: 7px !important;
+    align-items: flex-end !important;
+  }
+
+  #grid .wholesale-label {
+    font-size: 7px !important;
+    letter-spacing: .04em !important;
+  }
+
+  #grid .retail-price {
+    font-size: 8px !important;
+  }
+
+  #grid .wholesale-price {
+    font-size: clamp(13px, 4vw, 17px) !important;
+    white-space: nowrap !important;
+  }
+
+  #grid .add {
+    flex: 0 0 31px !important;
+    width: 31px !important;
+    height: 31px !important;
+    font-size: 18px !important;
+  }
+
+  #grid .card-photo-nav {
+    width: 27px !important;
+    height: 27px !important;
+    font-size: 18px !important;
+  }
+
+  #grid .card-photo-prev { left: 4px !important; }
+  #grid .card-photo-next { right: 4px !important; }
+  #grid .card-photo-counter {
+    right: 5px !important;
+    bottom: 5px !important;
+    padding: 3px 5px !important;
+    font-size: 8px !important;
+  }
+}
+
+/* Даже на очень узких экранах сохраняем две колонки. */
+@media (max-width: 359px) {
+  #catalog .container { width: calc(100% - 8px) !important; }
+  #grid.grid { gap: 4px !important; }
+  #grid .card-body { padding: 5px !important; }
+  #grid .add {
+    flex-basis: 27px !important;
+    width: 27px !important;
+    height: 27px !important;
+  }
+}
