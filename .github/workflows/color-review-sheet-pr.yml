@@ -19,11 +19,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Build Abruzzo review sheet
-        run: python tools/build_abruzzo_review_sheet.py
+      - name: Build Amura review sheet
+        env:
+          MODEL_QUERY: "Амура|Amura"
+          MODEL_SLUG: "amura"
+        run: python tools/build_named_model_review.py
       - name: Upload review sheet
         uses: actions/upload-artifact@v4
         with:
-          name: abruzzo-all-variants
+          name: amura-all-variants
           path: review-output/
           retention-days: 1
