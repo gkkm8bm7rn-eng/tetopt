@@ -1,0 +1,18 @@
+{
+  "status": "confirmed",
+  "model": "Стул Абруццо / Abruzzo (мод.8060)",
+  "all_same_model": true,
+  "kept_color_variant_ids": [325, 328, 331, 334, 337, 340, 343],
+  "duplicate_groups": [
+    {"numbers": [1, 2, 3], "keep_id": 325, "remove_ids": [326, 327], "kept_price": 3150, "color": "серый HLR-21"},
+    {"numbers": [4, 5, 6], "keep_id": 328, "remove_ids": [329, 330], "kept_price": 3150, "color": "светло-серый HLR-24"},
+    {"numbers": [7, 8, 9], "keep_id": 331, "remove_ids": [332, 333], "kept_price": 3150, "color": "коричневый HLR-11"},
+    {"numbers": [10, 11, 12], "keep_id": 334, "remove_ids": [335, 336], "kept_price": 3150, "color": "зелёный HLR-54"},
+    {"numbers": [13, 14, 15], "keep_id": 337, "remove_ids": [338, 339], "kept_price": 3150, "color": "синий HLR-63"},
+    {"numbers": [16, 17, 18], "keep_id": 340, "remove_ids": [341, 342], "kept_price": 3150, "color": "коралловый HLR-44"},
+    {"numbers": [19, 20, 21], "keep_id": 343, "remove_ids": [344, 345], "kept_price": 3150, "color": "бежевый HLR-8"}
+  ],
+  "duplicate_ids_excluded": [326, 327, 329, 330, 332, 333, 335, 336, 338, 339, 341, 342, 344, 345],
+  "source": "manual user confirmation",
+  "note": "Все семь оставшихся карточек — цветовые варианты одной модели. Дубли пока не удалять с сайта до отдельного проверяемого PR."
+}
