@@ -16,7 +16,9 @@ const requiredFiles = [
   'offline.html',
   'hero-banner-final.js',
   'compact-extra-filters.js',
+  'product-color-swatches.js',
   'product-duplicate-hider.js',
+  'catalog-image-click-behavior.js',
   'scripts/calculate-card-count.mjs',
   'scripts/e2e-site.mjs',
   '.github/workflows/e2e-site.yml'
@@ -60,7 +62,9 @@ const javascriptFiles = [
   'sw.js',
   'hero-banner-final.js',
   'compact-extra-filters.js',
+  'product-color-swatches.js',
   'product-duplicate-hider.js',
+  'catalog-image-click-behavior.js',
   'scripts/calculate-card-count.mjs',
   'scripts/e2e-site.mjs'
 ];
@@ -74,7 +78,9 @@ const index = read('index.html');
 const expectedScripts = [
   'performance-bootstrap.js?v=5',
   'catalog-pagination.js?v=3',
-  'product-duplicate-hider.js?v=2',
+  'product-color-swatches.js?v=6',
+  'product-duplicate-hider.js?v=3',
+  'catalog-image-click-behavior.js?v=2',
   'catalog-loader.js?v=22'
 ];
 let previous = -1;
@@ -171,6 +177,14 @@ if (!read('catalog-pagination.js').includes('const photoJobLimit = constrainedNe
   fail('Не настроено ограничение параллельных фотографий для слабой сети');
 }
 
+const colorSwatches = read('product-color-swatches.js');
+if (!colorSwatches.includes('function switchCatalogCard')) {
+  fail('Цветовые кружки не переключают содержимое карточки каталога');
+}
+if (!colorSwatches.includes('forma:card-variant-changed')) {
+  fail('После смены цвета не отправляется событие обновления карточки');
+}
+
 const duplicateHider = read('product-duplicate-hider.js');
 if (!duplicateHider.includes('document.write = function patchedWrite')) {
   fail('Удаление дублей не переносится в окончательный документ каталога');
@@ -178,7 +192,25 @@ if (!duplicateHider.includes('document.write = function patchedWrite')) {
 if (!duplicateHider.includes('__FINAL_CARD_AUDIT__')) {
   fail('На сайте не формируется аудит финального числа уникальных карточек');
 }
+if (!duplicateHider.includes('isSelectedColorHost')) {
+  fail('Выбранный цвет карточки может быть ошибочно скрыт механизмом дублей');
+}
 
+const imageClickBehavior = read('catalog-image-click-behavior.js');
+if (!imageClickBehavior.includes('document.write = function patchedWrite')) {
+  fail('Обработчик клика по фото не переносится в окончательный документ каталога');
+}
+if (!imageClickBehavior.includes('openCatalogProduct(card)')) {
+  fail('Клик по фотографии не настроен на открытие товара');
+}
+if (!imageClickBehavior.includes('[data-color-product]')) {
+  fail('Обработчик карточки может перехватить клик по цвету');
+}
+
+const e2eScript = read('scripts/e2e-site.mjs');
+if (!e2eScript.includes('checkCatalogColorAndPhotoInteractions')) {
+  fail('Браузерный тест не проверяет смену цвета и открытие товара по фотографии');
+}
 const e2eWorkflow = read('.github/workflows/e2e-site.yml');
 if (!e2eWorkflow.includes('node scripts/e2e-site.mjs')) fail('Workflow не запускает браузерные проверки');
 if (!e2eWorkflow.includes('playwright install --with-deps chromium')) fail('Workflow не устанавливает Chromium для браузерных проверок');
