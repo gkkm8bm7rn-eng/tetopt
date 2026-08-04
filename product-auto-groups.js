@@ -43,7 +43,13 @@
       { name: "Кресло Гарда/Garda", ids: [1011, 1012, 1013] },
       { name: "Кресло Интер/Inter (24)", ids: [1014, 1015, 1016] },
       { name: "Кресло Лидер/Leader (22)", ids: [1017, 1018, 1019] },
-      { name: "Кресло Луц/Lutz хром", ids: [1023, 1024, 1025] }
+      { name: "Кресло Луц/Lutz хром", ids: [1023, 1024, 1025] },
+      { name: "Кресло Линкольн Металбл/Lincoln Metalbl", ids: [1020, 1021, 1022] },
+      { name: "Кресло Мурано/Murano хром", ids: [1037, 1038] },
+      { name: "Кресло Ореон Металбл/Oreon Metalbl", ids: [1039, 1040] },
+      { name: "Кресло Оксфорд/Oxford хром", ids: [1041, 1042] },
+      { name: "Кресло Пилот/Pilot (24)", ids: [1047, 1048] },
+      { name: "Кресло Рейсер Гт Нью/Racer Gt New", ids: [1052, 1053] }
     ];
     const currentManualGroups = Array.isArray(window.PRODUCT_COLOR_GROUPS)
       ? window.PRODUCT_COLOR_GROUPS
