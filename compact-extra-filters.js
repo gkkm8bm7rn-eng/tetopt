@@ -1,6 +1,5 @@
 (()=>{
   const KEEP=['тип товара','цвет','материал'];
-
   const norm=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ').trim();
 
   function findHeading(){
@@ -9,16 +8,13 @@
   }
 
   function findPanel(heading){
-    return heading?.closest('.extra-filters,.additional-filters,.filter-extra')
-      ||heading?.parentElement
-      ||null;
+    return heading?.closest('.extra-filters,.additional-filters,.filter-extra')||heading?.parentElement||null;
   }
 
   function fieldLabel(field){
     const label=field.querySelector('label,.field-label,strong,b');
     if(label)return norm(label.textContent);
-    const previous=field.previousElementSibling;
-    return norm(previous?.textContent||'');
+    return norm(field.previousElementSibling?.textContent||'');
   }
 
   function isKeptField(field){
@@ -27,21 +23,21 @@
   }
 
   function cleanPanel(panel){
-    const fields=[...panel.querySelectorAll('.field')];
-    fields.forEach(field=>{
-      if(!isKeptField(field))field.remove();
-      else field.style.display='';
+    [...panel.querySelectorAll('.field')].forEach(field=>{
+      if(isKeptField(field))field.style.display='';
+      else field.remove();
     });
-
     [...panel.querySelectorAll('p,small,.hint,.note')].forEach(el=>{
       const text=norm(el.textContent);
       if(text.includes('статуса склада')||text.includes('уточнить наличие'))el.remove();
     });
+  }
 
-    [...panel.querySelectorAll('label')].forEach(label=>{
-      const field=label.closest('.field');
-      if(!field&&KEEP.every(name=>!norm(label.textContent).startsWith(name)))label.remove();
-    });
+  function setOpen(toggle,body,open){
+    toggle.setAttribute('aria-expanded',String(open));
+    body.hidden=!open;
+    const symbol=toggle.querySelector('[data-filter-symbol]');
+    if(symbol)symbol.textContent=open?'−':'+';
   }
 
   function setup(){
@@ -62,39 +58,34 @@
 
     toggle.innerHTML='<span>Дополнительные фильтры</span><span data-filter-symbol aria-hidden="true">+</span>';
     toggle.type='button';
-    toggle.setAttribute('aria-expanded','false');
     toggle.style.cssText+='width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:transparent;text-align:left;';
 
     let body=panel.querySelector('.compact-extra-filters-body');
     if(!body){
       body=document.createElement('div');
       body.className='compact-extra-filters-body';
-      const kept=[...panel.querySelectorAll('.field')].filter(isKeptField);
-      kept.forEach(field=>body.appendChild(field));
-      const reset=[...panel.querySelectorAll('button,a')]
-        .find(el=>el!==toggle&&norm(el.textContent).includes('сбросить все фильтры'));
+      [...panel.querySelectorAll('.field')].filter(isKeptField).forEach(field=>body.appendChild(field));
+      const reset=[...panel.querySelectorAll('button,a')].find(el=>el!==toggle&&norm(el.textContent).includes('сбросить все фильтры'));
       if(reset)body.appendChild(reset);
       panel.appendChild(body);
     }
 
     cleanPanel(body);
-    body.hidden=true;
-    toggle.setAttribute('aria-expanded','false');
-    const symbol=toggle.querySelector('[data-filter-symbol]');
-    if(symbol)symbol.textContent='+';
 
-    if(toggle.dataset.compactBound!=='3'){
-      toggle.dataset.compactBound='3';
-      toggle.addEventListener('click',()=>{
-        const open=toggle.getAttribute('aria-expanded')==='true';
-        toggle.setAttribute('aria-expanded',String(!open));
-        const icon=toggle.querySelector('[data-filter-symbol]');
-        if(icon)icon.textContent=open?'+':'−';
-        body.hidden=open;
+    const wasInitialized=panel.dataset.compactExtraFilters==='4';
+    const isOpen=wasInitialized&&toggle.getAttribute('aria-expanded')==='true';
+    setOpen(toggle,body,isOpen);
+
+    if(toggle.dataset.compactBound!=='4'){
+      toggle.dataset.compactBound='4';
+      toggle.addEventListener('click',event=>{
+        event.preventDefault();
+        event.stopPropagation();
+        setOpen(toggle,body,toggle.getAttribute('aria-expanded')!=='true');
       });
     }
 
-    panel.dataset.compactExtraFilters='3';
+    panel.dataset.compactExtraFilters='4';
     return true;
   }
 
