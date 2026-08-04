@@ -36,6 +36,7 @@
     if (!products.length) return;
 
     // Вручную подтверждённые пользователем группы из прайса от 24.07.2026.
+    // В группы включаются только нескрытые карточки. Скрытый реестр не изменяется.
     // Конструктивно разные модели остаются отдельными группами.
     const confirmedColorGroups = [
       { name: "Кресло Итон/Eton хром 5Д", ids: [999, 1000, 1001] },
@@ -49,7 +50,13 @@
       { name: "Кресло Ореон Металбл/Oreon Metalbl", ids: [1039, 1040] },
       { name: "Кресло Оксфорд/Oxford хром", ids: [1041, 1042] },
       { name: "Кресло Пилот/Pilot (24)", ids: [1047, 1048] },
-      { name: "Кресло Рейсер Гт Нью/Racer Gt New", ids: [1052, 1053] }
+      { name: "Кресло Рейсер Гт Нью/Racer Gt New", ids: [1052, 1053] },
+      { name: "Кресло Рио Пл/Rio Pl", ids: [1054, 1055] },
+      { name: "Кресло Селфи/Selfi", ids: [1056, 1057, 1058] },
+      { name: "Кресло Софти Люкс/Softy Lux", ids: [1060, 1061, 1062, 1063, 1064, 1065, 1066, 1067, 1068, 1069] },
+      { name: "Кресло Стайл/Style — только нескрытые варианты", ids: [1071, 1072, 1073, 1075, 1076, 1077] },
+      { name: "Кресло Сван/Swan — только нескрытые варианты", ids: [1078, 1080, 1081, 1082, 1083] },
+      { name: "Кресло Тренди/Trendy (22)", ids: [1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091] }
     ];
     const currentManualGroups = Array.isArray(window.PRODUCT_COLOR_GROUPS)
       ? window.PRODUCT_COLOR_GROUPS
@@ -150,6 +157,7 @@
         const key = [...group.ids].sort((a, b) => a - b).join(",");
         return !currentManualKeys.has(key);
       }).length,
+      visibleOnlyConfirmedGroups: true,
       colorGroupsAdded: autoColors.length,
       duplicateGroupsAdded: autoDuplicates.length,
       duplicateCardsHidden: autoDuplicates.reduce((sum, group) => sum + group.ids.length - 1, 0)
