@@ -35,6 +35,32 @@
     })();
     if (!products.length) return;
 
+    // Вручную подтверждённые пользователем группы из прайса от 24.07.2026.
+    // Конструктивно разные модели остаются отдельными группами.
+    const confirmedColorGroups = [
+      { name: "Кресло Итон/Eton хром 5Д", ids: [999, 1000, 1001] },
+      { name: "Кресло Итон-Лоу/Eton-Low хром 3Д", ids: [1002, 1003, 1004] },
+      { name: "Кресло Гарда/Garda", ids: [1011, 1012, 1013] },
+      { name: "Кресло Интер/Inter (24)", ids: [1014, 1015, 1016] },
+      { name: "Кресло Лидер/Leader (22)", ids: [1017, 1018, 1019] },
+      { name: "Кресло Луц/Lutz хром", ids: [1023, 1024, 1025] }
+    ];
+    const currentManualGroups = Array.isArray(window.PRODUCT_COLOR_GROUPS)
+      ? window.PRODUCT_COLOR_GROUPS
+      : [];
+    const currentManualKeys = new Set(currentManualGroups.map(group =>
+      [...new Set((group.ids || []).map(Number).filter(Number.isFinite))]
+        .sort((a, b) => a - b)
+        .join(",")
+    ));
+    window.PRODUCT_COLOR_GROUPS = [
+      ...currentManualGroups,
+      ...confirmedColorGroups.filter(group => {
+        const key = [...group.ids].sort((a, b) => a - b).join(",");
+        return !currentManualKeys.has(key);
+      })
+    ];
+
     const idOf = (product, index) => Number(product.id) || index + 1;
     const manualColorIds = new Set(
       (window.PRODUCT_COLOR_GROUPS || []).flatMap(group => group.ids || []).map(Number)
@@ -114,6 +140,10 @@
     window.PRODUCT_DUPLICATE_GROUPS = merge(window.PRODUCT_DUPLICATE_GROUPS, autoDuplicates);
     window.__AUTO_PRODUCT_GROUP_AUDIT__ = {
       rule: "normalized product name; package ignored; colors merged; cheapest exact duplicate kept",
+      confirmedGroupsAdded: confirmedColorGroups.filter(group => {
+        const key = [...group.ids].sort((a, b) => a - b).join(",");
+        return !currentManualKeys.has(key);
+      }).length,
       colorGroupsAdded: autoColors.length,
       duplicateGroupsAdded: autoDuplicates.length,
       duplicateCardsHidden: autoDuplicates.reduce((sum, group) => sum + group.ids.length - 1, 0)
