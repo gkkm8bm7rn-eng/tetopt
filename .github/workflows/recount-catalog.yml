@@ -1,0 +1,49 @@
+name: Recalculate catalog cards
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - catalog-source.html
+      - hidden-products.json
+      - product-color-groups.js
+      - product-auto-groups.js
+      - product-color-swatches.js
+      - product-duplicate-hider.js
+      - scripts/calculate-card-count.mjs
+      - .github/workflows/recount-catalog.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recount:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Calculate final unique card count
+        run: node scripts/calculate-card-count.mjs --write
+
+      - name: Commit recalculated count
+        run: |
+          if git diff --quiet -- catalog-card-count.json; then
+            echo "Catalog card count is already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-card-count.json
+          git commit -m "Update final catalog card count"
+          git push
