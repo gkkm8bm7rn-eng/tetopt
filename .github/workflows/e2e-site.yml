@@ -46,6 +46,9 @@ jobs:
       - name: Verify fixed header and cart access after scrolling
         run: node scripts/e2e-fixed-header.mjs
 
+      - name: Verify compact extra filters
+        run: node scripts/e2e-extra-filters.mjs
+
       - name: Show local server log on failure
         if: failure()
         run: cat /tmp/forma-http.log || true
