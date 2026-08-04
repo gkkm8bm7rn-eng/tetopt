@@ -1,10 +1,11 @@
 (()=>{
   'use strict';
 
-  const KEY='__formaPerformanceBootstrapV3';
+  const KEY='__formaPerformanceBootstrapV4';
   if(window[KEY])return;
 
   const CATALOG_VERSION='20260804-1';
+  const DATA_CACHE_NAME='forma-data-20260804-2';
   const nativeFetch=window.fetch.bind(window);
   let mediaObserver=null;
   let mediaTimer=0;
@@ -22,7 +23,19 @@
     return url;
   }
 
-  window.fetch=function formaCachedFetch(input,init){
+  function seedCatalogCache(url,response){
+    if(!response.ok||!('caches' in window))return;
+    try{
+      const cacheCopy=response.clone();
+      caches.open(DATA_CACHE_NAME)
+        .then(cache=>cache.put(url.toString(),cacheCopy))
+        .catch(error=>console.warn('FORMA HOME: не удалось сохранить каталог офлайн',error));
+    }catch(error){
+      console.warn('FORMA HOME: не удалось подготовить копию каталога',error);
+    }
+  }
+
+  window.fetch=async function formaCachedFetch(input,init){
     try{
       const request=input instanceof Request?input:null;
       const method=String(init?.method||request?.method||'GET').toUpperCase();
@@ -34,11 +47,10 @@
       const nextInit={...(init||{})};
       if(nextInit.cache==='no-store')delete nextInit.cache;
 
-      if(request){
-        const normalizedRequest=new Request(normalized.toString(),request);
-        return nativeFetch(normalizedRequest,nextInit);
-      }
-      return nativeFetch(normalized.toString(),nextInit);
+      const fetchInput=request?new Request(normalized.toString(),request):normalized.toString();
+      const response=await nativeFetch(fetchInput,nextInit);
+      seedCatalogCache(normalized,response);
+      return response;
     }catch(error){
       console.warn('FORMA HOME: не удалось применить кэширование запроса',error);
       return nativeFetch(input,init);
@@ -48,7 +60,7 @@
   function registerServiceWorker(){
     if(!('serviceWorker' in navigator))return;
     const register=()=>navigator.serviceWorker
-      .register('./sw.js?v=2',{scope:'./',updateViaCache:'none'})
+      .register('./sw.js?v=3',{scope:'./',updateViaCache:'none'})
       .then(registration=>registration.update().catch(()=>undefined))
       .catch(error=>console.warn('FORMA HOME: офлайн-кэш недоступен',error));
 
@@ -84,7 +96,7 @@
         image.loading='lazy';
         image.fetchPriority='low';
       }
-      image.dataset.formaMediaOptimized='3';
+      image.dataset.formaMediaOptimized='4';
     });
   }
 
@@ -115,6 +127,7 @@
 
   window[KEY]={
     catalogVersion:CATALOG_VERSION,
+    dataCacheName:DATA_CACHE_NAME,
     serviceWorkerEnabled:'serviceWorker' in navigator,
     optimizeImages,
     updateNetworkMode
