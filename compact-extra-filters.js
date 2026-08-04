@@ -1,20 +1,23 @@
 (()=>{
+  const VERSION='5';
   const KEEP=['тип товара','цвет','материал'];
   const norm=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ').trim();
 
   function findHeading(){
-    return [...document.querySelectorAll('h2,h3,h4,strong,button,div')]
-      .find(el=>norm(el.textContent)==='дополнительные фильтры')||null;
+    return document.querySelector('[data-forma-extra-toggle]')||
+      [...document.querySelectorAll('h2,h3,h4,strong,button,div')]
+        .find(el=>norm(el.textContent).replace(/[+−-]\s*$/,'').trim()==='дополнительные фильтры')||null;
   }
 
   function findPanel(heading){
-    return heading?.closest('.extra-filters,.additional-filters,.filter-extra')||heading?.parentElement||null;
+    return heading?.closest('.extra-filters,.additional-filters,.filter-extra,[data-extra-filters]')||heading?.parentElement||null;
   }
 
   function fieldLabel(field){
-    const label=field.querySelector('label,.field-label,strong,b');
+    const label=field.querySelector('label,.field-label,.filter-label,strong,b');
     if(label)return norm(label.textContent);
-    return norm(field.previousElementSibling?.textContent||'');
+    const control=field.querySelector('select,input');
+    return norm(control?.getAttribute('aria-label')||control?.name||field.previousElementSibling?.textContent||'');
   }
 
   function isKeptField(field){
@@ -22,8 +25,14 @@
     return KEEP.some(name=>label===name||label.startsWith(name));
   }
 
+  function fieldsIn(root){
+    const explicit=[...root.querySelectorAll('.field,.filter-field,.form-field,[data-filter-field]')];
+    if(explicit.length)return explicit.filter((field,index,list)=>!list.some((other,i)=>i!==index&&other.contains(field)));
+    return [...root.children].filter(el=>el.querySelector?.('select,input')&&fieldLabel(el));
+  }
+
   function cleanPanel(panel){
-    [...panel.querySelectorAll('.field')].forEach(field=>{
+    fieldsIn(panel).forEach(field=>{
       if(isKeptField(field))field.style.display='';
       else field.remove();
     });
@@ -36,6 +45,7 @@
   function setOpen(toggle,body,open){
     toggle.setAttribute('aria-expanded',String(open));
     body.hidden=!open;
+    body.style.display=open?'':'none';
     const symbol=toggle.querySelector('[data-filter-symbol]');
     if(symbol)symbol.textContent=open?'−':'+';
   }
@@ -44,8 +54,6 @@
     const heading=findHeading();
     const panel=findPanel(heading);
     if(!heading||!panel)return false;
-
-    cleanPanel(panel);
 
     let toggle=heading;
     if(!toggle.matches('button')){
@@ -56,28 +64,31 @@
       toggle=button;
     }
 
+    toggle.dataset.formaExtraToggle='true';
     toggle.innerHTML='<span>Дополнительные фильтры</span><span data-filter-symbol aria-hidden="true">+</span>';
     toggle.type='button';
-    toggle.style.cssText+='width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:transparent;text-align:left;';
+    toggle.style.cssText+='width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:transparent;text-align:left;cursor:pointer;';
 
-    let body=panel.querySelector('.compact-extra-filters-body');
+    let body=panel.querySelector(':scope > .compact-extra-filters-body');
     if(!body){
       body=document.createElement('div');
       body.className='compact-extra-filters-body';
-      [...panel.querySelectorAll('.field')].filter(isKeptField).forEach(field=>body.appendChild(field));
+      const currentFields=fieldsIn(panel).filter(field=>field!==toggle&&isKeptField(field));
+      currentFields.forEach(field=>body.appendChild(field));
       const reset=[...panel.querySelectorAll('button,a')].find(el=>el!==toggle&&norm(el.textContent).includes('сбросить все фильтры'));
       if(reset)body.appendChild(reset);
       panel.appendChild(body);
     }
 
     cleanPanel(body);
+    fieldsIn(panel).filter(field=>!body.contains(field)).forEach(field=>field.remove());
 
-    const wasInitialized=panel.dataset.compactExtraFilters==='4';
-    const isOpen=wasInitialized&&toggle.getAttribute('aria-expanded')==='true';
-    setOpen(toggle,body,isOpen);
+    const initialized=panel.dataset.compactExtraFilters===VERSION;
+    const open=initialized&&toggle.getAttribute('aria-expanded')==='true';
+    setOpen(toggle,body,open);
 
-    if(toggle.dataset.compactBound!=='4'){
-      toggle.dataset.compactBound='4';
+    if(toggle.dataset.compactBound!==VERSION){
+      toggle.dataset.compactBound=VERSION;
       toggle.addEventListener('click',event=>{
         event.preventDefault();
         event.stopPropagation();
@@ -85,7 +96,7 @@
       });
     }
 
-    panel.dataset.compactExtraFilters='4';
+    panel.dataset.compactExtraFilters=VERSION;
     return true;
   }
 
