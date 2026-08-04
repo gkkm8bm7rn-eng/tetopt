@@ -9,6 +9,9 @@
 
     let text = source;
 
+    // The zoom module must be cache-busted because v3 also intercepted catalog photos.
+    text = text.replace(/image-zoom\.js\?v=\d+/g, "image-zoom.js?v=4");
+
     text = text.replace(
       /<div class="load-wrap">\s*<button class="btn btn-primary" id="loadMore">Показать ещё<\/button>\s*<\/div>/,
       '<nav class="pagination-wrap" id="pagination" aria-label="Страницы каталога"></nav>'
