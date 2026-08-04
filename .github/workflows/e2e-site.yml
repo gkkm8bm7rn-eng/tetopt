@@ -1,0 +1,48 @@
+name: Browser storefront tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Start local storefront
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/forma-http.log 2>&1 &
+          echo $! > /tmp/forma-http.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/forma-http.log
+          exit 1
+
+      - name: Run responsive, slow-network and offline tests
+        run: node scripts/e2e-site.mjs
+
+      - name: Show local server log on failure
+        if: failure()
+        run: cat /tmp/forma-http.log || true
