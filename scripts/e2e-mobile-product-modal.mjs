@@ -4,7 +4,7 @@ const baseUrl = process.env.SITE_URL || 'http://127.0.0.1:4173/';
 const viewports = [
   { name: 'narrow-phone', width: 320, height: 700 },
   { name: 'phone', width: 390, height: 844 },
-  { name: 'phone-landscape', width: 844, height: 390 }
+  { name: 'phone-landscape', width: 667, height: 375 }
 ];
 
 function assert(condition, message) {
