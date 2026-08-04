@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const KEY='__formaPerformanceBootstrapV1';
+  const KEY='__formaPerformanceBootstrapV2';
   if(window[KEY])return;
 
   const CATALOG_VERSION='20260804-1';
@@ -43,5 +43,17 @@
     }
   };
 
-  window[KEY]={catalogVersion:CATALOG_VERSION};
+  function registerServiceWorker(){
+    if(!('serviceWorker' in navigator))return;
+    const register=()=>navigator.serviceWorker
+      .register('./sw.js?v=1',{scope:'./',updateViaCache:'none'})
+      .then(registration=>registration.update().catch(()=>undefined))
+      .catch(error=>console.warn('FORMA HOME: офлайн-кэш недоступен',error));
+
+    if(document.readyState==='complete')setTimeout(register,0);
+    else window.addEventListener('load',()=>setTimeout(register,0),{once:true});
+  }
+
+  registerServiceWorker();
+  window[KEY]={catalogVersion:CATALOG_VERSION,serviceWorkerEnabled:'serviceWorker' in navigator};
 })();
