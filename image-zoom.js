@@ -51,7 +51,8 @@
     style.id=STYLE_ID;
     style.textContent=`
       body.image-zoom-open{overflow:hidden!important;touch-action:none}
-      .product-photo.loaded,#galleryMainImage.loaded{cursor:zoom-in}
+      #galleryMainImage.loaded{cursor:zoom-in}
+      #grid .product-photo{cursor:pointer}
       .image-zoom-lightbox{position:fixed;inset:0;z-index:220;background:rgba(15,14,12,.94);display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
       .image-zoom-lightbox.show{opacity:1;visibility:visible;pointer-events:auto}
       .image-zoom-frame{position:relative;width:min(96vw,1600px);height:min(92vh,1100px);display:grid;place-items:center;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 24px 90px rgba(0,0,0,.42);touch-action:pan-y}
@@ -152,7 +153,7 @@
     const source=image.currentSrc||image.src;
     if(!source)return;
     const product=findProduct(image);
-    const title=image.alt||product?.name||image.closest?.("[data-product]")?.querySelector?.("h3")?.textContent||"";
+    const title=image.alt||product?.name||"";
     const productSlides=product?uniqueSources([...(Array.isArray(product.images)?product.images:[]),product.directImage]):[];
     slides=productSlides.length?productSlides:[source];
     const sourceKey=cleanSource(source);
@@ -178,7 +179,7 @@
   }
 
   document.addEventListener("click",event=>{
-    const image=event.target.closest?.("#grid .js-product-image.loaded,#galleryMainImage.loaded");
+    const image=event.target.closest?.("#galleryMainImage.loaded");
     if(!image)return;
     event.preventDefault();
     event.stopPropagation();
