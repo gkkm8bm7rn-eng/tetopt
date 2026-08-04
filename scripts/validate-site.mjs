@@ -1,6 +1,10 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
+const EXPECTED_TOTAL_PRODUCTS = 1723;
+const EXPECTED_HIDDEN_PRODUCTS = 361;
+const EXPECTED_VISIBLE_PRODUCTS = 1362;
+
 const requiredFiles = [
   'index.html',
   'catalog-source.html',
@@ -11,7 +15,9 @@ const requiredFiles = [
   'sw.js',
   'offline.html',
   'hero-banner-final.js',
-  'compact-extra-filters.js'
+  'compact-extra-filters.js',
+  'scripts/e2e-site.mjs',
+  '.github/workflows/e2e-site.yml'
 ];
 
 function fail(message) {
@@ -51,7 +57,8 @@ const javascriptFiles = [
   'catalog-loader.js',
   'sw.js',
   'hero-banner-final.js',
-  'compact-extra-filters.js'
+  'compact-extra-filters.js',
+  'scripts/e2e-site.mjs'
 ];
 for (const file of javascriptFiles) {
   const result = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
@@ -94,11 +101,13 @@ try {
   fail(error.message);
 }
 
-if (products.length < 1000) fail(`Каталог подозрительно мал: ${products.length} товаров`);
 const ids = products.map(product => Number(product.id));
 if (ids.some(id => !Number.isFinite(id))) fail('В каталоге обнаружен некорректный id товара');
 if (new Set(ids).size !== ids.length) fail('В каталоге обнаружены повторяющиеся id товаров');
 if (!collections.length || !categories.length) fail('Списки коллекций или категорий пусты');
+if (products.length !== EXPECTED_TOTAL_PRODUCTS) {
+  fail(`Нарушена целостность каталога: ожидалось ${EXPECTED_TOTAL_PRODUCTS} товаров, найдено ${products.length}`);
+}
 
 const hidden = JSON.parse(read('hidden-products.json'));
 const hiddenIds = new Set((hidden.ids || []).map(Number).filter(Number.isFinite));
@@ -107,7 +116,13 @@ const withLocalImages = products.filter(product =>
   Array.isArray(product.images) && product.images.some(path => typeof path === 'string' && path.startsWith('assets/'))
 ).length;
 
-ok(`Каталог сохранён: ${products.length} товаров, ${visibleCount} видимых`);
+if (hiddenIds.size !== EXPECTED_HIDDEN_PRODUCTS) {
+  fail(`Нарушен список скрытых товаров: ожидалось ${EXPECTED_HIDDEN_PRODUCTS}, найдено ${hiddenIds.size}`);
+}
+if (visibleCount !== EXPECTED_VISIBLE_PRODUCTS) {
+  fail(`Нарушено число видимых товаров: ожидалось ${EXPECTED_VISIBLE_PRODUCTS}, найдено ${visibleCount}`);
+}
+ok(`Каталог сохранён: ${products.length} товаров, ${visibleCount} видимых, ${hiddenIds.size} скрытых`);
 console.log(`ℹ Локальные изображения указаны у ${withLocalImages} товаров`);
 
 const bootstrap = read('performance-bootstrap.js');
@@ -126,6 +141,10 @@ if (!serviceWorker.includes('MAX_CACHED_IMAGES=120')) fail('Не установ�
 if (!read('catalog-pagination.js').includes('const photoJobLimit = constrainedNetwork ? 1 : 3;')) {
   fail('Не настроено ограничение параллельных фотографий для слабой сети');
 }
+
+const e2eWorkflow = read('.github/workflows/e2e-site.yml');
+if (!e2eWorkflow.includes('node scripts/e2e-site.mjs')) fail('Workflow не запускает браузерные проверки');
+if (!e2eWorkflow.includes('playwright install --with-deps chromium')) fail('Workflow не устанавливает Chromium для браузерных проверок');
 
 if (!process.exitCode) {
   ok('Проверка целостности и производительности сайта завершена успешно');
