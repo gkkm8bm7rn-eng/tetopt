@@ -2,6 +2,10 @@
   "use strict";
 
   const nativeFetch = window.fetch.bind(window);
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+  const constrainedNetwork = Boolean(connection?.saveData) || /^(?:slow-2g|2g)$/.test(connection?.effectiveType || "");
+  const photoJobLimit = constrainedNetwork ? 1 : 3;
+  const photoRootMargin = constrainedNetwork ? "120px 0px" : "350px 0px";
 
   function replaceOnce(source, search, replacement, label) {
     const matches = typeof search === "string"
@@ -126,11 +130,25 @@
       "pagination render"
     );
 
+    text = replaceOnce(
+      text,
+      "const MAX_PHOTO_JOBS = 3;",
+      `const MAX_PHOTO_JOBS = ${photoJobLimit};`,
+      "photo request concurrency"
+    );
+
+    text = replaceOnce(
+      text,
+      '},{rootMargin:"350px 0px"});',
+      `},{rootMargin:"${photoRootMargin}"});`,
+      "image preload distance"
+    );
+
     if (text.includes("Показать ещё") || text.includes("loadMore") || text.includes("state.visible")) {
       throw new Error("Legacy load-more logic remains after patching");
     }
-    for (const token of ['id="pagination"', "function renderPagination", "function goToPage", 'aria-current="page"']) {
-      if (!text.includes(token)) throw new Error(`Missing pagination token: ${token}`);
+    for (const token of ['id="pagination"', "function renderPagination", "function goToPage", 'aria-current="page"', `const MAX_PHOTO_JOBS = ${photoJobLimit};`]) {
+      if (!text.includes(token)) throw new Error(`Missing catalog token: ${token}`);
     }
 
     return text;
@@ -156,11 +174,13 @@
         headers
       });
     } catch (error) {
-      console.error("Не удалось включить постраничную навигацию каталога:", error);
+      console.error("Не удалось оптимизировать каталог:", error);
+      const headers = new Headers(response.headers);
+      headers.delete("content-length");
       return new Response(source, {
         status: response.status,
         statusText: response.statusText,
-        headers: response.headers
+        headers
       });
     }
   };
