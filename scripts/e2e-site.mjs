@@ -71,6 +71,73 @@ async function checkViewport(browser, viewport) {
   console.log(`✓ ${viewport.name}: ${viewport.width}×${viewport.height}`);
 }
 
+async function checkCatalogColorAndPhotoInteractions(browser) {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 120_000 });
+  await waitForStorefront(page);
+  await page.waitForSelector('#grid .card:not(.product-color-duplicate-hidden) [data-color-product]', { timeout: 120_000 });
+
+  const card = page.locator('#grid .card:not(.product-color-duplicate-hidden):has([data-color-product])').first();
+  const swatches = card.locator('[data-color-product]');
+  const swatchCount = await swatches.count();
+  assert(swatchCount >= 2, `Для проверки переключения цветов найдено только ${swatchCount} варианта`);
+
+  const initialProductId = Number(await card.getAttribute('data-product'));
+  const hostId = Number((await card.getAttribute('data-color-host')) || initialProductId);
+  const targetProductId = Number(await swatches.nth(1).getAttribute('data-color-product'));
+  assert(Number.isFinite(targetProductId) && targetProductId !== initialProductId, 'Второй цвет не ведёт на другой товар');
+
+  await swatches.nth(1).click();
+  await page.waitForFunction(({ hostId, targetProductId }) => {
+    const host = [...document.querySelectorAll('#grid .card')]
+      .find(card => Number(card.dataset.colorHost) === hostId && Number(card.dataset.product) === targetProductId);
+    return Boolean(
+      host &&
+      host.offsetParent !== null &&
+      host.querySelector(`[data-color-product="${targetProductId}"]`)?.classList.contains('active') &&
+      !document.querySelector('#modal')?.classList.contains('show')
+    );
+  }, { hostId, targetProductId }, { timeout: 30_000 });
+
+  const switched = await card.evaluate((node, targetId) => ({
+    productId: Number(node.dataset.product),
+    imageProductId: Number(node.querySelector('.product-photo')?.dataset.productImage),
+    addProductId: Number(node.querySelector('[data-add]')?.dataset.add),
+    favoriteProductId: Number(node.querySelector('[data-favorite-toggle]')?.dataset.favoriteToggle || targetId),
+    activeColorId: Number(node.querySelector('.color-swatch.active')?.dataset.colorProduct),
+    title: node.querySelector('h3')?.textContent?.trim() || '',
+    hidden: getComputedStyle(node).display === 'none'
+  }), targetProductId);
+  const expectedTitle = await page.evaluate(id => {
+    try { return typeof productById === 'function' ? productById(id)?.name || '' : ''; }
+    catch { return ''; }
+  }, targetProductId);
+
+  assert(switched.productId === targetProductId, 'Карточка не переключила идентификатор выбранного цвета');
+  assert(switched.imageProductId === targetProductId, 'Фото карточки осталось привязано к предыдущему цвету');
+  assert(switched.addProductId === targetProductId, 'Кнопка добавления в корзину осталась привязана к предыдущему цвету');
+  assert(switched.favoriteProductId === targetProductId, 'Избранное осталось привязано к предыдущему цвету');
+  assert(switched.activeColorId === targetProductId, 'Активный цветовой кружок не обновился');
+  assert(!switched.hidden, 'Карточка исчезла после выбора цвета');
+  assert(!expectedTitle || switched.title === expectedTitle, 'Название карточки не соответствует выбранному цвету');
+
+  await card.locator('.product-photo').click({ force: true });
+  await page.waitForSelector('#modal.show', { timeout: 30_000 });
+  const openedProductId = await page.evaluate(() => {
+    try { return Number(activeGallery?.productId); }
+    catch { return NaN; }
+  });
+  assert(openedProductId === targetProductId, `По клику на фото открыт товар ${openedProductId}, ожидался ${targetProductId}`);
+  assert(errors.length === 0, `Переключение цвета/открытие фото: ошибки страницы: ${errors.join(' | ')}`);
+
+  await context.close();
+  console.log('✓ Цвет переключает карточку, а фото открывает выбранный товар');
+}
+
 async function checkSlowConnectionShell(browser) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
@@ -120,6 +187,7 @@ try {
   for (const viewport of viewports) {
     await checkViewport(browser, viewport);
   }
+  await checkCatalogColorAndPhotoInteractions(browser);
   await checkSlowConnectionShell(browser);
   await checkOfflineRepeatVisit(browser);
   console.log('✓ Все браузерные проверки завершены успешно');
