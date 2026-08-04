@@ -27,7 +27,7 @@
     };
     const productByIdSafe = id => {
       try { if (typeof productById === "function") return productById(Number(id)); } catch {}
-      return productList().find(p => Number(p.id) === Number(id)) || null;
+      return productList().find(product => Number(product.id) === Number(id)) || null;
     };
     const colorFor = product => {
       const text = normalize(`${product?.specs || ""} ${product?.name || ""}`);
@@ -60,7 +60,7 @@
         });
       }
       window.__COLOR_VARIANT_AUDIT__ = {
-        mode: "explicit-registry-with-deduplication",
+        mode: "explicit-registry-with-card-switching",
         acceptedGroups: accepted,
         acceptedCount: accepted.length,
         hiddenDuplicateIds: [...duplicateIds]
@@ -72,7 +72,7 @@
       if (document.getElementById("colorSwatchesStyles")) return;
       const style = document.createElement("style");
       style.id = "colorSwatchesStyles";
-      style.textContent = `.product-color-duplicate-hidden{display:none!important}.product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto}.color-swatch:hover{transform:scale(1.08)}.color-swatch.active{box-shadow:0 0 0 2px var(--ink)}.color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}.modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}@media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}`;
+      style.textContent = `.product-color-duplicate-hidden{display:none!important}.product-colors{margin:12px 0 2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.product-colors-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);padding:0;cursor:pointer;position:relative;flex:0 0 auto;transition:transform .15s ease,box-shadow .15s ease}.color-swatch:hover{transform:scale(1.08)}.color-swatch.active{box-shadow:0 0 0 2px var(--ink)}.color-swatch.active:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.22)}.modal-content .product-colors{margin:16px 0 4px}.modal-content .color-swatch{width:34px;height:34px}@media(max-width:700px){.product-colors{gap:7px;margin-top:10px}.color-swatch{width:30px;height:30px}.product-colors-label{width:100%}}`;
       document.head.appendChild(style);
     }
 
@@ -86,16 +86,149 @@
       wrap.appendChild(label);
       for (const item of variants) {
         const button = document.createElement("button");
+        const active = Number(item.product.id) === Number(product.id);
         button.type = "button";
-        button.className = "color-swatch" + (Number(item.product.id) === Number(product.id) ? " active" : "");
+        button.className = "color-swatch" + (active ? " active" : "");
         button.style.background = item.color.css;
         button.dataset.colorProduct = String(item.product.id);
         button.title = item.color.label;
         button.setAttribute("aria-label", `Выбрать цвет: ${item.color.label}`);
-        button.setAttribute("aria-pressed", String(Number(item.product.id) === Number(product.id)));
+        button.setAttribute("aria-pressed", String(active));
         wrap.appendChild(button);
       }
       return wrap;
+    }
+
+    function productPhotos(product) {
+      return Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
+    }
+
+    function replacePrice(card, product) {
+      const current = card.querySelector(".price-stack");
+      if (!current) return;
+      try {
+        if (typeof priceHtml === "function") {
+          const template = document.createElement("template");
+          template.innerHTML = priceHtml(product);
+          const replacement = template.content.firstElementChild;
+          if (replacement) current.replaceWith(replacement);
+          return;
+        }
+      } catch {}
+
+      const wholesale = current.querySelector(".wholesale-price");
+      const retail = current.querySelector(".retail-price");
+      try {
+        if (wholesale && typeof formatPrice === "function" && typeof sellingPrice === "function") {
+          wholesale.textContent = formatPrice(sellingPrice(product));
+        }
+        if (retail && typeof formatPrice === "function") {
+          retail.textContent = product.retailPrice ? `Розничная: ${formatPrice(Number(product.retailPrice))}` : "";
+          retail.hidden = !product.retailPrice;
+        }
+      } catch {}
+    }
+
+    function rebuildPhotoNavigation(visual, product) {
+      const photos = productPhotos(product);
+      visual.dataset.photoIndex = "0";
+      visual.dataset.photoCount = String(Math.max(1, photos.length));
+      visual.querySelectorAll(".card-photo-nav,.card-photo-counter").forEach(node => node.remove());
+      if (photos.length < 2) return;
+
+      const previous = document.createElement("button");
+      previous.type = "button";
+      previous.className = "card-photo-nav card-photo-prev";
+      previous.dataset.cardPhoto = "-1";
+      previous.setAttribute("aria-label", "Предыдущее фото");
+      previous.textContent = "‹";
+
+      const next = document.createElement("button");
+      next.type = "button";
+      next.className = "card-photo-nav card-photo-next";
+      next.dataset.cardPhoto = "1";
+      next.setAttribute("aria-label", "Следующее фото");
+      next.textContent = "›";
+
+      const counter = document.createElement("span");
+      counter.className = "card-photo-counter";
+      counter.textContent = `1 / ${photos.length}`;
+      visual.append(previous, next, counter);
+    }
+
+    function updateCardImage(card, product) {
+      const visual = card.querySelector(".visual");
+      const image = visual?.querySelector(".js-product-image,.product-photo");
+      if (!visual || !image) return;
+
+      rebuildPhotoNavigation(visual, product);
+      const placeholder = visual.querySelector(".photo-placeholder");
+      placeholder?.removeAttribute("hidden");
+      if (!visual.querySelector(".photo-loading")) {
+        const loading = document.createElement("span");
+        loading.className = "photo-loading";
+        loading.textContent = "загрузка фото…";
+        visual.appendChild(loading);
+      }
+
+      image.dataset.productImage = String(product.id);
+      image.alt = product.name || "";
+      image.classList.remove("loaded", "failed");
+      image.removeAttribute("data-observed");
+      image.removeAttribute("src");
+
+      const firstPhoto = productPhotos(product)[0] || product.directImage || "";
+      if (firstPhoto) {
+        try {
+          if (typeof applyPhoto === "function") applyPhoto(image, firstPhoto, product);
+          else image.src = firstPhoto;
+        } catch { image.src = firstPhoto; }
+      } else {
+        try {
+          if (typeof queueProductPhoto === "function") queueProductPhoto(image);
+          else if (typeof observeProductImages === "function") observeProductImages(card);
+        } catch {}
+      }
+    }
+
+    function switchCatalogCard(card, product, variants) {
+      if (!card || !product || !variants?.length) return;
+      const hostId = Number(card.dataset.colorHost || card.dataset.product);
+      card.dataset.colorHost = String(Number.isFinite(hostId) ? hostId : variants[0].product.id);
+      card.dataset.product = String(product.id);
+      card.classList.remove("product-color-duplicate-hidden");
+
+      const collection = card.querySelector(".collection-tag");
+      const category = card.querySelector(".category");
+      const title = card.querySelector("h3");
+      const specs = card.querySelector(".specs");
+      if (collection) collection.textContent = product.collection || "";
+      if (category) category.textContent = product.category || "";
+      if (title) title.textContent = product.name || "";
+      if (specs) specs.textContent = product.specs || "";
+
+      const addButton = card.querySelector("[data-add]");
+      if (addButton) addButton.dataset.add = String(product.id);
+      const favoriteButton = card.querySelector("[data-favorite-toggle]");
+      if (favoriteButton) favoriteButton.dataset.favoriteToggle = String(product.id);
+
+      replacePrice(card, product);
+      updateCardImage(card, product);
+
+      const existing = card.querySelector("[data-color-swatches]");
+      const replacement = swatchesNode(product, variants);
+      if (existing) existing.replaceWith(replacement);
+      else if (specs) specs.insertAdjacentElement("afterend", replacement);
+
+      window.__LAST_COLOR_CARD_SWITCH__ = {
+        hostId: Number(card.dataset.colorHost),
+        productId: Number(product.id),
+        at: Date.now()
+      };
+      window.dispatchEvent(new CustomEvent("forma:card-variant-changed", {
+        detail: { hostId: Number(card.dataset.colorHost), productId: Number(product.id) }
+      }));
+      window.dispatchEvent(new Event("forma:favorites-changed"));
     }
 
     function refresh() {
@@ -103,12 +236,23 @@
       addStyles();
       const { byId, duplicateIds } = verifiedGroups();
       document.querySelectorAll("[data-product]").forEach(card => {
-        const product = productByIdSafe(card.dataset.product);
-        const id = Number(product?.id);
-        const variants = product ? byId.get(id) : null;
-        card.classList.toggle("product-color-duplicate-hidden", duplicateIds.has(id));
+        const currentId = Number(card.dataset.product);
+        const variants = byId.get(currentId);
+        const primaryId = variants?.length ? Number(variants[0].product.id) : null;
+        const isCatalogCard = Boolean(card.closest("#grid"));
+
+        if (isCatalogCard && primaryId === currentId && !card.dataset.colorHost) {
+          card.dataset.colorHost = String(primaryId);
+        }
+        const isVisibleHost = isCatalogCard && Boolean(card.dataset.colorHost);
+        card.classList.toggle("product-color-duplicate-hidden", duplicateIds.has(currentId) && !isVisibleHost);
+
+        const product = productByIdSafe(currentId);
         const existing = card.querySelector("[data-color-swatches]");
-        if (!variants || duplicateIds.has(id)) { existing?.remove(); return; }
+        if (!product || !variants || (duplicateIds.has(currentId) && !isVisibleHost)) {
+          existing?.remove();
+          return;
+        }
         if (existing?.dataset.colorSwatches === String(product.id)) return;
         existing?.remove();
         const node = swatchesNode(product, variants);
@@ -145,21 +289,42 @@
     }
 
     document.addEventListener("click", event => {
-      const swatch = event.target.closest("[data-color-product]");
+      const swatch = event.target.closest?.("[data-color-product]");
       if (!swatch) return;
       event.preventDefault();
       event.stopPropagation();
-      try { if (typeof openProduct === "function") openProduct(Number(swatch.dataset.colorProduct)); } catch (error) { console.error(error); }
+      event.stopImmediatePropagation();
+
+      const product = productByIdSafe(swatch.dataset.colorProduct);
+      if (!product) return;
+      const card = swatch.closest("#grid [data-product]");
+      if (card) {
+        const variants = verifiedGroups().byId.get(Number(product.id));
+        switchCatalogCard(card, product, variants);
+        setTimeout(schedule, 40);
+        return;
+      }
+
+      try { if (typeof openProduct === "function") openProduct(Number(product.id)); }
+      catch (error) { console.error(error); }
       setTimeout(schedule, 40);
     }, true);
 
-    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    new MutationObserver(schedule).observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+    window.addEventListener("forma:catalog-ready", schedule);
     schedule();
   }
 
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
-    if (typeof html === "string" && html.includes("</body>")) html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
+    if (typeof html === "string" && html.includes("</body>")) {
+      html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
+    }
     return originalWrite(html);
   };
 })();
