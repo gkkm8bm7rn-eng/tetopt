@@ -43,6 +43,9 @@ jobs:
       - name: Run responsive, slow-network and offline tests
         run: node scripts/e2e-site.mjs
 
+      - name: Verify fixed header and cart access after scrolling
+        run: node scripts/e2e-fixed-header.mjs
+
       - name: Show local server log on failure
         if: failure()
         run: cat /tmp/forma-http.log || true
