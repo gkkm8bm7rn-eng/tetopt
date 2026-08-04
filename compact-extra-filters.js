@@ -234,6 +234,7 @@
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
     if (typeof html === "string" && html.includes("</body>")) {
+      html = html.replace(/compact-extra-filters\.js\?v=\d+/g, "compact-extra-filters.js?v=6");
       html = html.replace("</body>", `<script>(${compactFiltersRuntime.toString()})();<\/script></body>`);
     }
     return originalWrite(html);
