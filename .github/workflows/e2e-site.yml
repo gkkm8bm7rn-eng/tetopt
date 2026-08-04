@@ -49,6 +49,9 @@ jobs:
       - name: Verify compact extra filters
         run: node scripts/e2e-extra-filters.mjs
 
+      - name: Verify responsive mobile product modal
+        run: node scripts/e2e-mobile-product-modal.mjs
+
       - name: Show local server log on failure
         if: failure()
         run: cat /tmp/forma-http.log || true
