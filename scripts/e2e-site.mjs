@@ -131,11 +131,18 @@ async function checkCatalogColorAndPhotoInteractions(browser) {
     try { return Number(activeGallery?.productId); }
     catch { return NaN; }
   });
+  const catalogZoomVisible = await page.locator('#formaImageZoom.show').count();
   assert(openedProductId === targetProductId, `По клику на фото открыт товар ${openedProductId}, ожидался ${targetProductId}`);
+  assert(catalogZoomVisible === 0, 'Фото из каталога ошибочно открылось в режиме увеличения');
+
+  await page.waitForSelector('#galleryMainImage.loaded', { timeout: 30_000 });
+  await page.locator('#galleryMainImage').click({ force: true });
+  await page.waitForSelector('#formaImageZoom.show', { timeout: 30_000 });
+  assert(await page.locator('#modal.show').count() === 1, 'Карточка товара закрылась при увеличении внутренней фотографии');
   assert(errors.length === 0, `Переключение цвета/открытие фото: ошибки страницы: ${errors.join(' | ')}`);
 
   await context.close();
-  console.log('✓ Цвет переключает карточку, а фото открывает выбранный товар');
+  console.log('✓ Цвет переключает карточку; фото каталога открывает товар; увеличение работает только внутри товара');
 }
 
 async function checkSlowConnectionShell(browser) {
