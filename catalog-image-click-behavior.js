@@ -1,5 +1,29 @@
 (() => {
   "use strict";
+
+  function openCatalogProductFromEvent(event) {
+    const target = event.target instanceof Element ? event.target : null;
+    const image = target?.closest("#grid .product-photo,#grid .js-product-image");
+    if (!image) return;
+    const card = image.closest("[data-product]");
+    const id = Number(card?.dataset.product);
+    if (!Number.isFinite(id)) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    try {
+      if (typeof openProduct === "function") openProduct(id);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // The window capture listener runs before document-level legacy zoom handlers.
+  // It also protects users who still have the previous image-zoom.js in cache.
+  window.addEventListener("click", openCatalogProductFromEvent, true);
+
   const originalWrite = document.write.bind(document);
 
   function runtime() {
@@ -35,7 +59,7 @@
       if (document.getElementById("catalogCardClickStyles")) return;
       const style = document.createElement("style");
       style.id = "catalogCardClickStyles";
-      style.textContent = "#grid .card{cursor:pointer}#grid .card button,#grid .color-swatch{cursor:pointer}";
+      style.textContent = "#grid .card,#grid .product-photo{cursor:pointer}#grid .card button,#grid .color-swatch{cursor:pointer}";
       document.head.appendChild(style);
     }
 
