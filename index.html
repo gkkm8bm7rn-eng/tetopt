@@ -2,17 +2,59 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f2ec">
   <title>FORMA HOME</title>
   <style>
-    html,body{margin:0;min-height:100%;background:#f5f2ec;color:#201f1b;font-family:system-ui,-apple-system,sans-serif}
-    .boot{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}
-    .boot strong{font-family:Georgia,serif;font-size:28px;letter-spacing:.08em}
-    .boot span{display:block;margin-top:12px;color:#706d65;font-size:14px}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#f5f2ec;color:#201f1b;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .boot-shell{min-height:100vh;background:#f5f2ec}
+    .boot-sticky{position:sticky;top:0;z-index:20;box-shadow:0 10px 28px rgba(32,31,27,.08)}
+    .boot-announcement{background:#201f1b;color:#fff;text-align:center;padding:9px 16px;font-size:13px;line-height:1.4;letter-spacing:.02em}
+    .boot-nav{min-height:76px;padding:10px max(16px,calc((100% - 1240px)/2));display:flex;align-items:center;gap:16px;background:rgba(245,242,236,.97);border-bottom:1px solid rgba(222,216,204,.8)}
+    .boot-logo{font-family:Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:.12em;font-size:22px;white-space:nowrap}.boot-logo span{color:#536647}
+    .boot-nav-actions{margin-left:auto;display:flex;gap:10px}.boot-pill{min-height:46px;border-radius:999px;padding:10px 15px;background:#fff;box-shadow:0 4px 20px rgba(47,42,33,.08);display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap}.boot-heart{color:#1684ef;font-size:25px;line-height:1}.boot-badge{display:grid;place-items:center;min-width:25px;height:25px;border-radius:999px;background:#5d6b4f;color:#fff;font-size:12px;padding:0 7px}
+    .boot-content{width:min(1240px,calc(100% - 32px));margin:0 auto;padding:34px 0 70px}
+    .boot-hero{position:relative;overflow:hidden;isolation:isolate;padding:44px 46px 30px;border:1px solid rgba(118,105,82,.18);border-radius:30px;background:radial-gradient(circle at 64% 91%,transparent 0 150px,rgba(255,255,255,.20) 152px 220px,transparent 222px 280px,rgba(255,255,255,.14) 282px 354px,transparent 356px),linear-gradient(135deg,#ded5c2 0%,#d4cfb9 51%,#abb397 100%);box-shadow:0 18px 48px rgba(63,52,38,.10)}
+    .boot-eyebrow{margin:0 0 16px;color:#40553b;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+    .boot-hero h1{max-width:800px;margin:0 0 18px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(46px,5vw,76px);font-weight:500;line-height:1;letter-spacing:-.03em;text-wrap:balance}
+    .boot-copy{max-width:680px;margin:0;color:#454a43;font-size:clamp(16px,1.5vw,20px);font-weight:600;line-height:1.48}
+    .boot-actions{width:min(940px,100%);display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+    .boot-cta{grid-column:1/-1;min-height:82px;border-radius:24px;background:linear-gradient(135deg,#24231f,#181815);color:#fff;display:flex;align-items:center;justify-content:center;gap:24px;font-size:22px;font-weight:850;text-decoration:none;box-shadow:0 14px 30px rgba(31,31,27,.22)}.boot-cta span{font-size:34px;line-height:1}
+    .boot-stat{min-height:112px;padding:18px 28px;border:1px solid rgba(255,255,255,.72);border-radius:24px;display:flex;align-items:center;gap:18px;box-shadow:0 10px 26px rgba(65,54,38,.08)}.boot-stat.light{background:rgba(255,255,255,.94)}.boot-stat.dark{background:linear-gradient(145deg,#647557,#536647);color:#fff}.boot-number{font-family:Georgia,"Times New Roman",serif;font-size:50px;line-height:1;white-space:nowrap}.boot-label{font-size:15px;font-weight:760;line-height:1.28}.boot-stat.dark .boot-label{color:rgba(255,255,255,.84)}
+    .boot-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:22px;color:#706d65;font-size:14px}.boot-dot{width:9px;height:9px;border-radius:50%;background:#5d6b4f;animation:bootPulse 1.2s ease-in-out infinite}.boot-dot:nth-child(2){animation-delay:.15s}.boot-dot:nth-child(3){animation-delay:.3s}@keyframes bootPulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+    @media(max-width:760px){.boot-announcement{padding:8px 14px;font-size:11px}.boot-nav{min-height:66px;padding:8px 10px;gap:8px}.boot-logo{font-size:18px;letter-spacing:.08em}.boot-pill{min-height:43px;padding:8px 10px;font-size:12px}.boot-pill .boot-text{display:none}.boot-content{width:calc(100% - 20px);padding:24px 0 52px}.boot-hero{padding:28px 20px 20px;border-radius:27px;background:radial-gradient(circle at 64% 91%,transparent 0 112px,rgba(255,255,255,.20) 114px 170px,transparent 172px 219px,rgba(255,255,255,.14) 221px 278px,transparent 280px),linear-gradient(135deg,#ded5c2 0%,#d4cfb9 51%,#abb397 100%)}.boot-eyebrow{font-size:11px;line-height:1.35;margin-bottom:12px}.boot-hero h1{font-size:clamp(38px,10.8vw,52px);line-height:1.01;margin-bottom:14px}.boot-copy{font-size:16px;line-height:1.45}.boot-actions{gap:9px;margin-top:15px}.boot-cta{min-height:60px;border-radius:18px;font-size:17px;padding:13px 16px;gap:14px}.boot-cta span{font-size:27px}.boot-stat{min-height:92px;padding:12px 14px;border-radius:18px;gap:10px}.boot-number{font-size:34px}.boot-label{font-size:11px}}
+    @media(max-width:390px){.boot-logo{font-size:16px}.boot-content{width:calc(100% - 16px)}.boot-hero{padding:25px 17px 18px}.boot-hero h1{font-size:clamp(35px,10.6vw,46px)}.boot-copy{font-size:15px}.boot-actions{margin-top:13px;gap:8px}.boot-stat{min-height:84px;padding:10px;gap:7px}.boot-number{font-size:29px}.boot-label{font-size:9px}}
+    @media(max-width:340px){.boot-nav{padding-inline:7px}.boot-pill{padding:7px 8px}.boot-hero{padding:23px 14px 16px}.boot-hero h1{font-size:34px}.boot-copy{font-size:14px}.boot-actions{gap:6px;margin-top:12px}.boot-stat{min-height:78px;padding:8px;gap:5px}.boot-number{font-size:24px}.boot-label{font-size:7.8px}}
+    @media(prefers-reduced-motion:reduce){.boot-dot{animation:none;opacity:.7}}
   </style>
 </head>
 <body>
-  <div class="boot" role="status" aria-live="polite"><div><strong>FORMA HOME</strong><span>Открываем каталог…</span></div></div>
+  <div class="boot-shell" role="status" aria-live="polite" aria-busy="true">
+    <div class="boot-sticky">
+      <div class="boot-announcement">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
+      <div class="boot-nav">
+        <div class="boot-logo">FORMA <span>HOME</span></div>
+        <div class="boot-nav-actions" aria-hidden="true">
+          <div class="boot-pill"><span class="boot-heart">♡</span><span class="boot-text">Избранное</span><span class="boot-badge">4</span></div>
+          <div class="boot-pill"><span class="boot-text">Корзина</span><span class="boot-badge">0</span></div>
+        </div>
+      </div>
+    </div>
+    <main class="boot-content">
+      <section class="boot-hero">
+        <p class="boot-eyebrow">Мебель для продуманного интерьера</p>
+        <h1>Дом, в который хочется возвращаться</h1>
+        <p class="boot-copy">Столы, кресла, стулья, декор и коллекционная мебель — выбирайте по стилю, материалу и цене.</p>
+        <div class="boot-actions">
+          <a class="boot-cta" href="#" tabindex="-1">Смотреть товары <span>→</span></a>
+          <div class="boot-stat light"><strong class="boot-number">1 362</strong><span class="boot-label">товара<br>в каталоге</span></div>
+          <div class="boot-stat dark"><strong class="boot-number">45</strong><span class="boot-label">коллекций<br>мебели</span></div>
+        </div>
+      </section>
+      <div class="boot-loading" aria-label="Загружаем каталог"><span class="boot-dot"></span><span class="boot-dot"></span><span class="boot-dot"></span><span>Загружаем каталог…</span></div>
+    </main>
+  </div>
   <script src="performance-bootstrap.js?v=3"></script>
   <script src="catalog-pagination.js?v=2"></script>
   <script src="recently-viewed.js?v=1"></script>
