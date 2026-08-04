@@ -31,8 +31,17 @@
     };
     const colorFor = product => {
       const text = normalize(`${product?.specs || ""} ${product?.name || ""}`);
-      for (const [label, css] of COLORS) if (text.includes(normalize(label))) return { label, css };
-      return { label: "Вариант", css: "#d8d3ca" };
+      let best = null;
+      for (const [label, css] of COLORS) {
+        const key = normalize(label);
+        const start = text.lastIndexOf(key);
+        if (start < 0) continue;
+        const end = start + key.length;
+        if (!best || end > best.end || (end === best.end && key.length > best.length)) {
+          best = { label, css, end, length: key.length };
+        }
+      }
+      return best ? { label: best.label, css: best.css } : { label: "Вариант", css: "#d8d3ca" };
     };
 
     function verifiedGroups() {
