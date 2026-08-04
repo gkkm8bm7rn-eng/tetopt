@@ -1,16 +1,17 @@
 /* FORMA HOME service worker: resilient loading for slow and intermittent connections. */
-const CACHE_VERSION='20260804-1';
+const CACHE_VERSION='20260804-2';
 const SHELL_CACHE=`forma-shell-${CACHE_VERSION}`;
 const DATA_CACHE=`forma-data-${CACHE_VERSION}`;
 const IMAGE_CACHE=`forma-images-${CACHE_VERSION}`;
 const CACHE_PREFIX='forma-';
 const CATALOG_VERSION='20260804-1';
+const MAX_CACHED_IMAGES=120;
 
 const CORE_ASSETS=[
   './',
   './index.html',
   './offline.html',
-  './performance-bootstrap.js?v=2'
+  './performance-bootstrap.js?v=3'
 ];
 
 self.addEventListener('install',event=>{
@@ -49,12 +50,23 @@ function canonicalDataRequest(request){
   return new Request(url.toString(),{method:'GET',headers:request.headers,credentials:'same-origin'});
 }
 
+async function trimCache(cacheName,maxItems){
+  const cache=await caches.open(cacheName);
+  const keys=await cache.keys();
+  const extra=keys.length-maxItems;
+  if(extra<=0)return;
+  await Promise.all(keys.slice(0,extra).map(key=>cache.delete(key)));
+}
+
 async function cacheFirst(request,cacheName){
   const cache=await caches.open(cacheName);
   const cached=await cache.match(request);
   if(cached)return cached;
   const response=await fetch(request);
-  if(response.ok)await cache.put(request,response.clone());
+  if(response.ok){
+    await cache.put(request,response.clone());
+    if(cacheName===IMAGE_CACHE)trimCache(IMAGE_CACHE,MAX_CACHED_IMAGES).catch(()=>undefined);
+  }
   return response;
 }
 
@@ -104,16 +116,16 @@ self.addEventListener('fetch',event=>{
 
   const dataRequest=canonicalDataRequest(request);
   if(dataRequest){
-    event.respondWith(staleWhileRevalidate(dataRequest,DATA_CACHE).catch(()=>caches.match('./offline.html')));
+    event.respondWith(staleWhileRevalidate(dataRequest,DATA_CACHE).catch(()=>Response.error()));
     return;
   }
 
   if(request.destination==='image'){
-    event.respondWith(cacheFirst(request,IMAGE_CACHE).catch(()=>fetch(request)));
+    event.respondWith(cacheFirst(request,IMAGE_CACHE).catch(()=>Response.error()));
     return;
   }
 
   if(['script','style','font'].includes(request.destination)){
-    event.respondWith(staleWhileRevalidate(request,SHELL_CACHE).catch(()=>caches.match(request)));
+    event.respondWith(staleWhileRevalidate(request,SHELL_CACHE).catch(()=>caches.match(request).then(response=>response||Response.error())));
   }
 });
