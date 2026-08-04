@@ -11,7 +11,7 @@ const CORE_ASSETS=[
   './',
   './index.html',
   './offline.html',
-  './performance-bootstrap.js?v=4'
+  './performance-bootstrap.js?v=5'
 ];
 
 self.addEventListener('install',event=>{
