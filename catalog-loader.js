@@ -194,13 +194,28 @@
 
     html=html.replace(/\s*<div class="collection-tag">\$\{esc\(p\.collection\)\}<\/div>/g,"");
     html=html.replace("</style>",".collection-tag{display:none!important}</style>");
-    html=html.replace(
-      '</body>',
-      '<script src="checkout.js?v=2"></script><script src="checkout-contacts.js?v=2"></script><script src="hero-actions.js?v=1"></script></body>'
-    );
+
+    if(!html.includes('mobile-two-column-catalog.css')){
+      html=html.replace(
+        '</head>',
+        '<link rel="stylesheet" href="mobile-two-column-catalog.css?v=3"></head>'
+      );
+    }
+
+    const runtimeEnhancements=[
+      '<script src="checkout.js?v=2"></script>',
+      '<script src="checkout-contacts.js?v=2"></script>',
+      '<script src="hero-actions.js?v=1"></script>',
+      '<script src="sticky-header-hero-redesign.js?v=7"></script>',
+      '<script src="compact-extra-filters.js?v=5"></script>',
+      '<script src="hero-banner-final.js?v=6"></script>'
+    ].join('');
+    html=html.replace('</body>',runtimeEnhancements+'</body>');
+
     document.open();
     document.write(html);
     document.close();
+    setTimeout(()=>window.dispatchEvent(new CustomEvent('forma:catalog-ready')),0);
   }catch(error){
     document.body.innerHTML='<div class="boot"><div><strong>FORMA HOME</strong><span>Не удалось открыть каталог. Обновите страницу.</span></div></div>';
     console.error(error);
