@@ -61,9 +61,10 @@
       const exactIds = exactDuplicateIds();
       const colorIds = colorVariantIds();
       document.querySelectorAll("[data-product]").forEach(card => {
+        const isSelectedColorHost = Boolean(card.closest("#grid") && card.dataset.colorHost);
         card.classList.toggle(
           "product-exact-duplicate-hidden",
-          exactIds.has(Number(card.dataset.product))
+          exactIds.has(Number(card.dataset.product)) && !isSelectedColorHost
         );
       });
       window.__EXACT_DUPLICATE_AUDIT__ = {
@@ -96,6 +97,7 @@
     document.addEventListener("DOMContentLoaded", schedule);
     window.addEventListener("forma:product-groups-ready", schedule);
     window.addEventListener("forma:catalog-ready", schedule);
+    window.addEventListener("forma:card-variant-changed", schedule);
     schedule();
 
     let attempts = 0;
