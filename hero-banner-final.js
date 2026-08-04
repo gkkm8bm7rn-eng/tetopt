@@ -1,5 +1,5 @@
 (()=>{
-  const KEY='__formaHeroBannerFinalV6';
+  const KEY='__formaHeroBannerFinalV7';
   const STYLE_ID='hero-banner-final-style';
   const api=window[KEY]||{};
 
@@ -8,9 +8,8 @@
     if(!style){
       style=document.createElement('style');
       style.id=STYLE_ID;
-      document.head?.appendChild(style);
     }
-    if(!style)return;
+    if(!document.head)return;
     style.textContent=`
 .hero-grid{
   grid-template-columns:minmax(0,1fr)!important;
@@ -226,6 +225,9 @@
   .forma-hero-bottom{margin-top:24px!important}
 }
 `;
+    if(style.parentNode!==document.head||style!==document.head.lastElementChild){
+      document.head.appendChild(style);
+    }
   };
 
   window[KEY]=api;
