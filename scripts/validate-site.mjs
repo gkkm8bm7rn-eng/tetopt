@@ -3,7 +3,7 @@ import { spawnSync } from 'node:child_process';
 
 const EXPECTED_TOTAL_PRODUCTS = 1723;
 const EXPECTED_HIDDEN_PRODUCTS = 361;
-const EXPECTED_VISIBLE_PRODUCTS = 1362;
+const EXPECTED_PRODUCTS_AFTER_HIDDEN_LIST = 1362;
 
 const requiredFiles = [
   'index.html',
@@ -16,6 +16,8 @@ const requiredFiles = [
   'offline.html',
   'hero-banner-final.js',
   'compact-extra-filters.js',
+  'product-duplicate-hider.js',
+  'scripts/calculate-card-count.mjs',
   'scripts/e2e-site.mjs',
   '.github/workflows/e2e-site.yml'
 ];
@@ -58,6 +60,8 @@ const javascriptFiles = [
   'sw.js',
   'hero-banner-final.js',
   'compact-extra-filters.js',
+  'product-duplicate-hider.js',
+  'scripts/calculate-card-count.mjs',
   'scripts/e2e-site.mjs'
 ];
 for (const file of javascriptFiles) {
@@ -70,6 +74,7 @@ const index = read('index.html');
 const expectedScripts = [
   'performance-bootstrap.js?v=5',
   'catalog-pagination.js?v=3',
+  'product-duplicate-hider.js?v=2',
   'catalog-loader.js?v=22'
 ];
 let previous = -1;
@@ -87,6 +92,9 @@ if (!index.includes('class="boot-hero"') || !index.includes('Загружаем 
   fail('В index.html отсутствует быстрый экран загрузки');
 } else {
   ok('Быстрый адаптивный экран загрузки подключён');
+}
+if (index.includes('<strong class="boot-number">1 362</strong>')) {
+  fail('Быстрый экран не должен показывать промежуточные 1 362 товара как финальное число карточек');
 }
 
 const catalog = read('catalog-source.html');
@@ -111,7 +119,7 @@ if (products.length !== EXPECTED_TOTAL_PRODUCTS) {
 
 const hidden = JSON.parse(read('hidden-products.json'));
 const hiddenIds = new Set((hidden.ids || []).map(Number).filter(Number.isFinite));
-const visibleCount = products.filter(product => !hiddenIds.has(Number(product.id))).length;
+const productsAfterHiddenList = products.filter(product => !hiddenIds.has(Number(product.id))).length;
 const withLocalImages = products.filter(product =>
   Array.isArray(product.images) && product.images.some(path => typeof path === 'string' && path.startsWith('assets/'))
 ).length;
@@ -119,11 +127,32 @@ const withLocalImages = products.filter(product =>
 if (hiddenIds.size !== EXPECTED_HIDDEN_PRODUCTS) {
   fail(`Нарушен список скрытых товаров: ожидалось ${EXPECTED_HIDDEN_PRODUCTS}, найдено ${hiddenIds.size}`);
 }
-if (visibleCount !== EXPECTED_VISIBLE_PRODUCTS) {
-  fail(`Нарушено число видимых товаров: ожидалось ${EXPECTED_VISIBLE_PRODUCTS}, найдено ${visibleCount}`);
+if (productsAfterHiddenList !== EXPECTED_PRODUCTS_AFTER_HIDDEN_LIST) {
+  fail(`Нарушено промежуточное число товаров после списка исключений: ожидалось ${EXPECTED_PRODUCTS_AFTER_HIDDEN_LIST}, найдено ${productsAfterHiddenList}`);
 }
-ok(`Каталог сохранён: ${products.length} товаров, ${visibleCount} видимых, ${hiddenIds.size} скрытых`);
+ok(`Исходные данные сохранены: ${products.length} товаров, после списка исключений — ${productsAfterHiddenList}`);
 console.log(`ℹ Локальные изображения указаны у ${withLocalImages} товаров`);
+
+const countResult = spawnSync(process.execPath, ['scripts/calculate-card-count.mjs'], { encoding: 'utf8' });
+if (countResult.status !== 0) {
+  fail(`Не удалось рассчитать финальное число карточек: ${countResult.stderr.trim()}`);
+} else {
+  try {
+    const countAudit = JSON.parse(countResult.stdout);
+    if (countAudit.productsAfterHiddenList !== productsAfterHiddenList) {
+      fail('Расчёт карточек использует другое промежуточное число товаров');
+    }
+    if (!(countAudit.finalUniqueCards > 0 && countAudit.finalUniqueCards < productsAfterHiddenList)) {
+      fail(`Некорректное финальное число карточек после объединения дублей: ${countAudit.finalUniqueCards}`);
+    }
+    if (countAudit.removedByGrouping !== productsAfterHiddenList - countAudit.finalUniqueCards) {
+      fail('Не сходится контрольное число объединённых карточек');
+    }
+    ok(`После объединения цветовых вариантов и дублей остаётся ${countAudit.finalUniqueCards} уникальных карточек`);
+  } catch (error) {
+    fail(`Некорректный результат расчёта карточек: ${error.message}`);
+  }
+}
 
 const bootstrap = read('performance-bootstrap.js');
 const serviceWorker = read('sw.js');
@@ -140,6 +169,14 @@ if (!serviceWorker.includes("new Request(request,{cache:'no-cache'})")) fail('Ф
 if (!serviceWorker.includes('MAX_CACHED_IMAGES=120')) fail('Не установлен лимит кэша изображений');
 if (!read('catalog-pagination.js').includes('const photoJobLimit = constrainedNetwork ? 1 : 3;')) {
   fail('Не настроено ограничение параллельных фотографий для слабой сети');
+}
+
+const duplicateHider = read('product-duplicate-hider.js');
+if (!duplicateHider.includes('document.write = function patchedWrite')) {
+  fail('Удаление дублей не переносится в окончательный документ каталога');
+}
+if (!duplicateHider.includes('__FINAL_CARD_AUDIT__')) {
+  fail('На сайте не формируется аудит финального числа уникальных карточек');
 }
 
 const e2eWorkflow = read('.github/workflows/e2e-site.yml');
