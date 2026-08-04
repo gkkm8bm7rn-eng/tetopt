@@ -208,7 +208,7 @@
       '<script src="hero-actions.js?v=1"></script>',
       '<script src="sticky-header-hero-redesign.js?v=7"></script>',
       '<script src="compact-extra-filters.js?v=5"></script>',
-      '<script src="hero-banner-final.js?v=6"></script>'
+      '<script src="hero-banner-final.js?v=7"></script>'
     ].join('');
     html=html.replace('</body>',runtimeEnhancements+'</body>');
 
