@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" role="img" aria-label="Ваза с зелёными ветвями на консоли">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6efe3"/><stop offset="1" stop-color="#d6d7bd"/></linearGradient>
+    <linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9c8268"/><stop offset="1" stop-color="#6f5845"/></linearGradient>
+    <linearGradient id="vase" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f3ea"/><stop offset=".55" stop-color="#ddd3c5"/><stop offset="1" stop-color="#b7aa99"/></linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="720" height="520" fill="url(#bg)"/>
+  <ellipse cx="500" cy="420" rx="170" ry="28" fill="#78644f" opacity=".18" filter="url(#shadow)"/>
+  <rect x="330" y="402" width="390" height="22" rx="3" fill="url(#table)"/>
+  <rect x="346" y="424" width="18" height="96" fill="#7a624e"/>
+  <rect x="682" y="424" width="18" height="96" fill="#7a624e"/>
+  <g stroke="#536044" stroke-width="5" fill="none" stroke-linecap="round">
+    <path d="M490 256 C476 190 458 126 424 62"/>
+    <path d="M492 252 C522 182 554 117 600 56"/>
+    <path d="M496 256 C540 220 590 182 650 156"/>
+    <path d="M488 254 C452 220 414 192 368 170"/>
+    <path d="M496 248 C516 208 522 154 518 100"/>
+    <path d="M492 246 C560 242 608 228 674 202"/>
+  </g>
+  <g fill="#667653">
+    <ellipse cx="416" cy="74" rx="16" ry="8" transform="rotate(-45 416 74)"/><ellipse cx="438" cy="105" rx="16" ry="8" transform="rotate(28 438 105)"/>
+    <ellipse cx="460" cy="142" rx="17" ry="8" transform="rotate(-38 460 142)"/><ellipse cx="468" cy="178" rx="15" ry="8" transform="rotate(35 468 178)"/>
+    <ellipse cx="590" cy="68" rx="18" ry="9" transform="rotate(-38 590 68)"/><ellipse cx="566" cy="94" rx="17" ry="8" transform="rotate(30 566 94)"/>
+    <ellipse cx="548" cy="128" rx="16" ry="8" transform="rotate(-36 548 128)"/><ellipse cx="630" cy="164" rx="18" ry="9" transform="rotate(-26 630 164)"/>
+    <ellipse cx="604" cy="184" rx="16" ry="8" transform="rotate(30 604 184)"/><ellipse cx="650" cy="204" rx="17" ry="8" transform="rotate(-24 650 204)"/>
+    <ellipse cx="392" cy="178" rx="17" ry="8" transform="rotate(27 392 178)"/><ellipse cx="430" cy="202" rx="16" ry="8" transform="rotate(-30 430 202)"/>
+    <ellipse cx="516" cy="112" rx="16" ry="8" transform="rotate(-85 516 112)"/><ellipse cx="521" cy="150" rx="16" ry="8" transform="rotate(18 521 150)"/>
+    <ellipse cx="572" cy="232" rx="17" ry="8" transform="rotate(-18 572 232)"/><ellipse cx="624" cy="218" rx="16" ry="8" transform="rotate(20 624 218)"/>
+  </g>
+  <g>
+    <path d="M447 260 C454 239 470 225 490 225 C510 225 526 239 533 260 L548 349 C552 376 530 400 502 400 H478 C450 400 428 376 432 349 Z" fill="url(#vase)" stroke="#c7bba9" stroke-width="3"/>
+    <ellipse cx="490" cy="260" rx="44" ry="14" fill="#eee7db"/>
+    <ellipse cx="490" cy="259" rx="28" ry="7" fill="#b4a895" opacity=".55"/>
+    <path d="M452 302 C470 315 511 315 529 302" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none"/>
+  </g>
+  <g transform="translate(560 354)">
+    <rect x="0" y="28" width="100" height="14" rx="3" fill="#d4c4ae"/>
+    <rect x="8" y="14" width="92" height="14" rx="3" fill="#bfae98"/>
+    <rect x="18" y="0" width="82" height="14" rx="3" fill="#e9dfd1"/>
+    <ellipse cx="104" cy="10" rx="48" ry="18" fill="#b39b80"/>
+    <ellipse cx="104" cy="7" rx="43" ry="14" fill="#eadfce"/>
+  </g>
+</svg>
