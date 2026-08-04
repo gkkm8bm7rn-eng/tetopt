@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Validate adaptive UI scripts
+        run: |
+          node --check adaptive-product-ui.js
+          node --check scripts/e2e-adaptive-product-ui.mjs
+
       - name: Install Playwright
         run: |
           npm install --no-save playwright
