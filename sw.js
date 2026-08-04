@@ -73,7 +73,8 @@ async function cacheFirst(request,cacheName){
 async function staleWhileRevalidate(request,cacheName){
   const cache=await caches.open(cacheName);
   const cached=await cache.match(request);
-  const networkPromise=fetch(request).then(async response=>{
+  const networkRequest=new Request(request,{cache:'no-cache'});
+  const networkPromise=fetch(networkRequest).then(async response=>{
     if(response.ok)await cache.put(request,response.clone());
     return response;
   }).catch(()=>null);
@@ -90,7 +91,7 @@ async function navigationResponse(request){
   const shell=await caches.open(SHELL_CACHE);
   try{
     const response=await Promise.race([
-      fetch(request),
+      fetch(request,{cache:'no-cache'}),
       new Promise((_,reject)=>setTimeout(()=>reject(new Error('navigation timeout')),6000))
     ]);
     if(response&&response.ok)await shell.put('./index.html',response.clone());
