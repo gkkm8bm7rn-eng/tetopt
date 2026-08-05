@@ -211,7 +211,9 @@
     schedule();
   }
 
-  if (document.body) catalogScrollTouchRuntime();
+  if (document.getElementById("catalogControls") || document.getElementById("grid")) {
+    catalogScrollTouchRuntime();
+  }
 
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
