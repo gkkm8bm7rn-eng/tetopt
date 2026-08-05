@@ -25,11 +25,10 @@
     }
 
     function colorVariantIds() {
-      return new Set(
-        (window.__COLOR_VARIANT_AUDIT__?.hiddenDuplicateIds || [])
-          .map(Number)
-          .filter(Number.isFinite)
-      );
+      return new Set([
+        ...(window.__COLOR_VARIANT_AUDIT__?.hiddenDuplicateIds || []),
+        ...(window.__DUAL_VARIANT_AUDIT__?.hiddenDuplicateIds || [])
+      ].map(Number).filter(Number.isFinite));
     }
 
     function updateCatalogCount(exactIds, colorIds) {
@@ -98,6 +97,7 @@
     window.addEventListener("forma:product-groups-ready", schedule);
     window.addEventListener("forma:catalog-ready", schedule);
     window.addEventListener("forma:card-variant-changed", schedule);
+    window.addEventListener("forma:dual-variants-ready", schedule);
     schedule();
 
     let attempts = 0;
