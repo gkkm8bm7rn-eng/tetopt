@@ -5,7 +5,11 @@
   function salesJourneyRuntime() {
     "use strict";
     const MAX_RECOMMENDATIONS = 4;
+    const SWIPE_START_PX = 8;
+    const SWIPE_CLICK_BLOCK_MS = 520;
     let scheduled = false;
+    let rowGesture = null;
+    let suppressJourneyOpenUntil = 0;
 
     function addStyles() {
       if (document.getElementById("salesJourneyStyles")) return;
@@ -14,10 +18,38 @@
       style.textContent = `
         .journey-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.journey-actions .btn{width:100%;min-height:48px;padding:13px 15px}.journey-fast{background:var(--accent);color:#fff}
         .journey-recommendations{grid-column:1/-1;border-top:1px solid var(--line);padding:24px 28px 30px;background:var(--bg)}.journey-recommendations h3{font-family:Georgia,serif;font-size:25px;font-weight:500;margin:0 0 4px}.journey-recommendations p{margin:0 0 14px;color:var(--muted);font-size:13px}
-        .journey-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.journey-product{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:0;overflow:hidden;text-align:left;min-width:0;cursor:pointer}.journey-product:hover{border-color:var(--accent);transform:translateY(-2px)}.journey-product img{width:100%;aspect-ratio:1.1;object-fit:contain;background:#fff;display:block}.journey-product-body{padding:10px;display:block}.journey-product-name{font-size:12px;font-weight:800;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}.journey-product-price{display:block;font-size:13px;font-weight:900;margin-top:7px}.journey-section+.journey-section{margin-top:22px}
+        .journey-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}.journey-product{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:0;overflow:hidden;text-align:left;min-width:0;cursor:pointer}.journey-product:hover{border-color:var(--accent);transform:translateY(-2px)}.journey-product img{width:100%;aspect-ratio:1.1;object-fit:contain;background:#fff;display:block;pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-user-drag:none}.journey-product-body{padding:10px;display:block}.journey-product-name{font-size:12px;font-weight:800;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}.journey-product-price{display:block;font-size:13px;font-weight:900;margin-top:7px}.journey-section+.journey-section{margin-top:22px}
         .cart-journey{padding:16px 22px;border-top:1px solid var(--line);background:var(--bg)}.cart-journey h3{font-family:Georgia,serif;font-size:20px;font-weight:500;margin:0 0 10px}.cart-journey-list{display:grid;gap:8px}.cart-journey-item{display:grid;grid-template-columns:54px 1fr auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px}.cart-journey-item img{width:54px;height:54px;object-fit:contain;background:#fff;border-radius:9px}.cart-journey-name{font-size:12px;font-weight:800;line-height:1.25}.cart-journey-price{font-size:11px;color:var(--muted);margin-top:4px}.cart-journey-add{width:38px;height:38px;border:0;border-radius:50%;background:var(--ink);color:#fff;font-size:20px}
         .journey-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.journey-benefit{background:var(--surface-2);border-radius:12px;padding:9px;text-align:center;font-size:11px;line-height:1.35;color:var(--muted)}
-        @media(max-width:700px){.journey-actions{grid-template-columns:1fr;margin-bottom:6px}.journey-recommendations{padding:22px 16px 26px}.journey-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:7px}.journey-product{flex:0 0 46%;scroll-snap-align:start}.modal.show .journey-actions{position:sticky;bottom:0;z-index:12;background:var(--surface);padding:10px 0 calc(10px + env(safe-area-inset-bottom));box-shadow:0 -10px 24px rgba(32,31,27,.08)}.journey-benefits{grid-template-columns:1fr}}
+        @media(max-width:700px){
+          .journey-actions{grid-template-columns:1fr;margin-bottom:6px}
+          .journey-recommendations{padding:22px 16px 26px}
+          .journey-row{
+            display:flex;
+            gap:12px;
+            overflow-x:auto;
+            overflow-y:hidden;
+            scroll-snap-type:x mandatory;
+            scroll-padding-inline:0;
+            padding:2px 0 9px;
+            touch-action:pan-y pinch-zoom;
+            cursor:grab;
+            scrollbar-width:none;
+            user-select:none;
+            -webkit-user-select:none;
+          }
+          .journey-row::-webkit-scrollbar{display:none}
+          .journey-row.is-horizontal-dragging{scroll-snap-type:none!important;cursor:grabbing}
+          .journey-product{
+            flex:0 0 46%;
+            scroll-snap-align:start;
+            scroll-snap-stop:normal;
+            touch-action:pan-y pinch-zoom;
+            -webkit-tap-highlight-color:transparent;
+          }
+          .modal.show .journey-actions{position:sticky;bottom:0;z-index:12;background:var(--surface);padding:10px 0 calc(10px + env(safe-area-inset-bottom));box-shadow:0 -10px 24px rgba(32,31,27,.08)}
+          .journey-benefits{grid-template-columns:1fr}
+        }
       `;
       document.head.appendChild(style);
     }
@@ -43,7 +75,7 @@
 
     function recommendationCard(product) {
       const image = imageFor(product);
-      return `<button type="button" class="journey-product" data-journey-open="${product.id}">${image ? `<img src="${image}" alt="" loading="lazy" decoding="async">` : ""}<span class="journey-product-body"><span class="journey-product-name">${esc(product.name)}</span><span class="journey-product-price">${formatPrice(sellingPrice(product))}</span></span></button>`;
+      return `<button type="button" class="journey-product" data-journey-open="${product.id}">${image ? `<img src="${image}" alt="" loading="lazy" decoding="async" draggable="false">` : ""}<span class="journey-product-body"><span class="journey-product-name">${esc(product.name)}</span><span class="journey-product-price">${formatPrice(sellingPrice(product))}</span></span></button>`;
     }
 
     function enhanceModal() {
@@ -139,6 +171,96 @@
       scheduled = true;
       requestAnimationFrame(refresh);
     }
+
+    function touchPoint(event, changed = false) {
+      if (changed && event.changedTouches?.[0]) return event.changedTouches[0];
+      return event.touches?.[0] || event;
+    }
+
+    function startJourneySwipe(event) {
+      const row = event.target.closest?.(".journey-row");
+      if (!row) return;
+      const point = touchPoint(event);
+      rowGesture = {
+        row,
+        startX: point.clientX,
+        startY: point.clientY,
+        startScrollLeft: row.scrollLeft,
+        startedAt: performance.now(),
+        horizontal: false,
+        vertical: false
+      };
+    }
+
+    function moveJourneySwipe(event) {
+      if (!rowGesture) return;
+      const point = touchPoint(event);
+      const dx = point.clientX - rowGesture.startX;
+      const dy = point.clientY - rowGesture.startY;
+
+      if (!rowGesture.horizontal && !rowGesture.vertical) {
+        if (Math.abs(dx) < SWIPE_START_PX && Math.abs(dy) < SWIPE_START_PX) return;
+        if (Math.abs(dy) > Math.abs(dx)) {
+          rowGesture.vertical = true;
+          return;
+        }
+        rowGesture.horizontal = true;
+        rowGesture.row.classList.add("is-horizontal-dragging");
+      }
+
+      if (!rowGesture.horizontal) return;
+      rowGesture.row.scrollLeft = rowGesture.startScrollLeft - dx;
+      event.preventDefault();
+    }
+
+    function finishJourneySwipe(event) {
+      if (!rowGesture) return;
+      const gesture = rowGesture;
+      rowGesture = null;
+
+      if (!gesture.horizontal) return;
+      event.preventDefault();
+      suppressJourneyOpenUntil = Date.now() + SWIPE_CLICK_BLOCK_MS;
+
+      const firstCard = gesture.row.querySelector(".journey-product");
+      const gap = Number.parseFloat(getComputedStyle(gesture.row).gap || "0") || 0;
+      const step = (firstCard?.getBoundingClientRect().width || 0) + gap;
+      gesture.row.classList.remove("is-horizontal-dragging");
+
+      if (step > 0) {
+        const target = Math.round(gesture.row.scrollLeft / step) * step;
+        requestAnimationFrame(() => {
+          gesture.row.scrollTo({ left: target, behavior: "smooth" });
+        });
+      }
+
+      window.__FORMA_RECOMMENDATION_SWIPE_AUDIT__ = {
+        enabled: true,
+        startedOnCard: true,
+        horizontalDragHandled: true,
+        verticalScrollPreserved: true,
+        clickSuppressedAfterDrag: true,
+        duration: Math.round(performance.now() - gesture.startedAt)
+      };
+    }
+
+    function cancelJourneySwipe() {
+      if (rowGesture?.row) rowGesture.row.classList.remove("is-horizontal-dragging");
+      rowGesture = null;
+    }
+
+    document.addEventListener("touchstart", startJourneySwipe, { passive: true, capture: true });
+    document.addEventListener("touchmove", moveJourneySwipe, { passive: false, capture: true });
+    document.addEventListener("touchend", finishJourneySwipe, { passive: false, capture: true });
+    document.addEventListener("touchcancel", cancelJourneySwipe, { passive: true, capture: true });
+
+    document.addEventListener("click", event => {
+      const open = event.target.closest?.("[data-journey-open]");
+      if (!open || Date.now() >= suppressJourneyOpenUntil) return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }, true);
 
     document.addEventListener("click", event => {
       const fast = event.target.closest("[data-fast-buy]");
