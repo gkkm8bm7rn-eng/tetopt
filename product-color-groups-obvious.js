@@ -1,4 +1,4 @@
-// Автономно подтверждённые очевидные варианты: одна модель и цена, различается только цвет/отделка.
+// Автономно подтверждённые очевидные варианты: одна модель и конструкция, различается цвет/материал.
 (() => {
   "use strict";
 
@@ -19,7 +19,8 @@
     { name: "Кресло Папасан/Papasan 23/01 W без подушки — только нескрытые варианты", ids: [1365, 1366, 1367] },
     { name: "Кресло-качалка Милано/Milano без подушки", ids: [1370, 1371] },
     { name: "Кресло-качалка Папасан/Papasan W 23/01 B без подушки", ids: [1372, 1373, 1374, 1375] },
-    { name: "Кресло-качалка Виенна/Vienna без подушки", ids: [1396, 1397] }
+    { name: "Кресло-качалка Виенна/Vienna без подушки", ids: [1396, 1397] },
+    { name: "Матрац для кресла Папасан/Papasan 23/01 — цвет и материал", ids: [1402, 1403, 1404, 1405] }
   ];
 
   const current = Array.isArray(window.PRODUCT_COLOR_GROUPS)
@@ -41,7 +42,7 @@
 
   window.PRODUCT_COLOR_GROUPS = current;
   window.__OBVIOUS_PRODUCT_GROUP_AUDIT__ = {
-    rule: "same model, construction and price; visible variants only; color/finish differs",
+    rule: "same model and construction; visible variants only; color/material differs; selected variant may change price",
     groupsAdded: additions.length,
     ids: additions.flatMap(group => group.ids)
   };
