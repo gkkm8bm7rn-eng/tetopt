@@ -28,7 +28,7 @@
         document.head.appendChild(style);
       }
 
-      style.textContent = `
+      const css = `
         html.${UNLOCK_CLASS},
         body.${UNLOCK_CLASS}{
           overflow-x:hidden!important;
@@ -58,6 +58,7 @@
           -webkit-overflow-scrolling:touch;
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
     }
 
     function isVisible(element) {
@@ -97,12 +98,12 @@
       if (style.maxHeight === "100%" || style.maxHeight === "100vh" || style.maxHeight === "100dvh") {
         style.removeProperty("max-height");
       }
-      style.removeProperty("top");
-      style.removeProperty("left");
-      style.removeProperty("right");
-      style.removeProperty("width");
-      style.removeProperty("touch-action");
-      style.removeProperty("overscroll-behavior");
+      if (style.top) style.removeProperty("top");
+      if (style.left) style.removeProperty("left");
+      if (style.right) style.removeProperty("right");
+      if (style.width) style.removeProperty("width");
+      if (style.touchAction) style.removeProperty("touch-action");
+      if (style.overscrollBehavior) style.removeProperty("overscroll-behavior");
     }
 
     function releaseStaleScrollLock() {
