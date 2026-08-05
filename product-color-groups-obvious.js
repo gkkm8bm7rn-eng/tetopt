@@ -23,7 +23,20 @@
     { name: "Матрац для кресла Папасан/Papasan 23/01 — цвет и материал", ids: [1402, 1403, 1404, 1405] },
     { name: "Матрац для дивана Мамасан/Mamasan 23/02 — только нескрытые варианты", ids: [1407, 1410] },
     { name: "Матрац Виенна/Милано — только нескрытые варианты", ids: [1417, 1418] },
-    { name: "Ремешок мебельный — цвет и материал", ids: [1422, 1423, 1424, 1425, 1426, 1427, 1428, 1429, 1430] }
+    { name: "Ремешок мебельный — цвет и материал", ids: [1422, 1423, 1424, 1425, 1426, 1427, 1428, 1429, 1430] },
+    { name: "Лаундж сет 210013 А — цвет ротанга и ткани", ids: [1442, 1443] },
+    { name: "Комплект Амальфи/Amalfi — цвет металла", ids: [1444, 1445] },
+    { name: "Стол Ромео/Romeo — цвет металла и рисунок плитки", ids: [1450, 1451, 1452] },
+    { name: "Стул Виченза/Vicenza PL08-7451RV — цвет металла", ids: [1459, 1460] },
+    { name: "Стул Вилла/Villa — цвет металла", ids: [1467, 1468, 1469] },
+    { name: "Этажерка Шарлотта/Charlotte — цвет металла", ids: [1470, 1471] },
+    { name: "Этажерка Эмма/Emma — цвет металла", ids: [1474, 1475] },
+    { name: "Этажерка угловая Селин/Celine — цвет металла", ids: [1476, 1477] },
+    { name: "Комплект Романс/Romance — цвет металла", ids: [1479, 1480, 1481] },
+    { name: "Комплект Вальс Цветов/Waltz of Flowers — цвет металла", ids: [1482, 1483] },
+    { name: "Скамья Штраус/Strauss — цвет металла", ids: [1484, 1485, 1486] },
+    { name: "Скамья Симфония/Symphonie — цвет металла", ids: [1487, 1488, 1489] },
+    { name: "Стул Моцарт/Mozart — цвет металла", ids: [1490, 1491, 1492] }
   ];
 
   const current = Array.isArray(window.PRODUCT_COLOR_GROUPS)
@@ -45,7 +58,7 @@
 
   window.PRODUCT_COLOR_GROUPS = current;
   window.__OBVIOUS_PRODUCT_GROUP_AUDIT__ = {
-    rule: "same purpose and construction; visible variants only; color/material differs; selected variant may change price",
+    rule: "same purpose and construction; visible variants only; color/material/finish differs; selected variant may change price",
     groupsAdded: additions.length,
     ids: additions.flatMap(group => group.ids)
   };
