@@ -1,6 +1,9 @@
 (() => {
   "use strict";
 
+  // Блокируем старый модуль дополнительных фильтров даже при сохранённом кеше страницы.
+  window.__FORMA_COMPACT_FILTERS_V6__ = true;
+
   const originalWrite = document.write.bind(document);
 
   function catalogTypeFilterRuntime() {
@@ -195,6 +198,10 @@
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
     if (typeof html === "string" && html.includes("</body>")) {
+      html = html.replace(
+        /<script\s+[^>]*src=["']compact-extra-filters\.js\?v=\d+["'][^>]*><\/script>/gi,
+        ""
+      );
       html = html.replace("</body>", `<script>(${catalogTypeFilterRuntime.toString()})();<\/script></body>`);
     }
     return originalWrite(html);
