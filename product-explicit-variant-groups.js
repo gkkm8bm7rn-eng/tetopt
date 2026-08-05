@@ -4,6 +4,27 @@
 
   const groups = [
     {
+      name: "Кресло Авиатор/Aviator",
+      primaryId: 1212,
+      label: "Цвет и сочетание обивки",
+      variants: [
+        { id: 1212, label: "Серый/серый", css: "#8d8f8c" },
+        { id: 1213, label: "Синий/серый/серый", css: "linear-gradient(135deg,#355d88 0 42%,#8d8f8c 42% 100%)" },
+        { id: 1214, label: "Олива/серый/серый", css: "linear-gradient(135deg,#73764a 0 42%,#8d8f8c 42% 100%)" },
+        { id: 1215, label: "Коричневый/бежевый/серый", css: "conic-gradient(#76513c 0 33%,#c9b69c 33% 66%,#8d8f8c 66% 100%)" }
+      ]
+    },
+    {
+      name: "Кресло Авиатор Плт Металбл/Aviator Plt Metalbl",
+      primaryId: 1216,
+      label: "Цвет и материал обивки",
+      variants: [
+        { id: 1216, label: "Серый, флок/ткань", css: "linear-gradient(135deg,#777a77 0 50%,#a7a8a5 50% 100%)" },
+        { id: 1217, label: "Светло-коричневый/серый, ткань", css: "linear-gradient(135deg,#a98265 0 50%,#8d8f8c 50% 100%)" },
+        { id: 1218, label: "Серый, ткань", css: "#8d8f8c" }
+      ]
+    },
+    {
       name: "Модуль мягкий Миракл/Miracle",
       primaryId: 1508,
       label: "Цвет и материал обивки",
