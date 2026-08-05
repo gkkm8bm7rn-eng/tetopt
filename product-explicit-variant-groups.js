@@ -94,6 +94,16 @@
         { id: 1599, label: "Смальта 4", css: "#887b71" },
         { id: 1600, label: "Бокс 02", css: "#77726c" }
       ]
+    },
+    {
+      name: "Фоторамка ЛяАмур/L`Amour M-9237",
+      primaryId: 1641,
+      label: "Размер фоторамки",
+      display: "text",
+      variants: [
+        { id: 1641, label: "17 × 20 см", buttonLabel: "17 × 20 см", css: "#f5f2ec" },
+        { id: 1642, label: "20 × 25 см", buttonLabel: "20 × 25 см", css: "#f5f2ec" }
+      ]
     }
   ];
 
@@ -122,7 +132,8 @@
     groups: groups.map(group => ({
       name: group.name,
       primaryId: Number(group.primaryId),
-      ids: group.variants.map(variant => Number(variant.id))
+      ids: group.variants.map(variant => Number(variant.id)),
+      display: group.display || "swatch"
     })),
     visibleOnly: true,
     reservedIds: groups.flatMap(group => group.variants.map(variant => Number(variant.id)))
