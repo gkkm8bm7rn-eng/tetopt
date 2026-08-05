@@ -22,7 +22,8 @@
     { name: "Кресло-качалка Виенна/Vienna без подушки", ids: [1396, 1397] },
     { name: "Матрац для кресла Папасан/Papasan 23/01 — цвет и материал", ids: [1402, 1403, 1404, 1405] },
     { name: "Матрац для дивана Мамасан/Mamasan 23/02 — только нескрытые варианты", ids: [1407, 1410] },
-    { name: "Матрац Виенна/Милано — только нескрытые варианты", ids: [1417, 1418] }
+    { name: "Матрац Виенна/Милано — только нескрытые варианты", ids: [1417, 1418] },
+    { name: "Ремешок мебельный — цвет и материал", ids: [1422, 1423, 1424, 1425, 1426, 1427, 1428, 1429, 1430] }
   ];
 
   const current = Array.isArray(window.PRODUCT_COLOR_GROUPS)
@@ -44,7 +45,7 @@
 
   window.PRODUCT_COLOR_GROUPS = current;
   window.__OBVIOUS_PRODUCT_GROUP_AUDIT__ = {
-    rule: "same model and construction; visible variants only; color/material differs; selected variant may change price",
+    rule: "same purpose and construction; visible variants only; color/material differs; selected variant may change price",
     groupsAdded: additions.length,
     ids: additions.flatMap(group => group.ids)
   };
