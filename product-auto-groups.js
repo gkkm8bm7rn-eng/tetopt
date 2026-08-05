@@ -75,9 +75,14 @@
     ];
 
     const idOf = (product, index) => Number(product.id) || index + 1;
-    const manualColorIds = new Set(
-      (window.PRODUCT_COLOR_GROUPS || []).flatMap(group => group.ids || []).map(Number)
-    );
+    const dualVariantIds = (window.PRODUCT_DUAL_VARIANT_GROUPS || []).flatMap(group => [
+      ...(group.ids || []),
+      ...(group.variants || []).map(variant => variant.id)
+    ]);
+    const manualColorIds = new Set([
+      ...(window.PRODUCT_COLOR_GROUPS || []).flatMap(group => group.ids || []),
+      ...dualVariantIds
+    ].map(Number));
     const manualDuplicateIds = new Set(
       (window.PRODUCT_DUPLICATE_GROUPS || []).flatMap(group => group.ids || []).map(Number)
     );
@@ -158,6 +163,7 @@
         return !currentManualKeys.has(key);
       }).length,
       visibleOnlyConfirmedGroups: true,
+      dualVariantGroupsReserved: (window.PRODUCT_DUAL_VARIANT_GROUPS || []).length,
       colorGroupsAdded: autoColors.length,
       duplicateGroupsAdded: autoDuplicates.length,
       duplicateCardsHidden: autoDuplicates.reduce((sum, group) => sum + group.ids.length - 1, 0)
