@@ -30,6 +30,22 @@
         [1417, { label: "Серо-бежевый, ткань", css: "#a99f91" }],
         [1418, { label: "Меланж, рогожка", css: "linear-gradient(135deg,#81776d 0 50%,#b3a79a 50% 100%)" }]
       ])
+    },
+    {
+      name: "Ремешок мебельный",
+      label: "Цвет и материал ремешка",
+      hiddenExcluded: [],
+      variants: new Map([
+        [1422, { label: "Светло-коричневый, натуральная кожа", css: "#a66f43" }],
+        [1423, { label: "Тёмно-коричневый, натуральная кожа", css: "#4f3428" }],
+        [1424, { label: "Старт, ткань", css: "#c5b49b" }],
+        [1425, { label: "Коричневый, экошерсть", css: "linear-gradient(135deg,#6e594b 0 50%,#9a8573 50% 100%)" }],
+        [1426, { label: "Олива, флок", css: "#73764a" }],
+        [1427, { label: "Оранжевый, ткань", css: "#d97a32" }],
+        [1428, { label: "Коричневый, ткань", css: "#76513c" }],
+        [1429, { label: "Серо-бежевый, ткань", css: "#a99f91" }],
+        [1430, { label: "Меланж, рогожка", css: "linear-gradient(135deg,#81776d 0 50%,#b3a79a 50% 100%)" }]
+      ])
     }
   ];
   let scheduled = false;
@@ -61,14 +77,16 @@
   function refresh() {
     scheduled = false;
     document.querySelectorAll("[data-color-swatches]").forEach(patchSelector);
-    window.__MATTRESS_VARIANT_AUDIT__ = {
-      label: "Цвет и материал матраца",
+    const audit = {
       groups: GROUPS.map(group => ({
         name: group.name,
+        label: group.label,
         ids: [...group.variants.keys()],
         hiddenExcluded: group.hiddenExcluded
       }))
     };
+    window.__SPECIAL_VARIANT_AUDIT__ = audit;
+    window.__MATTRESS_VARIANT_AUDIT__ = audit;
   }
 
   function schedule() {
