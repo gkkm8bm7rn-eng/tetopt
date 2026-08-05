@@ -23,7 +23,7 @@
         document.head.appendChild(style);
       }
 
-      style.textContent = `
+      const css = `
         #catalogControls #chips{
           display:none!important;
         }
@@ -50,6 +50,7 @@
           }
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
     }
 
     function removeLegacyExtraFilters() {
