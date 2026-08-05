@@ -56,10 +56,43 @@
     seen.add(key);
   }
 
+  // Kavanto подтверждён как точный дубль. Одноэлементные записи резервируют оба ID
+  // от автоматической цветовой группировки, но сами не создают переключатели.
+  const reservedKavantoIds = [1436, 1437];
+  for (const id of reservedKavantoIds) {
+    const alreadyReserved = current.some(group =>
+      (group.ids || []).map(Number).includes(id)
+    );
+    if (!alreadyReserved) {
+      current.push({ name: `Кресло Каванто/Kavanto — резерв дубля ${id}`, ids: [id] });
+    }
+  }
+
+  const duplicateGroups = Array.isArray(window.PRODUCT_DUPLICATE_GROUPS)
+    ? window.PRODUCT_DUPLICATE_GROUPS
+    : [];
+  const kavantoDuplicateKey = [1436, 1437].sort((a, b) => a - b).join(",");
+  const duplicateExists = duplicateGroups.some(group =>
+    [...new Set((group.ids || []).map(Number).filter(Number.isFinite))]
+      .sort((a, b) => a - b)
+      .join(",") === kavantoDuplicateKey
+  );
+  if (!duplicateExists) {
+    // Первым указан вариант с более полным описанием; он остаётся видимой карточкой.
+    duplicateGroups.push({
+      name: "Кресло Каванто/Kavanto — точный дубль",
+      ids: [1437, 1436]
+    });
+  }
+
   window.PRODUCT_COLOR_GROUPS = current;
+  window.PRODUCT_DUPLICATE_GROUPS = duplicateGroups;
   window.__OBVIOUS_PRODUCT_GROUP_AUDIT__ = {
     rule: "same purpose and construction; visible variants only; color/material/finish differs; selected variant may change price",
     groupsAdded: additions.length,
-    ids: additions.flatMap(group => group.ids)
+    ids: additions.flatMap(group => group.ids),
+    duplicateGroupsAdded: duplicateExists ? 0 : 1,
+    duplicatePrimaryIds: [1437],
+    duplicateHiddenIds: [1436]
   };
 })();
