@@ -12,6 +12,7 @@
     const OFFSET_PROPERTY = "--forma-product-modal-header-offset";
     let scheduled = false;
     let resizeObserver = null;
+    let observedTargets = [];
 
     function isVisible(element) {
       if (!(element instanceof Element)) return false;
@@ -31,7 +32,7 @@
         document.head.appendChild(style);
       }
 
-      style.textContent = `
+      const css = `
         :root{${OFFSET_PROPERTY}:0px}
 
         @media(max-width:700px){
@@ -54,6 +55,7 @@
           }
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
     }
 
     function fixedHeaderBottom() {
@@ -62,16 +64,22 @@
       const declaredHeight = Number.parseFloat(rootStyle.getPropertyValue("--forma-fixed-header-h")) || 0;
       bottom = Math.max(bottom, declaredHeight);
 
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
       document.querySelectorAll(".announcement,header,.boot-sticky").forEach(element => {
         if (!isVisible(element)) return;
         const position = getComputedStyle(element).position;
         if (position !== "fixed" && position !== "sticky") return;
         const rect = element.getBoundingClientRect();
-        if (rect.top > 4 || rect.bottom <= 0) return;
+        if (rect.bottom <= 0 || rect.top >= viewportHeight) return;
         bottom = Math.max(bottom, rect.bottom);
       });
 
       return Math.max(0, Math.ceil(bottom));
+    }
+
+    function sameTargets(targets) {
+      return targets.length === observedTargets.length &&
+        targets.every((target, index) => target === observedTargets[index]);
     }
 
     function observeHeaderSize() {
@@ -82,8 +90,10 @@
         document.querySelector(".boot-sticky")
       ].filter(Boolean);
 
-      if (!targets.length) return;
+      if (sameTargets(targets)) return;
       resizeObserver?.disconnect();
+      observedTargets = targets;
+      if (!targets.length) return;
       resizeObserver = new ResizeObserver(schedule);
       targets.forEach(target => resizeObserver.observe(target));
     }
@@ -94,7 +104,11 @@
       observeHeaderSize();
 
       const offset = fixedHeaderBottom();
-      document.documentElement.style.setProperty(OFFSET_PROPERTY, `${offset}px`);
+      const root = document.documentElement;
+      const nextValue = `${offset}px`;
+      if (root.style.getPropertyValue(OFFSET_PROPERTY) !== nextValue) {
+        root.style.setProperty(OFFSET_PROPERTY, nextValue);
+      }
 
       const modal = document.getElementById("modal");
       const open = Boolean(modal?.classList.contains("show"));
