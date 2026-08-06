@@ -1,52 +1,34 @@
 name: Purge hidden products
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *'
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - scripts/purge-hidden-products.mjs
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
-    paths:
-      - scripts/purge-hidden-products.mjs
-      - hidden-products.json
-      - catalog-source.html
 
 permissions:
   contents: write
 
-concurrency:
-  group: purge-hidden-products-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
-
 jobs:
   purge:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository branch
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
-      - name: Remove hidden products from catalog source
-        run: node scripts/purge-hidden-products.mjs
-
-      - name: Verify and commit catalog cleanup
+      - name: Remove and verify hidden products
         run: |
           node --check scripts/purge-hidden-products.mjs
+          node scripts/purge-hidden-products.mjs
           git diff --check
+
+      - name: Commit verified catalog cleanup
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add catalog-source.html hidden-products.json archive/hidden-products-removed-2026-08-06.json
-          if git diff --cached --quiet; then
-            echo "No hidden products remained to purge"
-            exit 0
-          fi
           git commit -m "Remove hidden products from catalog source"
-          git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
+          git push origin HEAD:main
