@@ -1,3 +1,4 @@
+// Одноразовая проверенная очистка скрытых товаров.
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
