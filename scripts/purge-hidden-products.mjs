@@ -1,4 +1,4 @@
-// Одноразовая проверенная очистка скрытых товаров.
+// Одноразовая проверенная очистка скрытых товаров. Повторный запуск после упрощения workflow.
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
