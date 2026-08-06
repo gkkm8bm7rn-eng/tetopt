@@ -5,22 +5,31 @@ on:
     branches: [main]
     paths:
       - scripts/purge-hidden-products.mjs
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - scripts/purge-hidden-products.mjs
+      - hidden-products.json
+      - catalog-source.html
 
 permissions:
   contents: write
 
 concurrency:
-  group: purge-hidden-products
+  group: purge-hidden-products-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
   purge:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
       - name: Remove hidden products from catalog source
         run: node scripts/purge-hidden-products.mjs
@@ -37,4 +46,4 @@ jobs:
             exit 0
           fi
           git commit -m "Remove hidden products from catalog source"
-          git push
+          git push origin HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}
