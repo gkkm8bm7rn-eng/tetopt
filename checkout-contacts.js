@@ -3,12 +3,10 @@
   const STORE_PHONE_DISPLAY="+7 (905) 726-79-46";
   const STORE_EMAIL="postes@mail.ru";
 
-  if(!document.querySelector('script[data-advanced-filters]')){
-    const filtersScript=document.createElement("script");
-    filtersScript.src="advanced-filters.js?v=1";
-    filtersScript.dataset.advancedFilters="1";
-    document.body.appendChild(filtersScript);
-  }
+  // Дополнительные фильтры удалены из интерфейса и больше не должны
+  // загружаться из модуля оформления заказа.
+  window.__FORMA_ADVANCED_FILTERS_DISABLED__=true;
+  document.querySelectorAll('script[data-advanced-filters]').forEach(script=>script.remove());
 
   if(!document.querySelector('script[data-cart-product-links]')){
     const cartLinksScript=document.createElement("script");
@@ -19,7 +17,7 @@
 
   const contacts=document.querySelector("#contacts p");
   if(contacts){
-    contacts.innerHTML=`Телефон: <a href="tel:+${STORE_PHONE}">${STORE_PHONE_DISPLAY}</a><br><a href="https://wa.me/${STORE_PHONE}" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/+${STORE_PHONE}" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:${STORE_EMAIL}">${STORE_EMAIL}</a><br>Ежедневно, 10:00–20:00`;
+    contacts.innerHTML=`Телефон: <a href="tel:+${STORE_PHONE}">${STORE_PHONE_DISPLAY}</a><br><a href="https://wa.me/${STORE_PHONE}" target="_blank" rel="noopener">WhatsApp</a> · <a href="https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent("Здравствуйте! У меня вопрос по каталогу FORMA HOME.")}" target="_blank" rel="noopener">Telegram</a><br>E-mail: <a href="mailto:${STORE_EMAIL}">${STORE_EMAIL}</a><br>Ежедневно, 10:00–20:00`;
   }
 
   const overlay=document.getElementById("checkoutOverlay");
@@ -115,7 +113,9 @@
     }
 
     if(channel==="telegram"){
-      window.open(`https://t.me/+${STORE_PHONE}?text=${encodeURIComponent(text)}`,"_blank","noopener");
+      const base=new URL(location.href);
+      base.searchParams.delete("product");
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(base.toString())}&text=${encodeURIComponent(text)}`,"_blank","noopener");
       showToast("Открываем Telegram");
       return;
     }
