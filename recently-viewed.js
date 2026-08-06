@@ -9,6 +9,10 @@
     const STORAGE_KEY = "formaRecentlyViewedV1";
     const MAX_STORED = 12;
     const MAX_SHOWN = 8;
+    const SWIPE_THRESHOLD = 42;
+    const CLICK_BLOCK_MS = 560;
+    let recentGesture = null;
+    let suppressRecentOpenUntil = 0;
 
     function readIds() {
       try {
@@ -41,6 +45,8 @@
         .recently-viewed p{margin:8px 0 0;color:var(--muted)}
         .recently-viewed-clear{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:10px 15px;font-weight:700;white-space:nowrap}
         .recently-viewed-clear:hover{border-color:var(--accent);color:var(--accent)}
+        .recently-viewed-grid .visual{touch-action:pan-y pinch-zoom}
+        .recently-viewed-grid .product-photo{user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
         @media(max-width:640px){
           .recently-viewed{padding:28px 0 54px}
           .recently-viewed-head{align-items:flex-start;flex-direction:column}
@@ -111,6 +117,85 @@
       render();
     }
 
+    function pointFromEvent(event, changed = false) {
+      if (changed && event.changedTouches?.[0]) return event.changedTouches[0];
+      return event.touches?.[0] || event;
+    }
+
+    function startSwipe(event) {
+      const target = event.target instanceof Element ? event.target : null;
+      const visual = target?.closest("#recentlyViewedGrid .visual");
+      if (!visual || target.closest("button,a,input,select,textarea,label")) return;
+      if (event.pointerType === "mouse") return;
+      const point = pointFromEvent(event);
+      recentGesture = {
+        visual,
+        x: point.clientX,
+        y: point.clientY,
+        pointerId: event.pointerId,
+        horizontal: false,
+        vertical: false
+      };
+    }
+
+    function moveSwipe(event) {
+      if (!recentGesture) return;
+      if (recentGesture.pointerId !== undefined && event.pointerId !== undefined &&
+          recentGesture.pointerId !== event.pointerId) return;
+      const point = pointFromEvent(event);
+      const dx = point.clientX - recentGesture.x;
+      const dy = point.clientY - recentGesture.y;
+      if (recentGesture.horizontal || recentGesture.vertical) return;
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dx) > Math.abs(dy) * 1.15) recentGesture.horizontal = true;
+      else recentGesture.vertical = true;
+    }
+
+    function finishSwipe(event) {
+      if (!recentGesture) return;
+      if (recentGesture.pointerId !== undefined && event.pointerId !== undefined &&
+          recentGesture.pointerId !== event.pointerId) return;
+      const gesture = recentGesture;
+      recentGesture = null;
+      if (!gesture.horizontal) return;
+
+      const point = pointFromEvent(event, true);
+      const dx = point.clientX - gesture.x;
+      const dy = point.clientY - gesture.y;
+      if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) <= Math.abs(dy)) return;
+
+      suppressRecentOpenUntil = Date.now() + CLICK_BLOCK_MS;
+      try {
+        if (typeof shiftCardPhoto === "function") shiftCardPhoto(gesture.visual, dx < 0 ? 1 : -1);
+      } catch (error) {
+        console.error(error);
+      }
+      event.preventDefault();
+
+      window.__FORMA_RECENT_SWIPE_AUDIT__ = {
+        version: 2,
+        photoSwipeEnabled: true,
+        accidentalOpenPrevented: true,
+        verticalScrollPreserved: true
+      };
+    }
+
+    function cancelSwipe() {
+      recentGesture = null;
+    }
+
+    if ("PointerEvent" in window) {
+      document.addEventListener("pointerdown", startSwipe, { passive: true, capture: true });
+      document.addEventListener("pointermove", moveSwipe, { passive: true, capture: true });
+      document.addEventListener("pointerup", finishSwipe, { passive: false, capture: true });
+      document.addEventListener("pointercancel", cancelSwipe, { passive: true, capture: true });
+    } else {
+      document.addEventListener("touchstart", startSwipe, { passive: true, capture: true });
+      document.addEventListener("touchmove", moveSwipe, { passive: true, capture: true });
+      document.addEventListener("touchend", finishSwipe, { passive: false, capture: true });
+      document.addEventListener("touchcancel", cancelSwipe, { passive: true, capture: true });
+    }
+
     document.addEventListener("click", event => {
       const clear = event.target.closest("[data-clear-recent]");
       if (clear) {
@@ -129,6 +214,10 @@
       if (recentSection) {
         event.preventDefault();
         event.stopPropagation();
+        if (Date.now() < suppressRecentOpenUntil) {
+          event.stopImmediatePropagation();
+          return;
+        }
         if (photoNav) {
           if (typeof shiftCardPhoto === "function") shiftCardPhoto(photoNav, Number(photoNav.dataset.cardPhoto) || 0);
           return;
