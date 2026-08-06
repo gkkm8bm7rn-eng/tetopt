@@ -1,0 +1,40 @@
+name: Purge hidden products
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/purge-hidden-products.mjs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: purge-hidden-products
+  cancel-in-progress: false
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove hidden products from catalog source
+        run: node scripts/purge-hidden-products.mjs
+
+      - name: Verify and commit catalog cleanup
+        run: |
+          node --check scripts/purge-hidden-products.mjs
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-source.html hidden-products.json archive/hidden-products-removed-2026-08-06.json
+          if git diff --cached --quiet; then
+            echo "No hidden products remained to purge"
+            exit 0
+          fi
+          git commit -m "Remove hidden products from catalog source"
+          git push
