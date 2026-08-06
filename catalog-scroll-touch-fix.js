@@ -5,11 +5,12 @@
 
   function catalogScrollTouchRuntime() {
     "use strict";
-    if (window.__FORMA_SCROLL_TOUCH_FIX_V1__) return;
-    window.__FORMA_SCROLL_TOUCH_FIX_V1__ = true;
+    if (window.__FORMA_SCROLL_TOUCH_FIX_V2__) return;
+    window.__FORMA_SCROLL_TOUCH_FIX_V2__ = true;
 
     const STYLE_ID = "forma-scroll-touch-fix-style";
     const UNLOCK_CLASS = "forma-page-scroll-unlocked";
+    const OVERLAY_LOCK_CLASS = "forma-overlay-scroll-locked";
     const LOCK_CLASSES = [
       "forma-product-modal-open",
       "modal-open",
@@ -38,9 +39,7 @@
           touch-action:pan-y pinch-zoom!important;
           -webkit-overflow-scrolling:touch!important;
         }
-        body.${UNLOCK_CLASS}{
-          min-height:100%!important;
-        }
+        body.${UNLOCK_CLASS}{min-height:100%!important}
         body.${UNLOCK_CLASS} .announcement,
         body.${UNLOCK_CLASS} header,
         body.${UNLOCK_CLASS} .hero,
@@ -52,9 +51,22 @@
         body.${UNLOCK_CLASS} #grid{
           touch-action:pan-y pinch-zoom!important;
         }
-        #modal.show,
+
+        html.${OVERLAY_LOCK_CLASS},
+        body.${OVERLAY_LOCK_CLASS}{
+          overflow:hidden!important;
+          overscroll-behavior:none!important;
+        }
+
         #modal.show .modal-grid,
-        [role="dialog"][aria-modal="true"]{
+        #drawer.show .cart-items,
+        .drawer.show .cart-items,
+        .favorites-drawer.show .favorites-body,
+        .checkout-overlay.show .checkout-panel,
+        .quick-contact-overlay.show .quick-contact-panel,
+        .image-zoom-lightbox.show .image-zoom-frame,
+        [role="dialog"][aria-modal="true"].show{
+          overscroll-behavior:contain;
           -webkit-overflow-scrolling:touch;
         }
       `;
@@ -71,11 +83,23 @@
         rect.width > 0 && rect.height > 0;
     }
 
-    function overlayOpen() {
-      const candidates = document.querySelectorAll(
-        "#modal.show,[role='dialog'][aria-modal='true'].show,.drawer.open,.drawer.show,.cart-drawer.open,.cart-drawer.show,[data-drawer].open,[data-drawer].show"
-      );
-      return [...candidates].some(isVisible);
+    function openOverlay() {
+      const candidates = document.querySelectorAll([
+        "#modal.show",
+        "#drawer.show",
+        ".drawer.open",
+        ".drawer.show",
+        ".cart-drawer.open",
+        ".cart-drawer.show",
+        ".favorites-drawer.show",
+        ".checkout-overlay.show",
+        ".quick-contact-overlay.show",
+        ".image-zoom-lightbox.show",
+        "[data-drawer].open",
+        "[data-drawer].show",
+        "[role='dialog'][aria-modal='true'].show"
+      ].join(","));
+      return [...candidates].find(isVisible) || null;
     }
 
     function parseLockedScrollTop() {
@@ -106,22 +130,27 @@
       if (style.overscrollBehavior) style.removeProperty("overscroll-behavior");
     }
 
-    function releaseStaleScrollLock() {
+    function synchronizeScrollState() {
       scheduled = false;
       ensureStyle();
 
-      const open = overlayOpen();
       const html = document.documentElement;
       const body = document.body;
       if (!html || !body) return;
 
-      if (open) {
+      const overlay = openOverlay();
+      if (overlay) {
         html.classList.remove(UNLOCK_CLASS);
         body.classList.remove(UNLOCK_CLASS);
+        html.classList.add(OVERLAY_LOCK_CLASS);
+        body.classList.add(OVERLAY_LOCK_CLASS);
         window.__FORMA_SCROLL_TOUCH_AUDIT__ = {
           enabled: true,
+          version: 2,
           overlayOpen: true,
+          overlay: overlay.id || overlay.className || overlay.tagName,
           pageUnlocked: false,
+          internalOverlayScrollPreserved: true,
           passiveTouchListeners: true,
           wheelFallback: true
         };
@@ -129,6 +158,8 @@
       }
 
       const lockedScrollTop = parseLockedScrollTop();
+      html.classList.remove(OVERLAY_LOCK_CLASS);
+      body.classList.remove(OVERLAY_LOCK_CLASS);
       LOCK_CLASSES.forEach(className => {
         html.classList.remove(className);
         body.classList.remove(className);
@@ -144,6 +175,7 @@
 
       window.__FORMA_SCROLL_TOUCH_AUDIT__ = {
         enabled: true,
+        version: 2,
         overlayOpen: false,
         pageUnlocked: true,
         passiveTouchListeners: true,
@@ -158,7 +190,7 @@
     function schedule() {
       if (scheduled) return;
       scheduled = true;
-      requestAnimationFrame(releaseStaleScrollLock);
+      requestAnimationFrame(synchronizeScrollState);
     }
 
     function canScrollElement(element, deltaY) {
@@ -176,20 +208,16 @@
 
     function onWheel(event) {
       schedule();
-      if (overlayOpen() || !event.deltaY || canScrollElement(event.target, event.deltaY)) return;
+      if (openOverlay() || !event.deltaY || canScrollElement(event.target, event.deltaY)) return;
 
       const before = window.scrollY;
       const delta = event.deltaMode === 1 ? event.deltaY * 18 : event.deltaY;
       clearTimeout(wheelFallbackTimer);
       wheelFallbackTimer = window.setTimeout(() => {
-        if (overlayOpen()) return;
+        if (openOverlay()) return;
         if (Math.abs(window.scrollY - before) > 1) return;
         window.scrollBy({ top: delta, left: 0, behavior: "auto" });
       }, 34);
-    }
-
-    function onTouchActivity() {
-      schedule();
     }
 
     new MutationObserver(schedule).observe(document.documentElement, {
@@ -199,9 +227,9 @@
       attributeFilter: ["class", "style", "aria-hidden"]
     });
 
-    document.addEventListener("touchstart", onTouchActivity, { passive: true, capture: true });
-    document.addEventListener("touchmove", onTouchActivity, { passive: true, capture: true });
-    document.addEventListener("touchend", onTouchActivity, { passive: true, capture: true });
+    document.addEventListener("touchstart", schedule, { passive: true, capture: true });
+    document.addEventListener("touchmove", schedule, { passive: true, capture: true });
+    document.addEventListener("touchend", schedule, { passive: true, capture: true });
     document.addEventListener("wheel", onWheel, { passive: true, capture: true });
     window.addEventListener("resize", schedule, { passive: true });
     window.addEventListener("orientationchange", () => setTimeout(schedule, 120), { passive: true });
