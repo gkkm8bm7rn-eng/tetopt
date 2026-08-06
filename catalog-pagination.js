@@ -107,8 +107,8 @@
 
     text = replaceOnce(
       text,
-      "    function bindEvents(){",
-      helpers + "    function bindEvents(){",
+      "    function bind(){",
+      helpers + "    function bind(){",
       "pagination helpers"
     );
 
@@ -151,6 +151,12 @@
       if (!text.includes(token)) throw new Error(`Missing catalog token: ${token}`);
     }
 
+    window.__FORMA_PAGINATION_PATCH_AUDIT__ = {
+      applied: true,
+      sourceBinding: "bind",
+      photoJobLimit,
+      photoRootMargin
+    };
     return text;
   }
 
