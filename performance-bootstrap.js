@@ -1,11 +1,11 @@
 (()=>{
   'use strict';
 
-  const KEY='__formaPerformanceBootstrapV6';
+  const KEY='__formaPerformanceBootstrapV7';
   if(window[KEY])return;
 
-  const CATALOG_VERSION='20260806-1';
-  const DATA_CACHE_NAME='forma-data-20260806-1';
+  const CATALOG_VERSION='20260806-2';
+  const DATA_CACHE_NAME='forma-data-20260806-2';
   const nativeFetch=window.fetch.bind(window);
   const catalogSnapshots=new Map();
   let mediaObserver=null;
@@ -95,7 +95,7 @@
   function registerServiceWorker(){
     if(!('serviceWorker' in navigator))return;
     const register=()=>navigator.serviceWorker
-      .register('./sw.js?v=5',{scope:'./',updateViaCache:'none'})
+      .register('./sw.js?v=6',{scope:'./',updateViaCache:'none'})
       .then(registration=>registration.update().catch(()=>undefined))
       .catch(error=>console.warn('FORMA HOME: офлайн-кэш недоступен',error));
 
@@ -131,7 +131,7 @@
         image.loading='lazy';
         image.fetchPriority='low';
       }
-      image.dataset.formaMediaOptimized='6';
+      image.dataset.formaMediaOptimized='7';
     });
   }
 
