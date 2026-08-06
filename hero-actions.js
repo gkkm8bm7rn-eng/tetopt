@@ -49,6 +49,7 @@
     });
   });
 
+  const telegramUrl=`https://t.me/share/url?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent("Здравствуйте! У меня вопрос по каталогу FORMA HOME.")}`;
   const overlay=document.createElement("div");
   overlay.className="quick-contact-overlay";
   overlay.id="quickContactOverlay";
@@ -60,7 +61,7 @@
       </div>
       <div class="quick-contact-actions">
         <a class="quick-contact-action quick-contact-whatsapp" href="https://wa.me/79057267946" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="quick-contact-action quick-contact-telegram" href="https://t.me/+79057267946" target="_blank" rel="noopener">Telegram</a>
+        <a class="quick-contact-action quick-contact-telegram" href="${telegramUrl}" target="_blank" rel="noopener">Telegram</a>
         <a class="quick-contact-action quick-contact-phone" href="tel:+79057267946">Позвонить</a>
         <a class="quick-contact-action quick-contact-email" href="mailto:postes@mail.ru">Написать на почту</a>
       </div>
