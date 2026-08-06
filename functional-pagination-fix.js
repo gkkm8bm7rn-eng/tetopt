@@ -9,7 +9,6 @@
 
     let text = source;
 
-    // The zoom module must be cache-busted because v3 also intercepted catalog photos.
     text = text.replace(/image-zoom\.js\?v=\d+/g, "image-zoom.js?v=4");
 
     text = text.replace(
@@ -68,7 +67,9 @@
     }
 
 `;
-      text = text.replace("    function bindEvents(){", helpers + "    function bindEvents(){");
+      if (text.includes("    function bind(){")) {
+        text = text.replace("    function bind(){", helpers + "    function bind(){");
+      }
     }
 
     text = text.replace(
@@ -85,9 +86,21 @@
       text = text.replace("</style>", `.pagination-wrap{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;padding:34px 0 76px}.page-btn{min-width:42px;height:42px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:0 14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}.page-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}.page-btn:disabled{opacity:.4}.page-ellipsis{padding:0 3px;color:var(--muted)}@media(max-width:700px){.pagination-wrap{gap:6px;padding:28px 0 54px}.page-btn{min-width:40px;height:40px;padding:0 12px;font-size:13px}}</style>`);
     }
 
-    if (text.includes("state.visible") || text.includes('id="loadMore"') || text.includes("Показать ещё")) {
+    const failed = text.includes("state.visible") ||
+      text.includes('id="loadMore"') ||
+      text.includes("Показать ещё") ||
+      !text.includes("function renderPagination(") ||
+      !text.includes("function goToPage(");
+
+    if (failed) {
       console.error("Функциональная пагинация не смогла полностью заменить старую логику");
+      return source;
     }
+
+    window.__FORMA_PAGINATION_FALLBACK_AUDIT__ = {
+      applied: true,
+      sourceBinding: "bind"
+    };
     return text;
   }
 
