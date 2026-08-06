@@ -3,6 +3,113 @@
 
   const originalWrite = document.write.bind(document);
 
+  function installLogicalFilterRuntime() {
+    "use strict";
+
+    const productList = () => {
+      try {
+        if (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)) return PRODUCTS;
+      } catch {}
+      return Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+    };
+
+    const priceOf = product => {
+      const wholesale = Number(product?.wholesalePrice);
+      if (Number.isFinite(wholesale) && wholesale >= 0) return wholesale;
+      const selling = Number(product?.price);
+      if (Number.isFinite(selling) && selling >= 0) return selling;
+      const retail = Number(product?.retailPrice);
+      if (Number.isFinite(retail) && retail >= 0) return retail;
+      return Number.POSITIVE_INFINITY;
+    };
+
+    const idOf = (product, index = 0) => Number(product?.id) || index + 1;
+    const uniqueIds = ids => [...new Set((ids || []).map(Number).filter(Number.isFinite))];
+
+    function canonicalResolver(products) {
+      const byId = new Map(products.map((product, index) => [idOf(product, index), product]));
+      const duplicateCanonical = new Map();
+
+      for (const group of Array.isArray(window.PRODUCT_DUPLICATE_GROUPS)
+        ? window.PRODUCT_DUPLICATE_GROUPS
+        : []) {
+        const ids = uniqueIds(group.ids).filter(id => byId.has(id));
+        if (ids.length < 2) continue;
+        ids.sort((left, right) =>
+          priceOf(byId.get(left)) - priceOf(byId.get(right)) || left - right
+        );
+        const keptId = ids[0];
+        ids.forEach(id => duplicateCanonical.set(id, keptId));
+      }
+
+      const throughDuplicate = id => duplicateCanonical.get(Number(id)) || Number(id);
+      const familyCanonical = new Map();
+      const familyGroups = [];
+
+      for (const group of Array.isArray(window.PRODUCT_COLOR_GROUPS)
+        ? window.PRODUCT_COLOR_GROUPS
+        : []) {
+        const ids = uniqueIds(group.ids).map(throughDuplicate).filter(id => byId.has(id));
+        if (ids.length > 1) familyGroups.push(ids);
+      }
+
+      for (const group of Array.isArray(window.PRODUCT_EXPLICIT_VARIANT_GROUPS)
+        ? window.PRODUCT_EXPLICIT_VARIANT_GROUPS
+        : []) {
+        const ids = uniqueIds((group.variants || []).map(variant => variant.id))
+          .map(throughDuplicate)
+          .filter(id => byId.has(id));
+        if (ids.length > 1) familyGroups.push(ids);
+      }
+
+      for (const group of Array.isArray(window.PRODUCT_DUAL_VARIANT_GROUPS)
+        ? window.PRODUCT_DUAL_VARIANT_GROUPS
+        : []) {
+        const ids = uniqueIds((group.variants || []).map(variant => variant.id))
+          .map(throughDuplicate)
+          .filter(id => byId.has(id));
+        if (ids.length > 1) familyGroups.push(ids);
+      }
+
+      for (const ids of familyGroups) {
+        const canonicalIds = uniqueIds(ids);
+        const hostId = canonicalIds[0];
+        canonicalIds.forEach(id => familyCanonical.set(id, hostId));
+      }
+
+      return id => {
+        const duplicateId = throughDuplicate(id);
+        return familyCanonical.get(duplicateId) || duplicateId;
+      };
+    }
+
+    window.__FORMA_LOGICAL_FILTER_RESULTS__ = rawProducts => {
+      const products = productList();
+      if (!Array.isArray(rawProducts) || !products.length) return rawProducts || [];
+
+      const byId = new Map(products.map((product, index) => [idOf(product, index), product]));
+      const canonicalOf = canonicalResolver(products);
+      const seen = new Set();
+      const result = [];
+
+      rawProducts.forEach((product, index) => {
+        const sourceId = idOf(product, index);
+        const canonicalId = canonicalOf(sourceId);
+        if (seen.has(canonicalId)) return;
+        seen.add(canonicalId);
+        result.push(byId.get(canonicalId) || product);
+      });
+
+      window.__FORMA_LOGICAL_RESULT_AUDIT__ = {
+        rawCount: rawProducts.length,
+        logicalCount: result.length,
+        removedCount: Math.max(0, rawProducts.length - result.length),
+        at: Date.now()
+      };
+      return result;
+    };
+  }
+
   function runtime() {
     "use strict";
 
@@ -69,11 +176,14 @@
       return Number.POSITIVE_INFINITY;
     }
 
+    function uniqueIds(ids) {
+      return [...new Set((ids || []).map(Number).filter(id => byId.has(id)))];
+    }
+
     function orderIds(ids) {
-      return [...new Set(ids.map(Number).filter(id => byId.has(id)))]
-        .sort((left, right) =>
-          priceOf(byId.get(left)) - priceOf(byId.get(right)) || left - right
-        );
+      return uniqueIds(ids).sort((left, right) =>
+        priceOf(byId.get(left)) - priceOf(byId.get(right)) || left - right
+      );
     }
 
     const discovered = [];
@@ -104,18 +214,17 @@
     const allGroups = [...currentGroups, ...discovered]
       .map(group => ({
         name: group.name || "Дубли товара",
-        ids: [...new Set((group.ids || []).map(Number).filter(id => byId.has(id)))]
+        ids: uniqueIds(group.ids)
       }))
       .filter(group => group.ids.length > 1);
 
-    // Сначала отмечаем группы с явной упаковочной пометкой. Затем расширяем набор
-    // на любые пересекающиеся реестры дублей, чтобы не оставлять противоречащие группы.
     const packageIds = new Set();
     allGroups.forEach(group => {
       if (group.ids.some(id => hasPackageQuantity(byId.get(id)))) {
         group.ids.forEach(id => packageIds.add(id));
       }
     });
+
     let expanded = true;
     while (expanded) {
       expanded = false;
@@ -132,8 +241,6 @@
     const packageGroups = allGroups.filter(group => group.ids.some(id => packageIds.has(id)));
     const untouchedGroups = allGroups.filter(group => !group.ids.some(id => packageIds.has(id)));
 
-    // Объединяем пересекающиеся упаковочные группы в компоненты, чтобы один ID
-    // не оказался одновременно «оставляемым» в одной группе и скрываемым в другой.
     const parent = new Map();
     const find = id => {
       if (!parent.has(id)) parent.set(id, id);
@@ -155,13 +262,13 @@
     });
 
     const components = new Map();
-    for (const group of packageGroups) {
-      for (const id of group.ids) {
+    packageGroups.forEach(group => {
+      group.ids.forEach(id => {
         const root = find(id);
         if (!components.has(root)) components.set(root, new Set());
         components.get(root).add(id);
-      }
-    }
+      });
+    });
 
     const consolidated = [...components.values()]
       .map(ids => orderIds([...ids]))
@@ -180,44 +287,55 @@
 
     const hiddenIds = new Set(consolidated.flatMap(group => group.ids.slice(1)));
     const keptIds = new Set(consolidated.map(group => group.ids[0]));
+    const replacementById = new Map();
+    consolidated.forEach(group => {
+      const keptId = Number(group.ids[0]);
+      group.ids.slice(1).forEach(id => replacementById.set(Number(id), keptId));
+    });
 
-    // Удаляем скрываемые упаковочные дубли из селекторов вариантов. Иначе карточка-хост
-    // могла бы сохранить более дорогой ID несмотря на реестр дублей.
+    const replacementId = id => replacementById.get(Number(id)) || Number(id);
+    const remapIds = ids => [...new Set((ids || [])
+      .map(replacementId)
+      .filter(id => byId.has(id)))];
+
+    // Не удаляем цвет из семейства, когда его прежний ID оказался дорогим дублем.
+    // Подставляем вместо него выбранный дешёвый ID того же цвета и характеристик.
     window.PRODUCT_COLOR_GROUPS = (Array.isArray(window.PRODUCT_COLOR_GROUPS)
       ? window.PRODUCT_COLOR_GROUPS
       : []
-    ).map(group => ({
-      ...group,
-      ids: (group.ids || []).map(Number).filter(id => !hiddenIds.has(id))
-    })).filter(group => group.ids.length > 1);
+    ).map(group => ({ ...group, ids: remapIds(group.ids) }))
+      .filter(group => group.ids.length > 0);
+
+    function remapVariantGroup(group) {
+      const seen = new Set();
+      const variants = [];
+      for (const variant of group.variants || []) {
+        const id = replacementId(variant.id);
+        if (!byId.has(id) || seen.has(id)) continue;
+        seen.add(id);
+        variants.push({ ...variant, id });
+      }
+      if (!variants.length) return null;
+      const mappedPrimary = replacementId(group.primaryId || variants[0].id);
+      const primaryId = variants.some(variant => Number(variant.id) === mappedPrimary)
+        ? mappedPrimary
+        : Number(variants[0].id);
+      return { ...group, primaryId, variants };
+    }
 
     window.PRODUCT_EXPLICIT_VARIANT_GROUPS = (Array.isArray(window.PRODUCT_EXPLICIT_VARIANT_GROUPS)
       ? window.PRODUCT_EXPLICIT_VARIANT_GROUPS
       : []
-    ).map(group => {
-      const variants = (group.variants || []).filter(variant => !hiddenIds.has(Number(variant.id)));
-      if (!variants.length) return null;
-      const primaryId = hiddenIds.has(Number(group.primaryId))
-        ? Number(variants[0].id)
-        : Number(group.primaryId || variants[0].id);
-      return { ...group, primaryId, variants };
-    }).filter(group => group && group.variants.length > 1);
+    ).map(remapVariantGroup).filter(Boolean);
 
     window.PRODUCT_DUAL_VARIANT_GROUPS = (Array.isArray(window.PRODUCT_DUAL_VARIANT_GROUPS)
       ? window.PRODUCT_DUAL_VARIANT_GROUPS
       : []
-    ).map(group => {
-      const variants = (group.variants || []).filter(variant => !hiddenIds.has(Number(variant.id)));
-      if (!variants.length) return null;
-      const primaryId = hiddenIds.has(Number(group.primaryId))
-        ? Number(variants[0].id)
-        : Number(group.primaryId || variants[0].id);
-      return { ...group, primaryId, variants };
-    }).filter(group => group && group.variants.length > 1);
+    ).map(remapVariantGroup).filter(Boolean);
 
     window.__FORMA_PACKAGE_DUPLICATE_AUDIT__ = {
       enabled: true,
-      version: 1,
+      version: 2,
       rule: "package quantity ignored; identical product variant keeps the lowest wholesale price",
       exactGroupsDiscovered: discovered.length,
       packageComponents: consolidated.map(group => ({
@@ -227,23 +345,45 @@
         hiddenIds: group.ids.slice(1),
         hiddenPrices: group.ids.slice(1).map(id => priceOf(byId.get(id)))
       })),
+      replacements: [...replacementById].map(([hiddenId, keptId]) => ({ hiddenId, keptId })),
       packageComponentCount: consolidated.length,
       keptIds: [...keptIds],
       hiddenIds: [...hiddenIds],
       hiddenCount: hiddenIds.size,
-      preservesDimensionsColorMaterialAndConstruction: true
+      preservesDimensionsColorMaterialAndConstruction: true,
+      remapsColorVariantIdsInsteadOfRemovingThem: true
     };
 
     window.dispatchEvent(new CustomEvent("forma:product-groups-ready", {
       detail: { source: "package-duplicate-rule", hiddenCount: hiddenIds.size }
     }));
+
+    const rerender = () => {
+      if (typeof window.__FORMA_RENDER_CATALOG__ === "function") {
+        window.__FORMA_RENDER_CATALOG__();
+      }
+    };
+    if (typeof queueMicrotask === "function") queueMicrotask(rerender);
+    else setTimeout(rerender, 0);
   }
 
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
     if (typeof html === "string" && html.includes("</body>")) {
+      const originalRenderLine = "const all=filtered(), shown=all.slice(0,state.visible);";
+      const logicalRenderLine = "const rawAll=filtered(), all=typeof window.__FORMA_LOGICAL_FILTER_RESULTS__===\"function\"?window.__FORMA_LOGICAL_FILTER_RESULTS__(rawAll):rawAll, shown=all.slice(0,state.visible);";
+
+      html = html.replace(/<body([^>]*)>/i, match =>
+        `${match}<script>(${installLogicalFilterRuntime.toString()})();<\/script>`
+      );
+      html = html.replace(originalRenderLine, logicalRenderLine);
+      html = html.replace(
+        "function render(){",
+        "function render(){window.__FORMA_RENDER_CATALOG__=render;"
+      );
       html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
+      return originalWrite(html);
     }
-    return originalWrite(html);
+    return originalWrite(...parts);
   };
 })();
