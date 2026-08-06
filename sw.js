@@ -1,17 +1,17 @@
 /* FORMA HOME service worker: resilient loading for slow and intermittent connections. */
-const CACHE_VERSION='20260806-1';
+const CACHE_VERSION='20260806-2';
 const SHELL_CACHE=`forma-shell-${CACHE_VERSION}`;
 const DATA_CACHE=`forma-data-${CACHE_VERSION}`;
 const IMAGE_CACHE=`forma-images-${CACHE_VERSION}`;
 const CACHE_PREFIX='forma-';
-const CATALOG_VERSION='20260806-1';
+const CATALOG_VERSION='20260806-2';
 const MAX_CACHED_IMAGES=120;
 
 const CORE_ASSETS=[
   './',
   './index.html',
   './offline.html',
-  './performance-bootstrap.js?v=6'
+  './performance-bootstrap.js?v=7'
 ];
 
 self.addEventListener('install',event=>{
