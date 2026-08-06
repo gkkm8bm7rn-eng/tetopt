@@ -21,7 +21,7 @@
         document.head.appendChild(style);
       }
 
-      style.textContent = `
+      const css = `
         .forma-next-page-card{display:none}
         @media(max-width:932px){
           #grid>.forma-next-page-card{
@@ -89,6 +89,7 @@
         }
         @media(prefers-reduced-motion:reduce){.forma-next-page-card__arrow{transition:none!important}}
       `;
+      if (style.textContent !== css) style.textContent = css;
     }
 
     function isVisibleProductCard(element) {
