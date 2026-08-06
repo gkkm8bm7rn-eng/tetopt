@@ -5,14 +5,16 @@
 
   function gallerySwipeWheelRuntime() {
     "use strict";
-    if (window.__FORMA_GALLERY_SWIPE_V2__) return;
-    window.__FORMA_GALLERY_SWIPE_V2__ = true;
+    if (window.__FORMA_GALLERY_SWIPE_V3__) return;
+    window.__FORMA_GALLERY_SWIPE_V3__ = true;
 
     const SWIPE_MIN = 42;
     const SWIPE_MAX_VERTICAL = 90;
+    const CLICK_BLOCK_MS = 560;
     let start = null;
     let lastWheel = 0;
     let scheduled = false;
+    let suppressGalleryClickUntil = 0;
 
     function visible(element) {
       if (!(element instanceof Element)) return false;
@@ -24,23 +26,28 @@
         rect.width > 0 && rect.height > 0;
     }
 
-    function galleryRoot(target) {
+    function galleryContext(target) {
       const element = target instanceof Element ? target : null;
-      if (!element) return null;
+      if (!element || element.closest(".image-zoom-lightbox")) return null;
 
-      const explicit = element.closest(
+      const surface = element.closest(".gallery-main");
+      if (!surface || !visible(surface)) return null;
+
+      const explicit = surface.closest(
         "#modal.show,.gallery-lightbox.show,.product-lightbox.show,[role='dialog'][aria-modal='true']"
       );
-      if (explicit && visible(explicit) && explicit.querySelector("img")) return explicit;
+      if (explicit && visible(explicit) && surface.querySelector("img")) {
+        return { root: explicit, surface };
+      }
 
-      let node = element;
+      let node = surface;
       while (node && node !== document.body) {
         const style = getComputedStyle(node);
         const rect = node.getBoundingClientRect();
         const coversViewport = style.position === "fixed" &&
           rect.width >= window.innerWidth * 0.85 &&
           rect.height >= window.innerHeight * 0.8;
-        if (coversViewport && node.querySelector("img") && visible(node)) return node;
+        if (coversViewport && visible(node)) return { root: node, surface };
         node = node.parentElement;
       }
       return null;
@@ -73,20 +80,33 @@
       if (!root) return;
       root.style.overscrollBehavior = "contain";
 
-      const gestureArea = root.querySelector(".gallery-main,.gallery-panel") || root;
-      gestureArea.style.touchAction = "pan-y pinch-zoom";
+      const main = root.querySelector(".gallery-main");
+      if (main) {
+        main.style.touchAction = "pan-y pinch-zoom";
+        main.querySelectorAll("img").forEach(image => {
+          image.style.maxWidth = "calc(100vw - 24px)";
+          image.style.maxHeight = "calc(100dvh - 150px)";
+          image.style.width = "auto";
+          image.style.height = "auto";
+          image.style.objectFit = "contain";
+          image.style.userSelect = "none";
+          image.style.webkitUserDrag = "none";
+          image.style.touchAction = "pan-y pinch-zoom";
+          image.draggable = false;
+        });
+      }
 
-      root.querySelectorAll("img").forEach(image => {
-        image.style.maxWidth = "calc(100vw - 24px)";
-        image.style.maxHeight = "calc(100dvh - 150px)";
-        image.style.width = "auto";
-        image.style.height = "auto";
-        image.style.objectFit = "contain";
-        image.style.userSelect = "none";
-        image.style.webkitUserDrag = "none";
-        image.style.touchAction = "pan-y pinch-zoom";
-        image.draggable = false;
-      });
+      const thumbs = root.querySelector(".gallery-thumbs");
+      if (thumbs) {
+        thumbs.style.touchAction = "pan-x pan-y pinch-zoom";
+        thumbs.style.overscrollBehaviorX = "contain";
+        thumbs.style.webkitOverflowScrolling = "touch";
+        thumbs.querySelectorAll("img").forEach(image => {
+          image.style.pointerEvents = "none";
+          image.style.touchAction = "auto";
+          image.draggable = false;
+        });
+      }
     }
 
     function pointFromEvent(event, changed = false) {
@@ -96,15 +116,15 @@
     }
 
     function onDown(event) {
-      const root = galleryRoot(event.target);
-      if (!root) return;
-      fit(root);
+      const context = galleryContext(event.target);
+      if (!context) return;
+      fit(context.root);
       const point = pointFromEvent(event);
       start = {
         x: point.clientX,
         y: point.clientY,
         time: Date.now(),
-        root,
+        root: context.root,
         pointerId: event.pointerId
       };
     }
@@ -126,24 +146,34 @@
           Math.abs(dy) > SWIPE_MAX_VERTICAL ||
           Math.abs(dx) <= Math.abs(dy)) return;
 
-      if (move(root, dx < 0 ? 1 : -1)) event.preventDefault();
+      if (move(root, dx < 0 ? 1 : -1)) {
+        suppressGalleryClickUntil = Date.now() + CLICK_BLOCK_MS;
+        window.__FORMA_GALLERY_SWIPE_CLICK_BLOCK_UNTIL__ = suppressGalleryClickUntil;
+        event.preventDefault();
+      }
     }
 
     function cancelGesture() {
       start = null;
     }
 
-    function onWheel(event) {
-      const root = galleryRoot(event.target);
-      if (!root) return;
-      fit(root);
+    function blockClickAfterSwipe(event) {
+      if (Date.now() >= suppressGalleryClickUntil) return;
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target?.closest(".gallery-main img,#galleryMainImage")) return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }
 
-      const overGallery = event.target instanceof Element && Boolean(
-        event.target.closest(".gallery-main,.gallery-panel,.gallery-thumbs,img")
-      );
+    function onWheel(event) {
+      const context = galleryContext(event.target);
+      if (!context) return;
+      fit(context.root);
+
       const horizontalGesture = Math.abs(event.deltaX) > Math.abs(event.deltaY) &&
         Math.abs(event.deltaX) >= 18;
-      if (!overGallery || !horizontalGesture) return;
+      if (!horizontalGesture) return;
 
       const now = Date.now();
       if (now - lastWheel < 420) {
@@ -151,7 +181,7 @@
         return;
       }
       lastWheel = now;
-      if (move(root, Math.sign(event.deltaX) || 1)) event.preventDefault();
+      if (move(context.root, Math.sign(event.deltaX) || 1)) event.preventDefault();
     }
 
     function refresh() {
@@ -159,14 +189,18 @@
       document.querySelectorAll(
         "#modal.show,.gallery-lightbox.show,.product-lightbox.show,[role='dialog'][aria-modal='true']"
       ).forEach(root => {
-        if (visible(root) && root.querySelector("img")) fit(root);
+        if (visible(root) && root.querySelector(".gallery-main img")) fit(root);
       });
 
       window.__FORMA_GALLERY_GESTURE_AUDIT__ = {
         enabled: true,
-        version: 2,
+        version: 3,
         verticalPageScrollPreserved: true,
         horizontalSwipeEnabled: true,
+        swipeLimitedToMainImage: true,
+        recommendationRowsExcluded: true,
+        thumbnailNativeScrollEnabled: true,
+        zoomDoubleSwipePrevented: true,
         wheelNavigation: "horizontal-only"
       };
     }
@@ -187,6 +221,7 @@
       document.addEventListener("touchcancel", cancelGesture, { passive: true, capture: true });
     }
 
+    document.addEventListener("click", blockClickAfterSwipe, { capture: true });
     document.addEventListener("wheel", onWheel, { passive: false, capture: true });
     new MutationObserver(schedule).observe(document.documentElement, {
       childList: true,
