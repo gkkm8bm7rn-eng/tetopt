@@ -13,13 +13,19 @@
       return Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
     };
 
+    const numericPrice = value => {
+      if (typeof value === "number") return value;
+      const normalized = String(value ?? "")
+        .replace(/\s+/g, "")
+        .replace(",", ".");
+      return Number(normalized);
+    };
+
     const priceOf = product => {
-      const wholesale = Number(product?.wholesalePrice);
-      if (Number.isFinite(wholesale) && wholesale >= 0) return wholesale;
-      const selling = Number(product?.price);
-      if (Number.isFinite(selling) && selling >= 0) return selling;
-      const retail = Number(product?.retailPrice);
-      if (Number.isFinite(retail) && retail >= 0) return retail;
+      for (const key of ["wholesalePrice", "price", "retailPrice"]) {
+        const value = numericPrice(product?.[key]);
+        if (Number.isFinite(value) && value >= 0) return value;
+      }
       return Number.POSITIVE_INFINITY;
     };
 
@@ -131,11 +137,14 @@
       .replace(/\s+/g, " ")
       .trim();
 
+    // После normalize() распознаются записи:
+    // "1 шт. в упаковке", "2шт.в упаковке", "4 шт. в 2-х упаковках",
+    // "2 шт/уп", "упаковка по 2 шт" и аналогичные варианты.
     const packagePatterns = [
-      /(?:^|\s)\d+\s*шт\s*в\s*\d+\s*х\s*упаковк[а-я]*(?=\s|$)/gi,
-      /(?:^|\s)\d+\s*шт\s*в\s*(?:упаковк[а-я]*|уп)(?=\s|$)/gi,
+      /(?:^|\s)\d+\s*шт\s*в\s*(?:\d+\s*(?:х\s*)?)?упаковк[а-я]*(?=\s|$)/gi,
+      /(?:^|\s)\d+\s*шт\s*(?:в\s*)?(?:упаковк[а-я]*|уп)(?=\s|$)/gi,
       /(?:^|\s)упаковк[а-я]*\s*(?:по\s*)?\d+\s*шт(?=\s|$)/gi,
-      /(?:^|\s)\d+\s*шт\s*\/\s*уп(?=\s|$)/gi
+      /(?:^|\s)по\s*\d+\s*шт\s*в\s*упаковк[а-я]*(?=\s|$)/gi
     ];
 
     const idOf = (product, index = 0) => Number(product?.id) || index + 1;
@@ -159,20 +168,26 @@
     }
 
     function specsKey(value) {
-      return normalize(value)
+      return stripPackageQuantity(value)
         .split(" ")
         .filter(Boolean)
         .sort((a, b) => a.localeCompare(b, "ru"))
         .join(" ");
     }
 
+    function numericPrice(value) {
+      if (typeof value === "number") return value;
+      const normalized = String(value ?? "")
+        .replace(/\s+/g, "")
+        .replace(",", ".");
+      return Number(normalized);
+    }
+
     function priceOf(product) {
-      const wholesale = Number(product?.wholesalePrice);
-      if (Number.isFinite(wholesale) && wholesale >= 0) return wholesale;
-      const selling = Number(product?.price);
-      if (Number.isFinite(selling) && selling >= 0) return selling;
-      const retail = Number(product?.retailPrice);
-      if (Number.isFinite(retail) && retail >= 0) return retail;
+      for (const key of ["wholesalePrice", "price", "retailPrice"]) {
+        const value = numericPrice(product?.[key]);
+        if (Number.isFinite(value) && value >= 0) return value;
+      }
       return Number.POSITIVE_INFINITY;
     }
 
@@ -180,126 +195,121 @@
       return [...new Set((ids || []).map(Number).filter(id => byId.has(id)))];
     }
 
-    function orderIds(ids) {
-      return uniqueIds(ids).sort((left, right) =>
-        priceOf(byId.get(left)) - priceOf(byId.get(right)) || left - right
-      );
+    const currentGroups = Array.isArray(window.PRODUCT_DUPLICATE_GROUPS)
+      ? window.PRODUCT_DUPLICATE_GROUPS
+      : [];
+
+    const replacementById = new Map();
+    const replacementSource = new Map();
+
+    function registerReplacement(packageId, cheaperId, source) {
+      const hiddenId = Number(packageId);
+      const keptId = Number(cheaperId);
+      const hiddenProduct = byId.get(hiddenId);
+      const keptProduct = byId.get(keptId);
+
+      if (!hiddenProduct || !keptProduct) return;
+      if (!hasPackageQuantity(hiddenProduct) || hasPackageQuantity(keptProduct)) return;
+      if (!(priceOf(keptProduct) < priceOf(hiddenProduct))) return;
+
+      const existingId = replacementById.get(hiddenId);
+      if (
+        existingId &&
+        priceOf(byId.get(existingId)) <= priceOf(keptProduct)
+      ) return;
+
+      replacementById.set(hiddenId, keptId);
+      replacementSource.set(hiddenId, source);
     }
 
-    const discovered = [];
+    // 1. Автоматическая строгая проверка:
+    // одинаковая модель после удаления пометки упаковки + одинаковые характеристики.
     const exactBuckets = new Map();
 
     products.forEach((product, index) => {
       const id = idOf(product, index);
       const family = stripPackageQuantity(product.name);
-      if (!family) return;
-      const key = `${family}\u0000${specsKey(product.specs)}`;
+      const specifications = specsKey(product.specs);
+      if (!family || !specifications) return;
+
+      const key = `${family}\u0000${specifications}`;
       if (!exactBuckets.has(key)) exactBuckets.set(key, []);
       exactBuckets.get(key).push({ id, product });
     });
 
+    let exactGroupCount = 0;
+
     for (const items of exactBuckets.values()) {
-      if (items.length < 2 || !items.some(item => hasPackageQuantity(item.product))) continue;
-      const ids = orderIds(items.map(item => item.id));
-      if (ids.length < 2) continue;
-      discovered.push({
-        name: `${stripPackageQuantity(items[0].product.name)} — дубль упаковки`,
-        ids
-      });
+      const packageItems = items.filter(item => hasPackageQuantity(item.product));
+      const ordinaryItems = items
+        .filter(item => !hasPackageQuantity(item.product))
+        .sort((left, right) =>
+          priceOf(left.product) - priceOf(right.product) || left.id - right.id
+        );
+
+      if (!packageItems.length || !ordinaryItems.length) continue;
+      const cheapestOrdinary = ordinaryItems[0];
+      let changed = false;
+
+      for (const item of packageItems) {
+        const before = replacementById.size;
+        registerReplacement(item.id, cheapestOrdinary.id, "strict-name-and-specs");
+        if (replacementById.size > before) changed = true;
+      }
+      if (changed) exactGroupCount += 1;
     }
 
-    const currentGroups = Array.isArray(window.PRODUCT_DUPLICATE_GROUPS)
-      ? window.PRODUCT_DUPLICATE_GROUPS
-      : [];
-    const allGroups = [...currentGroups, ...discovered]
-      .map(group => ({
-        name: group.name || "Дубли товара",
-        ids: uniqueIds(group.ids)
-      }))
-      .filter(group => group.ids.length > 1);
+    // 2. Используем вручную проверенный реестр дублей.
+    // Он покрывает случаи, где в прайсе у одной строки пропущен цвет ножек,
+    // отличается написание ткани или есть другая несущественная опечатка.
+    let registryGroupCount = 0;
 
-    const packageIds = new Set();
-    allGroups.forEach(group => {
-      if (group.ids.some(id => hasPackageQuantity(byId.get(id)))) {
-        group.ids.forEach(id => packageIds.add(id));
-      }
-    });
+    for (const group of currentGroups) {
+      const items = uniqueIds(group.ids).map(id => ({ id, product: byId.get(id) }));
+      const packageItems = items.filter(item => hasPackageQuantity(item.product));
+      const ordinaryItems = items
+        .filter(item => !hasPackageQuantity(item.product))
+        .sort((left, right) =>
+          priceOf(left.product) - priceOf(right.product) || left.id - right.id
+        );
 
-    let expanded = true;
-    while (expanded) {
-      expanded = false;
-      for (const group of allGroups) {
-        if (!group.ids.some(id => packageIds.has(id))) continue;
-        for (const id of group.ids) {
-          if (packageIds.has(id)) continue;
-          packageIds.add(id);
-          expanded = true;
-        }
+      if (!packageItems.length || !ordinaryItems.length) continue;
+      const cheapestOrdinary = ordinaryItems[0];
+      let changed = false;
+
+      for (const item of packageItems) {
+        const before = replacementById.size;
+        registerReplacement(item.id, cheapestOrdinary.id, "verified-duplicate-registry");
+        if (replacementById.size > before) changed = true;
       }
+      if (changed) registryGroupCount += 1;
     }
 
-    const packageGroups = allGroups.filter(group => group.ids.some(id => packageIds.has(id)));
-    const untouchedGroups = allGroups.filter(group => !group.ids.some(id => packageIds.has(id)));
+    const hiddenIds = new Set(replacementById.keys());
+    const keptIds = new Set(replacementById.values());
 
-    const parent = new Map();
-    const find = id => {
-      if (!parent.has(id)) parent.set(id, id);
-      const root = parent.get(id);
-      if (root !== id) parent.set(id, find(root));
-      return parent.get(id);
-    };
-    const union = (left, right) => {
-      const a = find(left);
-      const b = find(right);
-      if (a !== b) parent.set(b, a);
-    };
+    const groupedByKept = new Map();
+    for (const [hiddenId, keptId] of replacementById) {
+      if (!groupedByKept.has(keptId)) groupedByKept.set(keptId, []);
+      groupedByKept.get(keptId).push(hiddenId);
+    }
 
-    packageGroups.forEach(group => {
-      group.ids.forEach(id => find(id));
-      for (let index = 1; index < group.ids.length; index += 1) {
-        union(group.ids[0], group.ids[index]);
-      }
-    });
+    const conditionalPackageGroups = [...groupedByKept].map(([keptId, hidden]) => ({
+      name: `${stripPackageQuantity(byId.get(keptId)?.name || "Товар")} — скрыты более дорогие варианты упаковки`,
+      ids: [keptId, ...hidden.sort((a, b) => a - b)]
+    }));
 
-    const components = new Map();
-    packageGroups.forEach(group => {
-      group.ids.forEach(id => {
-        const root = find(id);
-        if (!components.has(root)) components.set(root, new Set());
-        components.get(root).add(id);
-      });
-    });
-
-    const consolidated = [...components.values()]
-      .map(ids => orderIds([...ids]))
-      .filter(ids => ids.length > 1)
-      .map(ids => ({
-        name: `${stripPackageQuantity(byId.get(ids[0])?.name || "Товар")} — упаковочный дубль`,
-        ids
-      }));
-
-    const componentIds = new Set(consolidated.flatMap(group => group.ids));
-    const safeUntouched = untouchedGroups.filter(group =>
-      !(group.ids || []).some(id => componentIds.has(Number(id)))
-    );
-
-    window.PRODUCT_DUPLICATE_GROUPS = [...safeUntouched, ...consolidated];
-
-    const hiddenIds = new Set(consolidated.flatMap(group => group.ids.slice(1)));
-    const keptIds = new Set(consolidated.map(group => group.ids[0]));
-    const replacementById = new Map();
-    consolidated.forEach(group => {
-      const keptId = Number(group.ids[0]);
-      group.ids.slice(1).forEach(id => replacementById.set(Number(id), keptId));
-    });
+    // Сохраняем остальные ранее проверенные группы и добавляем только пары,
+    // для которых обычная карточка действительно дешевле упаковочной.
+    window.PRODUCT_DUPLICATE_GROUPS = [...currentGroups, ...conditionalPackageGroups];
 
     const replacementId = id => replacementById.get(Number(id)) || Number(id);
     const remapIds = ids => [...new Set((ids || [])
       .map(replacementId)
       .filter(id => byId.has(id)))];
 
-    // Не удаляем цвет из семейства, когда его прежний ID оказался дорогим дублем.
-    // Подставляем вместо него выбранный дешёвый ID того же цвета и характеристик.
+    // Если скрытая упаковочная строка была представителем цвета,
+    // подставляем дешёвую обычную строку того же варианта, а не удаляем цвет.
     window.PRODUCT_COLOR_GROUPS = (Array.isArray(window.PRODUCT_COLOR_GROUPS)
       ? window.PRODUCT_COLOR_GROUPS
       : []
@@ -309,17 +319,21 @@
     function remapVariantGroup(group) {
       const seen = new Set();
       const variants = [];
+
       for (const variant of group.variants || []) {
         const id = replacementId(variant.id);
         if (!byId.has(id) || seen.has(id)) continue;
         seen.add(id);
         variants.push({ ...variant, id });
       }
+
       if (!variants.length) return null;
+
       const mappedPrimary = replacementId(group.primaryId || variants[0].id);
       const primaryId = variants.some(variant => Number(variant.id) === mappedPrimary)
         ? mappedPrimary
         : Number(variants[0].id);
+
       return { ...group, primaryId, variants };
     }
 
@@ -333,29 +347,39 @@
       : []
     ).map(remapVariantGroup).filter(Boolean);
 
+    const allPackageIds = products
+      .map((product, index) => ({ id: idOf(product, index), product }))
+      .filter(item => hasPackageQuantity(item.product))
+      .map(item => item.id);
+
     window.__FORMA_PACKAGE_DUPLICATE_AUDIT__ = {
       enabled: true,
-      version: 2,
-      rule: "package quantity ignored; identical product variant keeps the lowest wholesale price",
-      exactGroupsDiscovered: discovered.length,
-      packageComponents: consolidated.map(group => ({
-        name: group.name,
-        keptId: group.ids[0],
-        keptPrice: priceOf(byId.get(group.ids[0])),
-        hiddenIds: group.ids.slice(1),
-        hiddenPrices: group.ids.slice(1).map(id => priceOf(byId.get(id)))
-      })),
-      replacements: [...replacementById].map(([hiddenId, keptId]) => ({ hiddenId, keptId })),
-      packageComponentCount: consolidated.length,
-      keptIds: [...keptIds],
-      hiddenIds: [...hiddenIds],
+      version: 3,
+      rule: "hide a package-labelled product only when a verified non-package analogue has a strictly lower wholesale price",
+      packageLabelledCount: allPackageIds.length,
       hiddenCount: hiddenIds.size,
-      preservesDimensionsColorMaterialAndConstruction: true,
-      remapsColorVariantIdsInsteadOfRemovingThem: true
+      hiddenIds: [...hiddenIds],
+      keptIds: [...keptIds],
+      exactGroupCount,
+      registryGroupCount,
+      replacements: [...replacementById].map(([hiddenId, keptId]) => ({
+        hiddenId,
+        hiddenPrice: priceOf(byId.get(hiddenId)),
+        keptId,
+        keptPrice: priceOf(byId.get(keptId)),
+        source: replacementSource.get(hiddenId)
+      })),
+      untouchedPackageIds: allPackageIds.filter(id => !hiddenIds.has(id)),
+      strictLowerPriceRequired: true,
+      preservesUniqueColorsMaterialsDimensionsAndConstruction: true,
+      remapsColorVariantIdsInsteadOfRemovingColors: true
     };
 
     window.dispatchEvent(new CustomEvent("forma:product-groups-ready", {
-      detail: { source: "package-duplicate-rule", hiddenCount: hiddenIds.size }
+      detail: {
+        source: "conditional-package-price-rule",
+        hiddenCount: hiddenIds.size
+      }
     }));
 
     const rerender = () => {
@@ -363,12 +387,14 @@
         window.__FORMA_RENDER_CATALOG__();
       }
     };
+
     if (typeof queueMicrotask === "function") queueMicrotask(rerender);
     else setTimeout(rerender, 0);
   }
 
   document.write = function patchedWrite(...parts) {
     let html = parts.join("");
+
     if (typeof html === "string" && html.includes("</body>")) {
       const originalRenderLine = "const all=filtered(), shown=all.slice(0,state.visible);";
       const logicalRenderLine = "const rawAll=filtered(), all=typeof window.__FORMA_LOGICAL_FILTER_RESULTS__===\"function\"?window.__FORMA_LOGICAL_FILTER_RESULTS__(rawAll):rawAll, shown=all.slice(0,state.visible);";
@@ -384,6 +410,7 @@
       html = html.replace("</body>", `<script>(${runtime.toString()})();<\/script></body>`);
       return originalWrite(html);
     }
+
     return originalWrite(...parts);
   };
 })();
