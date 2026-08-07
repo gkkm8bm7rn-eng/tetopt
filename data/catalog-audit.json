@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "catalog": "catalog.json",
+  "scope": "full automated audit of all client catalog models and local-photo references",
+  "summary": {
+    "models": 541,
+    "variants": 1196,
+    "modelsWithMultipleVariants": 236,
+    "localPhotoReferences": 4922,
+    "confirmedOrCuratedPrimaryImages": 920,
+    "primaryImagesNeedingReview": 276,
+    "warnings": 1,
+    "errors": 0
+  },
+  "checks": {
+    "modelCountIs541": true,
+    "variantCountIs1196": true,
+    "modelIdsUnique": true,
+    "sourceIdsUnique": true,
+    "modelVariantCountsMatch": true,
+    "modelsNonEmpty": true,
+    "primaryImagesPresent": true,
+    "primaryImageIsFirstGalleryImage": true,
+    "imageListsHaveNoDuplicates": true,
+    "localImageCountsMatch": true,
+    "allImagePathsLocal": true,
+    "allReferencedImagesExist": true,
+    "wholesalePricesPositive": true,
+    "retailPricesPresentOrExplicitZero": true,
+    "mergedDuplicateIdsNotLiveVariants": true,
+    "exactCommercialCollisionsRemaining": true
+  },
+  "failedChecks": [],
+  "warnings": [
+    {
+      "modelId": "model-114",
+      "name": "Кресло Флаффи/Fluffy",
+      "sourceIds": [
+        294,
+        1005,
+        1009,
+        295,
+        1008,
+        296,
+        1010,
+        1006,
+        1007
+      ],
+      "categories": [
+        "Кресла и стулья"
+      ],
+      "collections": [
+        "Modern РФ/Модерн РФ (обеденная группа)",
+        "Кресла TETCHAIR"
+      ],
+      "reason": "variants span multiple categories or collections; review grouping provenance"
+    }
+  ],
+  "exactCommercialCollisions": [],
+  "notes": [
+    "A cross-collection model is a warning rather than an automatic failure because collection provenance may differ for one commercial model.",
+    "Retail price 0 is allowed when explicitly present in source; wholesale price must be positive.",
+    "Primary-photo visual quality is confirmed only for verified-manifest or curated-local-cover statuses."
+  ]
+}
