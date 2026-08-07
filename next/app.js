@@ -310,7 +310,11 @@
     state.activeImageIndex = 0;
     renderDialog();
     if (typeof els.dialog.showModal === 'function') els.dialog.showModal();
-    else els.dialog.setAttribute('open', '');
+    else {
+      els.dialog.classList.add('dialog-fallback');
+      els.dialog.setAttribute('open', '');
+      document.body.classList.add('dialog-fallback-active');
+    }
   }
 
   function renderDialog() {
@@ -352,7 +356,7 @@
         <div class="dialog-info">
           <p class="eyebrow">${escapeHtml(model.collections[0] || model.categories[0] || 'FORMA HOME')}</p>
           <h2>${escapeHtml(model.name)}</h2>
-          <strong class="dialog-price">${escapeHtml(priceText(variant.wholesalePrice || model.minWholesalePrice))}</strong>
+          <strong class="dialog-price">${escapeHtml(selectedPriceText(variant.wholesalePrice, model.minWholesalePrice))}</strong>
           ${positiveNumber(variant.retailPrice) ? `<span class="dialog-retail">Розничная цена: ${formatPrice(variant.retailPrice)}</span>` : ''}
           ${colorsHtml ? `<p class="variant-title">Цвет</p><div class="color-pills">${colorsHtml}</div>` : ''}
           ${variantsHtml ? `<p class="variant-title">Исполнение</p><div class="variant-pills">${variantsHtml}</div>` : ''}
@@ -412,7 +416,6 @@
       toggleFavorite(state.activeModel.id, event.currentTarget, true);
       event.currentTarget.textContent = state.favorites.has(state.activeModel.id) ? '♥' : '♡';
       event.currentTarget.setAttribute('aria-label', state.favorites.has(state.activeModel.id) ? 'Убрать модель из избранного' : 'Добавить модель в избранное');
-      if (state.view === 'favorites' && !state.favorites.has(state.activeModel.id)) applyFilters();
     });
   }
 
@@ -478,7 +481,11 @@
 
   function closeDialog() {
     if (typeof els.dialog.close === 'function') els.dialog.close();
-    else els.dialog.removeAttribute('open');
+    else {
+      els.dialog.removeAttribute('open');
+      els.dialog.classList.remove('dialog-fallback');
+      document.body.classList.remove('dialog-fallback-active');
+    }
   }
 
   function toggleFavorite(id, button, dialogButton = false) {
@@ -540,6 +547,12 @@
   function priceText(value) {
     const price = positiveNumber(value);
     return price ? `от ${formatPrice(price)}` : 'Цена по запросу';
+  }
+
+  function selectedPriceText(variantPrice, modelPrice) {
+    const exact = positiveNumber(variantPrice);
+    if (exact) return formatPrice(exact);
+    return priceText(modelPrice);
   }
 
   function formatPrice(value) {
