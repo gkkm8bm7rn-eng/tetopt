@@ -28,7 +28,7 @@
         style.id = STYLE_ID;
       }
 
-      style.textContent = `
+      const css = `
         .journey-row{
           overflow-x:auto!important;
           overflow-y:hidden!important;
@@ -132,6 +132,7 @@
           .journey-product{transition:none!important}
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
 
       if (!style.parentNode) document.head.appendChild(style);
     }
@@ -153,8 +154,6 @@
         vertical: false
       };
 
-      // Disable the older manual touch scroller. Native momentum scrolling is
-      // smoother on iOS and Android and still preserves vertical page movement.
       event.stopImmediatePropagation();
     }
 
