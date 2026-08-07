@@ -1,0 +1,32 @@
+name: Primary photo and Fluffy audit
+
+on:
+  push:
+    branches:
+      - agent/primary-photo-audit
+    paths:
+      - 'tools/build_primary_photo_review_sheets.py'
+      - 'data/catalog-primary-photo-review.json'
+      - 'catalog-source.html'
+      - 'assets/products/**'
+      - '.github/workflows/primary-photo-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Build review sheets
+        run: python tools/build_primary_photo_review_sheets.py
+      - name: Upload review sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: primary-photo-audit
+          path: review-output/primary-photo-audit/
+          retention-days: 1
