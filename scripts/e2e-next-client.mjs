@@ -70,13 +70,11 @@ async function checkViewport(browser, cfg) {
 
   await page.locator('#search').fill('Fluffy');
   await page.waitForTimeout(250);
-  const fluffyCards = await page.locator('.product-card').count();
-  assert(fluffyCards === 2, `${cfg.name}: поиск Fluffy должен показывать 2 отдельные конструкции, получено ${fluffyCards}`);
-  await page.locator('#reset-filters').click().catch(() => {});
-  if ((await page.locator('#search').inputValue()) !== '') {
-    await page.locator('#search').fill('');
-    await page.waitForTimeout(250);
-  }
+  const fluffyNames = await page.locator('.product-card .card-name').allTextContents();
+  const exactFluffy = fluffyNames.filter(name => name.trim().toLocaleLowerCase('ru') === 'кресло флаффи/fluffy').length;
+  assert(exactFluffy === 2, `${cfg.name}: должны существовать 2 отдельные карточки «Кресло Флаффи/Fluffy», получено ${exactFluffy}; результаты поиска: ${fluffyNames.join(' | ')}`);
+  await page.locator('#search').fill('');
+  await page.waitForTimeout(250);
 
   await page.locator('.product-card .card-open').first().click();
   await page.waitForSelector('#product-dialog[open]', { timeout: 5_000 });
