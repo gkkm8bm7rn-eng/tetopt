@@ -18,7 +18,7 @@
         style.id = STYLE_ID;
       }
 
-      style.textContent = `
+      const css = `
         #modal,
         #modal *{
           box-sizing:border-box;
@@ -303,10 +303,9 @@
           #modal .modal-content{padding-top:16px!important}
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
 
-      if (style.parentNode !== document.head || style !== document.head.lastElementChild) {
-        document.head.appendChild(style);
-      }
+      if (!style.parentNode) document.head.appendChild(style);
     }
 
     function syncState() {
@@ -319,7 +318,7 @@
       if (modal) {
         modal.setAttribute("aria-modal", "true");
         modal.setAttribute("role", "dialog");
-        modal.style.maxWidth = "";
+        if (modal.style.maxWidth) modal.style.removeProperty("max-width");
       }
       window.__FORMA_PRODUCT_MODAL_LAYOUT__ = {
         open,
