@@ -1,0 +1,148 @@
+name: Review remaining product covers batch 05
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/review-remaining-batch-05.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    if: github.event.pull_request.head.ref == 'agent/review-remaining-batch-05'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v6
+        with:
+          ref: agent/review-remaining-batch-05
+          fetch-depth: 0
+
+      - name: Fetch verified supplier-photo source
+        run: |
+          git fetch origin agent/front-three-quarter-and-image-zoom
+          git worktree add /tmp/source origin/agent/front-three-quarter-and-image-zoom
+
+      - name: Install free image tool
+        run: python -m pip install --quiet pillow
+
+      - name: Build candidate cover sheets
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont, ImageOps
+
+          ROOT=Path('.')
+          SOURCE=Path('/tmp/source')
+          OUT=Path('remaining-batch-05-review')
+          OUT.mkdir(exist_ok=True)
+
+          def read_products(path):
+              text=path.read_text(encoding='utf-8')
+              marker='const PRODUCTS ='
+              start=text.index(marker)+len(marker)
+              while text[start].isspace():
+                  start+=1
+              return json.JSONDecoder().raw_decode(text[start:])[0]
+
+          main_products=read_products(ROOT/'catalog-source.html')
+          source_products=read_products(SOURCE/'catalog-source.html')
+          main_by_id={int(p['id']):p for p in main_products}
+          source_by_id={int(p['id']):p for p in source_products}
+          hidden={int(v) for v in json.loads((ROOT/'hidden-products.json').read_text(encoding='utf-8')).get('ids',[])}
+
+          report_paths=[
+              ROOT/'data/confident-photo-release.json',
+              ROOT/'data/confirmed-photo-release-batch-02.json',
+              ROOT/'data/confirmed-photo-release-batch-03.json',
+              ROOT/'data/confirmed-photo-release-batch-04.json',
+          ]
+          published=set()
+          deferred=set()
+          for path in report_paths:
+              report=json.loads(path.read_text(encoding='utf-8'))
+              published.update(int(v) for v in report.get('published_ids',[]))
+              deferred.update(int(v) for v in report.get('skipped_as_uncertain',[]))
+
+          active=[int(p['id']) for p in main_products if int(p['id']) not in hidden]
+          if len(active)!=1362 or len(hidden)!=361 or len(published)!=183:
+              raise SystemExit(f'Неверные исходные количества: active={len(active)}, hidden={len(hidden)}, published={len(published)}')
+
+          candidates=[]
+          for product_id in active:
+              if product_id in published or product_id in deferred:
+                  continue
+              main=main_by_id[product_id]
+              source=source_by_id.get(product_id)
+              if not source:
+                  continue
+              source_images=[v for v in source.get('images',[]) if isinstance(v,str) and v and not v.startswith('assets/interiors/')]
+              main_images=[v for v in main.get('images',[]) if isinstance(v,str) and v and not v.startswith('assets/interiors/')]
+              if not source_images:
+                  continue
+              source_cover=source_images[0].split('?',1)[0]
+              main_cover=(main_images[0] if main_images else str(main.get('directImage') or '')).split('?',1)[0]
+              source_path=SOURCE/source_cover
+              if source_cover==main_cover or not source_path.is_file():
+                  continue
+              candidates.append({
+                  'product_id':product_id,
+                  'name':str(main.get('name') or ''),
+                  'category':str(main.get('category') or ''),
+                  'current_cover':main_cover,
+                  'candidate_cover':source_cover,
+              })
+              if len(candidates)>=60:
+                  break
+
+          if len(candidates)!=60:
+              raise SystemExit(f'Ожидалось 60 кандидатов, найдено {len(candidates)}')
+
+          font=ImageFont.load_default()
+          cols,rows=4,5
+          cell_w,cell_h=390,360
+          per_sheet=cols*rows
+          for sheet_index in range(3):
+              chunk=candidates[sheet_index*per_sheet:(sheet_index+1)*per_sheet]
+              sheet=Image.new('RGB',(cols*cell_w,rows*cell_h),'white')
+              draw=ImageDraw.Draw(sheet)
+              for idx,item in enumerate(chunk):
+                  rr,cc=divmod(idx,cols)
+                  x0,y0=cc*cell_w,rr*cell_h
+                  draw.rectangle((x0,y0,x0+cell_w-1,y0+cell_h-1),outline='black',width=2)
+                  draw.text((x0+8,y0+7),f"ID {item['product_id']} | {item['category']}"[:58],fill='black',font=font)
+                  draw.text((x0+8,y0+24),item['name'][:62],fill='black',font=font)
+                  draw.text((x0+8,y0+41),Path(item['candidate_cover']).name,fill='black',font=font)
+                  with Image.open(SOURCE/item['candidate_cover']) as image:
+                      image=ImageOps.exif_transpose(image).convert('RGB')
+                      image.thumbnail((cell_w-22,cell_h-74),Image.Resampling.LANCZOS)
+                      px=x0+(cell_w-image.width)//2
+                      py=y0+62+(cell_h-68-image.height)//2
+                      sheet.paste(image,(px,py))
+              sheet.save(OUT/f'remaining-batch-05-sheet-{sheet_index+1}.jpg',quality=90,optimize=True)
+
+          manifest={
+              'version':1,
+              'batch':5,
+              'active_products':1362,
+              'already_published':len(published),
+              'deferred_from_previous_batches':len(deferred),
+              'candidate_products':len(candidates),
+              'archived_products':361,
+              'candidates':candidates,
+          }
+          (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(f"Созданы 3 листа для {len(candidates)} оставшихся активных товаров")
+          PY
+
+      - name: Upload short-lived review
+        uses: actions/upload-artifact@v4
+        with:
+          name: remaining-batch-05-review
+          path: remaining-batch-05-review
+          retention-days: 1
