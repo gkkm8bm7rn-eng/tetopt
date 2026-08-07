@@ -7,7 +7,7 @@
   function injectStyles(){
     let style=document.getElementById(STYLE_ID);
     if(!style){style=document.createElement('style');style.id=STYLE_ID;document.head.appendChild(style)}
-    style.textContent=`
+    const css=`
       :root{--forma-announcement-h:0px;--forma-header-h:0px;--forma-fixed-header-h:0px;--forma-paper:#fffaf2;--forma-olive:#71885e;--forma-olive-dark:#405a34;--forma-ink:#28251f}
       .announcement{
         position:fixed!important;
@@ -93,6 +93,7 @@
         .forma-hero-stat strong{font-size:24px}.forma-hero-stat span{font-size:8px}
       }
     `;
+    if(style.textContent!==css)style.textContent=css;
   }
 
   function ensureSpacer(){
@@ -119,9 +120,12 @@
     const headerHeight=header?Math.ceil(header.getBoundingClientRect().height):0;
     const totalHeight=announcementHeight+headerHeight;
     const root=document.documentElement;
-    root.style.setProperty('--forma-announcement-h',`${announcementHeight}px`);
-    root.style.setProperty('--forma-header-h',`${headerHeight}px`);
-    root.style.setProperty('--forma-fixed-header-h',`${totalHeight}px`);
+    const announcementValue=`${announcementHeight}px`;
+    const headerValue=`${headerHeight}px`;
+    const totalValue=`${totalHeight}px`;
+    if(root.style.getPropertyValue('--forma-announcement-h')!==announcementValue)root.style.setProperty('--forma-announcement-h',announcementValue);
+    if(root.style.getPropertyValue('--forma-header-h')!==headerValue)root.style.setProperty('--forma-header-h',headerValue);
+    if(root.style.getPropertyValue('--forma-fixed-header-h')!==totalValue)root.style.setProperty('--forma-fixed-header-h',totalValue);
     ensureSpacer();
     window.__FORMA_FIXED_HEADER__={announcementHeight,headerHeight,totalHeight};
   }
