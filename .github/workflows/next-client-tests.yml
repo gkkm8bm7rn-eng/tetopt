@@ -17,6 +17,13 @@ jobs:
   next-client-browser:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    env:
+      BROWSER_ENGINE: ${{ matrix.engine }}
+      NEXT_E2E_OUT: artifacts/next-client-${{ matrix.engine }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,10 +36,10 @@ jobs:
       - name: Validate client JavaScript
         run: node --check next/app.js && node --check scripts/e2e-next-client.mjs
 
-      - name: Install Playwright Chromium
+      - name: Install Playwright browser
         run: |
           npm install --no-save playwright
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps ${{ matrix.engine }}
 
       - name: Start local storefront
         run: |
@@ -58,7 +65,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: next-client-browser-results
-          path: artifacts/next-client
+          name: next-client-${{ matrix.engine }}-results
+          path: artifacts/next-client-${{ matrix.engine }}
           if-no-files-found: warn
           retention-days: 7
