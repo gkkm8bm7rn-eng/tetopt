@@ -1,0 +1,177 @@
+name: Apply reviewed catalog decisions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-reviewed-catalog-decisions.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply visual review and Fluffy split
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          catalog = json.loads(Path('catalog.json').read_text(encoding='utf-8'))
+          photo = json.loads(Path('data/catalog-primary-photo-decisions.json').read_text(encoding='utf-8'))
+          grouping = json.loads(Path('data/catalog-grouping-decisions.json').read_text(encoding='utf-8'))
+          products = catalog['products']
+          variants = [v for p in products for v in p['variants']]
+          by_id = {int(v['sourceId']): v for v in variants}
+
+          replacement = {int(k): v for k, v in photo['replacementPrimaryImages'].items()}
+          unresolved = {int(x) for x in photo['needsPhotoSearchSourceIds']}
+          fallback = {int(v['sourceId']) for v in variants if v.get('primaryImageStatus') == 'current-gallery-fallback'}
+          if len(fallback) != 276:
+              raise SystemExit(f'Expected 276 fallback variants before review, got {len(fallback)}')
+          if not set(replacement).issubset(fallback):
+              raise SystemExit('Replacement IDs are not all in fallback set')
+          if not unresolved.issubset(fallback):
+              raise SystemExit('Unresolved IDs are not all in fallback set')
+
+          for sid in sorted(fallback):
+              v = by_id[sid]
+              if sid in unresolved:
+                  v['primaryImageStatus'] = 'needs-photo-search'
+                  continue
+              if sid in replacement:
+                  image = replacement[sid]
+                  if image not in v.get('images', []):
+                      raise SystemExit(f'Reviewed replacement image missing from gallery: {sid} {image}')
+                  v['primaryImage'] = image
+                  v['images'] = [image] + [x for x in v['images'] if x != image]
+                  v['primaryImageStatus'] = 'visually-approved-local-replacement'
+              else:
+                  v['primaryImageStatus'] = 'visually-approved-current'
+
+          fluffy_groups = grouping['decisions'][0]['models']
+          fluffy_ids = {int(x) for g in fluffy_groups for x in g['sourceIds']}
+          target_indexes = [i for i,p in enumerate(products) if fluffy_ids.issubset({int(v['sourceId']) for v in p['variants']})]
+          if len(target_indexes) != 1:
+              raise SystemExit(f'Expected exactly one combined Fluffy model, got {len(target_indexes)}')
+          idx = target_indexes[0]
+          old = products.pop(idx)
+          old_by_id = {int(v['sourceId']): v for v in old['variants']}
+          split_models = []
+          for suffix, g in zip(('a','b'), fluffy_groups):
+              ids = [int(x) for x in g['sourceIds']]
+              group_variants = [old_by_id[x] for x in ids]
+              split_models.append({
+                  'id': old['id'] + suffix,
+                  'name': g['label'],
+                  'category': old.get('category'),
+                  'collection': group_variants[0].get('collection'),
+                  'variantCount': len(group_variants),
+                  'variants': group_variants,
+                  'groupingDecision': g['key']
+              })
+          if set(old_by_id) != fluffy_ids:
+              raise SystemExit('Combined Fluffy model contains unexpected variant IDs')
+          products[idx:idx] = split_models
+
+          variants = [v for p in products for v in p['variants']]
+          source_ids = [int(v['sourceId']) for v in variants]
+          model_ids = [p['id'] for p in products]
+          statuses = Counter(v.get('primaryImageStatus') for v in variants)
+
+          checks = {
+              'modelCountIs542': len(products) == 542,
+              'variantCountIs1196': len(variants) == 1196,
+              'modelIdsUnique': len(model_ids) == len(set(model_ids)),
+              'sourceIdsUnique': len(source_ids) == len(set(source_ids)),
+              'modelVariantCountsMatch': all(p.get('variantCount') == len(p.get('variants', [])) for p in products),
+              'modelsNonEmpty': all(bool(p.get('variants')) for p in products),
+              'primaryImagesPresent': all(bool(v.get('primaryImage')) for v in variants),
+              'primaryImageIsFirstGalleryImage': all(v.get('images') and v.get('primaryImage') == v['images'][0] for v in variants),
+              'imageListsHaveNoDuplicates': all(len(v.get('images', [])) == len(set(v.get('images', []))) for v in variants),
+              'allImagePathsLocal': all(isinstance(img,str) and img.startswith('assets/') for v in variants for img in v.get('images', [])),
+              'reviewedPrimaryCountIs276': statuses['visually-approved-current'] + statuses['visually-approved-local-replacement'] + statuses['needs-photo-search'] == 276,
+              'primaryImagesNeedingSearchIs4': statuses['needs-photo-search'] == 4,
+              'fluffyCrossBaseSplit': any({int(v['sourceId']) for v in p['variants']} == {294,295,296} for p in products),
+              'fluffyCasterBaseSplit': any({int(v['sourceId']) for v in p['variants']} == {1005,1006,1007,1008,1009,1010} for p in products),
+          }
+          failed = [k for k,v in checks.items() if not v]
+          if failed:
+              raise SystemExit('Post-review catalog audit failed: ' + ', '.join(failed))
+
+          warnings = []
+          for p in products:
+              cats = sorted({v.get('category') for v in p['variants']})
+              cols = sorted({v.get('collection') for v in p['variants']})
+              if len(cats) > 1 or len(cols) > 1:
+                  warnings.append({'modelId':p['id'],'name':p['name'],'sourceIds':[v['sourceId'] for v in p['variants']],'categories':cats,'collections':cols})
+
+          catalog['stats']['models'] = len(products)
+          catalog['stats']['variants'] = len(variants)
+          catalog['stats']['primaryImageStatus'] = dict(statuses)
+          catalog['stats']['approvedPrimaryImages'] = len(variants) - statuses['needs-photo-search']
+          catalog['stats']['primaryImagesNeedingSearch'] = statuses['needs-photo-search']
+          catalog['validation']['primaryImagesPresent'] = checks['primaryImagesPresent']
+          catalog['validation']['primaryImageIsFirstGalleryImage'] = checks['primaryImageIsFirstGalleryImage']
+          catalog['validation']['fluffyConstructionSplit'] = True
+          catalog['imagePolicy']['visualReview'] = 'all 276 former fallback primary images reviewed; approved current/replacement used, unresolved items explicitly flagged for photo search'
+
+          review = []
+          for p in products:
+              for v in p['variants']:
+                  if v.get('primaryImageStatus') == 'needs-photo-search':
+                      review.append({
+                          'modelId': p['id'], 'modelName': p['name'], 'sourceId': v['sourceId'],
+                          'variantName': v['name'], 'category': v['category'], 'collection': v['collection'],
+                          'specs': v['specs'], 'primaryImage': v['primaryImage'],
+                          'galleryImages': v['images'], 'localImageCount': v['localImageCount'],
+                          'reviewRequired': 'find a clear full-product image from the front or front three-quarter angle; do not use a placeholder'
+                      })
+
+          audit = {
+              'schemaVersion': 2,
+              'catalog': 'catalog.json',
+              'scope': 'post-visual-review audit after 276 primary-image review and Fluffy construction split',
+              'summary': {
+                  'models': len(products), 'variants': len(variants),
+                  'localPhotoReferences': sum(len(v.get('images', [])) for v in variants),
+                  'approvedPrimaryImages': len(variants)-len(review),
+                  'primaryImagesNeedingSearch': len(review),
+                  'warnings': len(warnings), 'errors': 0
+              },
+              'checks': checks,
+              'failedChecks': [],
+              'warnings': warnings,
+              'resolvedGrouping': {'Fluffy': [[294,295,296],[1005,1006,1007,1008,1009,1010]]}
+          }
+          photo_review = {
+              'schemaVersion': 2,
+              'catalog': 'catalog.json',
+              'count': len(review),
+              'selectionRule': 'primaryImageStatus == needs-photo-search',
+              'requiredFirstImage': photo['requiredFirstImage'],
+              'variants': review
+          }
+          if len(review) != 4:
+              raise SystemExit(f'Expected 4 unresolved primary images, got {len(review)}')
+
+          Path('catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
+          Path('data/catalog-audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding='utf-8')
+          Path('data/catalog-primary-photo-review.json').write_text(json.dumps(photo_review, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps(audit['summary'], ensure_ascii=False))
+          PY
+
+      - name: Commit reviewed catalog
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add catalog.json data/catalog-audit.json data/catalog-primary-photo-review.json
+          git commit -m "Apply primary photo review and split Fluffy" || exit 0
+          git push origin HEAD:main
