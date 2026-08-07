@@ -14,8 +14,9 @@
     <div class="nav shell">
       <a class="brand" href="#top" aria-label="FORMA HOME">FORMA <span>HOME</span></a>
       <nav class="nav-actions" aria-label="Быстрые действия">
-        <button class="icon-button" type="button" data-action="favorites">♡ <span>Избранное</span><b id="favorite-count">0</b></button>
-        <button class="icon-button" type="button" data-action="cart">Корзина <b id="cart-count">0</b></button>
+        <button class="icon-button active" type="button" data-action="all" aria-pressed="true"><span>Каталог</span></button>
+        <button class="icon-button" type="button" data-action="favorites" aria-pressed="false">♡ <span>Избранное</span><b id="favorite-count">0</b></button>
+        <button class="icon-button" type="button" data-action="cart" aria-pressed="false"><span>Заказ</span> <b id="cart-count">0</b></button>
       </nav>
     </div>
   </header>
@@ -24,7 +25,7 @@
     <section class="hero shell">
       <p class="eyebrow">Мебель для продуманного интерьера</p>
       <h1>Дом, в который хочется возвращаться</h1>
-      <p class="hero-copy">Быстрый каталог без повторяющихся карточек: одна модель, её цвета и реальные варианты.</p>
+      <p class="hero-copy">Одна модель — одна понятная карточка. Внутри — доступные цвета, исполнения и фотографии.</p>
       <a class="primary-cta" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a>
       <div class="hero-stats" aria-label="Статистика каталога">
         <div><strong id="model-count">—</strong><span>моделей</span></div>
@@ -42,6 +43,10 @@
         <label class="search-field">
           <span class="sr-only">Поиск товаров</span>
           <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="Поиск по названию, коллекции, характеристикам">
+        </label>
+        <label class="select-field" id="category-field">
+          <span>Категория</span>
+          <select id="category-filter"><option value="">Все категории</option></select>
         </label>
         <label class="select-field">
           <span>Коллекция</span>
@@ -65,14 +70,14 @@
       <div class="product-grid" id="product-grid"></div>
       <button class="load-more" id="load-more" type="button" hidden>Показать ещё</button>
       <div class="empty-state" id="empty-state" hidden>
-        <h3>Ничего не нашли</h3>
-        <p>Измените запрос или сбросьте фильтры.</p>
-        <button type="button" id="reset-filters">Сбросить фильтры</button>
+        <h3 id="empty-title">Ничего не нашли</h3>
+        <p id="empty-copy">Измените запрос или сбросьте фильтры.</p>
+        <button type="button" id="reset-filters">Вернуться ко всему каталогу</button>
       </div>
     </section>
   </main>
 
-  <dialog class="product-dialog" id="product-dialog">
+  <dialog class="product-dialog" id="product-dialog" aria-label="Карточка товара">
     <button class="dialog-close" id="dialog-close" type="button" aria-label="Закрыть">×</button>
     <div id="dialog-content"></div>
   </dialog>
@@ -80,7 +85,7 @@
   <template id="product-template">
     <article class="product-card">
       <button class="card-open" type="button">
-        <span class="image-wrap"><img class="card-image" alt="" loading="lazy" decoding="async"></span>
+        <span class="image-wrap"><img class="card-image" alt="" loading="lazy" decoding="async" width="640" height="640"></span>
         <span class="card-body">
           <span class="card-collection"></span>
           <strong class="card-name"></strong>
@@ -91,5 +96,7 @@
       <button class="favorite-button" type="button" aria-label="Добавить в избранное">♡</button>
     </article>
   </template>
+
+  <noscript><div class="noscript">Для каталога FORMA HOME требуется JavaScript.</div></noscript>
 </body>
 </html>
