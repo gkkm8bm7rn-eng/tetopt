@@ -1,106 +1,48 @@
 (()=>{
   'use strict';
 
-  const KEY='__formaPerformanceBootstrapV7';
+  const KEY='__formaPerformanceBootstrapV8';
   if(window[KEY])return;
 
-  const CATALOG_VERSION='20260806-2';
-  const DATA_CACHE_NAME='forma-data-20260806-2';
-  const nativeFetch=window.fetch.bind(window);
-  const catalogSnapshots=new Map();
   let mediaObserver=null;
   let mediaTimer=0;
+  const RESET_KEY='forma-sw-reset-v8';
 
-  function isCacheableCatalogUrl(url){
-    if(url.origin!==window.location.origin)return false;
-    return /\/(?:catalog-source\.html|hidden-products\.json)$/.test(url.pathname);
-  }
-
-  function normalizedCatalogUrl(rawUrl){
-    const url=new URL(rawUrl,window.location.href);
-    if(!isCacheableCatalogUrl(url))return null;
-    url.search='';
-    url.searchParams.set('v',CATALOG_VERSION);
-    return url;
-  }
-
-  function responseFromSnapshot(snapshot){
-    return new Response(snapshot.body.slice(0),{
-      status:snapshot.status,
-      statusText:snapshot.statusText,
-      headers:snapshot.headers
-    });
-  }
-
-  function seedCatalogCache(url,snapshot){
-    if(!snapshot.ok||!('caches' in window))return;
-    try{
-      const cacheResponse=responseFromSnapshot(snapshot);
-      caches.open(DATA_CACHE_NAME)
-        .then(cache=>cache.put(url.toString(),cacheResponse))
-        .catch(error=>console.warn('FORMA HOME: не удалось сохранить каталог офлайн',error));
-    }catch(error){
-      console.warn('FORMA HOME: не удалось подготовить копию каталога',error);
-    }
-  }
-
-  function sharedCatalogFetch(url,fetchInput,fetchInit){
-    const key=url.toString();
-    const existing=catalogSnapshots.get(key);
-    if(existing)return existing.then(responseFromSnapshot);
-
-    let snapshotPromise=nativeFetch(fetchInput,fetchInit).then(async response=>{
-      const body=await response.arrayBuffer();
-      const snapshot={
-        body,
-        status:response.status,
-        statusText:response.statusText,
-        headers:[...response.headers.entries()],
-        ok:response.ok
-      };
-      seedCatalogCache(url,snapshot);
-      return snapshot;
-    }).catch(error=>{
-      catalogSnapshots.delete(key);
-      throw error;
-    });
-
-    catalogSnapshots.set(key,snapshotPromise);
-    setTimeout(()=>{
-      if(catalogSnapshots.get(key)===snapshotPromise)catalogSnapshots.delete(key);
-    },10000);
-    return snapshotPromise.then(responseFromSnapshot);
-  }
-
-  window.fetch=function formaCachedFetch(input,init){
-    try{
-      const request=input instanceof Request?input:null;
-      const method=String(init?.method||request?.method||'GET').toUpperCase();
-      if(method!=='GET')return nativeFetch(input,init);
-
-      const normalized=normalizedCatalogUrl(request?.url||String(input));
-      if(!normalized)return nativeFetch(input,init);
-
-      const nextInit={...(init||{})};
-      if(nextInit.cache==='no-store')delete nextInit.cache;
-
-      const fetchInput=request?new Request(normalized.toString(),request):normalized.toString();
-      return sharedCatalogFetch(normalized,fetchInput,nextInit);
-    }catch(error){
-      console.warn('FORMA HOME: не удалось применить кэширование запроса',error);
-      return nativeFetch(input,init);
-    }
-  };
-
-  function registerServiceWorker(){
+  function clearLegacyOfflineLayer(){
     if(!('serviceWorker' in navigator))return;
-    const register=()=>navigator.serviceWorker
-      .register('./sw.js?v=6',{scope:'./',updateViaCache:'none'})
-      .then(registration=>registration.update().catch(()=>undefined))
-      .catch(error=>console.warn('FORMA HOME: офлайн-кэш недоступен',error));
+    Promise.resolve().then(async()=>{
+      const hadController=Boolean(navigator.serviceWorker.controller);
+      let changed=false;
+      try{
+        const registrations=await navigator.serviceWorker.getRegistrations();
+        for(const registration of registrations){
+          try{
+            const removed=await registration.unregister();
+            changed=changed||removed;
+          }catch(error){
+            console.warn('FORMA HOME: не удалось отключить старый service worker',error);
+          }
+        }
+      }catch(error){
+        console.warn('FORMA HOME: не удалось проверить service worker',error);
+      }
 
-    if(document.readyState==='complete')setTimeout(register,0);
-    else window.addEventListener('load',()=>setTimeout(register,0),{once:true});
+      if('caches' in window){
+        try{
+          const names=await caches.keys();
+          await Promise.all(names.filter(name=>name.indexOf('forma-')===0).map(name=>caches.delete(name)));
+        }catch(error){
+          console.warn('FORMA HOME: не удалось очистить старый кэш',error);
+        }
+      }
+
+      if(hadController&&!sessionStorage.getItem(RESET_KEY)){
+        sessionStorage.setItem(RESET_KEY,'1');
+        setTimeout(()=>window.location.reload(),80);
+        return;
+      }
+      if(changed)sessionStorage.setItem(RESET_KEY,'1');
+    }).catch(error=>console.warn('FORMA HOME: очистка старого офлайн-слоя не выполнена',error));
   }
 
   function connection(){
@@ -109,7 +51,7 @@
 
   function updateNetworkMode(){
     const current=connection();
-    const constrained=Boolean(current?.saveData)||/^(?:slow-2g|2g)$/.test(current?.effectiveType||'');
+    const constrained=Boolean(current&&current.saveData)||/^(?:slow-2g|2g)$/.test((current&&current.effectiveType)||'');
     const root=document.documentElement;
     if(!root)return;
     root.dataset.formaNetwork=constrained?'constrained':'normal';
@@ -118,20 +60,20 @@
   }
 
   function optimizeImages(){
-    const all=[...document.querySelectorAll('img')];
-    const productImages=[...document.querySelectorAll('#grid .product-photo')];
+    const all=Array.from(document.querySelectorAll('img'));
+    const productImages=Array.from(document.querySelectorAll('#grid .product-photo'));
     const priority=new Set(productImages.slice(0,4));
 
     all.forEach(image=>{
       image.decoding='async';
       if(priority.has(image)){
         image.loading='eager';
-        image.fetchPriority=productImages.indexOf(image)<2?'high':'auto';
+        try{image.fetchPriority=productImages.indexOf(image)<2?'high':'auto';}catch(error){}
       }else{
         image.loading='lazy';
-        image.fetchPriority='low';
+        try{image.fetchPriority='low';}catch(error){}
       }
-      image.dataset.formaMediaOptimized='7';
+      image.dataset.formaMediaOptimized='8';
     });
   }
 
@@ -144,26 +86,30 @@
     updateNetworkMode();
     optimizeImages();
 
-    mediaObserver?.disconnect();
+    if(mediaObserver)mediaObserver.disconnect();
     mediaObserver=new MutationObserver(scheduleImageOptimization);
     if(document.documentElement){
       mediaObserver.observe(document.documentElement,{childList:true,subtree:true});
     }
 
     const current=connection();
-    current?.addEventListener?.('change',updateNetworkMode);
+    if(current&&typeof current.addEventListener==='function')current.addEventListener('change',updateNetworkMode);
     window.addEventListener('online',updateNetworkMode,{passive:true});
     window.addEventListener('offline',updateNetworkMode,{passive:true});
   }
 
-  registerServiceWorker();
+  // The previous bootstrap wrapped every catalog fetch, read the complete
+  // catalog into an ArrayBuffer and created extra Response/cache copies before
+  // returning it to the page. On WebKit/iOS that could keep the boot screen
+  // waiting under memory pressure. V8 deliberately leaves window.fetch native.
+  clearLegacyOfflineLayer();
   window.addEventListener('forma:catalog-ready',startMediaOptimization,{passive:true});
   if(document.readyState==='complete')setTimeout(startMediaOptimization,0);
 
   window[KEY]={
-    catalogVersion:CATALOG_VERSION,
-    dataCacheName:DATA_CACHE_NAME,
-    serviceWorkerEnabled:'serviceWorker' in navigator,
+    version:8,
+    fetchInterceptionDisabled:true,
+    serviceWorkerDisabled:true,
     optimizeImages,
     updateNetworkMode
   };
