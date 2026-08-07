@@ -70,9 +70,11 @@ async function checkViewport(browser, cfg) {
 
   await page.locator('#search').fill('Fluffy');
   await page.waitForTimeout(250);
-  const fluffyNames = await page.locator('.product-card .card-name').allTextContents();
-  const exactFluffy = fluffyNames.filter(name => name.trim().toLocaleLowerCase('ru') === 'кресло флаффи/fluffy').length;
-  assert(exactFluffy === 2, `${cfg.name}: должны существовать 2 отдельные карточки «Кресло Флаффи/Fluffy», получено ${exactFluffy}; результаты поиска: ${fluffyNames.join(' | ')}`);
+  const fluffyNames = (await page.locator('.product-card .card-name').allTextContents()).map(name => name.trim());
+  assert(fluffyNames.length === 3, `${cfg.name}: поиск Fluffy должен показывать 3 логические карточки, получено ${fluffyNames.length}: ${fluffyNames.join(' | ')}`);
+  assert(fluffyNames.includes('Кресло Флаффи/Fluffy — крестовина без колес'), `${cfg.name}: не найдена отдельная Fluffy на крестовине без колес`);
+  assert(fluffyNames.includes('Кресло Флаффи/Fluffy — колесная база'), `${cfg.name}: не найдена отдельная Fluffy на колесной базе`);
+  assert(fluffyNames.includes('Кресло Флаффи/Fluffy'), `${cfg.name}: потеряна исходная отдельная Fluffy-группа`);
   await page.locator('#search').fill('');
   await page.waitForTimeout(250);
 
