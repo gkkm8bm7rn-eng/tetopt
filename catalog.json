@@ -6,10 +6,11 @@
     "fallback": "current local gallery order from catalog-source.html",
     "extraPhotos": "exact-duplicate local galleries are merged into the surviving variant",
     "localOnly": true,
-    "curatedLocalCover": "preselected local 00-front/00-main image previously prepared as the clear full-product cover"
+    "curatedLocalCover": "preselected local 00-front/00-main image previously prepared as the clear full-product cover",
+    "visualReview": "all 276 former fallback primary images reviewed; approved current/replacement used, unresolved items explicitly flagged for photo search"
   },
   "stats": {
-    "models": 541,
+    "models": 542,
     "variants": 1196,
     "duplicateRowsReusedForExtraPhotos": 168,
     "variantsWithExtraPhotosFromDuplicates": 117,
@@ -17,10 +18,14 @@
     "unverifiedPrimaryImages": 294,
     "localPhotoReferences": 4922,
     "primaryImageStatus": {
-      "current-gallery-fallback": 276,
+      "visually-approved-current": 201,
       "verified-manifest": 902,
-      "curated-local-cover": 18
-    }
+      "curated-local-cover": 18,
+      "needs-photo-search": 4,
+      "visually-approved-local-replacement": 71
+    },
+    "approvedPrimaryImages": 1192,
+    "primaryImagesNeedingSearch": 4
   },
   "validation": {
     "allSourceIdsUnique": true,
@@ -29,7 +34,9 @@
     "modelCountMatchesBlueprint": true,
     "variantCountMatchesBlueprint": true,
     "primaryImagesPresent": true,
-    "verifiedOrCuratedPrimaryImages": 920
+    "verifiedOrCuratedPrimaryImages": 920,
+    "primaryImageIsFirstGalleryImage": true,
+    "fluffyConstructionSplit": true
   },
   "products": [
     {
@@ -57,7 +64,7 @@
           ],
           "localImageCount": 2,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 2,
@@ -2447,7 +2454,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 142,
@@ -2468,7 +2475,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 141,
@@ -2813,7 +2820,7 @@
           "mergedDuplicateSourceIds": [
             164
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "needs-photo-search"
         }
       ]
     },
@@ -3380,7 +3387,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -3572,7 +3579,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 206,
@@ -3593,7 +3600,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -3623,7 +3630,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -3720,7 +3727,7 @@
           "mergedDuplicateSourceIds": [
             221
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -3993,7 +4000,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 233,
@@ -4014,7 +4021,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -4180,7 +4187,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -4450,7 +4457,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -5281,18 +5288,18 @@
           "specs": "опора 360, букле, бежевый",
           "wholesalePrice": 7010,
           "retailPrice": 9810,
-          "primaryImage": "assets/products/286/02.webp",
+          "primaryImage": "assets/products/286/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 286,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/286/03.webp",
             "assets/products/286/02.webp",
-            "assets/products/286/01.webp",
-            "assets/products/286/03.webp"
+            "assets/products/286/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 287,
@@ -5344,7 +5351,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 293,
@@ -5365,7 +5372,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 290,
@@ -5386,7 +5393,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 291,
@@ -5407,7 +5414,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 292,
@@ -5428,16 +5435,16 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
     {
-      "id": "model-114",
-      "name": "Кресло Флаффи/Fluffy",
+      "id": "model-114a",
+      "name": "Кресло Флаффи/Fluffy — крестовина без колес",
       "category": "Кресла и стулья",
       "collection": "Modern РФ/Модерн РФ (обеденная группа)",
-      "variantCount": 9,
+      "variantCount": 3,
       "variants": [
         {
           "sourceId": 294,
@@ -5458,49 +5465,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
-        },
-        {
-          "sourceId": 1005,
-          "name": "Кресло Флаффи/Fluffy",
-          "category": "Кресла и стулья",
-          "collection": "Кресла TETCHAIR",
-          "specs": "велюр/букле (HYP), бежевый",
-          "wholesalePrice": 10000,
-          "retailPrice": 14000,
-          "primaryImage": "assets/products/1005/02.webp",
-          "primaryImageVerified": false,
-          "primaryImageSourceId": 1005,
-          "primaryImageManifest": null,
-          "images": [
-            "assets/products/1005/02.webp",
-            "assets/products/1005/03.webp",
-            "assets/products/1005/01.webp"
-          ],
-          "localImageCount": 3,
-          "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
-        },
-        {
-          "sourceId": 1009,
-          "name": "Кресло Флаффи/Fluffy",
-          "category": "Кресла и стулья",
-          "collection": "Кресла TETCHAIR",
-          "specs": "вельвет, бежевый",
-          "wholesalePrice": 10000,
-          "retailPrice": 14000,
-          "primaryImage": "assets/products/1009/01.webp",
-          "primaryImageVerified": false,
-          "primaryImageSourceId": 1009,
-          "primaryImageManifest": null,
-          "images": [
-            "assets/products/1009/01.webp",
-            "assets/products/1009/02.webp",
-            "assets/products/1009/03.webp"
-          ],
-          "localImageCount": 3,
-          "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 295,
@@ -5525,27 +5490,6 @@
           "primaryImageStatus": "verified-manifest"
         },
         {
-          "sourceId": 1008,
-          "name": "Кресло Флаффи/Fluffy",
-          "category": "Кресла и стулья",
-          "collection": "Кресла TETCHAIR",
-          "specs": "вельвет, оранжевый",
-          "wholesalePrice": 10000,
-          "retailPrice": 14000,
-          "primaryImage": "assets/products/1008/01.webp",
-          "primaryImageVerified": false,
-          "primaryImageSourceId": 1008,
-          "primaryImageManifest": null,
-          "images": [
-            "assets/products/1008/01.webp",
-            "assets/products/1008/02.webp",
-            "assets/products/1008/03.webp"
-          ],
-          "localImageCount": 3,
-          "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
-        },
-        {
           "sourceId": 296,
           "name": "Кресло Флаффи/Fluffy",
           "category": "Кресла и стулья",
@@ -5566,27 +5510,37 @@
           "localImageCount": 4,
           "mergedDuplicateSourceIds": [],
           "primaryImageStatus": "verified-manifest"
-        },
+        }
+      ],
+      "groupingDecision": "fluffy-cross-base"
+    },
+    {
+      "id": "model-114b",
+      "name": "Кресло Флаффи/Fluffy — колесная база",
+      "category": "Кресла и стулья",
+      "collection": "Кресла TETCHAIR",
+      "variantCount": 6,
+      "variants": [
         {
-          "sourceId": 1010,
+          "sourceId": 1005,
           "name": "Кресло Флаффи/Fluffy",
           "category": "Кресла и стулья",
           "collection": "Кресла TETCHAIR",
-          "specs": "вельвет, серый",
+          "specs": "велюр/букле (HYP), бежевый",
           "wholesalePrice": 10000,
           "retailPrice": 14000,
-          "primaryImage": "assets/products/1010/01.webp",
+          "primaryImage": "assets/products/1005/02.webp",
           "primaryImageVerified": false,
-          "primaryImageSourceId": 1010,
+          "primaryImageSourceId": 1005,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1010/01.webp",
-            "assets/products/1010/02.webp",
-            "assets/products/1010/03.webp"
+            "assets/products/1005/02.webp",
+            "assets/products/1005/03.webp",
+            "assets/products/1005/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1006,
@@ -5607,7 +5561,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1007,
@@ -5628,9 +5582,73 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
+        },
+        {
+          "sourceId": 1008,
+          "name": "Кресло Флаффи/Fluffy",
+          "category": "Кресла и стулья",
+          "collection": "Кресла TETCHAIR",
+          "specs": "вельвет, оранжевый",
+          "wholesalePrice": 10000,
+          "retailPrice": 14000,
+          "primaryImage": "assets/products/1008/01.webp",
+          "primaryImageVerified": false,
+          "primaryImageSourceId": 1008,
+          "primaryImageManifest": null,
+          "images": [
+            "assets/products/1008/01.webp",
+            "assets/products/1008/02.webp",
+            "assets/products/1008/03.webp"
+          ],
+          "localImageCount": 3,
+          "mergedDuplicateSourceIds": [],
+          "primaryImageStatus": "visually-approved-current"
+        },
+        {
+          "sourceId": 1009,
+          "name": "Кресло Флаффи/Fluffy",
+          "category": "Кресла и стулья",
+          "collection": "Кресла TETCHAIR",
+          "specs": "вельвет, бежевый",
+          "wholesalePrice": 10000,
+          "retailPrice": 14000,
+          "primaryImage": "assets/products/1009/01.webp",
+          "primaryImageVerified": false,
+          "primaryImageSourceId": 1009,
+          "primaryImageManifest": null,
+          "images": [
+            "assets/products/1009/01.webp",
+            "assets/products/1009/02.webp",
+            "assets/products/1009/03.webp"
+          ],
+          "localImageCount": 3,
+          "mergedDuplicateSourceIds": [],
+          "primaryImageStatus": "visually-approved-current"
+        },
+        {
+          "sourceId": 1010,
+          "name": "Кресло Флаффи/Fluffy",
+          "category": "Кресла и стулья",
+          "collection": "Кресла TETCHAIR",
+          "specs": "вельвет, серый",
+          "wholesalePrice": 10000,
+          "retailPrice": 14000,
+          "primaryImage": "assets/products/1010/01.webp",
+          "primaryImageVerified": false,
+          "primaryImageSourceId": 1010,
+          "primaryImageManifest": null,
+          "images": [
+            "assets/products/1010/01.webp",
+            "assets/products/1010/02.webp",
+            "assets/products/1010/03.webp"
+          ],
+          "localImageCount": 3,
+          "mergedDuplicateSourceIds": [],
+          "primaryImageStatus": "visually-approved-current"
         }
-      ]
+      ],
+      "groupingDecision": "fluffy-caster-base"
     },
     {
       "id": "model-115",
@@ -5691,18 +5709,18 @@
           "specs": "опора 360, велюр/букле, vt шейп горчичный",
           "wholesalePrice": 8350,
           "retailPrice": 11690,
-          "primaryImage": "assets/products/300/03.webp",
+          "primaryImage": "assets/products/300/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 300,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/300/01.webp",
             "assets/products/300/03.webp",
-            "assets/products/300/02.webp",
-            "assets/products/300/01.webp"
+            "assets/products/300/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 301,
@@ -5723,7 +5741,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 302,
@@ -5744,7 +5762,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 306,
@@ -5776,18 +5794,18 @@
           "specs": "металл белый 360, букле, бежевый",
           "wholesalePrice": 10290,
           "retailPrice": 14410,
-          "primaryImage": "assets/products/303/03.webp",
+          "primaryImage": "assets/products/303/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 303,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/303/03.webp",
             "assets/products/303/01.webp",
+            "assets/products/303/03.webp",
             "assets/products/303/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 304,
@@ -5797,18 +5815,18 @@
           "specs": "металл капучино 360, букле, оливковый",
           "wholesalePrice": 10290,
           "retailPrice": 14410,
-          "primaryImage": "assets/products/304/03.webp",
+          "primaryImage": "assets/products/304/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 304,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/304/01.webp",
             "assets/products/304/03.webp",
-            "assets/products/304/02.webp",
-            "assets/products/304/01.webp"
+            "assets/products/304/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -5836,7 +5854,7 @@
           ],
           "localImageCount": 1,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 308,
@@ -5898,18 +5916,18 @@
           "specs": "опора 360, букле, изумрудный-опал (бетси) ",
           "wholesalePrice": 8050,
           "retailPrice": 11270,
-          "primaryImage": "assets/products/310/03.webp",
+          "primaryImage": "assets/products/310/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 310,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/310/01.webp",
             "assets/products/310/03.webp",
-            "assets/products/310/02.webp",
-            "assets/products/310/01.webp"
+            "assets/products/310/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 311,
@@ -5930,7 +5948,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 312,
@@ -5951,7 +5969,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 314,
@@ -5961,18 +5979,18 @@
           "specs": "опора 360, велюр/букле (HYP) /экокожа, бежевый/коричневый",
           "wholesalePrice": 7350,
           "retailPrice": 10290,
-          "primaryImage": "assets/products/314/02.webp",
+          "primaryImage": "assets/products/314/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 314,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/314/01.webp",
             "assets/products/314/02.webp",
-            "assets/products/314/03.webp",
-            "assets/products/314/01.webp"
+            "assets/products/314/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 315,
@@ -6026,18 +6044,18 @@
           "specs": "металл капучино 360, букле, олива",
           "wholesalePrice": 9450,
           "retailPrice": 13230,
-          "primaryImage": "assets/products/317/02.webp",
+          "primaryImage": "assets/products/317/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 317,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/317/02.webp",
             "assets/products/317/01.webp",
+            "assets/products/317/02.webp",
             "assets/products/317/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -6109,14 +6127,14 @@
           "specs": "металл/экокожа/ткань, 55х58х81см, бирюзовый/серый /чёрный",
           "wholesalePrice": 7500,
           "retailPrice": 10500,
-          "primaryImage": "assets/products/321/03.webp",
+          "primaryImage": "assets/products/321/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 321,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/321/01.webp",
             "assets/products/321/03.webp",
             "assets/products/321/02.webp",
-            "assets/products/321/01.webp",
             "assets/products/322/03.webp",
             "assets/products/322/02.webp",
             "assets/products/322/01.webp"
@@ -6125,7 +6143,7 @@
           "mergedDuplicateSourceIds": [
             322
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -7337,7 +7355,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -7831,7 +7849,7 @@
           "mergedDuplicateSourceIds": [
             463
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -8064,7 +8082,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 475,
@@ -8143,7 +8161,7 @@
           "mergedDuplicateSourceIds": [
             480
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 483,
@@ -8164,7 +8182,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -8354,18 +8372,18 @@
           "specs": "опора 360, букле, бежевый",
           "wholesalePrice": 4898,
           "retailPrice": 6860,
-          "primaryImage": "assets/products/496/01.webp",
+          "primaryImage": "assets/products/496/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 496,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/496/02.webp",
             "assets/products/496/01.webp",
-            "assets/products/496/03.webp",
-            "assets/products/496/02.webp"
+            "assets/products/496/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 501,
@@ -8375,18 +8393,18 @@
           "specs": "опора 360, велюр/букле (HYP), бежевый",
           "wholesalePrice": 5120,
           "retailPrice": 7170,
-          "primaryImage": "assets/products/501/01.webp",
+          "primaryImage": "assets/products/501/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 501,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/501/02.webp",
             "assets/products/501/01.webp",
-            "assets/products/501/03.webp",
-            "assets/products/501/02.webp"
+            "assets/products/501/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 497,
@@ -8407,7 +8425,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 498,
@@ -8459,18 +8477,18 @@
           "specs": "опора 360, велюр/букле (HYP), светло-серый",
           "wholesalePrice": 5120,
           "retailPrice": 7170,
-          "primaryImage": "assets/products/500/01.webp",
+          "primaryImage": "assets/products/500/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 500,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/500/02.webp",
             "assets/products/500/01.webp",
-            "assets/products/500/03.webp",
-            "assets/products/500/02.webp"
+            "assets/products/500/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -8946,7 +8964,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 529,
@@ -8972,7 +8990,7 @@
           "mergedDuplicateSourceIds": [
             537
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 527,
@@ -9026,7 +9044,7 @@
           "mergedDuplicateSourceIds": [
             540
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 532,
@@ -9052,7 +9070,7 @@
           "mergedDuplicateSourceIds": [
             539
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 528,
@@ -9101,7 +9119,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 541,
@@ -9340,7 +9358,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 552,
@@ -9366,7 +9384,7 @@
           "mergedDuplicateSourceIds": [
             556
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 558,
@@ -9693,7 +9711,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 573,
@@ -9764,7 +9782,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 584,
@@ -9837,7 +9855,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "needs-photo-search"
         },
         {
           "sourceId": 576,
@@ -9880,7 +9898,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "needs-photo-search"
         }
       ]
     },
@@ -10021,18 +10039,18 @@
           "specs": "Тренд, велюр, синий ",
           "wholesalePrice": 2790,
           "retailPrice": 3910,
-          "primaryImage": "assets/products/598/03.webp",
+          "primaryImage": "assets/products/598/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 598,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/598/02.webp",
             "assets/products/598/03.webp",
-            "assets/products/598/01.webp",
-            "assets/products/598/02.webp"
+            "assets/products/598/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 602,
@@ -10042,18 +10060,18 @@
           "specs": "Тренд, велюр, синий, 49х51х93см",
           "wholesalePrice": 2790,
           "retailPrice": 3910,
-          "primaryImage": "assets/products/602/03.webp",
+          "primaryImage": "assets/products/602/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 602,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/602/02.webp",
             "assets/products/602/03.webp",
-            "assets/products/602/01.webp",
-            "assets/products/602/02.webp"
+            "assets/products/602/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 609,
@@ -10129,7 +10147,7 @@
           "mergedDuplicateSourceIds": [
             608
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 601,
@@ -10155,7 +10173,7 @@
           "mergedDuplicateSourceIds": [
             607
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 610,
@@ -10229,7 +10247,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 615,
@@ -10358,18 +10376,18 @@
           "specs": "опора 360, велюр, синий ",
           "wholesalePrice": 6100,
           "retailPrice": 8540,
-          "primaryImage": "assets/products/618/03.webp",
+          "primaryImage": "assets/products/618/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 618,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/618/02.webp",
             "assets/products/618/03.webp",
-            "assets/products/618/01.webp",
-            "assets/products/618/02.webp"
+            "assets/products/618/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 619,
@@ -10379,18 +10397,18 @@
           "specs": "опора 360, велюр, изумрудный",
           "wholesalePrice": 6100,
           "retailPrice": 8540,
-          "primaryImage": "assets/products/619/02.webp",
+          "primaryImage": "assets/products/619/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 619,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/619/01.webp",
             "assets/products/619/02.webp",
-            "assets/products/619/03.webp",
-            "assets/products/619/01.webp"
+            "assets/products/619/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 620,
@@ -10411,7 +10429,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 621,
@@ -11049,7 +11067,7 @@
             674,
             675
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 676,
@@ -11238,7 +11256,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -11268,7 +11286,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -11820,7 +11838,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -12172,7 +12190,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 784,
@@ -12338,13 +12356,13 @@
           "specs": "металл/пластик/, 48х55х81см, белый/белый",
           "wholesalePrice": 6600,
           "retailPrice": 9240,
-          "primaryImage": "assets/products/800/02.webp",
+          "primaryImage": "assets/products/800/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 800,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/800/02.webp",
             "assets/products/800/01.webp",
+            "assets/products/800/02.webp",
             "assets/products/800/03.webp",
             "assets/products/801/02.webp",
             "assets/products/801/01.webp",
@@ -12354,7 +12372,7 @@
           "mergedDuplicateSourceIds": [
             801
           ],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -12384,7 +12402,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -13136,18 +13154,18 @@
           "specs": "велюр/букле, vt шейп какао",
           "wholesalePrice": 16700,
           "retailPrice": 23380,
-          "primaryImage": "assets/products/854/03.webp",
+          "primaryImage": "assets/products/854/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 854,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/854/02.webp",
             "assets/products/854/03.webp",
-            "assets/products/854/01.webp",
-            "assets/products/854/02.webp"
+            "assets/products/854/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 855,
@@ -13201,18 +13219,18 @@
           "specs": "экокожа, графит",
           "wholesalePrice": 22400,
           "retailPrice": 31360,
-          "primaryImage": "assets/products/857/03.webp",
+          "primaryImage": "assets/products/857/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 857,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/857/02.webp",
             "assets/products/857/03.webp",
-            "assets/products/857/01.webp",
-            "assets/products/857/02.webp"
+            "assets/products/857/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 860,
@@ -13266,18 +13284,18 @@
           "specs": "экокожа, шарп чёрный",
           "wholesalePrice": 22400,
           "retailPrice": 31360,
-          "primaryImage": "assets/products/861/03.webp",
+          "primaryImage": "assets/products/861/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 861,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/861/02.webp",
             "assets/products/861/03.webp",
-            "assets/products/861/01.webp",
-            "assets/products/861/02.webp"
+            "assets/products/861/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 859,
@@ -13781,18 +13799,18 @@
           "specs": "рогожка/металл, 97х98х90-96см, серо-бежевый, 3м16/2",
           "wholesalePrice": 10100,
           "retailPrice": 14140,
-          "primaryImage": "assets/products/883/01.webp",
+          "primaryImage": "assets/products/883/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 883,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/883/02.webp",
             "assets/products/883/01.webp",
-            "assets/products/883/03.webp",
-            "assets/products/883/02.webp"
+            "assets/products/883/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 884,
@@ -13823,18 +13841,18 @@
           "specs": "металл капучино, букле, коричневый",
           "wholesalePrice": 10548,
           "retailPrice": 14770,
-          "primaryImage": "assets/products/885/01.webp",
+          "primaryImage": "assets/products/885/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 885,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/885/02.webp",
             "assets/products/885/01.webp",
-            "assets/products/885/03.webp",
-            "assets/products/885/02.webp"
+            "assets/products/885/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -14484,7 +14502,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 922,
@@ -14505,7 +14523,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 923,
@@ -14526,7 +14544,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -14545,18 +14563,18 @@
           "specs": "велюр, коричневый",
           "wholesalePrice": 11750,
           "retailPrice": 16450,
-          "primaryImage": "assets/products/925/02.webp",
+          "primaryImage": "assets/products/925/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 925,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/925/01.webp",
             "assets/products/925/02.webp",
-            "assets/products/925/03.webp",
-            "assets/products/925/01.webp"
+            "assets/products/925/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 926,
@@ -14577,7 +14595,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 927,
@@ -14598,7 +14616,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -14672,7 +14690,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 931,
@@ -14693,7 +14711,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 934,
@@ -14758,7 +14776,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1115,
@@ -14832,7 +14850,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -14911,7 +14929,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 941,
@@ -14932,7 +14950,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 942,
@@ -14942,18 +14960,18 @@
           "specs": "ткань, светло-коричневый, KUB 03",
           "wholesalePrice": 13500,
           "retailPrice": 18900,
-          "primaryImage": "assets/products/942/03.webp",
+          "primaryImage": "assets/products/942/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 942,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/942/01.webp",
             "assets/products/942/03.webp",
-            "assets/products/942/02.webp",
-            "assets/products/942/01.webp"
+            "assets/products/942/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 943,
@@ -14974,7 +14992,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -15004,7 +15022,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 945,
@@ -15014,18 +15032,18 @@
           "specs": "велюр/ткань, серый, 29/12",
           "wholesalePrice": 14400,
           "retailPrice": 20160,
-          "primaryImage": "assets/products/945/03.webp",
+          "primaryImage": "assets/products/945/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 945,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/945/03.webp",
             "assets/products/945/01.webp",
+            "assets/products/945/03.webp",
             "assets/products/945/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -15044,18 +15062,18 @@
           "specs": "ткань, серый/серый, F68/C27",
           "wholesalePrice": 13700,
           "retailPrice": 19180,
-          "primaryImage": "assets/products/946/03.webp",
+          "primaryImage": "assets/products/946/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 946,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/946/01.webp",
             "assets/products/946/03.webp",
-            "assets/products/946/02.webp",
-            "assets/products/946/01.webp"
+            "assets/products/946/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 947,
@@ -15076,7 +15094,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 948,
@@ -15097,7 +15115,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 950,
@@ -15118,7 +15136,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -15148,7 +15166,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 955,
@@ -15191,7 +15209,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 953,
@@ -15212,7 +15230,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 954,
@@ -15222,18 +15240,18 @@
           "specs": "ткань, серый, KUB 05/TW-12",
           "wholesalePrice": 17400,
           "retailPrice": 24360,
-          "primaryImage": "assets/products/954/03.webp",
+          "primaryImage": "assets/products/954/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 954,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/954/03.webp",
             "assets/products/954/01.webp",
+            "assets/products/954/03.webp",
             "assets/products/954/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -15263,7 +15281,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 959,
@@ -15284,7 +15302,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 957,
@@ -15327,7 +15345,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 965,
@@ -15370,7 +15388,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 964,
@@ -15391,7 +15409,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 961,
@@ -15434,7 +15452,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 963,
@@ -15455,7 +15473,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -15485,7 +15503,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 968,
@@ -15495,18 +15513,18 @@
           "specs": "велюр, серый, 29",
           "wholesalePrice": 11750,
           "retailPrice": 16450,
-          "primaryImage": "assets/products/968/03.webp",
+          "primaryImage": "assets/products/968/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 968,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/968/01.webp",
             "assets/products/968/03.webp",
-            "assets/products/968/02.webp",
-            "assets/products/968/01.webp"
+            "assets/products/968/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 967,
@@ -15549,7 +15567,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -15579,7 +15597,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 971,
@@ -15611,18 +15629,18 @@
           "specs": "букле, серый, барни серый",
           "wholesalePrice": 14200,
           "retailPrice": 19880,
-          "primaryImage": "assets/products/972/02.webp",
+          "primaryImage": "assets/products/972/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 972,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/972/01.webp",
             "assets/products/972/02.webp",
-            "assets/products/972/03.webp",
-            "assets/products/972/01.webp"
+            "assets/products/972/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -15674,7 +15692,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 987,
@@ -16096,7 +16114,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 998,
@@ -16169,7 +16187,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1000,
@@ -16190,7 +16208,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1001,
@@ -16211,7 +16229,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -16241,7 +16259,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1003,
@@ -16262,7 +16280,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1004,
@@ -16314,7 +16332,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1012,
@@ -16335,7 +16353,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1013,
@@ -16356,7 +16374,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -16386,7 +16404,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1015,
@@ -16407,7 +16425,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1016,
@@ -16428,7 +16446,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -16458,7 +16476,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1019,
@@ -16479,7 +16497,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1018,
@@ -16500,7 +16518,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -16530,7 +16548,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1021,
@@ -16593,18 +16611,18 @@
           "specs": "велюр/букле, vt шейп горчичный",
           "wholesalePrice": 9490,
           "retailPrice": 13290,
-          "primaryImage": "assets/products/1023/03.webp",
+          "primaryImage": "assets/products/1023/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1023,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1023/03.webp",
             "assets/products/1023/01.webp",
+            "assets/products/1023/03.webp",
             "assets/products/1023/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1024,
@@ -16614,18 +16632,18 @@
           "specs": "велюр/букле, vt шейп серый",
           "wholesalePrice": 9490,
           "retailPrice": 13290,
-          "primaryImage": "assets/products/1024/03.webp",
+          "primaryImage": "assets/products/1024/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1024,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1024/01.webp",
             "assets/products/1024/03.webp",
-            "assets/products/1024/02.webp",
-            "assets/products/1024/01.webp"
+            "assets/products/1024/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1025,
@@ -16635,18 +16653,18 @@
           "specs": "велюр/букле, vt шейп какао",
           "wholesalePrice": 9490,
           "retailPrice": 13290,
-          "primaryImage": "assets/products/1025/03.webp",
+          "primaryImage": "assets/products/1025/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1025,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1025/03.webp",
             "assets/products/1025/01.webp",
+            "assets/products/1025/03.webp",
             "assets/products/1025/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -16676,7 +16694,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1033,
@@ -16686,18 +16704,18 @@
           "specs": "ткань/флок, серый, Cats/29",
           "wholesalePrice": 6750,
           "retailPrice": 9450,
-          "primaryImage": "assets/products/1033/03.webp",
+          "primaryImage": "assets/products/1033/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1033,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1033/01.webp",
             "assets/products/1033/03.webp",
-            "assets/products/1033/02.webp",
-            "assets/products/1033/01.webp"
+            "assets/products/1033/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1036,
@@ -16707,18 +16725,18 @@
           "specs": "ткань/флок, серый, Botanica 08 cherry/29 ",
           "wholesalePrice": 6420,
           "retailPrice": 8990,
-          "primaryImage": "assets/products/1036/03.webp",
+          "primaryImage": "assets/products/1036/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1036,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1036/01.webp",
             "assets/products/1036/03.webp",
-            "assets/products/1036/02.webp",
-            "assets/products/1036/01.webp"
+            "assets/products/1036/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1027,
@@ -16739,7 +16757,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1028,
@@ -16835,18 +16853,18 @@
           "specs": "ткань/флок, олива, Botanica 03 pepper/23 ",
           "wholesalePrice": 6420,
           "retailPrice": 8990,
-          "primaryImage": "assets/products/1034/03.webp",
+          "primaryImage": "assets/products/1034/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1034,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1034/01.webp",
             "assets/products/1034/03.webp",
-            "assets/products/1034/02.webp",
-            "assets/products/1034/01.webp"
+            "assets/products/1034/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1035,
@@ -16856,18 +16874,18 @@
           "specs": "ткань/флок, фиолетовый, Botanica 06 kiwi/138 ",
           "wholesalePrice": 5210,
           "retailPrice": 7290,
-          "primaryImage": "assets/products/1035/03.webp",
+          "primaryImage": "assets/products/1035/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1035,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1035/01.webp",
             "assets/products/1035/03.webp",
-            "assets/products/1035/02.webp",
-            "assets/products/1035/01.webp"
+            "assets/products/1035/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -16908,18 +16926,18 @@
           "specs": "велюр/букле (HYP), светло-серый",
           "wholesalePrice": 9490,
           "retailPrice": 13290,
-          "primaryImage": "assets/products/1038/03.webp",
+          "primaryImage": "assets/products/1038/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1038,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1038/03.webp",
             "assets/products/1038/01.webp",
+            "assets/products/1038/03.webp",
             "assets/products/1038/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -16971,7 +16989,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17023,7 +17041,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17042,18 +17060,18 @@
           "specs": "кож/зам, черный, 36-6",
           "wholesalePrice": 7650,
           "retailPrice": 10710,
-          "primaryImage": "assets/products/1043/03.webp",
+          "primaryImage": "assets/products/1043/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1043,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1043/03.webp",
             "assets/products/1043/01.webp",
+            "assets/products/1043/03.webp",
             "assets/products/1043/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1044,
@@ -17074,7 +17092,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1046,
@@ -17095,7 +17113,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17125,7 +17143,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1048,
@@ -17146,7 +17164,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17176,7 +17194,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1050,
@@ -17197,7 +17215,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1051,
@@ -17218,7 +17236,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17248,7 +17266,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1053,
@@ -17269,7 +17287,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17288,18 +17306,18 @@
           "specs": "флок , серый, 29",
           "wholesalePrice": 4250,
           "retailPrice": 5950,
-          "primaryImage": "assets/products/1054/03.webp",
+          "primaryImage": "assets/products/1054/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1054,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1054/03.webp",
             "assets/products/1054/02.webp",
+            "assets/products/1054/03.webp",
             "assets/products/1054/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1055,
@@ -17320,7 +17338,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17350,7 +17368,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1057,
@@ -17371,7 +17389,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1058,
@@ -17392,7 +17410,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -17422,7 +17440,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1064,
@@ -17498,18 +17516,18 @@
           "specs": "флок , серый, 29",
           "wholesalePrice": 15000,
           "retailPrice": 21000,
-          "primaryImage": "assets/products/1062/03.webp",
+          "primaryImage": "assets/products/1062/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1062,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1062/01.webp",
             "assets/products/1062/03.webp",
-            "assets/products/1062/02.webp",
-            "assets/products/1062/01.webp"
+            "assets/products/1062/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1063,
@@ -17530,7 +17548,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1066,
@@ -17595,7 +17613,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1068,
@@ -17669,7 +17687,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1073,
@@ -17679,18 +17697,18 @@
           "specs": "флок , олива, 23",
           "wholesalePrice": 6450,
           "retailPrice": 9030,
-          "primaryImage": "assets/products/1073/03.webp",
+          "primaryImage": "assets/products/1073/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1073,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1073/01.webp",
             "assets/products/1073/03.webp",
-            "assets/products/1073/02.webp",
-            "assets/products/1073/01.webp"
+            "assets/products/1073/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1075,
@@ -17700,18 +17718,18 @@
           "specs": "флок , молочный, 4",
           "wholesalePrice": 6450,
           "retailPrice": 9030,
-          "primaryImage": "assets/products/1075/03.webp",
+          "primaryImage": "assets/products/1075/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1075,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1075/01.webp",
             "assets/products/1075/03.webp",
-            "assets/products/1075/02.webp",
-            "assets/products/1075/01.webp"
+            "assets/products/1075/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1076,
@@ -17721,18 +17739,18 @@
           "specs": "флок , бежевый, 7",
           "wholesalePrice": 6450,
           "retailPrice": 9030,
-          "primaryImage": "assets/products/1076/03.webp",
+          "primaryImage": "assets/products/1076/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1076,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1076/01.webp",
             "assets/products/1076/03.webp",
-            "assets/products/1076/02.webp",
-            "assets/products/1076/01.webp"
+            "assets/products/1076/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1077,
@@ -17742,18 +17760,18 @@
           "specs": "флок , розовый, 137",
           "wholesalePrice": 6450,
           "retailPrice": 9030,
-          "primaryImage": "assets/products/1077/03.webp",
+          "primaryImage": "assets/products/1077/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1077,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1077/01.webp",
             "assets/products/1077/03.webp",
-            "assets/products/1077/02.webp",
-            "assets/products/1077/01.webp"
+            "assets/products/1077/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -17827,7 +17845,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1082,
@@ -17848,7 +17866,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1083,
@@ -17900,7 +17918,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1086,
@@ -17921,7 +17939,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1091,
@@ -17942,7 +17960,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1085,
@@ -17963,7 +17981,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1087,
@@ -17984,7 +18002,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1088,
@@ -18005,7 +18023,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1089,
@@ -18026,7 +18044,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1090,
@@ -18036,18 +18054,18 @@
           "specs": "флок/ткань, бежевый/бронза, 7/TW-21",
           "wholesalePrice": 9250,
           "retailPrice": 12950,
-          "primaryImage": "assets/products/1090/02.webp",
+          "primaryImage": "assets/products/1090/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1090,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1090/02.webp",
             "assets/products/1090/01.webp",
+            "assets/products/1090/02.webp",
             "assets/products/1090/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -18077,7 +18095,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1096,
@@ -18098,7 +18116,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1093,
@@ -18130,18 +18148,18 @@
           "specs": "Экокожа LUX Classic 18-13, св.-коричневый",
           "wholesalePrice": 20400,
           "retailPrice": 28560,
-          "primaryImage": "assets/products/1095/02.webp",
+          "primaryImage": "assets/products/1095/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1095,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1095/02.webp",
             "assets/products/1095/01.webp",
+            "assets/products/1095/02.webp",
             "assets/products/1095/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1094,
@@ -18162,7 +18180,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -18192,7 +18210,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1099,
@@ -18224,18 +18242,18 @@
           "specs": "кож/зам, черный, 36-6",
           "wholesalePrice": 10450,
           "retailPrice": 14630,
-          "primaryImage": "assets/products/1100/03.webp",
+          "primaryImage": "assets/products/1100/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1100,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1100/03.webp",
             "assets/products/1100/02.webp",
+            "assets/products/1100/03.webp",
             "assets/products/1100/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -18318,7 +18336,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1105,
@@ -18328,18 +18346,18 @@
           "specs": "кож/зам, бежевый, 36-34",
           "wholesalePrice": 9800,
           "retailPrice": 13720,
-          "primaryImage": "assets/products/1105/03.webp",
+          "primaryImage": "assets/products/1105/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1105,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1105/01.webp",
             "assets/products/1105/03.webp",
-            "assets/products/1105/02.webp",
-            "assets/products/1105/01.webp"
+            "assets/products/1105/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1106,
@@ -18349,18 +18367,18 @@
           "specs": "кож/зам, черный, 36-6",
           "wholesalePrice": 9800,
           "retailPrice": 13720,
-          "primaryImage": "assets/products/1106/02.webp",
+          "primaryImage": "assets/products/1106/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1106,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1106/01.webp",
             "assets/products/1106/02.webp",
-            "assets/products/1106/03.webp",
-            "assets/products/1106/01.webp"
+            "assets/products/1106/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -18486,7 +18504,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1112,
@@ -18507,7 +18525,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1114,
@@ -18528,7 +18546,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -18558,7 +18576,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -18577,18 +18595,18 @@
           "specs": "кож/зам, бежевый, 36-34",
           "wholesalePrice": 7350,
           "retailPrice": 10290,
-          "primaryImage": "assets/products/1119/01.webp",
+          "primaryImage": "assets/products/1119/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1119,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1119/03.webp",
             "assets/products/1119/01.webp",
-            "assets/products/1119/02.webp",
-            "assets/products/1119/03.webp"
+            "assets/products/1119/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1126,
@@ -18686,18 +18704,18 @@
           "specs": "флок , серый, 29",
           "wholesalePrice": 7350,
           "retailPrice": 10290,
-          "primaryImage": "assets/products/1124/03.webp",
+          "primaryImage": "assets/products/1124/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1124,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1124/01.webp",
             "assets/products/1124/03.webp",
-            "assets/products/1124/02.webp",
-            "assets/products/1124/01.webp"
+            "assets/products/1124/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1123,
@@ -18853,7 +18871,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1132,
@@ -18905,7 +18923,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1134,
@@ -18926,7 +18944,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1135,
@@ -18947,7 +18965,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19007,7 +19025,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19068,7 +19086,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1149,
@@ -19089,7 +19107,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19357,7 +19375,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1164,
@@ -19378,7 +19396,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19439,7 +19457,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1168,
@@ -19460,7 +19478,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19490,7 +19508,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1170,
@@ -19500,18 +19518,18 @@
           "specs": "ткань teddy/тедди, розовый",
           "wholesalePrice": 10000,
           "retailPrice": 14000,
-          "primaryImage": "assets/products/1170/03.webp",
+          "primaryImage": "assets/products/1170/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1170,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1170/03.webp",
             "assets/products/1170/01.webp",
+            "assets/products/1170/03.webp",
             "assets/products/1170/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -19541,7 +19559,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19590,18 +19608,18 @@
           "specs": "Green (салатовый)",
           "wholesalePrice": 11900,
           "retailPrice": 16660,
-          "primaryImage": "assets/products/1178/01.webp",
+          "primaryImage": "assets/products/1178/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1178,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1178/01.webp",
             "assets/products/1178/03.webp",
+            "assets/products/1178/01.webp",
             "assets/products/1178/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1179,
@@ -19611,18 +19629,18 @@
           "specs": "Pink (розовый)",
           "wholesalePrice": 11900,
           "retailPrice": 16660,
-          "primaryImage": "assets/products/1179/01.webp",
+          "primaryImage": "assets/products/1179/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1179,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1179/01.webp",
             "assets/products/1179/03.webp",
+            "assets/products/1179/01.webp",
             "assets/products/1179/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1180,
@@ -19811,18 +19829,18 @@
           "specs": "натуральный, кож/зам белый",
           "wholesalePrice": 13450,
           "retailPrice": 18830,
-          "primaryImage": "assets/products/1192/02.webp",
+          "primaryImage": "assets/products/1192/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1192,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1192/02.webp",
             "assets/products/1192/03.webp",
+            "assets/products/1192/02.webp",
             "assets/products/1192/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1193,
@@ -19843,7 +19861,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19873,7 +19891,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19903,7 +19921,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1214,
@@ -19924,7 +19942,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1213,
@@ -19945,7 +19963,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1215,
@@ -19966,7 +19984,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -19985,18 +20003,18 @@
           "specs": "флок/ткань, серый, 29/W-12",
           "wholesalePrice": 8290,
           "retailPrice": 11610,
-          "primaryImage": "assets/products/1216/02.webp",
+          "primaryImage": "assets/products/1216/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1216,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1216/02.webp",
             "assets/products/1216/01.webp",
+            "assets/products/1216/02.webp",
             "assets/products/1216/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1218,
@@ -20017,7 +20035,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1217,
@@ -20038,7 +20056,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -20057,18 +20075,18 @@
           "specs": "флок , серый, 29",
           "wholesalePrice": 5360,
           "retailPrice": 7500,
-          "primaryImage": "assets/products/1219/02.webp",
+          "primaryImage": "assets/products/1219/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1219,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1219/01.webp",
             "assets/products/1219/02.webp",
-            "assets/products/1219/03.webp",
-            "assets/products/1219/01.webp"
+            "assets/products/1219/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -20098,7 +20116,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1222,
@@ -20119,7 +20137,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -20138,18 +20156,18 @@
           "specs": "флок , серый, 29",
           "wholesalePrice": 5850,
           "retailPrice": 8190,
-          "primaryImage": "assets/products/1223/02.webp",
+          "primaryImage": "assets/products/1223/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1223,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1223/02.webp",
             "assets/products/1223/01.webp",
+            "assets/products/1223/02.webp",
             "assets/products/1223/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1224,
@@ -20170,7 +20188,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1228,
@@ -20180,18 +20198,18 @@
           "specs": "кож/зам, бежевый, 36-34",
           "wholesalePrice": 5850,
           "retailPrice": 8190,
-          "primaryImage": "assets/products/1228/02.webp",
+          "primaryImage": "assets/products/1228/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1228,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1228/02.webp",
             "assets/products/1228/03.webp",
+            "assets/products/1228/02.webp",
             "assets/products/1228/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1225,
@@ -20212,7 +20230,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1226,
@@ -20233,7 +20251,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1233,
@@ -20254,7 +20272,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1227,
@@ -20275,7 +20293,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1235,
@@ -20296,7 +20314,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1229,
@@ -20317,7 +20335,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1230,
@@ -20338,7 +20356,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1231,
@@ -20359,7 +20377,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1232,
@@ -20380,7 +20398,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1234,
@@ -20401,7 +20419,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -20431,7 +20449,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1238,
@@ -20452,7 +20470,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1239,
@@ -20473,7 +20491,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -20503,7 +20521,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1241,
@@ -20524,7 +20542,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1244,
@@ -20545,7 +20563,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1242,
@@ -20566,7 +20584,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1243,
@@ -20587,7 +20605,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1251,
@@ -20608,7 +20626,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1253,
@@ -20629,7 +20647,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1245,
@@ -20639,18 +20657,18 @@
           "specs": "кож/зам, белый, 36-01",
           "wholesalePrice": 5150,
           "retailPrice": 7210,
-          "primaryImage": "assets/products/1245/02.webp",
+          "primaryImage": "assets/products/1245/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1245,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1245/02.webp",
             "assets/products/1245/01.webp",
+            "assets/products/1245/02.webp",
             "assets/products/1245/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1248,
@@ -20671,7 +20689,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1249,
@@ -20692,7 +20710,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1250,
@@ -20702,18 +20720,18 @@
           "specs": "кож/зам, черный, 36-6",
           "wholesalePrice": 5150,
           "retailPrice": 7210,
-          "primaryImage": "assets/products/1250/03.webp",
+          "primaryImage": "assets/products/1250/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1250,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1250/03.webp",
             "assets/products/1250/02.webp",
+            "assets/products/1250/03.webp",
             "assets/products/1250/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1252,
@@ -20734,7 +20752,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -20753,18 +20771,18 @@
           "specs": "флок/кож/зам , серый/металлик, 29/W-12/36",
           "wholesalePrice": 6400,
           "retailPrice": 8960,
-          "primaryImage": "assets/products/1254/03.webp",
+          "primaryImage": "assets/products/1254/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1254,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1254/02.webp",
             "assets/products/1254/03.webp",
-            "assets/products/1254/01.webp",
-            "assets/products/1254/02.webp"
+            "assets/products/1254/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -20783,18 +20801,18 @@
           "specs": "ткань/кож/зам, серый/металлик, TW-12/W-12/36",
           "wholesalePrice": 7090,
           "retailPrice": 9930,
-          "primaryImage": "assets/products/1256/03.webp",
+          "primaryImage": "assets/products/1256/02.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1256,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1256/03.webp",
             "assets/products/1256/02.webp",
+            "assets/products/1256/03.webp",
             "assets/products/1256/01.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -20824,7 +20842,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1259,
@@ -20845,7 +20863,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1260,
@@ -20886,18 +20904,18 @@
           "specs": "флок/ткань, серый, 29/W-12",
           "wholesalePrice": 7250,
           "retailPrice": 10150,
-          "primaryImage": "assets/products/1262/02.webp",
+          "primaryImage": "assets/products/1262/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1262,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1262/02.webp",
             "assets/products/1262/01.webp",
+            "assets/products/1262/02.webp",
             "assets/products/1262/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1263,
@@ -20907,18 +20925,18 @@
           "specs": "ткань, серый/черный, 207/W-11",
           "wholesalePrice": 7250,
           "retailPrice": 10150,
-          "primaryImage": "assets/products/1263/02.webp",
+          "primaryImage": "assets/products/1263/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1263,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1263/01.webp",
             "assets/products/1263/02.webp",
-            "assets/products/1263/03.webp",
-            "assets/products/1263/01.webp"
+            "assets/products/1263/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1264,
@@ -20928,18 +20946,18 @@
           "specs": "ткань, черный, 2603/W-11",
           "wholesalePrice": 7250,
           "retailPrice": 10150,
-          "primaryImage": "assets/products/1264/02.webp",
+          "primaryImage": "assets/products/1264/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1264,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1264/01.webp",
             "assets/products/1264/02.webp",
-            "assets/products/1264/03.webp",
-            "assets/products/1264/01.webp"
+            "assets/products/1264/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -20969,7 +20987,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1267,
@@ -20990,7 +21008,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1269,
@@ -21011,7 +21029,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1270,
@@ -21032,7 +21050,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -21051,18 +21069,18 @@
           "specs": "кож/зам/ткань, черный, 36-6/W-11",
           "wholesalePrice": 5550,
           "retailPrice": 7770,
-          "primaryImage": "assets/products/1272/02.webp",
+          "primaryImage": "assets/products/1272/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1272,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1272/02.webp",
             "assets/products/1272/01.webp",
+            "assets/products/1272/02.webp",
             "assets/products/1272/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1276,
@@ -21072,18 +21090,18 @@
           "specs": "флок/ткань, розовый/серый, 137/W-12",
           "wholesalePrice": 5550,
           "retailPrice": 7770,
-          "primaryImage": "assets/products/1276/02.webp",
+          "primaryImage": "assets/products/1276/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1276,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1276/02.webp",
             "assets/products/1276/01.webp",
+            "assets/products/1276/02.webp",
             "assets/products/1276/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -21113,7 +21131,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1280,
@@ -21123,18 +21141,18 @@
           "specs": "кож/зам/ткань, черный, 36-6/W-11",
           "wholesalePrice": 4200,
           "retailPrice": 5880,
-          "primaryImage": "assets/products/1280/02.webp",
+          "primaryImage": "assets/products/1280/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1280,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1280/01.webp",
             "assets/products/1280/02.webp",
-            "assets/products/1280/03.webp",
-            "assets/products/1280/01.webp"
+            "assets/products/1280/03.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1281,
@@ -21155,7 +21173,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -21185,7 +21203,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1283,
@@ -21206,7 +21224,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1284,
@@ -21227,7 +21245,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -23141,7 +23159,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1371,
@@ -23162,7 +23180,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -25363,7 +25381,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         }
       ]
     },
@@ -26127,7 +26145,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-current"
         },
         {
           "sourceId": 1513,
@@ -26190,18 +26208,18 @@
           "specs": "искусственный мех, бежевый, uq флаффи плейд 23, 80х80х42см",
           "wholesalePrice": 9650,
           "retailPrice": 13510,
-          "primaryImage": "assets/products/1514/03.webp",
+          "primaryImage": "assets/products/1514/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1514,
           "primaryImageManifest": null,
           "images": [
-            "assets/products/1514/03.webp",
             "assets/products/1514/01.webp",
+            "assets/products/1514/03.webp",
             "assets/products/1514/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         },
         {
           "sourceId": 1515,
@@ -30486,18 +30504,18 @@
           "specs": "массив акации/массив манго/МДФ, 56х40х210см, античный серый/серый",
           "wholesalePrice": 77400,
           "retailPrice": 154800,
-          "primaryImage": "assets/products/1686/01.webp",
+          "primaryImage": "assets/products/1686/03.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1686,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1686/03.webp",
             "assets/products/1686/01.webp",
-            "assets/products/1686/02.webp",
-            "assets/products/1686/03.webp"
+            "assets/products/1686/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
@@ -30959,7 +30977,7 @@
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "needs-photo-search"
         }
       ]
     },
@@ -31133,18 +31151,18 @@
           "specs": "массив палисандра/стекло, 60х40х192см, натуральный тонированный ",
           "wholesalePrice": 64800,
           "retailPrice": 129600,
-          "primaryImage": "assets/products/1707/03.webp",
+          "primaryImage": "assets/products/1707/01.webp",
           "primaryImageVerified": false,
           "primaryImageSourceId": 1707,
           "primaryImageManifest": null,
           "images": [
+            "assets/products/1707/01.webp",
             "assets/products/1707/03.webp",
-            "assets/products/1707/02.webp",
-            "assets/products/1707/01.webp"
+            "assets/products/1707/02.webp"
           ],
           "localImageCount": 3,
           "mergedDuplicateSourceIds": [],
-          "primaryImageStatus": "current-gallery-fallback"
+          "primaryImageStatus": "visually-approved-local-replacement"
         }
       ]
     },
