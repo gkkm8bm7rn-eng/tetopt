@@ -1,6 +1,15 @@
 name: Primary photo and Fluffy audit
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'tools/build_primary_photo_review_sheets.py'
+      - 'data/catalog-primary-photo-review.json'
+      - 'catalog-source.html'
+      - 'assets/products/**'
+      - '.github/workflows/primary-photo-audit.yml'
   push:
     branches:
       - agent/primary-photo-audit
