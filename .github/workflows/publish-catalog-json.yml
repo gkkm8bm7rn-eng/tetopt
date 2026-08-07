@@ -1,0 +1,199 @@
+name: Publish audited client catalog JSON
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-catalog-json.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Load reviewed catalog builder
+        run: |
+          git fetch origin agent/color-review-sheets:refs/remotes/origin/agent/color-review-sheets
+          mkdir -p tools review-output data
+          git show origin/agent/color-review-sheets:tools/build_catalog_local_photos.py > tools/.build_catalog_local_photos.py
+          git show origin/agent/color-review-sheets:tools/catalog-grouping-blueprint.b64 > tools/catalog-grouping-blueprint.b64
+
+      - name: Build catalog with local photos
+        run: python tools/.build_catalog_local_photos.py
+
+      - name: Apply curated covers and run full audit
+        run: |
+          python - <<'PY'
+          import json, re
+          from collections import defaultdict
+          from pathlib import Path
+
+          root = Path('.')
+          source = root / 'review-output' / 'catalog-local-photos.json'
+          catalog = json.loads(source.read_text(encoding='utf-8'))
+
+          curated_ids = {33,70,90,136,240,298,493,647,843,855,863,893,894,896,899,908,1143,1182}
+          products = catalog['products']
+          variants = [v for p in products for v in p['variants']]
+
+          for v in variants:
+              sid = int(v['sourceId'])
+              if sid in curated_ids and v.get('primaryImage'):
+                  v['primaryImageStatus'] = 'curated-local-cover'
+              elif v.get('primaryImageVerified'):
+                  v['primaryImageStatus'] = 'verified-manifest'
+              else:
+                  v['primaryImageStatus'] = 'current-gallery-fallback'
+
+          status_counts = defaultdict(int)
+          for v in variants:
+              status_counts[v['primaryImageStatus']] += 1
+
+          catalog['stats']['primaryImageStatus'] = dict(status_counts)
+          catalog['stats']['verifiedPrimaryImages'] = status_counts['verified-manifest']
+          catalog['stats']['unverifiedPrimaryImages'] = status_counts['current-gallery-fallback'] + status_counts['curated-local-cover']
+          catalog['validation']['primaryImagesPresent'] = all(bool(v.get('primaryImage')) for v in variants)
+          catalog['validation']['verifiedOrCuratedPrimaryImages'] = status_counts['verified-manifest'] + status_counts['curated-local-cover']
+          catalog['imagePolicy']['curatedLocalCover'] = 'preselected local 00-front/00-main image previously prepared as the clear full-product cover'
+
+          def norm(value):
+              return re.sub(r'\s+', ' ', str(value or '').lower().replace('ё','е')).strip()
+
+          def strip_package(value):
+              text = norm(value)
+              patterns = [
+                  r'(?:^|\s|/|\()\d+\s*(?:шт|штук)\.?\s*в\s*(?:\d+\s*[-хx]?\s*)?упаковк[а-я]*\)?',
+                  r'(?:^|\s|/|\()\d+\s*(?:шт|штук)\.?\s*(?:в\s*)?(?:уп\.?|упаковк[а-я]*)\)?'
+              ]
+              for pattern in patterns:
+                  text = re.sub(pattern, ' ', text, flags=re.I)
+              return re.sub(r'\s+', ' ', text).strip(' /(),')
+
+          model_ids = [p['id'] for p in products]
+          source_ids = [int(v['sourceId']) for v in variants]
+          live_ids = set(source_ids)
+          merged_ids = [int(x) for v in variants for x in v.get('mergedDuplicateSourceIds', [])]
+
+          exact = defaultdict(list)
+          for v in variants:
+              key = (strip_package(v.get('name')), norm(v.get('category')), strip_package(v.get('specs')))
+              exact[key].append(int(v['sourceId']))
+          exact_collisions = [
+              {'ids': ids, 'key': {'name': key[0], 'category': key[1], 'specs': key[2]}}
+              for key, ids in exact.items() if len(ids) > 1
+          ]
+
+          warnings = []
+          for p in products:
+              categories = sorted({v.get('category') for v in p['variants']})
+              collections = sorted({v.get('collection') for v in p['variants']})
+              if len(categories) > 1 or len(collections) > 1:
+                  warnings.append({
+                      'modelId': p['id'],
+                      'name': p['name'],
+                      'sourceIds': [v['sourceId'] for v in p['variants']],
+                      'categories': categories,
+                      'collections': collections,
+                      'reason': 'variants span multiple categories or collections; review grouping provenance'
+                  })
+
+          checks = {
+              'modelCountIs541': len(products) == 541,
+              'variantCountIs1196': len(variants) == 1196,
+              'modelIdsUnique': len(model_ids) == len(set(model_ids)),
+              'sourceIdsUnique': len(source_ids) == len(set(source_ids)),
+              'modelVariantCountsMatch': all(p.get('variantCount') == len(p.get('variants', [])) for p in products),
+              'modelsNonEmpty': all(bool(p.get('variants')) for p in products),
+              'primaryImagesPresent': all(bool(v.get('primaryImage')) for v in variants),
+              'primaryImageIsFirstGalleryImage': all(v.get('images') and v.get('primaryImage') == v['images'][0] for v in variants),
+              'imageListsHaveNoDuplicates': all(len(v.get('images', [])) == len(set(v.get('images', []))) for v in variants),
+              'localImageCountsMatch': all(v.get('localImageCount') == len(v.get('images', [])) for v in variants),
+              'allImagePathsLocal': all(isinstance(img, str) and img.startswith('assets/') for v in variants for img in v.get('images', [])),
+              'allReferencedImagesExist': bool(catalog.get('validation', {}).get('allReferencedImagesExist')),
+              'wholesalePricesPositive': all(isinstance(v.get('wholesalePrice'), (int,float)) and v.get('wholesalePrice') > 0 for v in variants),
+              'retailPricesPresentOrExplicitZero': all(isinstance(v.get('retailPrice'), (int,float)) and v.get('retailPrice') >= 0 for v in variants),
+              'mergedDuplicateIdsNotLiveVariants': not any(x in live_ids for x in merged_ids),
+              'exactCommercialCollisionsRemaining': len(exact_collisions) == 0,
+          }
+          failed = [name for name, ok in checks.items() if not ok]
+
+          audit = {
+              'schemaVersion': 1,
+              'catalog': 'catalog.json',
+              'scope': 'full automated audit of all client catalog models and local-photo references',
+              'summary': {
+                  'models': len(products),
+                  'variants': len(variants),
+                  'modelsWithMultipleVariants': sum(len(p['variants']) > 1 for p in products),
+                  'localPhotoReferences': sum(len(v.get('images', [])) for v in variants),
+                  'confirmedOrCuratedPrimaryImages': status_counts['verified-manifest'] + status_counts['curated-local-cover'],
+                  'primaryImagesNeedingReview': status_counts['current-gallery-fallback'],
+                  'warnings': len(warnings),
+                  'errors': len(failed),
+              },
+              'checks': checks,
+              'failedChecks': failed,
+              'warnings': warnings,
+              'exactCommercialCollisions': exact_collisions,
+              'notes': [
+                  'A cross-collection model is a warning rather than an automatic failure because collection provenance may differ for one commercial model.',
+                  'Retail price 0 is allowed when explicitly present in source; wholesale price must be positive.',
+                  'Primary-photo visual quality is confirmed only for verified-manifest or curated-local-cover statuses.'
+              ]
+          }
+
+          review_variants = []
+          for p in products:
+              for v in p['variants']:
+                  if v.get('primaryImageStatus') != 'current-gallery-fallback':
+                      continue
+                  review_variants.append({
+                      'modelId': p['id'],
+                      'modelName': p['name'],
+                      'sourceId': v['sourceId'],
+                      'variantName': v['name'],
+                      'category': v['category'],
+                      'collection': v['collection'],
+                      'specs': v['specs'],
+                      'primaryImage': v['primaryImage'],
+                      'galleryImages': v['images'],
+                      'localImageCount': v['localImageCount'],
+                      'reviewRequired': 'confirm that the first image clearly shows the whole product from the front or front three-quarter angle'
+                  })
+
+          photo_review = {
+              'schemaVersion': 1,
+              'catalog': 'catalog.json',
+              'count': len(review_variants),
+              'selectionRule': 'primaryImageStatus == current-gallery-fallback',
+              'requiredFirstImage': 'clear full-product image, front or front three-quarter angle',
+              'variants': review_variants,
+          }
+
+          if len(review_variants) != 276:
+              raise SystemExit(f'Expected 276 primary-photo review variants, got {len(review_variants)}')
+          if failed:
+              raise SystemExit('Catalog audit failed: ' + ', '.join(failed))
+
+          Path('catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding='utf-8')
+          Path('data/catalog-audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding='utf-8')
+          Path('data/catalog-primary-photo-review.json').write_text(json.dumps(photo_review, ensure_ascii=False, indent=2), encoding='utf-8')
+          print(json.dumps(audit['summary'], ensure_ascii=False))
+          PY
+
+      - name: Remove temporary builder inputs
+        run: rm -f tools/.build_catalog_local_photos.py tools/catalog-grouping-blueprint.b64
+
+      - name: Commit generated JSON files
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add catalog.json data/catalog-audit.json data/catalog-primary-photo-review.json
+          git commit -m "Add audited client catalog JSON" || exit 0
+          git push origin HEAD:main
