@@ -18,7 +18,7 @@
         style.id = STYLE_ID;
       }
 
-      style.textContent = `
+      const css = `
         #modal{
           --forma-modal-inline-gap:clamp(6px,2vw,18px);
           --forma-modal-radius:clamp(18px,5vw,30px);
@@ -207,18 +207,24 @@
           #modal,#modal *{scroll-behavior:auto!important;transition-duration:.01ms!important}
         }
       `;
+      if (style.textContent !== css) style.textContent = css;
 
-      if (style.parentNode !== document.head || style !== document.head.lastElementChild) {
-        document.head.appendChild(style);
-      }
+      if (!style.parentNode) document.head.appendChild(style);
     }
 
     function updateVisualViewport() {
       const viewport = window.visualViewport;
       const height = Math.round(viewport?.height || window.innerHeight);
       const width = Math.round(viewport?.width || window.innerWidth);
-      document.documentElement.style.setProperty("--forma-visual-viewport-height", `${height}px`);
-      document.documentElement.style.setProperty("--forma-visual-viewport-width", `${width}px`);
+      const root = document.documentElement;
+      const heightValue = `${height}px`;
+      const widthValue = `${width}px`;
+      if (root.style.getPropertyValue("--forma-visual-viewport-height") !== heightValue) {
+        root.style.setProperty("--forma-visual-viewport-height", heightValue);
+      }
+      if (root.style.getPropertyValue("--forma-visual-viewport-width") !== widthValue) {
+        root.style.setProperty("--forma-visual-viewport-width", widthValue);
+      }
     }
 
     function polishModal() {
