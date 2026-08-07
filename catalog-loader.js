@@ -39,11 +39,9 @@
       html=html.slice(0,valueStart)+JSON.stringify(value)+html.slice(end);
     }
 
-    // Сюда попадают только интерьерные визуализации, вручную сверенные с точной моделью.
     const verifiedInteriorImages=new Map([]);
     const isInteriorImage=image=>typeof image==="string"&&/^assets\/interiors\/\d+\.(?:svg|webp|png|jpe?g)(?:\?.*)?$/i.test(image);
 
-    // Первые позиции зафиксированы по результатам анализа спроса для Авито.
     const priorityProductIds=[493,896,189,136,70,1477,33,656,843,1182];
     const priorityOrder=new Map(priorityProductIds.map((id,index)=>[id,index]));
     const categoryBaseScore=new Map([
@@ -156,7 +154,6 @@
 
     const products=readConstArray("PRODUCTS").map(product=>{
       const currentImages=Array.isArray(product.images)?product.images.filter(Boolean):[];
-      // Порядок в product.images меняется только после завершения всей партии и двойной проверки сайта.
       const productPhotos=currentImages.filter(image=>!isInteriorImage(image));
       if(!productPhotos.length && product.directImage && !isInteriorImage(product.directImage))productPhotos.push(product.directImage);
       const interiorImage=verifiedInteriorImages.get(Number(product.id));
@@ -206,7 +203,7 @@
       '<script src="checkout.js?v=2"></script>',
       '<script src="checkout-contacts.js?v=2"></script>',
       '<script src="hero-actions.js?v=1"></script>',
-      '<script src="sticky-header-hero-redesign.js?v=7"></script>',
+      '<script src="sticky-header-hero-redesign.js?v=8"></script>',
       '<script src="hero-banner-final.js?v=7"></script>'
     ].join('');
     html=html.replace('</body>',runtimeEnhancements+'</body>');
