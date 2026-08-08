@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "modelsSource": "catalog.json",
+  "duplicatesSource": "catalog-audit.json",
+  "manualEvidenceSources": [
+    "data/forma-home-manual-evidence-01.json",
+    "data/forma-home-manual-evidence-02.json",
+    "data/forma-home-manual-evidence-03.json",
+    "data/forma-home-manual-evidence-04.json",
+    "data/forma-home-manual-evidence-05.json",
+    "data/forma-home-manual-evidence-06.json"
+  ],
+  "stats": {
+    "rawSourceRows": 1723,
+    "hiddenIdsExcluded": 359,
+    "visibleRowsBeforePackageDedup": 1364,
+    "exactDuplicateRowsExcluded": 168,
+    "packageDuplicateRowsAmongExcluded": 168,
+    "visibleVariants": 1196,
+    "models": 541,
+    "modelsWithMultipleVariants": 236,
+    "colorGroups": 1035,
+    "remainingExactVariantCollisions": 0
+  },
+  "validation": {
+    "hiddenIdsPresent": 0,
+    "duplicateSourceIds": 0,
+    "unmappedVisibleSourceIds": 0,
+    "allModelVariantCountsMatch": true,
+    "remainingExactVariantCollisions": []
+  },
+  "rules": [
+    {"id":"R1","title":"Одна карточка","text":"Одинаковая конструктивная модель; различия только цвет/обивка/отделка/допустимый коммерческий вариант."},
+    {"id":"R2","title":"Разные карточки","text":"Барный, полубарный и обычный товар не объединять между собой."},
+    {"id":"R3","title":"Разные карточки","text":"Разная реальная модификация/геометрия/тип основания — отдельная конструктивная группа."},
+    {"id":"R4","title":"Упаковочные дубли","text":"Если конструкция, характеристики и вариант идентичны, упаковочная строка не создаёт новую карточку; сохранять подтверждённую более низкую клиентскую цену."},
+    {"id":"R5","title":"Цена","text":"У каждого варианта собственные оптовая и розничная цены; не использовать «от»."},
+    {"id":"R6","title":"Фото","text":"У каждого варианта своя галерея; обложка показывает товар целиком."},
+    {"id":"R7","title":"Безопасность","text":"Исходные строки прайса не удалять; реестр описывает клиентскую группировку и карту дедупликации."},
+    {"id":"R8","title":"Ручной разбор","text":"Если ручной лист и текущий catalog.json расходятся, фиксировать расхождение, а не склеивать автоматически."}
+  ],
+  "issues": [
+    {"group":"кресла и стулья / датская обеденная группа / стул макси maxi мягкое сиденье","sourceIds":"273, 275","modelIds":"model-273, model-275","finding":"Разделено в текущем реестре на несколько конструктивных групп","source":"color-review-batch-10 2.zip"},
+    {"group":"кресла и стулья / modern рф модерн рф обеденная группа / кресло флаффи fluffy","sourceIds":"288, 290, 291, 292, 293, 294, 295, 296","modelIds":"model-288, model-294","finding":"Разделено в текущем реестре на несколько конструктивных групп","source":"color-review-batch-10 2.zip"},
+    {"group":"Стул барный Бари/Bari","sourceIds":"126, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541","modelIds":"model-123, model-523","finding":"По одному имени найдено несколько конструктивных моделей — оставлять раздельно","source":"next-model-by-name-2(1).zip"},
+    {"group":"Стул барный Чилли/Chilly (мод.7095б)","sourceIds":"155, 156, 173, 414, 415, 416, 417, 418, 419, 421, 423, 424, 425, 426, 427, 428, 431, 432, 433, 434, 440, 441, 442, 443, 444, 445, 446, 447, 452","modelIds":"model-155, model-156, model-173, model-414, model-416, model-417","finding":"По одному имени найдено несколько конструктивных моделей — оставлять раздельно","source":"next-model-by-name-4(1).zip"},
+    {"group":"Амура|Amura","sourceIds":"490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 622","modelIds":"model-490, model-496","finding":"Разделено на несколько конструктивных групп","source":"amura-all-variants(1).zip"},
+    {"group":"Техническая сверка duplicate map","sourceIds":"","modelIds":"","finding":"catalog.json содержит 168 duplicateReplacements, catalog-audit.json — 169; audit дополнительно содержит removedId 781 → keptId 782.","source":"catalog.json + catalog-audit.json"},
+    {"group":"Контроль числа моделей","sourceIds":"","modelIds":"","finding":"Текущий catalog.json сообщает 541 моделей и 1196 вариантов. Ранее в staging использовалась цифра 542 модели; для интерфейса нужно брать число из текущего catalog.json либо отдельно объяснить расхождение.","source":"catalog.json"}
+  ],
+  "note": "Restored product grouping registry. Models live in catalog.json; duplicate rows in catalog-audit.json; manual review evidence is split into the listed files only to keep repository writes small. Treat all listed evidence files as one logical registry."
+}
