@@ -35,7 +35,7 @@ jobs:
           node-version: 24
 
       - name: Validate client JavaScript
-        run: node --check next/app.js && node --check scripts/e2e-next-client.mjs && node --check scripts/e2e-next-lazy-scroll.mjs
+        run: node --check next/app.js && node --check next/variant-labels.js && node --check scripts/e2e-next-client.mjs && node --check scripts/e2e-next-lazy-scroll.mjs
 
       - name: Install Playwright browser
         run: |
