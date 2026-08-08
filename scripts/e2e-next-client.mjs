@@ -27,6 +27,29 @@ async function getColumns(page) {
   return page.locator('.product-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').filter(Boolean).length);
 }
 
+async function assertFirstCardPainted(page, cfg) {
+  const firstCard = page.locator('.product-card').first();
+  const firstName = firstCard.locator('.card-name');
+  const firstPrice = firstCard.locator('.card-price');
+  const nameText = (await firstName.textContent())?.trim() || '';
+  const priceText = (await firstPrice.textContent())?.trim() || '';
+  assert(nameText.length > 0, `${ENGINE}/${cfg.name}: у первой карточки пустое название`);
+  assert(priceText.length > 0, `${ENGINE}/${cfg.name}: у первой карточки пустая цена`);
+  assert(await firstName.isVisible(), `${ENGINE}/${cfg.name}: название первой карточки не видно`);
+  assert(await firstPrice.isVisible(), `${ENGINE}/${cfg.name}: цена первой карточки не видна`);
+  const cardStyle = await firstCard.evaluate(el => ({
+    contentVisibility: getComputedStyle(el).contentVisibility,
+    visibility: getComputedStyle(el).visibility,
+    opacity: Number(getComputedStyle(el).opacity),
+  }));
+  assert(cardStyle.contentVisibility !== 'auto', `${ENGINE}/${cfg.name}: content-visibility:auto запрещён из-за WebKit blank-card regression`);
+  assert(cardStyle.visibility === 'visible' && cardStyle.opacity > 0, `${ENGINE}/${cfg.name}: первая карточка скрыта стилями`);
+  const nameBox = await firstName.boundingBox();
+  const priceBox = await firstPrice.boundingBox();
+  assert(nameBox && nameBox.width > 1 && nameBox.height > 1, `${ENGINE}/${cfg.name}: название первой карточки не имеет видимого размера`);
+  assert(priceBox && priceBox.width > 1 && priceBox.height > 1, `${ENGINE}/${cfg.name}: цена первой карточки не имеет видимого размера`);
+}
+
 async function checkViewport(browser, cfg) {
   const context = await browser.newContext({ viewport: { width: cfg.width, height: cfg.height }, deviceScaleFactor: 1 });
   const page = await context.newPage();
@@ -45,6 +68,7 @@ async function checkViewport(browser, cfg) {
   assert(initialCards === 24, `${ENGINE}/${cfg.name}: первая порция должна содержать 24 карточки, получено ${initialCards}`);
   const columns = await getColumns(page);
   assert(columns === cfg.expectedColumns, `${ENGINE}/${cfg.name}: ожидалось ${cfg.expectedColumns} колонок, получено ${columns}`);
+  await assertFirstCardPainted(page, cfg);
 
   const firstImage = page.locator('.card-image').first();
   await firstImage.waitFor({ state: 'visible' });
