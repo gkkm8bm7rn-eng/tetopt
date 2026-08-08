@@ -1,0 +1,102 @@
+/* Registry-driven product variant selectors.
+   Semantic rule: circle = soft upholstery/fabric; square = hard frame/base. */
+.card-swatches {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+.axis-row.compact {
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+}
+.axis-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.axis-label {
+  margin: 12px 0 7px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #777168;
+}
+.axis-swatch {
+  --swatch: #e6e2d8;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(31,33,26,.22);
+  background: var(--swatch);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  color: #25261f;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.42);
+}
+.axis-swatch.soft { border-radius: 50%; }
+.axis-swatch.hard { border-radius: 5px; }
+.axis-swatch[data-label]:not([style])::after { content: attr(data-label); }
+.axis-swatch.active {
+  outline: 2px solid #6f7550;
+  outline-offset: 2px;
+}
+.axis-swatch:disabled {
+  opacity: .25;
+  cursor: not-allowed;
+}
+.swatch-more {
+  font-size: 11px;
+  color: #777168;
+  white-space: nowrap;
+}
+.card-retail,
+.dialog-retail {
+  display: block;
+  color: #8a847b;
+  font-size: 12px;
+  margin-top: 3px;
+  text-decoration-thickness: 1px;
+}
+.dialog-retail {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.dialog-axis-selectors {
+  margin-top: 16px;
+}
+.dialog-axis-selectors .axis-swatch {
+  width: 31px;
+  height: 31px;
+}
+.fallback-variants,
+.variant-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fallback-variant,
+.variant-pill {
+  border: 1px solid rgba(31,33,26,.18);
+  background: #f7f4ee;
+  color: #2d2f27;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  text-align: left;
+}
+.fallback-variant.active,
+.variant-pill.active {
+  border-color: #6f7550;
+  box-shadow: inset 0 0 0 1px #6f7550;
+}
+@media (max-width: 700px) {
+  .dialog-axis-selectors .axis-swatch { width: 34px; height: 34px; }
+  .axis-label { margin-top: 10px; }
+}
