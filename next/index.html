@@ -5,19 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f5f2ec">
   <title>FORMA HOME — новый каталог</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="app.js"></script>
-  <script defer src="variant-labels.js"></script>
+  <link rel="stylesheet" href="styles.css?v=6">
+  <script defer src="app.js?v=6"></script>
+  <script defer src="variant-labels.js?v=3"></script>
 </head>
 <body>
   <header class="site-header">
     <div class="announcement">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
     <div class="nav shell">
-      <a class="brand" href="#top" aria-label="FORMA HOME">FORMA <span>HOME</span></a>
+      <a class="brand" href="#catalog" aria-label="FORMA HOME — к каталогу">FORMA <span>HOME</span></a>
       <nav class="nav-actions" aria-label="Быстрые действия">
-        <button class="icon-button active" type="button" data-action="all" aria-pressed="true"><span aria-hidden="true">⌂</span><span class="action-label">Каталог</span></button>
-        <button class="icon-button" type="button" data-action="favorites" aria-pressed="false">♡ <span class="action-label">Избранное</span><b id="favorite-count">0</b></button>
-        <button class="icon-button" type="button" data-action="cart" aria-pressed="false"><span aria-hidden="true">▢</span><span class="action-label">Заказ</span> <b id="cart-count">0</b></button>
+        <button class="icon-button" type="button" data-action="favorites" aria-pressed="false"><span aria-hidden="true">♡</span><span class="action-label">Избранное</span><b id="favorite-count">0</b></button>
+        <button class="icon-button cart-button" type="button" data-action="cart" aria-pressed="false"><span class="cart-icon" aria-hidden="true">🛒</span><span class="action-label">Заказ</span><b id="cart-count">0</b></button>
       </nav>
     </div>
   </header>
@@ -66,10 +65,10 @@
       </div>
 
       <div class="catalog-status" id="catalog-status" role="status">
-        <span class="spinner" aria-hidden="true"></span> Загружаем готовый каталог…
+        <span class="spinner" aria-hidden="true"></span> Подбираем товары…
       </div>
       <div class="product-grid" id="product-grid"></div>
-      <button class="load-more" id="load-more" type="button" hidden>Показать ещё</button>
+      <nav class="pagination" id="pagination" aria-label="Страницы каталога" hidden></nav>
       <div class="empty-state" id="empty-state" hidden>
         <h3 id="empty-title">Ничего не нашли</h3>
         <p id="empty-copy">Измените запрос или сбросьте фильтры.</p>
@@ -85,11 +84,19 @@
 
   <template id="product-template">
     <article class="product-card">
-      <button class="card-open" type="button">
-        <span class="image-wrap"><img class="card-image" alt="" loading="lazy" decoding="async" width="640" height="640"></span>
+      <div class="card-media">
+        <button class="card-open card-image-open" type="button" aria-label="Открыть карточку товара">
+          <span class="image-wrap"><img class="card-image" alt="" loading="lazy" decoding="async" width="640" height="640"></span>
+        </button>
+        <button class="card-gallery-arrow card-prev" type="button" aria-label="Предыдущее фото" hidden>‹</button>
+        <button class="card-gallery-arrow card-next" type="button" aria-label="Следующее фото" hidden>›</button>
+        <span class="card-gallery-count" hidden></span>
+      </div>
+      <button class="card-open card-info-open" type="button">
         <span class="card-body">
           <span class="card-collection"></span>
           <strong class="card-name"></strong>
+          <span class="card-swatches" aria-label="Доступные цвета"></span>
           <span class="card-meta"></span>
           <span class="card-price"></span>
         </span>
