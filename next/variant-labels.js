@@ -54,9 +54,11 @@
 
     const labels = buildLabels(group.variants);
     buttons.forEach((button, index) => {
-      if (!labels[index]) return;
-      button.textContent = labels[index];
-      button.setAttribute('aria-label', `Выбрать: ${labels[index]}`);
+      const label = labels[index];
+      if (!label) return;
+      if (button.textContent?.trim() !== label) button.textContent = label;
+      const ariaLabel = `Выбрать: ${label}`;
+      if (button.getAttribute('aria-label') !== ariaLabel) button.setAttribute('aria-label', ariaLabel);
     });
     content.dataset.variantLabelsReady = 'true';
   }
