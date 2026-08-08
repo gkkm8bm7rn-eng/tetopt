@@ -1,0 +1,30 @@
+name: Build color review sheet on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'tools/**'
+      - 'review-confirmations/**'
+      - '.github/workflows/color-review-sheet-pr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Build next model review sheet
+        run: python tools/run_next_model_by_name.py
+      - name: Upload review sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-model-by-name
+          path: review-output/
+          retention-days: 1

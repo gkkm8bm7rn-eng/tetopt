@@ -1,0 +1,12 @@
+{
+  "status": "user-confirmed",
+  "scope": "all chair products",
+  "rule": "Remove all packaging quantity phrases from chair product names.",
+  "examples": [
+    "(1 шт. в упаковке)",
+    "(2 шт. в упаковке)",
+    "(4 шт. в упаковке)"
+  ],
+  "preserve_elsewhere": false,
+  "reason": "Стулья продаются поштучно; минимальной упаковки нет, поэтому информация не должна отображаться ни в названии, ни в характеристиках как обязательное условие."
+}
