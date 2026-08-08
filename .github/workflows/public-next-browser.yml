@@ -1,5 +1,6 @@
 name: Public next browser smoke
 
+# Public endpoint regression suite for the isolated /next client.
 on:
   pull_request:
     paths:
