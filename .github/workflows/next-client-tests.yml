@@ -7,6 +7,7 @@ on:
       - 'catalog.json'
       - 'assets/products/**'
       - 'scripts/e2e-next-client.mjs'
+      - 'scripts/e2e-next-lazy-scroll.mjs'
       - '.github/workflows/next-client-tests.yml'
   workflow_dispatch:
 
@@ -34,7 +35,7 @@ jobs:
           node-version: 24
 
       - name: Validate client JavaScript
-        run: node --check next/app.js && node --check scripts/e2e-next-client.mjs
+        run: node --check next/app.js && node --check scripts/e2e-next-client.mjs && node --check scripts/e2e-next-lazy-scroll.mjs
 
       - name: Install Playwright browser
         run: |
@@ -56,6 +57,9 @@ jobs:
 
       - name: Run responsive catalog checks
         run: node scripts/e2e-next-client.mjs
+
+      - name: Verify lazy images and load-more scrolling
+        run: node scripts/e2e-next-lazy-scroll.mjs
 
       - name: Show server log on failure
         if: failure()
