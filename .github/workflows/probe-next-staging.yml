@@ -1,5 +1,6 @@
 name: Probe public next staging
 
+# One-time PR probe marker; safe to discard after validation.
 on:
   push:
     branches: [main]
