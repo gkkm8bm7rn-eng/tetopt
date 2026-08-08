@@ -7,8 +7,8 @@
   const MAX_DIALOG_IMAGES = 6;
 
   const SOFT_RE = /(велюр|вельвет|букле|ткан|экокож|кожзам|флок|л[её]н|бархат|рогож|шерст|замш|обивк|сидень|подуш)/i;
-  const HARD_RE = /(металл|дерев|бук\b|вяз|шпон|пластик|мдф|лдсп|сталь|хром|основан|каркас|ножк|опор|керамик|стекл|мрамор|ротанг)/i;
-  const HARD_FINISH_RE = /(хром|орех|натурал|дуб|венге|груша|золот|латун|бронз|мрамор|гранит)/i;
+  const HARD_RE = /(металл|дерев|массив|сосн|бук\b|вяз|шпон|пластик|мдф|лдсп|сталь|хром|основан|каркас|ножк|опор|керамик|стекл|мрамор|ротанг)/i;
+  const HARD_FINISH_RE = /(хром|орех|натурал|дуб|венге|груша|золот|латун|бронз|мрамор|гранит|антик)/i;
 
   const TRUSTED_HEX = new Map([
     ['черный','#171717'], ['чёрный','#171717'], ['белый','#f5f3ee'],
@@ -20,7 +20,9 @@
     ['розовый','#c7959d'], ['фиолетовый','#796984'], ['графит','#545650'],
     ['серебристый','#aaa9a3'], ['золотой','#b59555'], ['натуральный','#b99b71'],
     ['орех','#76563e'], ['дуб','#a9865f'], ['хром','#b9bab8'], ['венге','#49372f'],
-    ['слоновая кость','#e5dcc8']
+    ['слоновая кость','#e5dcc8'], ['айвори','#eee4cf'], ['кремовый','#e7d8bd'],
+    ['какао','#80665d'], ['песочный','#c8ad85'], ['горчичный','#b58c35'], ['коньячный','#9a633f'],
+    ['антик','#866b54'], ['пепел','#aaa59c'], ['бетон','#99958c'], ['лайм','#9aaa4d'], ['салатовый','#8fbf70']
   ]);
 
   const state = {
@@ -73,11 +75,11 @@
       const products = Array.isArray(raw) ? raw : raw.products;
       if (!Array.isArray(products) || !products.length) throw new Error('empty catalog');
 
-      state.models = products.map(normalizeModel).filter(model => model.variants.length);
-      assertCatalog(state.models);
+      const normalized = products.map(normalizeModel).filter(model => model.variants.length);
+      assertCatalog(normalized);
+      state.models = dedupeKnownGland(normalized);
 
-      // catalog.json already contains the restored constructive grouping.
-      // Do not fuzzy-merge models again on the client.
+      // Only the proven Gland duplicate is merged client-side. All other models remain separate.
       els.modelCount.textContent = formatNumber(state.models.length);
       els.variantCount.textContent = formatNumber(state.models.reduce((sum, model) => sum + model.variants.length, 0));
       buildFilters();
@@ -132,7 +134,7 @@
     ]);
     const rawName = model.name || variants[0]?.name || `Модель ${index + 1}`;
     const displayName = cleanCustomerName(rawName);
-    const safeAxes = variants.length > 1 && variants.every(v => v.axes.safe && (v.axes.soft || v.axes.hard));
+    const safeAxes = variants.length > 1 && variants.some(v => v.axes.safe && (v.axes.soft || v.axes.hard));
 
     return {
       ...model,
@@ -152,7 +154,8 @@
 
   function inferAxes(variant) {
     const specs = String(variant.specs || '');
-    const label = String(variant.colorLabel || '').trim();
+    const explicitLabel = String(variant.colorLabel || '').trim();
+    const label = explicitLabel || extractTrustedColorLabel(specs);
     const parts = splitColorParts(label);
     const hasSoft = SOFT_RE.test(specs);
     const hasHard = HARD_RE.test(specs);
@@ -165,6 +168,11 @@
       if (hasSoft && !hasHard) return { soft: parts[0], hard: '', safe: true };
       if (hasHard && !hasSoft) return { soft: '', hard: parts[0], safe: true };
       if (hasSoft && hasHard) {
+        const needle = normalizeText(parts[0]);
+        const haystack = normalizeText(specs);
+        if (needle && haystack.split(needle).length - 1 >= 2) {
+          return { soft: parts[0], hard: parts[0], safe: true };
+        }
         const softScore = contextScore(specs, parts[0], SOFT_RE);
         const hardScore = contextScore(specs, parts[0], HARD_RE);
         if (softScore >= hardScore + 2) return { soft: parts[0], hard: '', safe: true };
@@ -248,6 +256,66 @@
     if (max < threshold) return -1;
     const indexes = scores.map((value, i) => value === max ? i : -1).filter(i => i >= 0);
     return indexes.length === 1 ? indexes[0] : -1;
+  }
+
+
+  function extractTrustedColorLabel(specs) {
+    const text = normalizeText(specs);
+    const hits = [];
+    for (const name of TRUSTED_HEX.keys()) {
+      const normalized = normalizeText(name);
+      const index = text.indexOf(normalized);
+      if (index >= 0) hits.push({ name, index, length: normalized.length });
+    }
+    hits.sort((a, b) => a.index - b.index || b.length - a.length);
+    const selected = [];
+    let lastEnd = -1;
+    for (const hit of hits) {
+      if (hit.index < lastEnd) continue;
+      const canonical = hit.name.replace(/ё/g, 'е');
+      if (!selected.some(item => normalizeText(item.name) === normalizeText(canonical))) {
+        selected.push({ ...hit, name: canonical });
+      }
+      lastEnd = hit.index + hit.length;
+    }
+    return selected.slice(0, 3).map(item => item.name).join('/');
+  }
+
+  function dedupeKnownGland(models) {
+    const gland = models.filter(model => {
+      const ids = new Set(model.variants.map(v => Number(v.sourceId)).filter(Number.isFinite));
+      return [30, 31, 32, 33].some(id => ids.has(id)) && /(?:гленд|gland)/i.test(model.displayName);
+    });
+    if (gland.length !== 2) return models;
+
+    const mergedVariants = [...gland[0].variants, ...gland[1].variants];
+    const uniqueVariants = [];
+    const seen = new Set();
+    for (const variant of mergedVariants) {
+      const key = String(variant.sourceId ?? variant.variantKey);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      uniqueVariants.push(variant);
+    }
+    const merged = {
+      ...gland[0],
+      displayName: 'Стол журнальный Гленд/Gland',
+      name: 'Стол журнальный Гленд/Gland',
+      variants: uniqueVariants,
+      safeAxes: uniqueVariants.length > 1 && uniqueVariants.every(v => v.axes.safe && (v.axes.soft || v.axes.hard)),
+      searchable: `${gland[0].searchable} ${gland[1].searchable}`,
+    };
+    const ids = new Set(gland.map(model => model.id));
+    const output = [];
+    let inserted = false;
+    for (const model of models) {
+      if (!ids.has(model.id)) output.push(model);
+      else if (!inserted) {
+        output.push(merged);
+        inserted = true;
+      }
+    }
+    return output;
   }
 
   function normalizeImages(variant) {
@@ -470,6 +538,7 @@
     const count = node.querySelector('.card-gallery-count');
     const prev = node.querySelector('.card-prev');
     const next = node.querySelector('.card-next');
+    const body = node.querySelector('.card-body');
     let retail = node.querySelector('.card-retail');
     if (!retail) {
       retail = document.createElement('del');
@@ -537,7 +606,12 @@
       return;
     }
 
-    if (!model.safeAxes) {
+    const parsedVariants = model.variants.filter(v => v.axes.safe && (v.axes.soft || v.axes.hard));
+    const soft = uniqueStrings(parsedVariants.map(v => v.axes.soft));
+    const hard = uniqueStrings(parsedVariants.map(v => v.axes.hard));
+    const hasUsefulAxes = soft.length > 1 || hard.length > 1;
+
+    if (!hasUsefulAxes) {
       if (compact) {
         container.hidden = true;
         return;
@@ -564,21 +638,33 @@
       return;
     }
 
-    const soft = uniqueAxisValues(model,'soft');
-    const hard = uniqueAxisValues(model,'hard');
     let rendered = false;
 
     if (soft.length > 1) {
       container.append(makeAxisRow(model,activeVariant,'soft',soft,compact,onSelect));
       rendered = true;
     }
-    if (hard.length > 1) {
+    const allParsedHaveHard = parsedVariants.length > 0 && parsedVariants.every(v => v.axes.hard);
+    if (hard.length > 1 && (activeVariant.axes.hard || allParsedHaveHard)) {
       container.append(makeAxisRow(model,activeVariant,'hard',hard,compact,onSelect));
       rendered = true;
     }
 
+    const unresolved = model.variants.filter(v => !v.axes.safe || (!v.axes.soft && !v.axes.hard));
+    if (compact && unresolved.length) {
+      const more = document.createElement('span');
+      more.className = 'swatch-more unresolved-more';
+      more.textContent = `+${unresolved.length}`;
+      more.title = 'Есть дополнительные варианты без надёжно определённого цвета';
+      container.append(more);
+      rendered = true;
+    }
+
     if (!compact) {
-      const pair = variantsForCurrentAxes(model,activeVariant);
+      const pair = uniqueVariants([
+        ...variantsForCurrentAxes(model,activeVariant),
+        ...unresolved
+      ]);
       if (pair.length > 1) {
         const block = document.createElement('div');
         block.className='residual-variants';
@@ -843,6 +929,17 @@
   }
 
   function sameVariant(a,b) { return a && b && a.variantKey===b.variantKey; }
+
+  function uniqueVariants(items) {
+    const seen = new Set();
+    return items.filter(item => {
+      if (!item) return false;
+      const key = item.variantKey || String(item.sourceId || '');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
 
   function customerVariantLabel(variant,index) {
     const specs=cleanVariantText(variant.specs||'');
