@@ -50,6 +50,16 @@ async function assertFirstCardPainted(page, cfg) {
   assert(priceBox && priceBox.width > 1 && priceBox.height > 1, `${ENGINE}/${cfg.name}: цена первой карточки не имеет видимого размера`);
 }
 
+async function assertVariantLabels(page, cfg) {
+  const pills = page.locator('.variant-pill');
+  const count = await pills.count();
+  if (count < 2) return;
+  await page.waitForFunction(() => document.querySelector('#dialog-content')?.dataset.variantLabelsReady === 'true', null, { timeout: 5_000 });
+  const labels = (await pills.allTextContents()).map(value => value.trim());
+  assert(labels.every(Boolean), `${ENGINE}/${cfg.name}: есть пустая подпись исполнения`);
+  assert(labels.every(label => !/^Вариант\s+\d+/i.test(label)), `${ENGINE}/${cfg.name}: остались технические подписи вариантов: ${labels.join(' | ')}`);
+}
+
 async function checkViewport(browser, cfg) {
   const context = await browser.newContext({ viewport: { width: cfg.width, height: cfg.height }, deviceScaleFactor: 1 });
   const page = await context.newPage();
@@ -93,6 +103,7 @@ async function checkViewport(browser, cfg) {
 
   await page.locator('.product-card .card-open').first().click();
   await page.waitForSelector('#product-dialog[open]', { timeout: 5_000 });
+  await assertVariantLabels(page, cfg);
   const dialogImage = page.locator('#dialog-main-image');
   await dialogImage.evaluate(img => img.decode?.().catch(() => {}));
   assert(await dialogImage.evaluate(img => img.complete && img.naturalWidth > 0), `${ENGINE}/${cfg.name}: главное фото в карточке товара не загрузилось`);
@@ -111,6 +122,7 @@ async function checkViewport(browser, cfg) {
   await page.locator('[data-action="all"]').click();
 
   await page.locator('.product-card .card-open').first().click();
+  await assertVariantLabels(page, cfg);
   const addCart = page.locator('.add-cart');
   await addCart.click();
   assert((await addCart.textContent()).includes('В заказе'), `${ENGINE}/${cfg.name}: товар не добавился в заказ`);
