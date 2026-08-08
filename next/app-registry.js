@@ -668,10 +668,11 @@
   function axisCombinationAvailable(model,current,axis,value) {
     const other=axis==='soft'?'hard':'soft';
     const otherValue=current.axes[other];
+    if (!otherValue) return model.variants.some(v=>normalizeText(v.axes[axis])===normalizeText(value));
     return model.variants.some(v =>
       normalizeText(v.axes[axis])===normalizeText(value) &&
-      (!otherValue || normalizeText(v.axes[other])===normalizeText(otherValue))
-    ) || model.variants.some(v=>normalizeText(v.axes[axis])===normalizeText(value));
+      normalizeText(v.axes[other])===normalizeText(otherValue)
+    );
   }
 
   function selectAxisVariant(model,current,axis,value) {
