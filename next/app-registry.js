@@ -5,6 +5,20 @@
   const FIRST_EAGER_IMAGES = 4;
   const MAX_CARD_IMAGES = 3;
   const MAX_DIALOG_IMAGES = 6;
+  const DIMENSIONS_URL = 'dimensions.tsv';
+  const dimensionsBySourceId = new Map();
+  const SHOP_CATEGORIES = Object.freeze({
+    chairs: 'Стулья', armchairs: 'Кресла', tables: 'Столы', sofas: 'Диваны и мягкая мебель',
+    coffee: 'Журнальные и кофейные столики', bar: 'Барная мебель', storage: 'Хранение', other: 'Декор и прочее',
+  });
+  const FEATURED_SOURCE_IDS = Object.freeze([
+    276,284,34,838,29,490,298,36,845,30,502,307,41,851,1304,542,310,45,897,1398,546,319,51,899,
+    560,320,56,908,1399,564,324,62,912,1440,593,625,63,1294,1557,611,626,1313,1491,853,1441,1558,866,892,
+  ]);
+  const COVER_IMAGE_PRIORITY = new Map([
+    ['944', 'assets/products/944/01.webp'],
+    ['970', 'assets/products/970/01.webp'],
+  ]);
 
   const SOFT_RE = /(велюр|вельвет|букле|ткан|экокож|кожзам|флок|л[её]н|бархат|рогож|шерст|замш|обивк|сидень|подуш)/i;
   const HARD_RE = /(металл|дерев|массив|сосн|бук\b|вяз|шпон|пластик|мдф|лдсп|сталь|хром|основан|каркас|ножк|опор|керамик|стекл|мрамор|ротанг)/i;
@@ -78,6 +92,7 @@
       const normalized = products.map(normalizeModel).filter(model => model.variants.length);
       assertCatalog(normalized);
       state.models = dedupeKnownGland(normalized);
+      state.models = state.models.map((model, sourceOrder) => ({ ...model, sourceOrder }));
 
       // Only the proven Gland duplicate is merged client-side. All other models remain separate.
       els.modelCount.textContent = formatNumber(state.models.length);
@@ -85,11 +100,41 @@
       buildFilters();
       els.status.hidden = true;
       applyFilters(true);
+      void loadOptionalDimensions();
     } catch (error) {
       console.error('[next-catalog]', error);
       els.status.hidden = true;
       els.grid.innerHTML = '<div class="error-box"><strong>Каталог не загрузился</strong><p>Проверьте соединение и обновите страницу.</p><button type="button" onclick="location.reload()">Обновить</button></div>';
     }
+  }
+
+  async function loadOptionalDimensions() {
+    try {
+      const response = await fetch(DIMENSIONS_URL, { cache: 'force-cache' });
+      if (!response.ok) return;
+      const rows = parseDimensionsTsv(await response.text());
+      rows.forEach((value, key) => dimensionsBySourceId.set(key, value));
+      if (state.activeModel) renderDialog();
+    } catch (error) {
+      console.info('[next-catalog] optional dimensions unavailable');
+    }
+  }
+
+  function parseDimensionsTsv(text) {
+    const output = new Map();
+    const lines = String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/).filter(Boolean);
+    if (lines.length < 2) return output;
+    const headers = lines[0].split('\t').map(value => normalizeText(value));
+    const idIndex = headers.findIndex(value => /^(?:sourceid|source id|id)$/.test(value));
+    const dimensionIndex = headers.findIndex(value => /размер|dimension/.test(value));
+    if (idIndex < 0 || dimensionIndex < 0) return output;
+    lines.slice(1).forEach(line => {
+      const cells = line.split('\t');
+      const id = String(cells[idIndex] || '').trim();
+      const dimensions = String(cells[dimensionIndex] || '').trim();
+      if (id && dimensions) output.set(id, dimensions);
+    });
+    return output;
   }
 
   function normalizeModel(model, index) {
@@ -136,7 +181,7 @@
     const displayName = cleanCustomerName(rawName);
     const safeAxes = variants.length > 1 && variants.some(v => v.axes.safe && (v.axes.soft || v.axes.hard));
 
-    return {
+    const normalizedModel = {
       ...model,
       id: String(model.id || `model-${index + 1}`),
       name: rawName,
@@ -150,6 +195,8 @@
         variants.map(v => `${v.specs || ''} ${v.colorLabel || ''}`).join(' ')
       ].join(' ')),
     };
+    normalizedModel.shopCategory = classifyModel(normalizedModel);
+    return normalizedModel;
   }
 
   function inferAxes(variant) {
@@ -323,7 +370,9 @@
     if (Array.isArray(variant.images)) candidates.push(...variant.images);
     if (variant.image) candidates.push(variant.image);
     if (variant.directImage) candidates.push(variant.directImage);
-    return uniqueStrings(candidates.filter(isLocalImagePath));
+    const images = uniqueStrings(candidates.filter(isLocalImagePath));
+    const preferred = COVER_IMAGE_PRIORITY.get(String(variant.sourceId));
+    return preferred && images.includes(preferred) ? [preferred, ...images.filter(image => image !== preferred)] : images;
   }
 
   function assertCatalog(models) {
@@ -343,7 +392,8 @@
 
   function buildFilters() {
     fillSelect(els.collection, uniqueSorted(state.models.flatMap(m => m.collections)));
-    const categories = uniqueSorted(state.models.flatMap(m => m.categories));
+    const available = new Set(state.models.map(model => model.shopCategory));
+    const categories = Object.values(SHOP_CATEGORIES).filter(category => available.has(category));
     if (categories.length) fillSelect(els.category, categories);
     else els.categoryField.hidden = true;
   }
@@ -406,7 +456,7 @@
       if (state.view === 'favorites' && !state.favorites.has(model.id)) return false;
       if (state.view === 'cart' && !model.variants.some(v => state.cart.has(String(v.sourceId ?? model.id)))) return false;
       if (query && !model.searchable.includes(query)) return false;
-      if (category && !model.categories.includes(category)) return false;
+      if (category && model.shopCategory !== category) return false;
       if (collection && !model.collections.includes(collection)) return false;
       if (priceRange && !model.variants.some(v => withinPrice(v.wholesalePrice, priceRange))) return false;
       return true;
@@ -424,25 +474,48 @@
   }
 
   function merchandiseModels(models) {
-    const buckets = { seating: [], tables: [], sofas: [], coffee: [], bar: [], other: [], hangers: [] };
-    models.forEach(model => buckets[classifyModel(model)].push(model));
-    const output = [];
-    const priority = ['seating','tables','sofas','coffee','bar'];
-    while (priority.some(key => buckets[key].length)) {
-      priority.forEach(key => { if (buckets[key].length) output.push(buckets[key].shift()); });
-    }
-    return output.concat(buckets.other, buckets.hangers);
+    const featuredRank = new Map(FEATURED_SOURCE_IDS.map((sourceId, index) => [String(sourceId), index]));
+    return [...models].sort((a, b) => {
+      const aFeatured = featuredModelRank(a, featuredRank), bFeatured = featuredModelRank(b, featuredRank);
+      if (aFeatured !== bFeatured) return aFeatured - bFeatured;
+      return merchandisingPriority(a) - merchandisingPriority(b) || a.sourceOrder - b.sourceOrder;
+    });
+  }
+
+  function featuredModelRank(model, ranks) {
+    const rank = Math.min(...model.variants.map(variant => ranks.get(String(variant.sourceId)) ?? Infinity));
+    return Number.isFinite(rank) ? rank : FEATURED_SOURCE_IDS.length + 1;
+  }
+
+  function merchandisingPriority(model) {
+    const kind = model.shopCategory;
+    const base = {
+      [SHOP_CATEGORIES.chairs]: 0, [SHOP_CATEGORIES.armchairs]: 4, [SHOP_CATEGORIES.tables]: 14,
+      [SHOP_CATEGORIES.sofas]: 25, [SHOP_CATEGORIES.coffee]: 34, [SHOP_CATEGORIES.bar]: 70,
+      [SHOP_CATEGORIES.storage]: 100, [SHOP_CATEGORIES.other]: 115,
+    }[kind];
+    const text = normalizeText(`${model.displayName} ${model.categories.join(' ')}`);
+    let score = base;
+    if (/обеденн|dining|кресло|armchair/.test(text)) score -= 8;
+    if (/кож|leather|декор|аксессуар|матрац|подуш|корзин|цветочниц|этажерк|ложк|ваза|статуэт/.test(text)) score += 35;
+    if (/полубар|барн|bar/.test(text)) score += 12;
+    if (/надстройк|сист.*блок|страйк|геймер|компьютерн|ремеш|матрас|матрац|подуш|комплектующ/.test(text)) score += 70;
+    if (!chooseDisplayVariant(model).images.length) score += 25;
+    if (!positiveNumber(chooseDisplayVariant(model).wholesalePrice)) score += 8;
+    score += Math.min(model.sourceOrder / 10000, .99);
+    return score;
   }
 
   function classifyModel(model) {
     const text = normalizeText(`${model.displayName} ${model.categories.join(' ')}`);
-    if (/вешал|hanger|гардеробн.*стойк/.test(text)) return 'hangers';
-    if (/диван|банкет|пуф|sofa|bench|ottoman/.test(text)) return 'sofas';
-    if (/барн|bar/.test(text)) return 'bar';
-    if (/кресл|стул|chair|табур/.test(text)) return 'seating';
-    if (/журнальн|кофейн|coffee/.test(text)) return 'coffee';
-    if (/стол|table/.test(text)) return 'tables';
-    return 'other';
+    if (/барн|полубар|\bbar\b/.test(text)) return SHOP_CATEGORIES.bar;
+    if (/журнальн|кофейн|кофейный|coffee/.test(text)) return SHOP_CATEGORIES.coffee;
+    if (/диван|банкет|пуф|sofa|bench|ottoman|комплект для отдыха|лаундж сет/.test(text)) return SHOP_CATEGORIES.sofas;
+    if (/\bстул|табур|chair/.test(text)) return SHOP_CATEGORIES.chairs;
+    if (/кресл|armchair/.test(text)) return SHOP_CATEGORIES.armchairs;
+    if (/\bстол|table/.test(text)) return SHOP_CATEGORIES.tables;
+    if (/шкаф|комод|тумб|этажерк|полк|стеллаж|вешал|корзин|хранен|hanger/.test(text)) return SHOP_CATEGORIES.storage;
+    return SHOP_CATEGORIES.other;
   }
 
   function resultCountText() {
@@ -587,7 +660,7 @@
 
     node.querySelector('.card-collection').textContent = cleanCollection(model.collections[0] || model.categories[0] || 'FORMA HOME');
     node.querySelector('.card-name').textContent = model.displayName;
-    node.querySelector('.card-meta').textContent = `${model.variants.length} ${plural(model.variants.length,'вариант','варианта','вариантов')}`;
+    node.querySelector('.card-meta').textContent = model.variants.length > 1 ? 'Доступно несколько исполнений' : '';
     node.querySelectorAll('.card-open').forEach(button => button.addEventListener('click', () => openModel(model, variant)));
 
     const favorite = node.querySelector('.favorite-button');
@@ -619,7 +692,7 @@
       container.hidden = false;
       const title = document.createElement('p');
       title.className = 'axis-label';
-      title.textContent = 'Вариант товара';
+      title.textContent = 'Выберите исполнение';
       const row = document.createElement('div');
       row.className = 'fallback-variants';
       model.variants.forEach((variant,index) => {
@@ -651,15 +724,6 @@
     }
 
     const unresolved = model.variants.filter(v => !v.axes.safe || (!v.axes.soft && !v.axes.hard));
-    if (compact && unresolved.length) {
-      const more = document.createElement('span');
-      more.className = 'swatch-more unresolved-more';
-      more.textContent = `+${unresolved.length}`;
-      more.title = 'Есть дополнительные варианты без надёжно определённого цвета';
-      container.append(more);
-      rendered = true;
-    }
-
     if (!compact) {
       const pair = uniqueVariants([
         ...variantsForCurrentAxes(model,activeVariant),
@@ -670,7 +734,7 @@
         block.className='residual-variants';
         const title=document.createElement('p');
         title.className='axis-label';
-        title.textContent='Вариант товара';
+        title.textContent='Другие доступные исполнения';
         const row=document.createElement('div');
         row.className='variant-pills';
         pair.forEach((variant,index)=>{
@@ -702,7 +766,7 @@
     }
     const row=document.createElement('span');
     row.className='axis-swatches';
-    const max=compact ? 5 : values.length;
+    const max=values.length;
     values.slice(0,max).forEach(value=>{
       const button=document.createElement('button');
       button.type='button';
@@ -723,12 +787,6 @@
       });
       row.append(button);
     });
-    if (compact && values.length>max) {
-      const more=document.createElement('span');
-      more.className='swatch-more';
-      more.textContent=`+${values.length-max}`;
-      row.append(more);
-    }
     wrapper.append(row);
     return wrapper;
   }
@@ -836,6 +894,7 @@
           ${retail}
           <div class="dialog-axis-selectors"></div>
           ${variant.specs?`<div class="specs">${formatSpecs(variant.specs)}</div>`:''}
+          ${dimensionsHtml(variant)}
           <div class="dialog-actions">
             <button class="add-cart" type="button" data-cart-id="${escapeAttr(cartId)}">${inCart?'Перейти к заказу →':'Добавить в заказ'}</button>
             <button class="dialog-favorite" type="button" aria-label="${state.favorites.has(model.id)?'Убрать модель из избранного':'Добавить модель в избранное'}">${state.favorites.has(model.id)?'♥':'♡'}</button>
@@ -946,7 +1005,17 @@
     if (specs) return compact(specs,86);
     const label=variant.colorLabel && !/основной вариант/i.test(variant.colorLabel) ? variant.colorLabel : '';
     if (label) return label;
-    return `Вариант товара${variant.sourceId!=null?` · ID ${variant.sourceId}`:''}`;
+    return `Исполнение · ${exactPriceText(variant.wholesalePrice)}`;
+  }
+
+  function dimensionsHtml(variant) {
+    if (hasDimensions(variant.specs)) return '';
+    const fallback = dimensionsBySourceId.get(String(variant.sourceId ?? ''));
+    return fallback ? `<section class="dimensions"><h3>Размеры</h3><p>${escapeHtml(fallback)}</p></section>` : '';
+  }
+
+  function hasDimensions(value) {
+    return /\b\d+(?:[.,]\d+)?\s*(?:x|х|×)\s*\d+|\b(?:ширина|высота|глубина|диаметр)\b/i.test(String(value || ''));
   }
 
   function renderRetail(element,variant) {
@@ -979,6 +1048,7 @@
       .replace(/\s*\((?:[A-ZА-Я]{1,5}[-–]?[A-ZА-Я0-9]{2,}(?:[-–][A-ZА-Я0-9]+)*)\)/g,'')
       .replace(/\s*\((?:обеденная\s+группа|столовая\s+группа)\)/giu,'')
       .replace(/\s*\(?\d+\s*шт\.?\s*(?:в\s*)?упаковк[еи]?\)?/giu,'')
+      .replace(/\s*\(?\d+\s*шт\.?\s*в?\s*\d*(?:-?х)?\s*упаковк(?:ах|е|и)?\)?/giu,'')
       .replace(/\s{2,}/g,' ').replace(/\s+([,.;:])/g,'$1').trim();
   }
 
