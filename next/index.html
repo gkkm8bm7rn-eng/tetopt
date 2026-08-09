@@ -11,7 +11,6 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="announcement">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
     <div class="nav shell">
       <a class="brand" href="#catalog" aria-label="FORMA HOME — к каталогу">FORMA <span>HOME</span></a>
       <nav class="nav-actions" aria-label="Быстрые действия">
@@ -74,12 +73,30 @@
         <p id="empty-copy">Измените запрос или сбросьте фильтры.</p>
         <button type="button" id="reset-filters">Вернуться ко всему каталогу</button>
       </div>
+      <section class="order-screen" id="order-screen" hidden aria-labelledby="order-title"></section>
     </section>
   </main>
+
+  <footer class="site-footer"><div class="shell"><strong>FORMA HOME</strong><span><a href="tel:+79057267946">+7 (905) 726-79-46</a> · <a href="mailto:postes@mail.ru">postes@mail.ru</a> · Ежедневно, 10:00–20:00</span></div></footer>
 
   <dialog class="product-dialog" id="product-dialog" aria-label="Карточка товара">
     <button class="dialog-close" id="dialog-close" type="button" aria-label="Закрыть">×</button>
     <div id="dialog-content"></div>
+  </dialog>
+  <dialog class="checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-title">
+    <form class="checkout-panel" id="checkout-form" novalidate>
+      <div class="checkout-head"><div><p class="eyebrow">Заказ</p><h2 id="checkout-title">Оформление заказа</h2></div><button type="button" id="checkout-close" aria-label="Закрыть">×</button></div>
+      <p class="checkout-summary" id="checkout-summary"></p>
+      <div class="checkout-grid">
+        <label>Имя *<input id="checkout-name" autocomplete="name" required></label>
+        <label>Телефон *<input id="checkout-phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+        <label class="full">Город *<input id="checkout-city" autocomplete="address-level2" required></label>
+        <label class="full">Комментарий<textarea id="checkout-comment"></textarea></label>
+      </div>
+      <p class="checkout-error" id="checkout-error" aria-live="polite"></p>
+      <div class="checkout-actions"><button type="button" data-checkout="whatsapp">Отправить в WhatsApp</button><button type="button" data-checkout="email">Отправить по e-mail</button><button type="button" data-checkout="telegram">Поделиться в Telegram</button><button type="button" data-checkout="copy">Скопировать заказ</button></div>
+      <small>Заказ будет адресован магазину: +7 (905) 726-79-46 или postes@mail.ru.</small>
+    </form>
   </dialog>
 
   <template id="product-template">

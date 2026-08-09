@@ -4,6 +4,7 @@
   "description": "Готовый статический сайт.",
   "main": "adaptive-catalog-search.js",
   "scripts": {
+    "test:storefront": "bash scripts/test-storefront.sh",
     "audit:next": "bash scripts/audit-next-finalization.sh",
     "test:browser:chromium": "node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ chromium",
     "test:browser:webkit": "node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ webkit"

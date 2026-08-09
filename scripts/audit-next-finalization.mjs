@@ -46,7 +46,7 @@ for (let page = 1; page <= 4; page += 1) {
 const catalogFetches = requests.filter(url => /\/catalog\.json(?:[?#]|$)/.test(url)).length;
 const dimensionsFetches = requests.filter(url => /\/next\/dimensions\.tsv(?:[?#]|$)/.test(url)).length;
 const renderedText = document.body.textContent;
-const artifacts = [/(?:^|\s)\+\d+\b/, /Вариант\s+\d+/i, /Вариант товара/i, /\bsourceId\b/i, /\bID\s+\d+\b/].filter(pattern => pattern.test(renderedText)).map(String);
+const artifacts = [/\+\d+\s*(?:ещ[её]|вариант)/i, /Вариант\s+\d+/i, /Вариант товара/i, /\bsourceId\b/i, /\bID\s+\d+\b/].filter(pattern => pattern.test(renderedText)).map(String);
 const registry = JSON.parse(await (await fetch(new URL('../data/forma-home-product-registry.json', base))).text());
 const expected = registry.stats;
 const rawCatalog = JSON.parse(await (await fetch(new URL('../catalog.json', base))).text());

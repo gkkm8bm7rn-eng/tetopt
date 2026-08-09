@@ -1,90 +1,29 @@
 import { chromium, webkit } from 'playwright';
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-
-const base = process.argv[2] || 'http://127.0.0.1:4173/next/';
-const requestedEngine = process.argv[3] || 'chromium';
-const engine = requestedEngine === 'webkit' ? webkit : chromium;
-const launchOptions = { headless: true };
-if (requestedEngine === 'chromium' && process.env.CHROMIUM_PATH) launchOptions.executablePath = process.env.CHROMIUM_PATH;
-const widths = [320, 390, 412, 430, 768, 1280, 1440];
-const output = { engine: requestedEngine, widths: [], catalogRequests: 0, imageRequests: 0, errors: [] };
-const screenshotsDir = process.env.SCREENSHOTS_DIR;
-const browser = await engine.launch(launchOptions);
-
-for (const width of widths) {
-  const page = await browser.newPage({ viewport: { width, height: width < 768 ? 844 : 900 } });
-  let catalogRequests = 0;
-  let imageRequests = 0;
-  page.on('request', request => {
-    if (/\/catalog\.json(?:[?#]|$)/.test(request.url())) catalogRequests += 1;
-    if (request.resourceType() === 'image') imageRequests += 1;
-  });
-  page.on('pageerror', error => output.errors.push(`${width}: ${error.message}`));
-  await page.goto(base, { waitUntil: 'networkidle' });
-  await page.locator('.product-card').first().waitFor();
-  const firstPageNames = await page.locator('.card-name').allTextContents();
-  await page.getByLabel('Страница 2', { exact: true }).click();
-  const secondPageNames = await page.locator('.card-name').allTextContents();
-  if (firstPageNames.join('|') === secondPageNames.join('|')) throw new Error(`${width}px pagination did not change products`);
-  await page.getByLabel('Страница 1', { exact: true }).click();
-  await page.locator('#search').fill('Бомбей');
-  if (await page.locator('.product-card').count() < 1) throw new Error(`${width}px search returned no cards`);
-  await page.locator('#search').fill('');
-  const categoryValue = await page.locator('#category-filter option').nth(1).getAttribute('value');
-  await page.locator('#category-filter').selectOption(categoryValue);
-  if (await page.locator('.product-card').count() < 1) throw new Error(`${width}px category filter returned no cards`);
-  await page.locator('#category-filter').selectOption('');
-  const singleVariantCards = await page.locator('.product-card', { has: page.locator('.card-meta:empty') }).count();
-  const multiVariantCards = await page.locator('.product-card', { hasText: 'Доступно несколько исполнений' }).count();
-  if (!multiVariantCards) throw new Error(`${width}px no multi-variant card was rendered`);
-  await page.locator('.favorite-button').first().click();
-  if (await page.locator('#favorite-count').textContent() !== '1') throw new Error(`${width}px favorite did not update`);
-  await page.locator('.product-card .card-open').first().click();
-  await page.locator('#product-dialog[open]').waitFor();
-  const galleryImage = page.locator('#dialog-main-image');
-  const beforeGallery = await galleryImage.getAttribute('src');
-  if (await page.locator('[data-gallery-step="1"]').count()) {
-    await page.locator('[data-gallery-step="1"]').click();
-    if (await galleryImage.getAttribute('src') === beforeGallery) throw new Error(`${width}px gallery did not advance`);
-  }
-  const variantButton = page.locator('.dialog-axis-selectors button:not(.active):not([disabled])').first();
-  if (await variantButton.count()) {
-    const beforePrice = await page.locator('.dialog-price').textContent();
-    const beforeCartSource = await page.locator('.add-cart').getAttribute('data-cart-id');
-    await variantButton.click();
-    await page.locator('#product-dialog[open]').waitFor();
-    const afterCartSource = await page.locator('.add-cart').getAttribute('data-cart-id');
-    if (beforeCartSource === afterCartSource) throw new Error(`${width}px variant sourceId did not change atomically`);
-    output.widths.push({ width, singleVariantCards, multiVariantCards, variantSwitchChecked: true, priceBeforeSwitch: beforePrice });
-  }
-  await page.locator('.add-cart').click();
-  if (await page.locator('#cart-count').textContent() !== '1') throw new Error(`${width}px cart did not update`);
-  const geometry = await page.evaluate(() => {
-    const dialog = document.querySelector('#product-dialog').getBoundingClientRect();
-    return {
-      bodyScrollWidth: document.body.scrollWidth,
-      viewportWidth: innerWidth,
-      cards: document.querySelectorAll('.product-card').length,
-      dialog: { left: dialog.left, right: dialog.right, top: dialog.top, bottom: dialog.bottom, width: dialog.width, height: dialog.height },
-      artifacts: /(?:^|\s)\+\d+\b|Вариант\s+\d+|Вариант товара|\bsourceId\b|\bID\s+\d+\b/i.test(document.body.textContent),
-    };
-  });
-  if (geometry.bodyScrollWidth > width) throw new Error(`${width}px horizontal overflow: ${geometry.bodyScrollWidth}`);
-  if (geometry.artifacts) throw new Error(`${width}px customer-facing artifact`);
-  if (screenshotsDir) {
-    await fs.mkdir(screenshotsDir, { recursive: true });
-    await page.screenshot({ path: path.join(screenshotsDir, `next-${requestedEngine}-${width}.png`), fullPage: true });
-  }
-  const existing = output.widths.find(item => item.width === width) || {};
-  Object.assign(existing, { width, catalogRequests, imageRequests, firstPageCards: firstPageNames.length, secondPageCards: secondPageNames.length, ...geometry });
-  if (!output.widths.includes(existing)) output.widths.push(existing);
-  output.catalogRequests += catalogRequests;
-  output.imageRequests += imageRequests;
-  await page.close();
+const base=process.argv[2]||'http://127.0.0.1:4173/next/';
+const name=process.argv[3]||'chromium',engine=name==='webkit'?webkit:chromium;
+const launch={headless:true};if(name==='chromium'&&process.env.CHROMIUM_PATH)launch.executablePath=process.env.CHROMIUM_PATH;
+const browser=await engine.launch(launch),widths=[320,390,430,768,1280];
+for(const width of widths){
+ const context=await browser.newContext({viewport:{width,height:width<768?844:900}});if(width===320&&name==='chromium')await context.grantPermissions(['clipboard-read','clipboard-write'],{origin:new URL(base).origin});const page=await context.newPage();
+ const failures=[],errors=[];let catalogs=0;const opened=[];
+ await page.addInitScript(()=>{window.open=url=>{window.__opened=(window.__opened||[]).concat(String(url));return null};Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async value=>{window.__copied=String(value)},readText:async()=>window.__copied||''}});});
+ page.on('request',r=>{if(/\/catalog\.json(?:[?#]|$)/.test(r.url()))catalogs++});
+ page.on('requestfailed',r=>{if(new URL(r.url()).origin===new URL(base).origin)failures.push(r.url())});
+ page.on('response',r=>{if(new URL(r.url()).origin===new URL(base).origin&&r.status()>=400)failures.push(`${r.status()} ${r.url()}`)});
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await page.goto(base,{waitUntil:'networkidle'});await page.locator('.product-card').first().waitFor();
+ assert(await page.locator('.product-card').count()===24,`${width}: first page is not 24`);
+ const first=await page.locator('.card-name').allTextContents();await page.getByLabel('Страница 2',{exact:true}).click();assert((await page.locator('.card-name').allTextContents()).join('|')!==first.join('|'),`${width}: page 2 unchanged`);
+ await page.getByLabel('Страница 1',{exact:true}).click();await page.locator('#search').fill('Бомбей');assert(await page.locator('.product-card').count()>0,`${width}: search`);await page.locator('#search').fill('');
+ const category=await page.locator('#category-filter option').nth(1).getAttribute('value');await page.locator('#category-filter').selectOption(category);assert(await page.locator('.product-card').count()>0,`${width}: category`);await page.locator('#category-filter').selectOption('');
+ const card=page.locator('.product-card',{hasText:'Доступно несколько исполнений'}).first();await card.locator('.card-open').first().click();
+ const before=await page.locator('.add-cart').getAttribute('data-cart-id');const selector=page.locator('.dialog-axis-selectors button:not(.active):not([disabled])').first();assert(await selector.count(),`${width}: selector`);await selector.click();
+ const selected=await page.locator('.add-cart').getAttribute('data-cart-id');assert(selected!==before,`${width}: sourceId unchanged`);
+ const action=page.locator('.dialog-actions'),content=page.locator('.dialog-axis-selectors,.specs,.dimensions').last();if(width<=430&&await content.count()){await content.scrollIntoViewIfNeeded();const [a,c]=await Promise.all([action.boundingBox(),content.boundingBox()]);assert(!a||!c||c.y+c.height<=a.y||c.y>=a.y+a.height,`${width}: sticky CTA overlap`)}
+ await page.locator('.dialog-favorite').click();await page.locator('#dialog-close').click();await page.locator('[data-action="favorites"]').click();assert(await page.locator('.product-card').count()===1,`${width}: favorite position`);await page.locator('.product-card .card-open').first().click();assert(await page.locator('.add-cart').getAttribute('data-cart-id')===selected,`${width}: favorite variant lost`);await page.locator('.add-cart').click();await page.locator('#dialog-close').click();await page.locator('[data-action="cart"]').click();
+ assert(await page.locator('#order-title').textContent()==='Ваш заказ',`${width}: order title`);const unit=parseMoney(await page.locator('.order-item strong').textContent());await page.locator('[data-qty="1"]').click();assert(parseMoney(await page.locator('.order-item strong').textContent())===unit*2,`${width}: line total`);assert(parseMoney(await page.locator('.order-summary p').nth(1).textContent())===unit*2,`${width}: total`);
+ if(width===320){await page.locator('.checkout-order').click();assert(await page.locator('#checkout-dialog[open]').count(),`checkout open`);await page.locator('[data-checkout="whatsapp"]').click();assert((await page.locator('#checkout-error').textContent()).includes('Укажите имя'),`checkout validation`);await page.locator('#checkout-name').fill('Тест');await page.locator('#checkout-phone').fill('+7 999 123-45-67');await page.locator('#checkout-city').fill('Москва');await page.locator('[data-checkout="whatsapp"]').click();const urls=await page.evaluate(()=>window.__opened||[]);assert(urls.some(u=>u.startsWith('https://wa.me/79057267946?text=')&&decodeURIComponent(u).includes('2 шт.')),`WhatsApp destination/text`);await page.locator('#checkout-close').click();await page.locator('.share-order').click();const share=await page.evaluate(()=>window.__copied||'');assert(new URL(share).searchParams.get('order')===`${selected}.2`,'share payload');assert(!/Тест|999|Москва/.test(share),'share contains PII');const recipient=await browser.newContext();const rp=await recipient.newPage();await rp.goto(base);await rp.evaluate(()=>localStorage.setItem('forma-next-cart',JSON.stringify({'276':3})));await rp.goto(share,{waitUntil:'networkidle'});assert(await rp.locator('#order-title').textContent()==='Заказ по ссылке','shared title');assert(await rp.evaluate(()=>localStorage.getItem('forma-next-cart'))===JSON.stringify({'276':3}),'shared overwrote cart');await rp.locator('.save-shared').click();const saved=JSON.parse(await rp.evaluate(()=>localStorage.getItem('forma-next-cart')));assert(saved[selected]===2&&saved['276']===3,'explicit shared save');await recipient.close();}
+ const geometry=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth,announcement:!!document.querySelector('.announcement'),footer:!!document.querySelector('.site-footer'),letters:[...document.querySelectorAll('.axis-swatch')].some(e=>e.textContent.trim())}));assert(geometry.scroll<=geometry.width,`${width}: overflow`);assert(!geometry.announcement&&geometry.footer&&!geometry.letters,`${width}: UI artifacts`);assert(catalogs===1,`${width}: catalog requests ${catalogs}`);assert(!failures.length&& !errors.length,`${width}: runtime ${failures.concat(errors).join(';')}`);await context.close();
 }
-
-await browser.close();
-await fs.writeFile(path.join(os.tmpdir(), `forma-next-browser-${requestedEngine}.json`), `${JSON.stringify(output, null, 2)}\n`);
-console.log(JSON.stringify(output, null, 2));
+await browser.close();console.log(`${name}: PASS (${widths.join(', ')})`);
+function assert(value,message){if(!value)throw new Error(`${name}: ${message}`)}function parseMoney(s){return Number(String(s).replace(/\D/g,''))}
