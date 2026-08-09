@@ -1,0 +1,19 @@
+{
+  "name": "tetopt",
+  "version": "1.0.0",
+  "description": "Готовый статический сайт.",
+  "main": "adaptive-catalog-search.js",
+  "scripts": {
+    "audit:next": "bash scripts/audit-next-finalization.sh",
+    "test:browser:chromium": "node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ chromium",
+    "test:browser:webkit": "node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ webkit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "playwright": "^1.62.1"
+  }
+}
