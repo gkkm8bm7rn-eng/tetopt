@@ -89,6 +89,11 @@
   width: 31px;
   height: 31px;
 }
+
+.dialog-dimensions { margin-top:20px; padding:16px 18px; border-radius:16px; background:#f0ede7; }
+.dialog-dimensions h3 { margin:0 0 9px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+.dialog-dimensions div { display:flex; flex-wrap:wrap; gap:7px; }
+.dialog-dimensions span { padding:7px 10px; border:1px solid var(--line); border-radius:999px; background:var(--surface); font-size:14px; font-weight:750; }
 .fallback-variants,
 .variant-pills {
   display: flex;

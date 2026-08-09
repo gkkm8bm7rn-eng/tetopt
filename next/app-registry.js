@@ -69,14 +69,20 @@
     bindEvents();
     updateCounters();
     try {
-      const response = await fetch('../catalog.json', { cache: 'no-cache' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const raw = await response.json();
+      const [catalogResponse, dimensionsResponse] = await Promise.all([
+        fetch('../catalog.json', { cache: 'no-cache' }),
+        fetch('../data/forma-home-dimensions-from-price.tsv', { cache: 'no-cache' }),
+      ]);
+      if (!catalogResponse.ok) throw new Error(`catalog HTTP ${catalogResponse.status}`);
+      if (!dimensionsResponse.ok) throw new Error(`dimensions HTTP ${dimensionsResponse.status}`);
+      const raw = await catalogResponse.json();
+      const dimensionRows = parseDimensionTsv(await dimensionsResponse.text());
       const products = Array.isArray(raw) ? raw : raw.products;
       if (!Array.isArray(products) || !products.length) throw new Error('empty catalog');
 
       const normalized = products.map(normalizeModel).filter(model => model.variants.length);
       assertCatalog(normalized);
+      applyFallbackDimensions(normalized, dimensionRows);
       state.models = dedupeKnownGland(normalized);
 
       // Only the proven Gland duplicate is merged client-side. All other models remain separate.
@@ -90,6 +96,39 @@
       els.status.hidden = true;
       els.grid.innerHTML = '<div class="error-box"><strong>Каталог не загрузился</strong><p>Проверьте соединение и обновите страницу.</p><button type="button" onclick="location.reload()">Обновить</button></div>';
     }
+  }
+
+  function parseDimensionTsv(text) {
+    const lines = String(text).replace(/^\uFEFF/, '').split(/\r?\n/);
+    if (lines.at(-1) === '') lines.pop();
+    if (lines.shift() !== 'modelId\tsourceIds\tdimensions') throw new Error('unexpected dimensions TSV header');
+    return lines.map((line, index) => {
+      const columns = line.split('\t');
+      if (columns.length !== 3) throw new Error(`invalid dimensions TSV row ${index + 2}`);
+      const [modelId, sourceIdsText, dimensionsText] = columns.map(value => value.trim());
+      const sourceIds = sourceIdsText.split(/\s*,\s*/).filter(Boolean);
+      const dimensions = dimensionsText.split(/\s*\|\s*/).filter(Boolean);
+      if (!modelId || !sourceIds.length || !dimensions.length) throw new Error(`incomplete dimensions TSV row ${index + 2}`);
+      return { modelId, sourceIds, dimensions, rowNumber: index + 2 };
+    });
+  }
+
+  function applyFallbackDimensions(models, rows) {
+    const variantsBySourceId = new Map();
+    models.forEach(model => model.variants.forEach(variant => variantsBySourceId.set(String(variant.sourceId), { model, variant })));
+    rows.forEach(row => row.sourceIds.forEach(sourceId => {
+      const match = variantsBySourceId.get(sourceId);
+      if (!match) return;
+      const exact = dimensionsFromSpecs(match.variant.specs);
+      match.variant.dimensions = exact.length ? exact : [...row.dimensions];
+      match.variant.dimensionsOrigin = exact.length ? 'specs' : 'price-fallback';
+      if (!exact.length) match.variant.dimensionsSourceModelId = row.modelId;
+    }));
+  }
+
+  function dimensionsFromSpecs(specs) {
+    const pattern = /\d+(?:[.,]\d+)?(?:\s*-\s*\d+(?:[.,]\d+)?)?\s*(?:[xх×]\s*\d+(?:[.,]\d+)?(?:\s*-\s*\d+(?:[.,]\d+)?)?){1,2}\s*(?:см|мм|м)?/giu;
+    return uniqueStrings(String(specs || '').match(pattern) || []);
   }
 
   function normalizeModel(model, index) {
@@ -835,6 +874,7 @@
           <strong class="dialog-price">${escapeHtml(exactPriceText(variant.wholesalePrice))}</strong>
           ${retail}
           <div class="dialog-axis-selectors"></div>
+          ${dimensionsHtml(variant)}
           ${variant.specs?`<div class="specs">${formatSpecs(variant.specs)}</div>`:''}
           <div class="dialog-actions">
             <button class="add-cart" type="button" data-cart-id="${escapeAttr(cartId)}">${inCart?'Перейти к заказу →':'Добавить в заказ'}</button>
@@ -993,6 +1033,12 @@
   function formatSpecs(value) {
     const items=String(value).split(/[,;\n]+/).map(cleanVariantText).filter(Boolean);
     return items.length?`<ul class="spec-list">${items.map(item=>`<li>${escapeHtml(item)}</li>`).join('')}</ul>`:'';
+  }
+
+  function dimensionsHtml(variant) {
+    const dimensions = Array.isArray(variant.dimensions) ? variant.dimensions : [];
+    if (!dimensions.length) return '';
+    return `<section class="dialog-dimensions" aria-label="Размеры"><h3>Размеры</h3><div>${dimensions.map(value => `<span>${escapeHtml(value)}</span>`).join('')}</div></section>`;
   }
 
   function initials(value) {
