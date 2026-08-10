@@ -1016,7 +1016,7 @@
     state.favorites=migrated;
     saveSet('forma-next-favorites',state.favorites);
     const clean=new Map();
-    state.cart.forEach((quantity,id)=>{if(variantRecord(id))clean.set(String(id),Math.max(1,Math.min(999,Number(quantity)||1)));});
+    state.cart.forEach((quantity,id)=>{if(variantRecord(id))clean.set(String(id),clampQuantity(quantity));});
     state.cart=clean;
     saveCart();
     updateCounters();
@@ -1039,6 +1039,7 @@
   function orderTotal(order) { return [...order].reduce((sum,[id,quantity])=>sum+(positiveNumber(variantRecord(id)?.variant.wholesalePrice)||0)*quantity,0); }
   function cartQuantity(){return orderQuantity(state.cart);}
   function cartTotal(){return orderTotal(state.cart);}
+  function clampQuantity(value){return Math.max(1,Math.min(999,Math.floor(Number(value)||1)));}
   function saveCart() { try { localStorage.setItem('forma-next-cart',JSON.stringify(Object.fromEntries(state.cart))); } catch {} }
 
   function renderOrder() {
@@ -1054,17 +1055,17 @@
     els.orderScreen.querySelector('[data-back]').addEventListener('click',()=>setView('all'));
     if(!shared)els.orderScreen.querySelectorAll('.order-item').forEach(row=>{
       const id=row.dataset.orderItem;
-      row.querySelectorAll('[data-qty]').forEach(button=>button.addEventListener('click',()=>{const next=(state.cart.get(id)||1)+Number(button.dataset.qty);if(next>0)state.cart.set(id,next);else state.cart.delete(id);saveCart();updateCounters();applyFilters();}));
+      row.querySelectorAll('[data-qty]').forEach(button=>button.addEventListener('click',()=>{const next=(state.cart.get(id)||1)+Number(button.dataset.qty);if(next>0)state.cart.set(id,clampQuantity(next));else state.cart.delete(id);saveCart();updateCounters();applyFilters();}));
       row.querySelector('[data-remove]').addEventListener('click',()=>{state.cart.delete(id);saveCart();updateCounters();applyFilters();});
     });
     els.orderScreen.querySelector('.share-order')?.addEventListener('click',shareOrder);
     els.orderScreen.querySelector('.checkout-order')?.addEventListener('click',openCheckout);
-    els.orderScreen.querySelector('.save-shared')?.addEventListener('click',()=>{state.sharedOrder.forEach((q,id)=>state.cart.set(id,(state.cart.get(id)||0)+q));saveCart();updateCounters();setView('cart');});
+    els.orderScreen.querySelector('.save-shared')?.addEventListener('click',()=>{state.sharedOrder.forEach((q,id)=>state.cart.set(id,clampQuantity((state.cart.get(id)||0)+q)));saveCart();updateCounters();setView('cart');});
   }
 
   function orderUrl() {
     const url=new URL(location.href); url.search=''; url.hash='catalog';
-    url.searchParams.set('order',[...state.cart].map(([id,q])=>`${id}.${q}`).join(','));
+    url.searchParams.set('order',[...state.cart].map(([id,q])=>`${id}.${clampQuantity(q)}`).join(','));
     return url.href;
   }
   async function shareOrder() {
