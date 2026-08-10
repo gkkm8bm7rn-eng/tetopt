@@ -1069,7 +1069,10 @@
   }
   async function shareOrder() {
     const data={title:'Заказ FORMA HOME',text:`Заказ FORMA HOME: ${cartQuantity()} шт.`,url:orderUrl()};
-    try { if(navigator.share)await navigator.share(data);else await navigator.clipboard.writeText(data.url); showOrderFeedback('Ссылка на заказ скопирована'); } catch(error) { if(error?.name!=='AbortError')showOrderFeedback('Не удалось поделиться заказом'); }
+    try {
+      if(navigator.share){await navigator.share(data);showOrderFeedback('Заказ отправлен');}
+      else{await navigator.clipboard.writeText(data.url);showOrderFeedback('Ссылка на заказ скопирована');}
+    } catch(error) { if(error?.name!=='AbortError')showOrderFeedback('Не удалось поделиться заказом'); }
   }
   function openCheckout(){
     document.querySelector('#checkout-summary').textContent=`${cartQuantity()} ${plural(cartQuantity(),'товар','товара','товаров')} · ${formatPrice(cartTotal())}`;
@@ -1093,7 +1096,7 @@
     const message=checkoutText(data);
     if(channel==='whatsapp'){window.open(`https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(message)}`,'_blank','noopener');return;}
     if(channel==='email'){window.open(`mailto:${STORE_EMAIL}?subject=${encodeURIComponent('Заказ с сайта FORMA HOME')}&body=${encodeURIComponent(message)}`,'_self');return;}
-    if(channel==='telegram'){window.open(`https://t.me/share/url?url=${encodeURIComponent(orderUrl())}&text=${encodeURIComponent(message)}`,'_blank','noopener');return;}
+    if(channel==='telegram'){window.open(`https://t.me/+${STORE_PHONE}?text=${encodeURIComponent(message)}`,'_blank','noopener');return;}
     try{await navigator.clipboard.writeText(message);document.querySelector('#checkout-error').textContent='Заказ скопирован';}catch{document.querySelector('#checkout-error').textContent='Не удалось скопировать заказ';}
   }
   function showOrderFeedback(message){const item=els.orderScreen.querySelector('.order-feedback');if(item)item.textContent=message;}
