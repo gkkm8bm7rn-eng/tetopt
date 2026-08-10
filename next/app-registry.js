@@ -392,6 +392,7 @@
     els.reset.addEventListener('click', resetFilters);
     els.favoritesButton.addEventListener('click', () => setView(state.view === 'favorites' ? 'all' : 'favorites'));
     els.cartButton.addEventListener('click', () => setView(state.view === 'cart' ? 'all' : 'cart'));
+    document.querySelectorAll('a[href="#catalog"]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();setView('all');}));
     els.dialogClose.addEventListener('click', closeDialog);
     els.dialog.addEventListener('click', event => { if (event.target === els.dialog) closeDialog(); });
     els.dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
@@ -411,10 +412,17 @@
   }
 
   function setView(view) {
+    if(state.view==='shared'&&view!=='shared')endSharedContext();
     state.view = view;
     syncViewButtons();
     applyFilters(true);
     document.querySelector('#catalog')?.scrollIntoView({ block: 'start' });
+  }
+
+  function endSharedContext(){
+    state.sharedOrder.clear();
+    const url=new URL(location.href);
+    if(url.searchParams.has('order')){url.searchParams.delete('order');history.replaceState(null,'',url);}
   }
 
   function syncViewButtons() {
@@ -446,11 +454,13 @@
     const priceRange = parsePriceRange(els.price.value);
 
     if (state.view === 'favorites') {
+      (els.controls || document.querySelector('.controls')).hidden = true;
       const records=[...state.favorites].map(variantRecord).filter(Boolean);
       state.filtered=records;
       if(resetPage)state.page=1;
       state.page=Math.min(state.page,Math.max(1,Math.ceil(records.length/PAGE_SIZE)));
       els.empty.hidden=records.length!==0;
+      updateEmptyState();
       els.count.textContent=`Избранное: ${records.length} ${plural(records.length,'товар','товара','товаров')}`;
       renderPage();
       return;
@@ -1026,7 +1036,7 @@
     const encoded=new URL(location.href).searchParams.get('order');
     if (!encoded) return;
     const restored=new Map();
-    encoded.split(',').slice(0,100).forEach(pair=>{
+    encoded.split(',').forEach(pair=>{
       const [id,rawQuantity]=pair.split('.');
       const quantity=Number(rawQuantity);
       if (/^\d+$/.test(id||'')&&Number.isInteger(quantity)&&quantity>0&&quantity<=999&&variantRecord(id)) restored.set(id,quantity);
@@ -1049,9 +1059,10 @@
     const rows=[...order].map(([id,quantity])=>{
       const record=variantRecord(id); if(!record)return '';
       const {model,variant}=record, image=variant.images[0];
-      return `<article class="order-item" data-order-item="${escapeAttr(id)}"><img src="${escapeAttr(image?relativeAsset(image):fallbackSvg())}" alt=""><div><h3>${escapeHtml(model.displayName)}</h3><p>${escapeHtml(variantExecutionLabel(variant))}</p>${dimensionsHtml(variant)}${formatSpecs(variant.specs,variant)?`<div class="order-specs">${formatSpecs(variant.specs,variant)}</div>`:''}<strong>${escapeHtml(formatPrice((positiveNumber(variant.wholesalePrice)||0)*quantity))}</strong></div><div class="quantity" aria-label="Количество"><button type="button" data-qty="-1" aria-label="Уменьшить количество">−</button><b>${quantity}</b><button type="button" data-qty="1" aria-label="Увеличить количество">+</button><button class="order-remove" type="button" data-remove aria-label="Удалить позицию">Удалить</button></div></article>`;
+      const quantityHtml=shared?`<div class="quantity shared-quantity" aria-label="Количество"><span>Количество:</span><b>${quantity}</b></div>`:`<div class="quantity" aria-label="Количество"><button type="button" data-qty="-1" aria-label="Уменьшить количество">−</button><b>${quantity}</b><button type="button" data-qty="1" aria-label="Увеличить количество">+</button><button class="order-remove" type="button" data-remove aria-label="Удалить позицию">Удалить</button></div>`;
+      return `<article class="order-item" data-order-item="${escapeAttr(id)}"><img src="${escapeAttr(image?relativeAsset(image):fallbackSvg())}" alt=""><div><h3>${escapeHtml(model.displayName)}</h3><p>${escapeHtml(variantExecutionLabel(variant))}</p>${dimensionsHtml(variant)}${formatSpecs(variant.specs,variant)?`<div class="order-specs">${formatSpecs(variant.specs,variant)}</div>`:''}<strong>${escapeHtml(formatPrice((positiveNumber(variant.wholesalePrice)||0)*quantity))}</strong></div>${quantityHtml}</article>`;
     }).join('');
-    els.orderScreen.innerHTML=`<div class="order-heading"><div><p class="eyebrow">Заказ</p><h2 id="order-title">${title}</h2></div><button type="button" data-back>← Вернуться в каталог</button></div><div class="order-list">${rows}</div><div class="order-summary"><p>Всего товаров: <strong>${orderQuantity(order)}</strong></p><p>Итого: <strong>${formatPrice(orderTotal(order))}</strong></p><div>${shared?'<button class="save-shared" type="button">Добавить в мой заказ</button>':'<button class="share-order" type="button">Поделиться заказом</button><button class="checkout-order" type="button">Оформить заказ</button>'}</div><small class="order-feedback" aria-live="polite"></small></div>`;
+    els.orderScreen.innerHTML=`<div class="order-heading"><div><p class="eyebrow">Заказ</p><h2 id="order-title">${title}</h2></div><button type="button" data-back>← Вернуться в каталог</button></div><div class="order-list">${rows}</div><div class="order-summary"><p>Всего товаров: <strong>${orderQuantity(order)}</strong></p><p>Итого по товарам: <strong>${formatPrice(orderTotal(order))}</strong></p><div>${shared?'<button class="save-shared" type="button">Добавить в мой заказ</button>':'<button class="share-order" type="button">Поделиться заказом</button><button class="checkout-order" type="button">Оформить заказ</button>'}</div><small class="order-feedback" aria-live="polite"></small></div>`;
     els.orderScreen.querySelector('[data-back]').addEventListener('click',()=>setView('all'));
     if(!shared)els.orderScreen.querySelectorAll('.order-item').forEach(row=>{
       const id=row.dataset.orderItem;
@@ -1086,11 +1097,11 @@
     const data=checkoutCustomer(),error=document.querySelector('#checkout-error');
     if(!data.name){error.textContent='Укажите имя.';return null;}
     if(data.phone.replace(/\D/g,'').length<7){error.textContent='Укажите корректный телефон.';return null;}
-    if(!data.city){error.textContent='Укажите город доставки.';return null;}
+    if(!data.city){error.textContent='Укажите город.';return null;}
     error.textContent='';return data;
   }
   function checkoutText(data){
-    return ['Здравствуйте! Хочу оформить заказ в FORMA HOME:','',...[...state.cart].map(([id,q],index)=>{const {model,variant}=variantRecord(id),price=positiveNumber(variant.wholesalePrice)||0;return `${index+1}. ${model.displayName}\nИсполнение: ${variantExecutionLabel(variant)}\n${q} шт. × ${formatPrice(price)} = ${formatPrice(price*q)}`;}),'',`Итого: ${formatPrice(cartTotal())}`,'',`Имя: ${data.name}`,`Телефон: ${data.phone}`,`Город: ${data.city}`,data.comment?`Комментарий: ${data.comment}`:'',`Ссылка на заказ: ${orderUrl()}`].filter(Boolean).join('\n');
+    return ['Здравствуйте! Хочу оформить заказ в FORMA HOME:','',...[...state.cart].map(([id,q],index)=>{const {model,variant}=variantRecord(id),price=positiveNumber(variant.wholesalePrice)||0;return `${index+1}. ${model.displayName}\nИсполнение: ${variantExecutionLabel(variant)}\n${q} шт. × ${formatPrice(price)} = ${formatPrice(price*q)}`;}),'',`Итого по товарам: ${formatPrice(cartTotal())}`,'',`Имя: ${data.name}`,`Телефон: ${data.phone}`,`Город: ${data.city}`,data.comment?`Комментарий: ${data.comment}`:'',`Ссылка на заказ: ${orderUrl()}`].filter(Boolean).join('\n');
   }
   async function sendCheckout(channel){
     const data=validateCheckout();if(!data)return;
@@ -1127,7 +1138,7 @@
     if (label) return label;
     return `Исполнение · ${exactPriceText(variant.wholesalePrice)}`;
   }
-  function variantExecutionLabel(variant){return uniqueStrings([variant.axes?.soft,variant.axes?.hard,variant.colorLabel]).join(' / ')||'Выбранное исполнение';}
+  function variantExecutionLabel(variant){const axes=[variant.axes?.soft,variant.axes?.hard].filter(Boolean);return (axes.length?axes.join(' / '):variant.colorLabel)||'Выбранное исполнение';}
 
   function dimensionsHtml(variant) {
     const own=extractDimensions(variant.specs);
@@ -1139,7 +1150,7 @@
     return dimensionMatches(value).map(item=>item.replace(/\s*[xх*]\s*/gi,' × ').replace(/\s*×\s*/g,' × ')).join(' · ');
   }
   function dimensionMatches(value){
-    const pattern=/(?:\b(?:стол|стул|диван|кресло|пуф|ширина|высота|глубина|диаметр)\s*:?\s*)?(?:(?:\([^)]*\)|[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?)?)(?:\s*(?:[xх×*\/])\s*(?:[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?|\([^)]*\))?|\([^)]*\)))*(?:\s*(?:см|мм))?|\b(?:диаметр|Ø)\s*\d+(?:[.,]\d+)?\s*(?:см|мм)?)/giu;
+    const pattern=/(?:\b(?:стол|стул|диван|кресло|пуф|ширина|высота|глубина|диаметр)\s*:?\s*)?(?:(?:\([^)]*\)|[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?)?(?:\+\d+(?:[.,]\d+)?)*(?:\([^)]*\))?)(?:\s*(?:[xх×*\/])\s*(?:\([^)]*\)|[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?)?(?:\+\d+(?:[.,]\d+)?)*(?:\([^)]*\))?))*(?:\s*(?:см|мм))?|\b(?:диаметр|Ø)\s*\d+(?:[.,]\d+)?\s*(?:см|мм)?)/giu;
     return [...String(value||'').matchAll(pattern)].map(match=>match[0].trim()).filter(item=>hasDimensions(item));
   }
 

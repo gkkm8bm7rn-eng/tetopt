@@ -40,6 +40,11 @@ if(!dom.window.__copied?.includes(`order=${selected}.2`))throw new Error('share 
 if(errors.length)throw new Error(errors.join('; '));
 if(document.querySelector('.announcement'))throw new Error('announcement present');
 if(!document.querySelector('.site-footer'))throw new Error('footer missing');
+const runtime=await (await fetch(new URL('app-registry.js',base))).text(),dimensionSource=runtime.slice(runtime.indexOf('function extractDimensions'),runtime.indexOf('function renderRetail'));
+const dimensionApi=new Function(`${dimensionSource};return {extractDimensions,dimensionMatches};`)();
+const dimensionCases=['120+30х80см','80х120+40х75см','160(100+30+30)х55х95см','(120+30+30)х80х75(+1)см','37х37х175см','44.5х52.5х88','57х50,5х79,5','54,5*48*83,5см','100-130х70х75см','130-160х75х75см','Д80х75см','Д100х100-130х75см','Д23см','Д48х58/Д38х49см','D900'];
+for(const sample of dimensionCases){const output=dimensionApi.extractDimensions(sample);if(!output||(!output.includes('+')&&sample.includes('+')))throw new Error(`dimension extension lost: ${sample} -> ${output}`);const remainder=dimensionApi.dimensionMatches(sample).reduce((text,item)=>text.replace(item,''),sample);if(/(?:^|\s)\+?(?:30|40)(?:\s|$)|^\s*\+\s*$/.test(remainder))throw new Error(`detached dimension fragment: ${sample} -> ${remainder}`);}
+
 console.log(`state: PASS (variant ${selected}, quantity 2, totals, checkout, share)`);
 dom.window.close();
 async function waitFor(predicate){const start=Date.now();while(!predicate()){if(Date.now()-start>20000)throw new Error('timeout');await new Promise(resolve=>setTimeout(resolve,50));}}
