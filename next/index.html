@@ -4,33 +4,41 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f5f2ec">
-  <title>FORMA HOME — новый каталог</title>
+  <title>FORMA HOME / ФОРМА ХОУМ — каталог мебели</title>
   <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles-quiet-home-v1.css?v=20260812-1">
+  <script defer src="site-content.js?v=20260812-1"></script>
   <script defer src="catalog-preprocess.js?v=5"></script>
   <script defer src="app-registry.js?v=4"></script>
 </head>
 <body>
   <header class="site-header">
-    <div class="announcement">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
     <div class="nav shell">
-      <a class="brand" href="#catalog" aria-label="FORMA HOME — к каталогу">FORMA <span>HOME</span></a>
+      <a class="brand" href="#catalog" aria-label="FORMA HOME / ФОРМА ХОУМ — к каталогу">
+        <span class="brand-latin"><span>FORMA</span> <span class="brand-word-home">HOME</span></span>
+        <span class="brand-slash" aria-hidden="true">/</span>
+        <span class="brand-cyr"><span>ФОРМА</span> <span class="brand-word-home">ХОУМ</span></span>
+      </a>
       <nav class="nav-actions" aria-label="Быстрые действия">
-        <button class="icon-button" type="button" data-action="favorites" aria-pressed="false"><span aria-hidden="true">♡</span><span class="action-label">Избранное</span><b id="favorite-count">0</b></button>
-        <button class="icon-button cart-button" type="button" data-action="cart" aria-pressed="false"><span class="cart-icon" aria-hidden="true">🛒</span><span class="action-label">Заказ</span><b id="cart-count">0</b></button>
+        <button class="icon-button" type="button" data-action="favorites" aria-pressed="false" aria-label="Избранное">
+          <span aria-hidden="true">♡</span><span class="action-label">Избранное</span><b id="favorite-count">0</b>
+        </button>
+        <button class="icon-button cart-button" type="button" data-action="cart" aria-pressed="false" aria-label="Корзина">
+          <span class="cart-icon" aria-hidden="true">🛒</span><span class="action-label">Корзина</span><b id="cart-count">0</b>
+        </button>
       </nav>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero shell">
-      <p class="eyebrow">Мебель для продуманного интерьера</p>
-      <h1>Дом, в который хочется возвращаться</h1>
-      <p class="hero-copy">Одна модель — одна понятная карточка. Внутри — доступные цвета, исполнения и фотографии.</p>
-      <a class="primary-cta" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a>
-      <div class="hero-stats" aria-label="Статистика каталога">
-        <div><strong id="model-count">—</strong><span>моделей</span></div>
-        <div><strong id="variant-count">—</strong><span>вариантов</span></div>
-      </div>
+    <section class="hero shell" aria-busy="true">
+      <div class="hero-rings" aria-hidden="true"></div>
+      <p class="eyebrow" data-content="hero.eyebrow"></p>
+      <h1 data-content="hero.title"></h1>
+      <p class="hero-copy" data-content="hero.body"></p>
+      <a class="primary-cta" data-content="hero.primaryCta" href="#catalog" hidden></a>
+      <span id="model-count" hidden></span>
+      <span id="variant-count" hidden></span>
     </section>
 
     <section class="catalog shell" id="catalog" aria-labelledby="catalog-title">
