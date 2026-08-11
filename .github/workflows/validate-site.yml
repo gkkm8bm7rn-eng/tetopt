@@ -25,7 +25,4 @@ jobs:
         run: npm ci
 
       - name: Validate next storefront files
-        run: |
-          node --check next/app-registry.js
-          node --check next/smart-search.js
-          node scripts/validate-final-assembly.mjs
+        run: npm run audit:next
