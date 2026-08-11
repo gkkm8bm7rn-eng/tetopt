@@ -72,8 +72,8 @@ async function checkViewport(browser, cfg) {
   await waitForCatalog(page);
   const modelCount = Number((await page.locator('#model-count').textContent()).replace(/\D/g, ''));
   const variantCount = Number((await page.locator('#variant-count').textContent()).replace(/\D/g, ''));
-  assert(modelCount === 542, `${ENGINE}/${cfg.name}: ожидалось 542 модели, получено ${modelCount}`);
-  assert(variantCount === 1196, `${ENGINE}/${cfg.name}: ожидалось 1196 вариантов, получено ${variantCount}`);
+  assert(modelCount === 541, `${ENGINE}/${cfg.name}: ожидалось 541 модель, получено ${modelCount}`);
+  assert(variantCount === 1194, `${ENGINE}/${cfg.name}: ожидалось 1194 варианта, получено ${variantCount}`);
   const initialCards = await page.locator('.product-card').count();
   assert(initialCards === 24, `${ENGINE}/${cfg.name}: первая порция должна содержать 24 карточки, получено ${initialCards}`);
   const columns = await getColumns(page);
