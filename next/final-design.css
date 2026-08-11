@@ -50,3 +50,8 @@ body,button,input,select,textarea{font-family:"Onest Variable",Onest,system-ui,-
   .hero{min-height:390px;padding:34px 25px}.hero::after{width:590px;border-width:78px;right:-355px;bottom:-375px}
   .hero-copy{max-width:88%}.search-alternative{align-items:flex-start;flex-direction:column;gap:4px}.search-alternative span{text-align:left}.analytics-consent{align-items:stretch;flex-direction:column}.analytics-consent div{justify-content:flex-end;flex-wrap:wrap}
 }
+
+@media(max-width:390px){
+  .brand{min-width:0;flex:1}.brand-mark{font-size:12px;letter-spacing:0}.brand-separator{margin:0 .1em}
+  .nav-actions{flex:0 0 auto}.icon-button{gap:3px;padding-inline:5px}.icon-button b{min-width:18px;height:18px;padding-inline:4px}
+}
