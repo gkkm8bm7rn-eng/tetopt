@@ -30,4 +30,15 @@ jobs:
           npx playwright install --with-deps chromium webkit
 
       - name: Run next storefront state and cross-browser tests
-        run: npm run test:storefront
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/forma-next-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/next/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ chromium
+          node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ webkit
