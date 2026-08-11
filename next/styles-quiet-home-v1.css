@@ -1,0 +1,83 @@
+/* FORMA HOME / ФОРМА ХОУМ — test storefront visual layer
+   Approved direction: «Тихий дом», 2026-08-12. */
+
+:root{
+  --fh-bg:#f5f2ec;
+  --fh-surface:#fff;
+  --fh-ink:#211f1a;
+  --fh-muted:#66665e;
+  --fh-line:#ded8cc;
+  --fh-olive:#596b4f;
+  --fh-olive-dark:#46583f;
+  --fh-beige:#ddd2bd;
+  --fh-hero-olive:#a9b093;
+}
+
+body{background:var(--fh-bg);color:var(--fh-ink)}
+.announcement{display:none!important}
+.site-header{background:rgba(245,242,236,.96);border-bottom:1px solid rgba(222,216,204,.72);box-shadow:none}
+.nav{min-height:70px;padding:8px 0}
+.brand{display:flex;align-items:baseline;gap:.22em;color:var(--fh-ink);font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:700;letter-spacing:.075em;line-height:1.1;text-decoration:none}
+.brand .brand-word-home{color:var(--fh-olive)}
+.brand .brand-slash{color:#77766f;font-weight:400;letter-spacing:0}
+.brand .brand-cyr{display:inline-flex;gap:.22em;align-items:baseline}
+.nav-actions{gap:8px}
+.icon-button{border-color:var(--fh-line);background:rgba(255,255,255,.92);color:var(--fh-ink);box-shadow:none}
+.icon-button.active,.cart-button{border-color:var(--fh-line)}
+.cart-button{background:rgba(255,255,255,.92)}
+.icon-button b{background:var(--fh-olive);color:#fff}
+.cart-icon{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+
+.hero{position:relative;isolation:isolate;overflow:hidden;min-height:510px;margin-top:26px;padding:52px 54px;border-radius:34px;background:linear-gradient(128deg,#dfd4c0 0%,#d4cdb6 48%,#aab195 100%);box-shadow:0 12px 38px rgba(47,42,33,.07)}
+.hero>*:not(.hero-rings){position:relative;z-index:2}
+.hero-rings{position:absolute;z-index:1;right:-23%;bottom:-48%;width:78%;aspect-ratio:1;border-radius:50%;border:72px solid rgba(255,255,255,.18);pointer-events:none}
+.hero-rings::before,.hero-rings::after{content:"";position:absolute;border-radius:50%;inset:-145px;border:72px solid rgba(255,255,255,.14)}
+.hero-rings::after{inset:-288px;border-color:rgba(255,255,255,.10)}
+.hero .eyebrow{margin-bottom:26px;color:#40503a;font-size:13px;font-weight:850;letter-spacing:.22em}
+.hero h1{max-width:680px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,6vw,76px);font-weight:400;line-height:.98;letter-spacing:-.035em}
+.hero-copy{max-width:650px;margin-top:28px;color:#454a43;font-size:19px;line-height:1.55;font-weight:650}
+.primary-cta{margin-top:32px;min-height:58px;padding:14px 26px;border-radius:999px;background:#24231f;color:#fff;font-weight:850;box-shadow:none}
+.primary-cta:hover{background:#171713}
+.hero-stats{display:none!important}
+
+.catalog{padding-top:58px}
+.catalog-heading h2{color:var(--fh-ink)}
+.card-price{color:var(--fh-olive-dark)!important}
+.card-retail{color:#24231f!important;text-decoration-thickness:1.4px}
+.product-card{box-shadow:0 5px 22px rgba(47,42,33,.045)}
+.favorite-button.active,.pagination button.active,.add-cart,.color-pill.active,.variant-pill.active{background:var(--fh-olive)!important}
+
+@media(max-width:760px){
+  .site-header{position:sticky;top:0}
+  .nav{min-height:66px;gap:6px}
+  .brand{flex:1 1 auto;min-width:0;display:block;font-size:15px;letter-spacing:.055em;line-height:1.18;white-space:normal}
+  .brand .brand-latin,.brand .brand-cyr{display:inline-flex;gap:.2em}
+  .brand .brand-slash{margin:0 .12em}
+  .nav-actions{flex:0 0 auto;gap:5px}
+  .icon-button{width:44px;height:44px;min-height:44px;padding:0;justify-content:center;position:relative}
+  .icon-button .action-label{display:none}
+  .icon-button b{position:absolute;right:-3px;top:-4px;min-width:18px;height:18px;padding:0 4px;font-size:10px}
+  .cart-icon{font-size:18px}
+
+  .hero{min-height:0;margin-top:14px;padding:34px 26px 38px;border-radius:28px}
+  .hero .eyebrow{margin-bottom:22px;font-size:11px;line-height:1.45;letter-spacing:.18em}
+  .hero h1{max-width:100%;font-size:clamp(42px,12.5vw,58px);line-height:1.02}
+  .hero-copy{max-width:92%;margin-top:26px;font-size:16px;line-height:1.58;font-weight:650}
+  .primary-cta{width:auto;min-height:56px;margin-top:28px;padding:13px 22px}
+  .hero-rings{right:-46%;bottom:-20%;width:110%;border-width:52px}
+  .hero-rings::before{inset:-105px;border-width:52px}
+  .hero-rings::after{inset:-210px;border-width:52px}
+  .catalog{padding-top:44px}
+}
+
+@media(max-width:390px){
+  .shell{width:calc(100% - 18px)}
+  .brand{font-size:13px;letter-spacing:.035em}
+  .hero{padding:30px 22px 34px}
+  .hero h1{font-size:41px}
+  .hero-copy{font-size:15px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
