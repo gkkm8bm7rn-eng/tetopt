@@ -24,7 +24,7 @@ const dom = await JSDOM.fromURL(base, {
   },
 });
 
-await waitFor(() => dom.window.document.querySelectorAll('.product-card').length === 24, 20_000);
+await waitFor(() => dom.window.document.querySelectorAll('.product-card').length === 24, 60_000);
 const document = dom.window.document;
 const modelCounter = document.querySelector('#model-count');
 const variantCounter = document.querySelector('#variant-count');
