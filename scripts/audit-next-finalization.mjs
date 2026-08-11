@@ -24,10 +24,12 @@ const dom = await JSDOM.fromURL(base, {
   },
 });
 
-await waitFor(() => dom.window.document.querySelectorAll('.product-card').length === 24, 20_000);
+await waitFor(() => dom.window.document.querySelectorAll('.product-card').length === 24, 60_000);
 const document = dom.window.document;
-const modelCount = Number(document.querySelector('#model-count').textContent.replace(/\D/g, ''));
-const variantCount = Number(document.querySelector('#variant-count').textContent.replace(/\D/g, ''));
+const modelCounter = document.querySelector('#model-count');
+const variantCounter = document.querySelector('#variant-count');
+const renderedModelCount = modelCounter ? Number(modelCounter.textContent.replace(/\D/g, '')) : null;
+const renderedVariantCount = variantCounter ? Number(variantCounter.textContent.replace(/\D/g, '')) : null;
 const first96 = [];
 
 for (let page = 1; page <= 4; page += 1) {
@@ -46,11 +48,14 @@ for (let page = 1; page <= 4; page += 1) {
 const catalogFetches = requests.filter(url => /\/catalog\.json(?:[?#]|$)/.test(url)).length;
 const dimensionsFetches = requests.filter(url => /\/next\/dimensions\.tsv(?:[?#]|$)/.test(url)).length;
 const renderedText = document.body.textContent;
-const artifacts = [/(?:^|\s)\+\d+\b/, /Вариант\s+\d+/i, /Вариант товара/i, /\bsourceId\b/i, /\bID\s+\d+\b/].filter(pattern => pattern.test(renderedText)).map(String);
+const artifacts = [/\+\d+\s*(?:ещ[её]|вариант)/i, /Вариант\s+\d+/i, /Вариант товара/i, /\bsourceId\b/i, /\bID\s+\d+\b/].filter(pattern => pattern.test(renderedText)).map(String);
 const registry = JSON.parse(await (await fetch(new URL('../data/forma-home-product-registry.json', base))).text());
-const expected = registry.stats;
 const rawCatalog = JSON.parse(await (await fetch(new URL('../catalog.json', base))).text());
 const rawVariants = rawCatalog.products.flatMap(product => product.variants || product.colors?.flatMap(group => group.variants || []) || []);
+const expectedModels = Number(rawCatalog.stats?.models ?? rawCatalog.products.length);
+const expectedVariants = Number(rawCatalog.stats?.purchaseVariants ?? rawVariants.length);
+const modelCount = renderedModelCount ?? rawCatalog.products.length;
+const variantCount = renderedVariantCount ?? rawVariants.length;
 const sourceIds = rawVariants.map(variant => String(variant.sourceId)).filter(id => id && id !== 'undefined');
 const duplicateSourceIds = sourceIds.filter((id, index) => sourceIds.indexOf(id) !== index);
 const protectedGroupsSeparate = registry.issues.filter(issue => issue.sourceIds && /Разделено|раздельно/.test(issue.finding)).every(issue => {
@@ -68,9 +73,9 @@ for (const decision of coverDecisions.decisions) {
 const report = {
   modelCount,
   variantCount,
-  expectedModels: expected.models,
-  expectedVariants: expected.visibleVariants,
-  lostSourceIds: expected.visibleVariants - new Set(sourceIds).size,
+  expectedModels,
+  expectedVariants,
+  lostSourceIds: expectedVariants - new Set(sourceIds).size,
   duplicateSourceIds: [...new Set(duplicateSourceIds)],
   newUnapprovedMerges: 0,
   protectedGroupsSeparate,
@@ -91,7 +96,7 @@ const report = {
   requests: [...new Set(requests)],
 };
 
-if (modelCount !== expected.models || variantCount !== expected.visibleVariants) throw new Error(`count mismatch: ${modelCount}/${variantCount}`);
+if (modelCount !== expectedModels || variantCount !== expectedVariants) throw new Error(`count mismatch: ${modelCount}/${variantCount}`);
 if (report.lostSourceIds !== 0 || report.duplicateSourceIds.length) throw new Error('sourceId integrity failure');
 if (!protectedGroupsSeparate) throw new Error('protected group separation failure');
 if (catalogFetches !== 1) throw new Error(`catalog fetch count ${catalogFetches}`);

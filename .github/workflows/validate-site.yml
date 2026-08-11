@@ -19,7 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Validate storefront files
-        run: node scripts/validate-site.mjs
+      - name: Install validation dependencies
+        run: npm ci
+
+      - name: Validate next storefront files
+        run: |
+          node --check next/app-registry.js
+          node --check next/smart-search.js
+          node scripts/validate-final-assembly.mjs

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "good_id": 21440,
+    "name": "Вешалка Бара/Bara — белый/серый",
+    "site_path": "assets/interiors/1.webp"
+  },
+  {
+    "id": 2,
+    "good_id": 21441,
+    "name": "Вешалка Бара/Bara — белый/белый",
+    "site_path": "assets/interiors/2.webp"
+  },
+  {
+    "id": 3,
+    "good_id": 21444,
+    "name": "Вешалка Ханами/Hanami — черный/орех",
+    "site_path": "assets/interiors/3.webp"
+  },
+  {
+    "id": 4,
+    "good_id": 21445,
+    "name": "Вешалка Ханами/Hanami — белый/натуральный",
+    "site_path": "assets/interiors/4.webp"
+  },
+  {
+    "id": 5,
+    "good_id": 21442,
+    "name": "Вешалка Химавари/Himawari — черный/орех",
+    "site_path": "assets/interiors/5.webp"
+  },
+  {
+    "id": 6,
+    "good_id": 21443,
+    "name": "Вешалка Химавари/Himawari — белый/натуральный",
+    "site_path": "assets/interiors/6.webp"
+  },
+  {
+    "id": 7,
+    "good_id": 19248,
+    "name": "Вешалка Джет/Jet — темно-серый/светло-серый/хром",
+    "site_path": "assets/interiors/7.webp"
+  },
+  {
+    "id": 8,
+    "good_id": 19249,
+    "name": "Вешалка Джет/Jet — черный/светло-серый/хром",
+    "site_path": "assets/interiors/8.webp"
+  },
+  {
+    "id": 9,
+    "good_id": 19250,
+    "name": "Вешалка Одент/Odent",
+    "site_path": "assets/interiors/9.webp"
+  },
+  {
+    "id": 10,
+    "good_id": 21437,
+    "name": "Вешалка Сакура/Sakura — белый/натуральный",
+    "site_path": "assets/interiors/10.webp"
+  }
+]

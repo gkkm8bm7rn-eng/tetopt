@@ -1,90 +1,61 @@
 import { chromium, webkit } from 'playwright';
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-
-const base = process.argv[2] || 'http://127.0.0.1:4173/next/';
-const requestedEngine = process.argv[3] || 'chromium';
-const engine = requestedEngine === 'webkit' ? webkit : chromium;
-const launchOptions = { headless: true };
-if (requestedEngine === 'chromium' && process.env.CHROMIUM_PATH) launchOptions.executablePath = process.env.CHROMIUM_PATH;
-const widths = [320, 390, 412, 430, 768, 1280, 1440];
-const output = { engine: requestedEngine, widths: [], catalogRequests: 0, imageRequests: 0, errors: [] };
-const screenshotsDir = process.env.SCREENSHOTS_DIR;
-const browser = await engine.launch(launchOptions);
-
-for (const width of widths) {
-  const page = await browser.newPage({ viewport: { width, height: width < 768 ? 844 : 900 } });
-  let catalogRequests = 0;
-  let imageRequests = 0;
-  page.on('request', request => {
-    if (/\/catalog\.json(?:[?#]|$)/.test(request.url())) catalogRequests += 1;
-    if (request.resourceType() === 'image') imageRequests += 1;
-  });
-  page.on('pageerror', error => output.errors.push(`${width}: ${error.message}`));
-  await page.goto(base, { waitUntil: 'networkidle' });
-  await page.locator('.product-card').first().waitFor();
-  const firstPageNames = await page.locator('.card-name').allTextContents();
-  await page.getByLabel('Страница 2', { exact: true }).click();
-  const secondPageNames = await page.locator('.card-name').allTextContents();
-  if (firstPageNames.join('|') === secondPageNames.join('|')) throw new Error(`${width}px pagination did not change products`);
-  await page.getByLabel('Страница 1', { exact: true }).click();
-  await page.locator('#search').fill('Бомбей');
-  if (await page.locator('.product-card').count() < 1) throw new Error(`${width}px search returned no cards`);
-  await page.locator('#search').fill('');
-  const categoryValue = await page.locator('#category-filter option').nth(1).getAttribute('value');
-  await page.locator('#category-filter').selectOption(categoryValue);
-  if (await page.locator('.product-card').count() < 1) throw new Error(`${width}px category filter returned no cards`);
-  await page.locator('#category-filter').selectOption('');
-  const singleVariantCards = await page.locator('.product-card', { has: page.locator('.card-meta:empty') }).count();
-  const multiVariantCards = await page.locator('.product-card', { hasText: 'Доступно несколько исполнений' }).count();
-  if (!multiVariantCards) throw new Error(`${width}px no multi-variant card was rendered`);
-  await page.locator('.favorite-button').first().click();
-  if (await page.locator('#favorite-count').textContent() !== '1') throw new Error(`${width}px favorite did not update`);
-  await page.locator('.product-card .card-open').first().click();
-  await page.locator('#product-dialog[open]').waitFor();
-  const galleryImage = page.locator('#dialog-main-image');
-  const beforeGallery = await galleryImage.getAttribute('src');
-  if (await page.locator('[data-gallery-step="1"]').count()) {
-    await page.locator('[data-gallery-step="1"]').click();
-    if (await galleryImage.getAttribute('src') === beforeGallery) throw new Error(`${width}px gallery did not advance`);
-  }
-  const variantButton = page.locator('.dialog-axis-selectors button:not(.active):not([disabled])').first();
-  if (await variantButton.count()) {
-    const beforePrice = await page.locator('.dialog-price').textContent();
-    const beforeCartSource = await page.locator('.add-cart').getAttribute('data-cart-id');
-    await variantButton.click();
-    await page.locator('#product-dialog[open]').waitFor();
-    const afterCartSource = await page.locator('.add-cart').getAttribute('data-cart-id');
-    if (beforeCartSource === afterCartSource) throw new Error(`${width}px variant sourceId did not change atomically`);
-    output.widths.push({ width, singleVariantCards, multiVariantCards, variantSwitchChecked: true, priceBeforeSwitch: beforePrice });
-  }
-  await page.locator('.add-cart').click();
-  if (await page.locator('#cart-count').textContent() !== '1') throw new Error(`${width}px cart did not update`);
-  const geometry = await page.evaluate(() => {
-    const dialog = document.querySelector('#product-dialog').getBoundingClientRect();
-    return {
-      bodyScrollWidth: document.body.scrollWidth,
-      viewportWidth: innerWidth,
-      cards: document.querySelectorAll('.product-card').length,
-      dialog: { left: dialog.left, right: dialog.right, top: dialog.top, bottom: dialog.bottom, width: dialog.width, height: dialog.height },
-      artifacts: /(?:^|\s)\+\d+\b|Вариант\s+\d+|Вариант товара|\bsourceId\b|\bID\s+\d+\b/i.test(document.body.textContent),
-    };
-  });
-  if (geometry.bodyScrollWidth > width) throw new Error(`${width}px horizontal overflow: ${geometry.bodyScrollWidth}`);
-  if (geometry.artifacts) throw new Error(`${width}px customer-facing artifact`);
-  if (screenshotsDir) {
-    await fs.mkdir(screenshotsDir, { recursive: true });
-    await page.screenshot({ path: path.join(screenshotsDir, `next-${requestedEngine}-${width}.png`), fullPage: true });
-  }
-  const existing = output.widths.find(item => item.width === width) || {};
-  Object.assign(existing, { width, catalogRequests, imageRequests, firstPageCards: firstPageNames.length, secondPageCards: secondPageNames.length, ...geometry });
-  if (!output.widths.includes(existing)) output.widths.push(existing);
-  output.catalogRequests += catalogRequests;
-  output.imageRequests += imageRequests;
-  await page.close();
+const base=process.argv[2]||'http://127.0.0.1:4173/next/';
+const name=process.argv[3]||'chromium',engine=name==='webkit'?webkit:chromium;
+const launch={headless:true};if(name==='chromium'&&process.env.CHROMIUM_PATH)launch.executablePath=process.env.CHROMIUM_PATH;
+const browser=await engine.launch(launch),widths=[320,390,430,768,1280];
+const rawCatalog=await (await fetch(new URL('../catalog.json',base))).json(),realSourceIds=rawCatalog.products.flatMap(product=>product.variants||product.colors?.flatMap(group=>group.variants||[])||[]).map(variant=>String(variant.sourceId));
+assert(rawCatalog.products.length===541,'final model count');assert(realSourceIds.length===1194,'final variant count');for(const id of ['102','103'])assert(realSourceIds.includes(id),`variant ${id} missing`);for(const id of ['1008','1009'])assert(!realSourceIds.includes(id),`excluded variant ${id} returned`);
+for(const width of widths){
+ const context=await browser.newContext({viewport:{width,height:width<768?844:900}});if(width===320&&name==='chromium')await context.grantPermissions(['clipboard-read','clipboard-write'],{origin:new URL(base).origin});const page=await context.newPage();
+ const failures=[],errors=[];let catalogs=0;const opened=[];
+ await page.addInitScript(()=>{window.open=url=>{window.__opened=(window.__opened||[]).concat(String(url));return null};Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async value=>{window.__copied=String(value)},readText:async()=>window.__copied||''}});});
+ page.on('request',r=>{if(/\/catalog\.json(?:[?#]|$)/.test(r.url()))catalogs++});
+ page.on('requestfailed',r=>{if(new URL(r.url()).origin===new URL(base).origin)failures.push(r.url())});
+ page.on('response',r=>{if(new URL(r.url()).origin===new URL(base).origin&&r.status()>=400)failures.push(`${r.status()} ${r.url()}`)});
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await page.goto(base,{waitUntil:'networkidle'});await page.locator('.product-card').first().waitFor();
+ assert(await page.locator('.product-card').count()===24,`${width}: first page is not 24`);
+ if(width===320){const empty=await browser.newContext(),emptyPage=await empty.newPage();await emptyPage.goto(base,{waitUntil:'networkidle'});await emptyPage.locator('[data-action="favorites"]').click();assert(await emptyPage.locator('.controls').isVisible()&&normalize(await emptyPage.locator('#empty-state').innerText()).includes('В избранном пока пусто'),'favorites empty state');await emptyPage.locator('#reset-filters').click();assert(await emptyPage.locator('.controls').isVisible()&&await emptyPage.locator('#product-grid').isVisible(),'favorites empty return');await empty.close();}
+ const first=await page.locator('.card-name').allTextContents();await page.getByLabel('Страница 2',{exact:true}).click();assert((await page.locator('.card-name').allTextContents()).join('|')!==first.join('|'),`${width}: page 2 unchanged`);
+ await page.getByLabel('Страница 1',{exact:true}).click();await page.locator('#search').fill('Бомбей');assert(await page.locator('.product-card').count()>0,`${width}: search`);await page.locator('#search').fill('');
+ if(width===320){await page.locator('#search').fill('102');const maltido=page.locator('.product-card').filter({hasText:/Малтидо|Maltido/i}).first();await maltido.waitFor();await maltido.locator('.card-open').first().click();for(const id of ['102','103']){const exact=page.locator(`.dialog-axis-selectors [data-source-id="${id}"]`);assert(await exact.count(),`variant ${id} selector`);await exact.click();assert(await page.locator('.add-cart').getAttribute('data-cart-id')===id,`variant ${id} selection`);}await page.locator('#dialog-close').click();await page.locator('#search').fill('');}
+ const category=await page.locator('#category-filter option').nth(1).getAttribute('value');await page.locator('#category-filter').selectOption(category);assert(await page.locator('.product-card').count()>0,`${width}: category`);await page.locator('#category-filter').selectOption('');
+ const card=page.locator('.product-card',{hasText:'Доступно несколько исполнений'}).first();await card.locator('.card-open').first().click();
+ const before=await page.locator('.add-cart').getAttribute('data-cart-id');const selector=page.locator('.dialog-axis-selectors button:not(.active):not([disabled])').first();assert(await selector.count(),`${width}: selector`);await selector.click();
+ const selected=await page.locator('.add-cart').getAttribute('data-cart-id');assert(selected!==before,`${width}: sourceId unchanged`);
+ const action=page.locator('.dialog-actions'),content=page.locator('.dialog-axis-selectors,.specs,.dimensions').last();if(width<=430&&await content.count()){await content.scrollIntoViewIfNeeded();const [a,c]=await Promise.all([action.boundingBox(),content.boundingBox()]);assert(!a||!c||c.y+c.height<=a.y||c.y>=a.y+a.height,`${width}: sticky CTA overlap`)}
+ await page.locator('.dialog-favorite').click();await page.locator('#dialog-close').click();await page.locator('[data-action="favorites"]').click();assert(await page.locator('.controls').isVisible(),`${width}: favorites controls hidden`);assert(await page.locator('.product-card').count()===1,`${width}: favorite position`);await page.locator('#search').fill(selected);assert(await page.locator('.product-card').count()===1,`${width}: favorite source filter`);await page.locator('#search').fill('99999999');await page.locator('#empty-state:not([hidden])').waitFor();assert(normalize(await page.locator('#empty-title').textContent()).includes('Среди избранного'),`${width}: filtered favorites empty state`);await page.locator('#reset-filters').click();assert(await page.locator('[data-action="favorites"]').getAttribute('aria-pressed')==='true'&&await page.locator('.product-card').count()===1,`${width}: favorites reset`);await page.locator('.product-card .card-open').first().click();assert(await page.locator('.add-cart').getAttribute('data-cart-id')===selected,`${width}: favorite variant lost`);await page.locator('.add-cart').click();await page.locator('#dialog-close').click();await page.locator('.brand').click();assert(await page.locator('.controls').isVisible()&&!await page.locator('#product-grid').isHidden(),`${width}: favorites brand did not restore catalog`);await page.locator('[data-action="cart"]').click();
+ assert(await page.locator('#order-title').textContent()==='Ваш заказ',`${width}: order title`);const unit=parseMoney(await page.locator('.order-item strong').textContent());await page.locator('[data-qty="1"]').click();assert(parseMoney(await page.locator('.order-item strong').textContent())===unit*2,`${width}: line total`);assert(parseMoney(await page.locator('.order-summary p').nth(1).textContent())===unit*2,`${width}: total`);
+ if(width===320){
+  await page.locator('.checkout-order').click();assert(await page.locator('#checkout-dialog[open]').count(),'checkout open');
+  await page.locator('[data-checkout="whatsapp"]').click();assert((await page.locator('#checkout-error').textContent()).includes('Укажите имя'),'checkout validation');
+  await page.locator('#checkout-name').fill('Тест Покупатель');await page.locator('#checkout-phone').fill('+7 999 123-45-67');await page.locator('#checkout-city').fill('Москва');await page.locator('#checkout-comment').fill('Тестовый комментарий');
+  await page.locator('[data-checkout="whatsapp"]').click();assert((await page.locator('#checkout-error').textContent()).includes('Подтвердите согласие'),'checkout consent validation');await page.locator('#checkout-consent').check();
+  for(const channel of ['whatsapp','telegram','email'])await page.locator(`[data-checkout="${channel}"]`).click();
+  await page.locator('[data-checkout="copy"]').click();
+  const destinations=await page.evaluate(()=>window.__opened||[]),copiedOrder=await page.evaluate(()=>window.__copied||'');
+  const whatsapp=destinations.find(value=>value.startsWith('https://wa.me/79057267946?text='));assert(whatsapp,'WhatsApp destination');
+  const telegram=destinations.find(value=>value.startsWith('https://t.me/share/url?'));assert(telegram,'Telegram share destination');
+  const email=destinations.find(value=>value.startsWith('mailto:postes@mail.ru?'));assert(email,'e-mail recipient');
+  const texts=[new URL(whatsapp).searchParams.get('text'),new URL(telegram).searchParams.get('text'),new URL(email).searchParams.get('body'),copiedOrder];
+  for(const text of texts){for(const expected of [selected,'2 шт.',formatMoney(unit),'Тест Покупатель','+7 999 123-45-67','Москва','Тестовый комментарий','Ссылка на заказ:'])assert(text.includes(expected),`checkout text missing ${expected}`);}
+  assert(new URL(email).searchParams.get('subject')?.trim(),'e-mail subject');
+  await page.locator('#checkout-close').click();await page.locator('.share-order').click();const share=await page.evaluate(()=>window.__copied||'');
+  assert(new URL(share).searchParams.get('order')===`${selected}.2`,'share payload');
+  const exitContext=await browser.newContext(),exitPage=await exitContext.newPage();await exitPage.goto(share,{waitUntil:'networkidle'});assert(await exitPage.locator('#order-title').textContent()==='Заказ по ссылке','initial shared URL');assert(await exitPage.locator('[data-qty], [data-remove]').count()===0,'shared mutation controls');await exitPage.locator('.primary-cta').click();assert(!new URL(exitPage.url()).searchParams.has('order')&&await exitPage.locator('#product-grid').isVisible(),'shared hero exit');await exitPage.reload({waitUntil:'networkidle'});assert(await exitPage.locator('#order-title').count()===0||await exitPage.locator('#order-screen').isHidden(),'shared restored after exit');await exitContext.close();for(const pii of ['Тест Покупатель','999','Москва','Тестовый комментарий','postes@mail.ru'])assert(!share.includes(pii),`share contains PII ${pii}`);
+  const recipient=await browser.newContext();await recipient.addInitScript(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async value=>{window.__copied=String(value)}}});});const rp=await recipient.newPage();await rp.goto(base);await rp.evaluate(({selected})=>localStorage.setItem('forma-next-cart',JSON.stringify({[selected]:999,'276':3})),{selected});await rp.goto(share,{waitUntil:'networkidle'});
+  assert(await rp.locator('#order-title').textContent()==='Заказ по ссылке','shared title');assert(JSON.parse(await rp.evaluate(()=>localStorage.getItem('forma-next-cart')))[selected]===999,'shared overwrote cart');assert(await rp.locator('.order-item').getAttribute('data-order-item')===selected,'shared variant');assert((await rp.locator('.quantity b').textContent())==='2','shared quantity');
+  await rp.locator('.save-shared').click();let saved=JSON.parse(await rp.evaluate(()=>localStorage.getItem('forma-next-cart')));assert(saved[selected]===999&&saved['276']===3,'shared merge quantity cap');const cappedRow=rp.locator(`.order-item[data-order-item="${selected}"]`);await cappedRow.locator('[data-qty="1"]').click();saved=JSON.parse(await rp.evaluate(()=>localStorage.getItem('forma-next-cart')));assert(saved[selected]===999,'plus quantity cap');await rp.locator('.share-order').click();const cappedShare=await rp.evaluate(()=>window.__copied||'');assert(new URL(cappedShare).searchParams.get('order').split(',').includes(`${selected}.999`),'capped share serialization');
+  const clean=await browser.newContext(),cleanPage=await clean.newPage();await cleanPage.goto(cappedShare,{waitUntil:'networkidle'});assert(await cleanPage.locator(`.order-item[data-order-item="${selected}"] .quantity b`).textContent()==='999','capped shared item restore');await clean.close();
+  await rp.reload({waitUntil:'networkidle'});assert(!new URL(rp.url()).searchParams.has('order')&&await rp.locator('#order-screen').isHidden(),'shared accept reload');await rp.locator('[data-action="cart"]').click();assert(await rp.locator('#order-title').textContent()==='Ваш заказ','accepted cart persistence');await recipient.close();
+  const manyUrl=new URL(base);manyUrl.searchParams.set('order',realSourceIds.slice(0,101).map(id=>`${id}.1`).join(','));manyUrl.hash='catalog';const many=await browser.newContext(),manyPage=await many.newPage();await manyPage.goto(manyUrl.href,{waitUntil:'networkidle'});assert(await manyPage.locator('.order-item').count()===101,'101st shared line lost');await many.close();
+  const legacy=await browser.newContext();const legacyModelId=String(rawCatalog.products[0].id),legacySource=realSourceIds[0];await legacy.addInitScript(({legacyModelId,legacySource})=>{localStorage.setItem('forma-next-favorites',JSON.stringify([legacyModelId,'stale-id']));localStorage.setItem('forma-next-cart',JSON.stringify([legacySource,'stale-id']));},{legacyModelId,legacySource});const legacyPage=await legacy.newPage();await legacyPage.goto(base,{waitUntil:'networkidle'});const migrated=await legacyPage.evaluate(()=>({favorites:JSON.parse(localStorage.getItem('forma-next-favorites')),cart:JSON.parse(localStorage.getItem('forma-next-cart'))}));assert(migrated.favorites.length===1&&realSourceIds.includes(migrated.favorites[0]),'legacy favorites migration');assert(migrated.cart[legacySource]===1&&!('stale-id' in migrated.cart),'legacy cart migration');await legacyPage.reload({waitUntil:'networkidle'});assert(JSON.parse(await legacyPage.evaluate(()=>localStorage.getItem('forma-next-cart')))[legacySource]===1,'legacy migration reload');await legacy.close();
+ }
+ await page.locator('.primary-cta').click();assert(await page.locator('#order-screen').isHidden()&&await page.locator('#product-grid').isVisible(),`${width}: cart CTA did not restore catalog`);await page.locator('[data-action="cart"]').click();await page.locator('.brand').click();assert(await page.locator('#order-screen').isHidden()&&await page.locator('#product-grid').isVisible(),`${width}: cart brand did not restore catalog`);
+ const footer=page.locator('.site-footer'),bodyText=normalize(await page.locator('body').innerText());
+ assert(await footer.locator('a[href="tel:+79057267946"]').count()===1,`${width}: footer phone`);assert(await footer.locator('a[href="https://wa.me/79057267946"]').count()===1,`${width}: footer WhatsApp`);assert(await footer.locator('a[href^="https://t.me/"]').count()===0,`${width}: invalid Telegram footer link`);assert(await footer.locator('a[href="mailto:postes@mail.ru"]').count()===1,`${width}: footer email`);assert(normalize(await footer.innerText()).includes('FORMA HOME / ФОРМА ХОУМ'),`${width}: bilingual footer brand`);assert(bodyText.includes('Ежедневно, 10:00–20:00'),`${width}: hours`);
+ for(const copy of ['Москва — бесплатно. По России — индивидуальный расчёт при оформлении заказа.','МО, г. Чехов, по будням с 10:00 до 15:00.','По счёту для юридических и физических лиц. В Москве доступна оплата наличными при получении.'])assert(bodyText.includes(copy),`${width}: delivery/payment copy`);assert(!/минимальн(?:ый|ая|ое) заказ/i.test(bodyText),`${width}: minimum order claim`);
+ const geometry=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,width:innerWidth,announcement:!!document.querySelector('.announcement'),footer:!!document.querySelector('.site-footer'),letters:[...document.querySelectorAll('.axis-swatch')].some(e=>e.textContent.trim())}));assert(geometry.scroll<=geometry.width,`${width}: overflow`);assert(!geometry.announcement&&geometry.footer&&!geometry.letters,`${width}: UI artifacts`);assert(catalogs===1,`${width}: catalog requests ${catalogs}`);assert(!failures.length&& !errors.length,`${width}: runtime ${failures.concat(errors).join(';')}`);await context.close();
 }
-
-await browser.close();
-await fs.writeFile(path.join(os.tmpdir(), `forma-next-browser-${requestedEngine}.json`), `${JSON.stringify(output, null, 2)}\n`);
-console.log(JSON.stringify(output, null, 2));
+await browser.close();console.log(`${name}: PASS (${widths.join(', ')})`);
+function assert(value,message){if(!value)throw new Error(`${name}: ${message}`)}function parseMoney(s){return Number(String(s).replace(/\D/g,''))}function formatMoney(value){return new Intl.NumberFormat('ru-RU').format(value)}function normalize(value){return String(value).replace(/\s+/g,' ').trim()}

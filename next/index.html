@@ -4,16 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f5f2ec">
-  <title>FORMA HOME — новый каталог</title>
+  <title>FORMA HOME / ФОРМА ХОУМ — мебель и предметы интерьера</title>
   <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="final-design.css?v=1">
   <script defer src="catalog-preprocess.js?v=5"></script>
+  <script defer src="analytics.config.js?v=1"></script>
+  <script defer src="analytics.js?v=1"></script>
+  <script defer src="smart-search.js?v=1"></script>
   <script defer src="app-registry.js?v=4"></script>
 </head>
 <body>
   <header class="site-header">
-    <div class="announcement">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
     <div class="nav shell">
-      <a class="brand" href="#catalog" aria-label="FORMA HOME — к каталогу">FORMA <span>HOME</span></a>
+      <a class="brand" href="#catalog" data-catalog-link aria-label="FORMA HOME / ФОРМА ХОУМ — к каталогу"><span class="brand-mark"><span lang="en">FORMA HOME</span><span class="brand-separator" aria-hidden="true">/</span><span lang="ru">ФОРМА ХОУМ</span></span></a>
       <nav class="nav-actions" aria-label="Быстрые действия">
         <button class="icon-button" type="button" data-action="favorites" aria-pressed="false"><span aria-hidden="true">♡</span><span class="action-label">Избранное</span><b id="favorite-count">0</b></button>
         <button class="icon-button cart-button" type="button" data-action="cart" aria-pressed="false"><span class="cart-icon" aria-hidden="true">🛒</span><span class="action-label">Заказ</span><b id="cart-count">0</b></button>
@@ -26,11 +29,7 @@
       <p class="eyebrow">Мебель для продуманного интерьера</p>
       <h1>Дом, в который хочется возвращаться</h1>
       <p class="hero-copy">Одна модель — одна понятная карточка. Внутри — доступные цвета, исполнения и фотографии.</p>
-      <a class="primary-cta" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a>
-      <div class="hero-stats" aria-label="Статистика каталога">
-        <div><strong id="model-count">—</strong><span>моделей</span></div>
-        <div><strong id="variant-count">—</strong><span>вариантов</span></div>
-      </div>
+      <a class="primary-cta" href="#catalog" data-catalog-link>Смотреть товары <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="catalog shell" id="catalog" aria-labelledby="catalog-title">
@@ -42,7 +41,7 @@
       <div class="controls" aria-label="Поиск и фильтры">
         <label class="search-field">
           <span class="sr-only">Поиск товаров</span>
-          <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="Поиск по названию, коллекции, характеристикам">
+          <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="Название, цвет, материал или код модели">
         </label>
         <label class="select-field" id="category-field">
           <span>Категория</span>
@@ -74,12 +73,35 @@
         <p id="empty-copy">Измените запрос или сбросьте фильтры.</p>
         <button type="button" id="reset-filters">Вернуться ко всему каталогу</button>
       </div>
+      <section class="order-screen" id="order-screen" hidden aria-labelledby="order-title"></section>
     </section>
   </main>
+
+  <section class="service-info shell" aria-labelledby="service-info-title">
+    <p class="eyebrow">Покупателям</p><h2 id="service-info-title">Доставка и оплата</h2>
+    <div><p><strong>Доставка:</strong> Москва — бесплатно. По России — индивидуальный расчёт при оформлении заказа.</p><p><strong>Самовывоз:</strong> МО, г. Чехов, по будням с 10:00 до 15:00.</p><p><strong>Оплата:</strong> По счёту для юридических и физических лиц. В Москве доступна оплата наличными при получении.</p></div>
+  </section>
+  <footer class="site-footer"><div class="shell"><span class="footer-brand"><span class="brand-mark"><span lang="en">FORMA HOME</span><span class="brand-separator" aria-hidden="true">/</span><span lang="ru">ФОРМА ХОУМ</span></span></span><nav aria-label="Контакты"><a href="tel:+79057267946">Позвонить</a><a href="https://wa.me/79057267946">WhatsApp</a><a href="mailto:postes@mail.ru">E-mail</a></nav><nav class="legal-links" aria-label="Документы"><a href="seller.html">Продавец</a><a href="privacy.html">Политика данных</a><a href="terms.html">Доставка и возврат</a></nav><span>Ежедневно, 10:00–20:00</span></div></footer>
 
   <dialog class="product-dialog" id="product-dialog" aria-label="Карточка товара">
     <button class="dialog-close" id="dialog-close" type="button" aria-label="Закрыть">×</button>
     <div id="dialog-content"></div>
+  </dialog>
+  <dialog class="checkout-dialog" id="checkout-dialog" aria-labelledby="checkout-title">
+    <form class="checkout-panel" id="checkout-form" novalidate>
+      <div class="checkout-head"><div><p class="eyebrow">Заказ</p><h2 id="checkout-title">Оформление заказа</h2></div><button type="button" id="checkout-close" aria-label="Закрыть">×</button></div>
+      <p class="checkout-summary" id="checkout-summary"></p>
+      <div class="checkout-grid">
+        <label>Имя *<input id="checkout-name" autocomplete="name" required></label>
+        <label>Телефон *<input id="checkout-phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+        <label class="full">Город *<input id="checkout-city" autocomplete="address-level2" required></label>
+        <label class="full">Комментарий<textarea id="checkout-comment"></textarea></label>
+      </div>
+      <p class="checkout-error" id="checkout-error" aria-live="polite"></p>
+      <label class="checkout-consent"><input id="checkout-consent" type="checkbox" required><span>Я даю отдельное <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="privacy.html" target="_blank" rel="noopener">политикой</a>.</span></label>
+      <div class="checkout-actions"><button type="button" data-checkout="whatsapp">Отправить в WhatsApp</button><button type="button" data-checkout="telegram">Отправить в Telegram</button><button type="button" data-checkout="email">Отправить по e-mail</button><button type="button" data-checkout="copy">Скопировать заказ</button></div>
+      <small>Заказ будет адресован магазину: +7 (905) 726-79-46 или postes@mail.ru.</small>
+    </form>
   </dialog>
 
   <template id="product-template">

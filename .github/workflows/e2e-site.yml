@@ -20,46 +20,25 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
-      - name: Validate adaptive UI scripts
-        run: |
-          node --check adaptive-product-ui.js
-          node --check scripts/e2e-adaptive-product-ui.mjs
+      - name: Install storefront dependencies
+        run: npm ci
 
-      - name: Install Playwright
+      - name: Install Playwright browsers
         run: |
-          npm install --no-save playwright
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
 
-      - name: Start local storefront
+      - name: Run next storefront state and cross-browser tests
         run: |
-          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/forma-http.log 2>&1 &
-          echo $! > /tmp/forma-http.pid
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/forma-next-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in {1..30}; do
-            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then
-              exit 0
+            if curl --fail --silent http://127.0.0.1:4173/next/ > /dev/null; then
+              break
             fi
             sleep 1
           done
-          cat /tmp/forma-http.log
-          exit 1
-
-      - name: Run responsive, slow-network and offline tests
-        run: node scripts/e2e-site.mjs
-
-      - name: Verify fixed header and cart access after scrolling
-        run: node scripts/e2e-fixed-header.mjs
-
-      - name: Verify compact extra filters
-        run: node scripts/e2e-extra-filters.mjs
-
-      - name: Verify responsive mobile product modal
-        run: node scripts/e2e-mobile-product-modal.mjs
-
-      - name: Verify adaptive product controls on device classes
-        run: node scripts/e2e-adaptive-product-ui.mjs
-
-      - name: Show local server log on failure
-        if: failure()
-        run: cat /tmp/forma-http.log || true
+          node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ chromium
+          node scripts/browser-next-finalization.mjs http://127.0.0.1:4173/next/ webkit

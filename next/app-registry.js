@@ -5,8 +5,8 @@
   const FIRST_EAGER_IMAGES = 4;
   const MAX_CARD_IMAGES = 3;
   const MAX_DIALOG_IMAGES = 6;
-  const DIMENSIONS_URL = 'dimensions.tsv';
-  const dimensionsBySourceId = new Map();
+  const STORE_PHONE = '79057267946';
+  const STORE_EMAIL = 'postes@mail.ru';
   const SHOP_CATEGORIES = Object.freeze({
     chairs: 'Стулья', armchairs: 'Кресла', tables: 'Столы', sofas: 'Диваны и мягкая мебель',
     coffee: 'Журнальные и кофейные столики', bar: 'Барная мебель', storage: 'Хранение', other: 'Декор и прочее',
@@ -44,11 +44,12 @@
     filtered: [],
     page: 1,
     favorites: loadSet('forma-next-favorites'),
-    cart: loadSet('forma-next-cart'),
+    cart: loadCart('forma-next-cart'),
     view: 'all',
     activeModel: null,
     activeVariant: null,
     activeImageIndex: 0,
+    sharedOrder: new Map(),
   };
 
   const els = {
@@ -75,6 +76,8 @@
     cartCount: document.querySelector('#cart-count'),
     favoritesButton: document.querySelector('[data-action="favorites"]'),
     cartButton: document.querySelector('[data-action="cart"]'),
+    orderScreen: document.querySelector('#order-screen'),
+    checkout: document.querySelector('#checkout-dialog'),
   };
 
   init();
@@ -93,48 +96,21 @@
       assertCatalog(normalized);
       state.models = dedupeKnownGland(normalized);
       state.models = state.models.map((model, sourceOrder) => ({ ...model, sourceOrder }));
+      window.FormaSearch?.build(state.models);
+      migrateStoredState();
+      restoreSharedOrder();
 
       // Only the proven Gland duplicate is merged client-side. All other models remain separate.
-      els.modelCount.textContent = formatNumber(state.models.length);
-      els.variantCount.textContent = formatNumber(state.models.reduce((sum, model) => sum + model.variants.length, 0));
+      if (els.modelCount) els.modelCount.textContent = formatNumber(state.models.length);
+      if (els.variantCount) els.variantCount.textContent = formatNumber(state.models.reduce((sum, model) => sum + model.variants.length, 0));
       buildFilters();
       els.status.hidden = true;
       applyFilters(true);
-      void loadOptionalDimensions();
     } catch (error) {
       console.error('[next-catalog]', error);
       els.status.hidden = true;
       els.grid.innerHTML = '<div class="error-box"><strong>Каталог не загрузился</strong><p>Проверьте соединение и обновите страницу.</p><button type="button" onclick="location.reload()">Обновить</button></div>';
     }
-  }
-
-  async function loadOptionalDimensions() {
-    try {
-      const response = await fetch(DIMENSIONS_URL, { cache: 'force-cache' });
-      if (!response.ok) return;
-      const rows = parseDimensionsTsv(await response.text());
-      rows.forEach((value, key) => dimensionsBySourceId.set(key, value));
-      if (state.activeModel) renderDialog();
-    } catch (error) {
-      console.info('[next-catalog] optional dimensions unavailable');
-    }
-  }
-
-  function parseDimensionsTsv(text) {
-    const output = new Map();
-    const lines = String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/).filter(Boolean);
-    if (lines.length < 2) return output;
-    const headers = lines[0].split('\t').map(value => normalizeText(value));
-    const idIndex = headers.findIndex(value => /^(?:sourceid|source id|id)$/.test(value));
-    const dimensionIndex = headers.findIndex(value => /размер|dimension/.test(value));
-    if (idIndex < 0 || dimensionIndex < 0) return output;
-    lines.slice(1).forEach(line => {
-      const cells = line.split('\t');
-      const id = String(cells[idIndex] || '').trim();
-      const dimensions = String(cells[dimensionIndex] || '').trim();
-      if (id && dimensions) output.set(id, dimensions);
-    });
-    return output;
   }
 
   function normalizeModel(model, index) {
@@ -417,9 +393,13 @@
     els.reset.addEventListener('click', resetFilters);
     els.favoritesButton.addEventListener('click', () => setView(state.view === 'favorites' ? 'all' : 'favorites'));
     els.cartButton.addEventListener('click', () => setView(state.view === 'cart' ? 'all' : 'cart'));
+    document.querySelectorAll('[data-catalog-link], a[href="#catalog"]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();setView('all');}));
     els.dialogClose.addEventListener('click', closeDialog);
     els.dialog.addEventListener('click', event => { if (event.target === els.dialog) closeDialog(); });
     els.dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
+    document.querySelector('#checkout-close').addEventListener('click',closeCheckout);
+    els.checkout.addEventListener('cancel',event=>{event.preventDefault();closeCheckout();});
+    document.querySelectorAll('[data-checkout]').forEach(button=>button.addEventListener('click',()=>sendCheckout(button.dataset.checkout)));
   }
 
   function resetFilters() {
@@ -427,16 +407,23 @@
     els.category.value = '';
     els.collection.value = '';
     els.price.value = '';
-    state.view = 'all';
+    if (state.view !== 'favorites' || state.favorites.size === 0) state.view = 'all';
     syncViewButtons();
     applyFilters(true);
   }
 
   function setView(view) {
+    if(state.view==='shared'&&view!=='shared')endSharedContext();
     state.view = view;
     syncViewButtons();
     applyFilters(true);
     document.querySelector('#catalog')?.scrollIntoView({ block: 'start' });
+  }
+
+  function endSharedContext(){
+    state.sharedOrder.clear();
+    const url=new URL(location.href);
+    if(url.searchParams.has('order')){url.searchParams.delete('order');history.replaceState(null,'',url);}
   }
 
   function syncViewButtons() {
@@ -447,21 +434,63 @@
   }
 
   function applyFilters(resetPage = false) {
-    const query = normalizeText(els.search.value);
+    if (state.view === 'cart' || state.view === 'shared') {
+      state.filtered = [];
+      els.grid.hidden = true;
+      els.pagination.hidden = true;
+      els.empty.hidden = true;
+      els.controls = els.controls || document.querySelector('.controls');
+      els.controls.hidden = true;
+      const quantity=orderQuantity(activeOrder());
+      els.count.textContent = `${quantity} ${plural(quantity,'товар','товара','товаров')}`;
+      renderOrder();
+      return;
+    }
+    els.grid.hidden = false;
+    els.orderScreen.hidden = true;
+    (els.controls || document.querySelector('.controls')).hidden = false;
+    const rawQuery = els.search.value;
+    const query = normalizeText(rawQuery);
+    const rankedSearch = query && window.FormaSearch ? window.FormaSearch.rank(state.models, rawQuery) : null;
+    const rankedIds = rankedSearch ? new Set(rankedSearch.map(item => String(item.model.id))) : null;
+    const rankedScores = rankedSearch ? new Map(rankedSearch.map(item => [String(item.model.id), item.score])) : null;
     const category = els.category.value;
     const collection = els.collection.value;
     const priceRange = parsePriceRange(els.price.value);
 
+    if (state.view === 'favorites') {
+      const records=[...state.favorites].map(variantRecord).filter(Boolean);
+      const exactSourceQuery = /^\d+$/.test(query) ? query : '';
+      let filtered = records.filter(({model,variant}) => {
+        if (exactSourceQuery && String(variant.sourceId) !== exactSourceQuery) return false;
+        if (query && !exactSourceQuery && (rankedIds ? !rankedIds.has(String(model.id)) : !model.searchable.includes(query))) return false;
+        if (category && model.shopCategory !== category) return false;
+        if (collection && !model.collections.includes(collection)) return false;
+        if (priceRange && !withinPrice(variant.wholesalePrice, priceRange)) return false;
+        return true;
+      });
+      if (rankedScores) filtered.sort((a,b)=>(rankedScores.get(String(b.model.id))||0)-(rankedScores.get(String(a.model.id))||0)||a.model.sourceOrder-b.model.sourceOrder);
+      state.filtered=filtered;
+      if(resetPage)state.page=1;
+      state.page=Math.min(state.page,Math.max(1,Math.ceil(filtered.length/PAGE_SIZE)));
+      els.empty.hidden=filtered.length!==0;
+      updateEmptyState();
+      els.count.textContent=filtered.length===records.length
+        ? `Избранное: ${filtered.length} ${plural(filtered.length,'товар','товара','товаров')}`
+        : `Избранное: ${filtered.length} из ${records.length}`;
+      if (query) window.FormaAnalytics?.trackSearch(rawQuery, filtered.length);
+      renderPage();
+      return;
+    }
     let filtered = state.models.filter(model => {
-      if (state.view === 'favorites' && !state.favorites.has(model.id)) return false;
-      if (state.view === 'cart' && !model.variants.some(v => state.cart.has(String(v.sourceId ?? model.id)))) return false;
-      if (query && !model.searchable.includes(query)) return false;
+      if (query && (rankedIds ? !rankedIds.has(String(model.id)) : !model.searchable.includes(query))) return false;
       if (category && model.shopCategory !== category) return false;
       if (collection && !model.collections.includes(collection)) return false;
       if (priceRange && !model.variants.some(v => withinPrice(v.wholesalePrice, priceRange))) return false;
       return true;
     });
 
+    if (rankedScores) filtered.sort((a, b) => (rankedScores.get(String(b.id)) || 0) - (rankedScores.get(String(a.id)) || 0) || a.sourceOrder - b.sourceOrder);
     const merchandising = state.view === 'all' && !query && !category && !collection && !priceRange;
     if (merchandising) filtered = merchandiseModels(filtered);
     state.filtered = filtered;
@@ -470,6 +499,7 @@
     els.empty.hidden = filtered.length !== 0;
     updateEmptyState();
     els.count.textContent = resultCountText();
+    if (query) window.FormaAnalytics?.trackSearch(rawQuery, filtered.length);
     renderPage();
   }
 
@@ -525,15 +555,26 @@
 
   function updateEmptyState() {
     if (state.view === 'favorites') {
-      els.emptyTitle.textContent = 'В избранном пока пусто';
-      els.emptyCopy.textContent = 'Отмечайте понравившиеся модели сердцем — они останутся здесь.';
+      if (state.favorites.size) {
+        els.emptyTitle.textContent = 'Среди избранного ничего не найдено';
+        els.emptyCopy.textContent = 'Измените запрос или сбросьте фильтры.';
+        els.reset.textContent = 'Сбросить фильтры';
+      } else {
+        els.emptyTitle.textContent = 'В избранном пока пусто';
+        els.emptyCopy.textContent = 'Отмечайте понравившиеся товары сердцем — они останутся здесь.';
+        els.reset.textContent = 'Вернуться ко всему каталогу';
+      }
     } else if (state.view === 'cart') {
       els.emptyTitle.textContent = 'В заказе пока ничего нет';
       els.emptyCopy.textContent = 'Откройте товар и добавьте подходящий вариант в заказ.';
+      els.reset.textContent = 'Вернуться ко всему каталогу';
     } else {
       els.emptyTitle.textContent = 'Ничего не нашли';
-      els.emptyCopy.textContent = 'Измените запрос или сбросьте фильтры.';
+      els.emptyCopy.textContent = 'Точного совпадения нет. Можно изменить запрос или посмотреть функциональную замену.';
+      els.reset.textContent = 'Вернуться ко всему каталогу';
     }
+    if (state.view === 'all') window.FormaSearch?.decorateEmptyState({ container: els.empty, input: els.search, models: state.models, onApply: value => { els.search.value = value; applyFilters(true); } });
+    else els.empty.querySelector('.search-alternatives')?.remove();
   }
 
   function renderPage() {
@@ -545,7 +586,11 @@
     const start = (state.page - 1) * PAGE_SIZE;
     const end = Math.min(start + PAGE_SIZE, state.filtered.length);
     const fragment = document.createDocumentFragment();
-    for (let i = start; i < end; i += 1) fragment.append(createCard(state.filtered[i], i - start));
+    for (let i = start; i < end; i += 1) {
+      const item=state.filtered[i];
+      if(state.view==='favorites')fragment.append(createCard(item.model,i-start,item.variant));
+      else fragment.append(createCard(item,i-start));
+    }
     els.grid.append(fragment);
     renderPagination();
   }
@@ -600,9 +645,9 @@
     return items;
   }
 
-  function createCard(model, position) {
+  function createCard(model, position, preferredVariant = null) {
     const node = els.template.content.firstElementChild.cloneNode(true);
-    let variant = chooseDisplayVariant(model);
+    let variant = preferredVariant || chooseDisplayVariant(model);
     let galleryIndex = 0;
     const img = node.querySelector('.card-image');
     const imageWrap = node.querySelector('.image-wrap');
@@ -639,6 +684,7 @@
           updateCard();
         }
       });
+      if (favorite) syncFavoriteButton(favorite,String(variant.sourceId));
       const showGallery = images.length > 1;
       prev.hidden = !showGallery;
       next.hidden = !showGallery;
@@ -664,8 +710,9 @@
     node.querySelectorAll('.card-open').forEach(button => button.addEventListener('click', () => openModel(model, variant)));
 
     const favorite = node.querySelector('.favorite-button');
-    syncFavoriteButton(favorite, model.id);
-    favorite.addEventListener('click', event => { event.stopPropagation(); toggleFavorite(model.id, favorite); });
+    const favoriteId = () => String(variant.sourceId);
+    syncFavoriteButton(favorite, favoriteId());
+    favorite.addEventListener('click', event => { event.stopPropagation(); toggleFavorite(favoriteId(), favorite); });
     updateCard();
     return node;
   }
@@ -699,6 +746,7 @@
         const button = document.createElement('button');
         button.type='button';
         button.className='variant-pill fallback-variant';
+        button.dataset.sourceId=String(variant.sourceId);
         if (sameVariant(variant,activeVariant)) button.classList.add('active');
         button.textContent = customerVariantLabel(variant,index);
         button.addEventListener('click', event => {
@@ -725,11 +773,8 @@
 
     const unresolved = model.variants.filter(v => !v.axes.safe || (!v.axes.soft && !v.axes.hard));
     if (!compact) {
-      const pair = uniqueVariants([
-        ...variantsForCurrentAxes(model,activeVariant),
-        ...unresolved
-      ]);
-      if (pair.length > 1) {
+      const pair = uniqueVariants(unresolved).filter(item=>!sameVariant(item,activeVariant));
+      if (pair.length) {
         const block = document.createElement('div');
         block.className='residual-variants';
         const title=document.createElement('p');
@@ -741,6 +786,7 @@
           const button=document.createElement('button');
           button.type='button';
           button.className='variant-pill';
+          button.dataset.sourceId=String(variant.sourceId);
           if (sameVariant(variant,activeVariant)) button.classList.add('active');
           button.textContent=customerVariantLabel(variant,index);
           button.addEventListener('click',()=>onSelect(variant));
@@ -766,23 +812,33 @@
     }
     const row=document.createElement('span');
     row.className='axis-swatches';
-    const max=values.length;
-    values.slice(0,max).forEach(value=>{
+    values.forEach(value=>{
       const button=document.createElement('button');
       button.type='button';
       button.className=`axis-swatch ${axis === 'soft' ? 'soft' : 'hard'}`;
       if (normalizeText(activeVariant.axes[axis])===normalizeText(value)) button.classList.add('active');
       const available=axisCombinationAvailable(model,activeVariant,axis,value);
       button.disabled=!available;
+      const chosen=available?selectAxisVariant(model,activeVariant,axis,value):null;
+      if(chosen?.sourceId!=null) button.dataset.sourceId=String(chosen.sourceId);
       const hex=safeColorHex(value);
-      if (hex) button.style.setProperty('--swatch',hex);
-      else button.dataset.label=initials(value);
+      if (!hex) {
+        const textButton=document.createElement('button');
+        textButton.type='button';
+        textButton.className=`variant-pill${normalizeText(activeVariant.axes[axis])===normalizeText(value)?' active':''}`;
+        textButton.textContent=value;
+        textButton.disabled=!available;
+        if(chosen?.sourceId!=null) textButton.dataset.sourceId=String(chosen.sourceId);
+        textButton.addEventListener('click',event=>{event.stopPropagation();if(chosen)onSelect(chosen);});
+        row.append(textButton);
+        return;
+      }
+      button.style.setProperty('--swatch',hex);
       button.title=value;
       button.setAttribute('aria-label',`${axisTitle(model,axis)}: ${value}`);
       button.addEventListener('click',event=>{
         event.stopPropagation();
         if (button.disabled) return;
-        const chosen=selectAxisVariant(model,activeVariant,axis,value);
         if (chosen) onSelect(chosen);
       });
       row.append(button);
@@ -860,6 +916,7 @@
   function openModel(model,preferredVariant=null) {
     state.activeModel=model;
     state.activeVariant=preferredVariant || chooseDisplayVariant(model);
+    window.FormaAnalytics?.track('product_open', { modelId: model.id, sourceId: state.activeVariant?.sourceId });
     state.activeImageIndex=0;
     renderDialog();
     document.body.classList.add('dialog-open');
@@ -893,11 +950,11 @@
           <strong class="dialog-price">${escapeHtml(exactPriceText(variant.wholesalePrice))}</strong>
           ${retail}
           <div class="dialog-axis-selectors"></div>
-          ${variant.specs?`<div class="specs">${formatSpecs(variant.specs)}</div>`:''}
+          ${variant.specs?`<div class="specs">${formatSpecs(variant.specs,variant)}</div>`:''}
           ${dimensionsHtml(variant)}
           <div class="dialog-actions">
             <button class="add-cart" type="button" data-cart-id="${escapeAttr(cartId)}">${inCart?'Перейти к заказу →':'Добавить в заказ'}</button>
-            <button class="dialog-favorite" type="button" aria-label="${state.favorites.has(model.id)?'Убрать модель из избранного':'Добавить модель в избранное'}">${state.favorites.has(model.id)?'♥':'♡'}</button>
+            <button class="dialog-favorite" type="button" aria-label="${state.favorites.has(cartId)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.has(cartId)?'♥':'♡'}</button>
             ${inCart?`<button class="remove-cart" type="button" data-cart-id="${escapeAttr(cartId)}">Удалить вариант из заказа</button>`:''}
           </div>
         </div>
@@ -908,6 +965,7 @@
       compact:false,
       onSelect:chosen=>{
         state.activeVariant=chosen;
+        window.FormaAnalytics?.track('variant_select', { modelId: model.id, sourceId: chosen.sourceId });
         state.activeImageIndex=0;
         renderDialog();
       }
@@ -924,21 +982,22 @@
     els.dialogContent.querySelector('.add-cart')?.addEventListener('click',event=>{
       const id=event.currentTarget.dataset.cartId;
       if (state.cart.has(id)) { closeDialog(); setView('cart'); return; }
-      state.cart.add(id);
-      saveSet('forma-next-cart',state.cart);
+      state.cart.set(id,1);
+      window.FormaAnalytics?.track('cart_add', { sourceId: id, quantity: 1 });
+      saveCart();
       updateCounters();
       renderDialog();
     });
     els.dialogContent.querySelector('.remove-cart')?.addEventListener('click',event=>{
       const id=event.currentTarget.dataset.cartId;
       state.cart.delete(id);
-      saveSet('forma-next-cart',state.cart);
+      saveCart();
       updateCounters();
       renderDialog();
       if (state.view==='cart') applyFilters();
     });
     els.dialogContent.querySelector('.dialog-favorite')?.addEventListener('click',event=>{
-      toggleFavorite(state.activeModel.id,event.currentTarget,true);
+      toggleFavorite(String(state.activeVariant.sourceId),event.currentTarget,true);
       renderDialog();
     });
   }
@@ -979,8 +1038,119 @@
 
   function updateCounters() {
     els.favCount.textContent=state.favorites.size;
-    els.cartCount.textContent=state.cart.size;
+    els.cartCount.textContent=cartQuantity();
   }
+
+  function variantRecord(sourceId) {
+    for (const model of state.models) {
+      const variant=model.variants.find(item=>String(item.sourceId)===String(sourceId));
+      if (variant) return {model,variant};
+    }
+    return null;
+  }
+
+  function migrateStoredState() {
+    const migrated=new Set();
+    state.favorites.forEach(id=>{
+      const direct=variantRecord(id);
+      if (direct) migrated.add(String(direct.variant.sourceId));
+      else {
+        const model=state.models.find(item=>item.id===String(id));
+        const variant=model&&chooseDisplayVariant(model);
+        if (variant?.sourceId!=null) migrated.add(String(variant.sourceId));
+      }
+    });
+    state.favorites=migrated;
+    saveSet('forma-next-favorites',state.favorites);
+    const clean=new Map();
+    state.cart.forEach((quantity,id)=>{if(variantRecord(id))clean.set(String(id),clampQuantity(quantity));});
+    state.cart=clean;
+    saveCart();
+    updateCounters();
+  }
+
+  function restoreSharedOrder() {
+    const encoded=new URL(location.href).searchParams.get('order');
+    if (!encoded) return;
+    const restored=new Map();
+    encoded.split(',').forEach(pair=>{
+      const [id,rawQuantity]=pair.split('.');
+      const quantity=Number(rawQuantity);
+      if (/^\d+$/.test(id||'')&&Number.isInteger(quantity)&&quantity>0&&quantity<=999&&variantRecord(id)) restored.set(id,quantity);
+    });
+    if (restored.size) { state.sharedOrder=restored; state.view='shared'; syncViewButtons(); }
+  }
+
+  function activeOrder(){return state.view==='shared'?state.sharedOrder:state.cart;}
+  function orderQuantity(order) { return [...order.values()].reduce((sum,value)=>sum+value,0); }
+  function orderTotal(order) { return [...order].reduce((sum,[id,quantity])=>sum+(positiveNumber(variantRecord(id)?.variant.wholesalePrice)||0)*quantity,0); }
+  function cartQuantity(){return orderQuantity(state.cart);}
+  function cartTotal(){return orderTotal(state.cart);}
+  function clampQuantity(value){return Math.max(1,Math.min(999,Math.floor(Number(value)||1)));}
+  function saveCart() { try { localStorage.setItem('forma-next-cart',JSON.stringify(Object.fromEntries(state.cart))); } catch {} }
+
+  function renderOrder() {
+    els.orderScreen.hidden=false;
+    const shared=state.view==='shared', order=activeOrder(), title=shared?'Заказ по ссылке':'Ваш заказ';
+    if (!order.size) { els.orderScreen.innerHTML=`<div class="order-heading"><div><p class="eyebrow">Заказ</p><h2 id="order-title">${title}</h2></div><button type="button" data-back>← Вернуться в каталог</button></div><div class="empty-state"><h3>В заказе пока ничего нет</h3></div>`;els.orderScreen.querySelector('[data-back]').addEventListener('click',()=>setView('all'));return; }
+    const rows=[...order].map(([id,quantity])=>{
+      const record=variantRecord(id); if(!record)return '';
+      const {model,variant}=record, image=variant.images[0];
+      const quantityHtml=shared?`<div class="quantity shared-quantity" aria-label="Количество"><span>Количество:</span><b>${quantity}</b></div>`:`<div class="quantity" aria-label="Количество"><button type="button" data-qty="-1" aria-label="Уменьшить количество">−</button><b>${quantity}</b><button type="button" data-qty="1" aria-label="Увеличить количество">+</button><button class="order-remove" type="button" data-remove aria-label="Удалить позицию">Удалить</button></div>`;
+      return `<article class="order-item" data-order-item="${escapeAttr(id)}"><img src="${escapeAttr(image?relativeAsset(image):fallbackSvg())}" alt=""><div><h3>${escapeHtml(model.displayName)}</h3><p>${escapeHtml(variantExecutionLabel(variant))}</p>${dimensionsHtml(variant)}${formatSpecs(variant.specs,variant)?`<div class="order-specs">${formatSpecs(variant.specs,variant)}</div>`:''}<strong>${escapeHtml(formatPrice((positiveNumber(variant.wholesalePrice)||0)*quantity))}</strong></div>${quantityHtml}</article>`;
+    }).join('');
+    els.orderScreen.innerHTML=`<div class="order-heading"><div><p class="eyebrow">Заказ</p><h2 id="order-title">${title}</h2></div><button type="button" data-back>← Вернуться в каталог</button></div><div class="order-list">${rows}</div><div class="order-summary"><p>Всего товаров: <strong>${orderQuantity(order)}</strong></p><p>Итого по товарам: <strong>${formatPrice(orderTotal(order))}</strong></p><div>${shared?'<button class="save-shared" type="button">Добавить в мой заказ</button>':'<button class="share-order" type="button">Поделиться заказом</button><button class="checkout-order" type="button">Оформить заказ</button>'}</div><small class="order-feedback" aria-live="polite"></small></div>`;
+    els.orderScreen.querySelector('[data-back]').addEventListener('click',()=>setView('all'));
+    if(!shared)els.orderScreen.querySelectorAll('.order-item').forEach(row=>{
+      const id=row.dataset.orderItem;
+      row.querySelectorAll('[data-qty]').forEach(button=>button.addEventListener('click',()=>{const next=(state.cart.get(id)||1)+Number(button.dataset.qty);if(next>0)state.cart.set(id,clampQuantity(next));else state.cart.delete(id);saveCart();updateCounters();applyFilters();}));
+      row.querySelector('[data-remove]').addEventListener('click',()=>{state.cart.delete(id);saveCart();updateCounters();applyFilters();});
+    });
+    els.orderScreen.querySelector('.share-order')?.addEventListener('click',shareOrder);
+    els.orderScreen.querySelector('.checkout-order')?.addEventListener('click',openCheckout);
+    els.orderScreen.querySelector('.save-shared')?.addEventListener('click',()=>{state.sharedOrder.forEach((q,id)=>state.cart.set(id,clampQuantity((state.cart.get(id)||0)+q)));saveCart();updateCounters();setView('cart');});
+  }
+
+  function orderUrl() {
+    const url=new URL(location.href); url.search=''; url.hash='catalog';
+    url.searchParams.set('order',[...state.cart].map(([id,q])=>`${id}.${clampQuantity(q)}`).join(','));
+    return url.href;
+  }
+  async function shareOrder() {
+    const data={title:'Заказ FORMA HOME / ФОРМА ХОУМ',text:`Заказ FORMA HOME / ФОРМА ХОУМ: ${cartQuantity()} шт.`,url:orderUrl()};
+    try {
+      if(navigator.share){await navigator.share(data);showOrderFeedback('Заказ отправлен');}
+      else{await navigator.clipboard.writeText(data.url);showOrderFeedback('Ссылка на заказ скопирована');}
+    } catch(error) { if(error?.name!=='AbortError')showOrderFeedback('Не удалось поделиться заказом'); }
+  }
+  function openCheckout(){
+    document.querySelector('#checkout-summary').textContent=`${cartQuantity()} ${plural(cartQuantity(),'товар','товара','товаров')} · ${formatPrice(cartTotal())}`;
+    document.querySelector('#checkout-error').textContent='';
+    if(typeof els.checkout.showModal==='function')els.checkout.showModal();else els.checkout.setAttribute('open','');
+  }
+  function closeCheckout(){if(typeof els.checkout.close==='function'&&els.checkout.open)els.checkout.close();else els.checkout.removeAttribute('open');}
+  function checkoutCustomer(){return {name:document.querySelector('#checkout-name').value.trim(),phone:document.querySelector('#checkout-phone').value.trim(),city:document.querySelector('#checkout-city').value.trim(),comment:document.querySelector('#checkout-comment').value.trim()};}
+  function validateCheckout(){
+    const data=checkoutCustomer(),error=document.querySelector('#checkout-error');
+    if(!data.name){error.textContent='Укажите имя.';return null;}
+    if(data.phone.replace(/\D/g,'').length<7){error.textContent='Укажите корректный телефон.';return null;}
+    if(!data.city){error.textContent='Укажите город.';return null;}
+    if(!document.querySelector('#checkout-consent')?.checked){error.textContent='Подтвердите согласие на обработку персональных данных.';return null;}
+    error.textContent='';return data;
+  }
+  function checkoutText(data){
+    return ['Здравствуйте! Хочу оформить заказ в FORMA HOME / ФОРМА ХОУМ:','',...[...state.cart].map(([id,q],index)=>{const {model,variant}=variantRecord(id),price=positiveNumber(variant.wholesalePrice)||0;return `${index+1}. ${model.displayName}\nИсполнение: ${variantExecutionLabel(variant)}\n${q} шт. × ${formatPrice(price)} = ${formatPrice(price*q)}`;}),'',`Итого по товарам: ${formatPrice(cartTotal())}`,'',`Имя: ${data.name}`,`Телефон: ${data.phone}`,`Город: ${data.city}`,data.comment?`Комментарий: ${data.comment}`:'',`Согласие на обработку персональных данных: подтверждено (${window.FormaAnalytics?.config?.consentVersion || '2026-08-11'})`,`Ссылка на заказ: ${orderUrl()}`].filter(Boolean).join('\n');
+  }
+  async function sendCheckout(channel){
+    const data=validateCheckout();if(!data)return;
+    const message=checkoutText(data);
+    window.FormaAnalytics?.track('checkout_send', { channel, itemCount: cartQuantity(), total: cartTotal() });
+    if(channel==='whatsapp'){window.open(`https://wa.me/${STORE_PHONE}?text=${encodeURIComponent(message)}`,'_blank','noopener');return;}
+    if(channel==='email'){window.open(`mailto:${STORE_EMAIL}?subject=${encodeURIComponent('Заказ с сайта FORMA HOME')}&body=${encodeURIComponent(message)}`,'_self');return;}
+    if(channel==='telegram'){window.open(`https://t.me/share/url?url=${encodeURIComponent(orderUrl())}&text=${encodeURIComponent(message)}`,'_blank','noopener');return;}
+    try{await navigator.clipboard.writeText(message);document.querySelector('#checkout-error').textContent='Заказ скопирован';}catch{document.querySelector('#checkout-error').textContent='Не удалось скопировать заказ';}
+  }
+  function showOrderFeedback(message){const item=els.orderScreen.querySelector('.order-feedback');if(item)item.textContent=message;}
 
   function chooseDisplayVariant(model) {
     return model.variants.find(v=>v.images.length && positiveNumber(v.wholesalePrice)) ||
@@ -1007,15 +1177,26 @@
     if (label) return label;
     return `Исполнение · ${exactPriceText(variant.wholesalePrice)}`;
   }
+  function variantExecutionLabel(variant){const axes=[variant.axes?.soft,variant.axes?.hard].filter(Boolean);return (axes.length?axes.join(' / '):variant.colorLabel)||'Выбранное исполнение';}
 
   function dimensionsHtml(variant) {
-    if (hasDimensions(variant.specs)) return '';
-    const fallback = dimensionsBySourceId.get(String(variant.sourceId ?? ''));
-    return fallback ? `<section class="dimensions"><h3>Размеры</h3><p>${escapeHtml(fallback)}</p></section>` : '';
+    const declared=uniqueStrings(Array.isArray(variant.dimensions)?variant.dimensions:[]).map(formatDimension).filter(Boolean).join(' · ');
+    const own=declared || extractDimensions(variant.specs);
+    if (own) return `<section class="dimensions"><h3>Размеры</h3><p>${escapeHtml(own)}</p></section>`;
+    return '';
+  }
+
+  function extractDimensions(value) {
+    return dimensionMatches(value).map(formatDimension).join(' · ');
+  }
+  function formatDimension(value){return String(value||'').replace(/\s*[xх*]\s*/gi,' × ').replace(/\s*×\s*/g,' × ').trim();}
+  function dimensionMatches(value){
+    const pattern=/(?:\b(?:стол|стул|диван|кресло|пуф|ширина|высота|глубина|диаметр)\s*:?\s*)?(?:(?:\([^)]*\)|[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?)*(?:\+\d+(?:[.,]\d+)?)*(?:\([^)]*\))?)(?:\s*(?:[xх×*\/])\s*(?:\([^)]*\)|[ДDØ]?\d+(?:[.,]\d+)?(?:-\d+(?:[.,]\d+)?)*(?:\+\d+(?:[.,]\d+)?)*(?:\([^)]*\))?))*(?:\s*(?:см|мм))?|\b(?:диаметр|Ø)\s*\d+(?:[.,]\d+)?\s*(?:см|мм)?)/giu;
+    return [...String(value||'').matchAll(pattern)].map(match=>match[0].trim()).filter(item=>hasDimensions(item));
   }
 
   function hasDimensions(value) {
-    return /\b\d+(?:[.,]\d+)?\s*(?:x|х|×)\s*\d+|\b(?:ширина|высота|глубина|диаметр)\b/i.test(String(value || ''));
+    return /(?:\d|\))\s*(?:x|х|×|\*)\s*(?:\d|\()|\b(?:ширина|высота|глубина|диаметр)\b|(?:^|\s)[ДDØ]\s*\d+/i.test(String(value || ''));
   }
 
   function renderRetail(element,variant) {
@@ -1060,14 +1241,14 @@
     return String(value||'').replace(/\s*\(?\d+\s*шт\.?\s*(?:в\s*)?упаковк[еи]?\)?/giu,'').replace(/\s{2,}/g,' ').trim();
   }
 
-  function formatSpecs(value) {
-    const items=String(value).split(/[,;\n]+/).map(cleanVariantText).filter(Boolean);
+  function formatSpecs(value,variant) {
+    let text=String(value);
+    dimensionMatches(value).forEach(item=>{text=text.replace(item,' ');});
+    [variant?.axes?.soft,variant?.axes?.hard].filter(Boolean).forEach(color=>{text=text.replace(new RegExp(`(?:цвет\\s*)?${escapeRegExp(color)}`,'giu'),' ');});
+    const items=text.split(/[;\n]+|,\s+(?=[^\d])/).map(cleanVariantText).map(item=>item.replace(/^[\s,\/]+|[\s,\/]+$/g,'')).filter(item=>item&&!/^(?:цвет|обивка|каркас|основание|ножки?)\s*[:—-]?\s*$/i.test(item));
     return items.length?`<ul class="spec-list">${items.map(item=>`<li>${escapeHtml(item)}</li>`).join('')}</ul>`:'';
   }
-
-  function initials(value) {
-    return String(value||'').split(/\s+/).filter(Boolean).slice(0,2).map(part=>part[0]).join('').toUpperCase();
-  }
+  function escapeRegExp(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 
   function parsePriceRange(value) {
     if (!value) return null;
@@ -1133,6 +1314,14 @@
   function loadSet(key) {
     try { return new Set(JSON.parse(localStorage.getItem(key)||'[]').map(String)); }
     catch { return new Set(); }
+  }
+
+  function loadCart(key) {
+    try {
+      const value=JSON.parse(localStorage.getItem(key)||'{}');
+      if(Array.isArray(value))return new Map(value.map(id=>[String(id),1]));
+      return new Map(Object.entries(value||{}).map(([id,q])=>[String(id),Number(q)||1]));
+    } catch { return new Map(); }
   }
 
   function saveSet(key,value) {
