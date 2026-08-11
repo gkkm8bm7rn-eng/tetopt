@@ -21,5 +21,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Validate storefront files
-        run: node scripts/validate-site.mjs
+      - name: Install validation dependencies
+        run: npm ci
+
+      - name: Validate next storefront files
+        run: npm run audit:next

@@ -46,10 +46,12 @@ jobs:
         run: |
           set -euo pipefail
           curl -L --fail --silent --show-error "$BASE_URL/next/app.js" -o /tmp/app.js
-          curl -L --fail --silent --show-error "$BASE_URL/next/variant-labels.js" -o /tmp/variant-labels.js
+          curl -L --fail --silent --show-error "$BASE_URL/next/app-registry.js" -o /tmp/app-registry.js
+          curl -L --fail --silent --show-error "$BASE_URL/next/smart-search.js" -o /tmp/smart-search.js
           curl -L --fail --silent --show-error "$BASE_URL/catalog.json" -o /tmp/catalog.json
           grep -q "const PAGE_SIZE = 24" /tmp/app.js
-          grep -q "variantLabelsReady" /tmp/variant-labels.js
+          grep -q "sourceId" /tmp/app-registry.js
+          grep -q "window.FormaSearch" /tmp/smart-search.js
           python3 - <<'PY'
           import json
           data=json.load(open('/tmp/catalog.json', encoding='utf-8'))
@@ -61,8 +63,8 @@ jobs:
                   variants += sum(len(c.get('variants') or []) for c in colors)
               else:
                   variants += len(model.get('variants') or [])
-          assert len(products)==542, len(products)
-          assert variants==1196, variants
+          assert len(products)==541, len(products)
+          assert variants==1194, variants
           print(f'Public catalog OK: {len(products)} models, {variants} variants')
           PY
 
