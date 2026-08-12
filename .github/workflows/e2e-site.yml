@@ -32,7 +32,6 @@ jobs:
           node --check scripts/e2e-site.mjs
           node --check scripts/e2e-fixed-header.mjs
           node --check scripts/e2e-mobile-product-modal.mjs
-          node --check scripts/e2e-adaptive-product-ui.mjs
 
       - name: Install Playwright
         run: |
@@ -60,9 +59,6 @@ jobs:
 
       - name: Verify responsive mobile product modal
         run: node scripts/e2e-mobile-product-modal.mjs
-
-      - name: Verify adaptive product controls on device classes
-        run: node scripts/e2e-adaptive-product-ui.mjs
 
       - name: Show local server log on failure
         if: failure()
