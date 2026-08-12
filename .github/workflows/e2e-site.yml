@@ -53,6 +53,9 @@ jobs:
           cat /tmp/forma-http.log
           exit 1
 
+      - name: Diagnose joined variant audit source
+        run: node scripts/e2e-pageerror-diagnostic.mjs
+
       - name: Run responsive, slow-network and current-cache tests
         run: node scripts/e2e-site.mjs
 
