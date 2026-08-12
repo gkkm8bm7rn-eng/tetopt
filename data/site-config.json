@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-12",
+  "brand": {
+    "latin": {"first": "FORMA", "second": "HOME"},
+    "cyrillic": {"first": "ФОРМА", "second": "ХОУМ"},
+    "separator": "/"
+  },
+  "hero": {
+    "eyebrow": "Мебель для продуманного интерьера",
+    "title": "Дом, в который хочется возвращаться",
+    "body": "Столы, кресла, стулья, декор и коллекционная мебель — выбирайте по стилю, материалу и цене.",
+    "primaryCta": "Смотреть товары"
+  },
+  "catalog": {
+    "pageSize": 24,
+    "defaultCategory": "Декор и прочее",
+    "categories": [
+      "Стулья",
+      "Кресла",
+      "Столы",
+      "Диваны и мягкая мебель",
+      "Журнальные и кофейные столики",
+      "Барная мебель",
+      "Хранение",
+      "Декор и прочее"
+    ]
+  },
+  "search": {
+    "weights": {"name": 8, "category": 5, "collection": 4, "specs": 2},
+    "placeholder": "Поиск по названию, категории, коллекции"
+  },
+  "merchandising": {"modelRanks": {}, "variantRanks": {}},
+  "recommendations": {
+    "byModel": {},
+    "fallback": {"enabled": true, "sameCategory": true, "maxItems": 4}
+  },
+  "commerce": {
+    "currency": "RUB",
+    "phone": "+7 (905) 726-79-46",
+    "hours": "Ежедневно, 10:00–20:00",
+    "channels": {
+      "whatsapp": {"phone": "79057267946"},
+      "telegram": {"url": "https://t.me/+79057267946"},
+      "email": {"address": "postes@mail.ru"}
+    },
+    "delivery": [
+      {"id": "moscow", "label": "Москва в пределах МКАД", "priceText": "Бесплатно", "timing": "1–2 дня"},
+      {"id": "moscow-region", "label": "Московская область", "priceText": "Рассчитывается индивидуально", "timing": "2–3 дня"},
+      {"id": "regions", "label": "Регионы России", "priceText": "Транспортной компанией «Деловые линии»", "timing": ""},
+      {"id": "pickup", "label": "Самовывоз", "priceText": "Бесплатно", "timing": "", "address": "Москва, ул. Складочная, д. 1, стр. 18"}
+    ],
+    "payments": [
+      {"id": "cash-pickup", "label": "Наличными при самовывозе"},
+      {"id": "cash-delivery", "label": "Наличными водителю при доставке"},
+      {"id": "sbp", "label": "СБП"},
+      {"id": "invoice", "label": "Счёт для юридических лиц"}
+    ]
+  },
+  "ui": {
+    "favoriteShareTitle": "Подборка FORMA HOME",
+    "cartShareTitle": "Заказ FORMA HOME",
+    "showRetailPrice": true
+  }
+}
