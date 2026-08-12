@@ -38,6 +38,7 @@ async function checkViewport(browser, viewport) {
     const cta = document.querySelector('.hero-actions .btn-primary, .hero-actions a[href*="#catalog"]');
     const cards = [...document.querySelectorAll('#grid .card')];
     const firstImages = [...document.querySelectorAll('#grid .product-photo')].slice(0, 8);
+    const topText = [announcement, header, hero].filter(Boolean).map(node => node.textContent || '').join(' ').toLowerCase();
     return {
       viewportWidth: window.innerWidth,
       documentWidth: document.documentElement.scrollWidth,
@@ -48,6 +49,7 @@ async function checkViewport(browser, viewport) {
       statCount: stats.length,
       hasCta: Boolean(cta),
       cardCount: cards.length,
+      hasObsoleteTopBadges: /бесплатн\w*\s+достав|подтвержден\w*\s+цен/.test(topText),
       imageHints: firstImages.map(image => ({
         loading: image.loading,
         decoding: image.decoding,
@@ -63,6 +65,7 @@ async function checkViewport(browser, viewport) {
   assert(result.statCount === 2, `${viewport.name}: ожидаются две статистические кнопки, найдено ${result.statCount}`);
   assert(result.hasCta, `${viewport.name}: отсутствует кнопка «Смотреть товары»`);
   assert(result.cardCount > 0, `${viewport.name}: каталог не отрисован`);
+  assert(!result.hasObsoleteTopBadges, `${viewport.name}: в верхней части вернулись старые промо-бейджи`);
   assert(result.imageHints.every(item => item.decoding === 'async'), `${viewport.name}: не все изображения декодируются асинхронно`);
   assert(result.imageHints.slice(4).every(item => item.loading === 'lazy'), `${viewport.name}: изображения за первым экраном не переведены в lazy-loading`);
   assert(errors.length === 0, `${viewport.name}: ошибки страницы: ${errors.join(' | ')}`);
@@ -79,9 +82,28 @@ async function checkCatalogColorAndPhotoInteractions(browser) {
 
   await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 120_000 });
   await waitForStorefront(page);
-  await page.waitForSelector('#grid .card:not(.product-color-duplicate-hidden) [data-color-product]', { timeout: 120_000 });
+  await page.waitForFunction(() => Boolean(window.__COLOR_VARIANT_AUDIT__), null, { timeout: 30_000 });
 
-  const card = page.locator('#grid .card:not(.product-color-duplicate-hidden):has([data-color-product])').first();
+  const variantTarget = await page.evaluate(() => {
+    const groups = window.__COLOR_VARIANT_AUDIT__?.acceptedGroups || [];
+    for (const group of groups) {
+      if (!Array.isArray(group.ids) || group.ids.length < 2) continue;
+      let product = null;
+      try { product = typeof productById === 'function' ? productById(group.primaryId) : null; } catch {}
+      if (product?.name) return { primaryId: Number(group.primaryId), name: product.name };
+    }
+    return null;
+  });
+  assert(variantTarget, 'Реестр цветовых вариантов не содержит проверяемой группы');
+
+  await page.locator('#search').fill(variantTarget.name);
+  await page.waitForFunction(({ primaryId }) => {
+    const card = [...document.querySelectorAll('#grid .card')]
+      .find(node => Number(node.dataset.product) === primaryId || Number(node.dataset.colorHost) === primaryId);
+    return Boolean(card && card.offsetParent !== null && card.querySelectorAll('[data-color-product]').length >= 2);
+  }, { primaryId: variantTarget.primaryId }, { timeout: 30_000 });
+
+  const card = page.locator(`#grid .card[data-color-host="${variantTarget.primaryId}"], #grid .card[data-product="${variantTarget.primaryId}"]`).filter({ has: page.locator('[data-color-product]') }).first();
   const swatches = card.locator('[data-color-product]');
   const swatchCount = await swatches.count();
   assert(swatchCount >= 2, `Для проверки переключения цветов найдено только ${swatchCount} варианта`);
@@ -103,7 +125,8 @@ async function checkCatalogColorAndPhotoInteractions(browser) {
     );
   }, { hostId, targetProductId }, { timeout: 30_000 });
 
-  const switched = await card.evaluate((node, targetId) => ({
+  const switchedCard = page.locator(`#grid .card[data-color-host="${hostId}"]`).first();
+  const switched = await switchedCard.evaluate((node, targetId) => ({
     productId: Number(node.dataset.product),
     imageProductId: Number(node.querySelector('.product-photo')?.dataset.productImage),
     addProductId: Number(node.querySelector('[data-add]')?.dataset.add),
@@ -125,7 +148,7 @@ async function checkCatalogColorAndPhotoInteractions(browser) {
   assert(!switched.hidden, 'Карточка исчезла после выбора цвета');
   assert(!expectedTitle || switched.title === expectedTitle, 'Название карточки не соответствует выбранному цвету');
 
-  await card.locator('.product-photo').click({ force: true });
+  await switchedCard.locator('.product-photo').click({ force: true });
   await page.waitForSelector('#modal.show', { timeout: 30_000 });
   const openedProductId = await page.evaluate(() => {
     try { return Number(activeGallery?.productId); }
