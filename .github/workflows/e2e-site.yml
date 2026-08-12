@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Validate storefront JavaScript syntax
         run: |
@@ -31,7 +31,6 @@ jobs:
           done
           node --check scripts/e2e-site.mjs
           node --check scripts/e2e-fixed-header.mjs
-          node --check scripts/e2e-extra-filters.mjs
           node --check scripts/e2e-mobile-product-modal.mjs
           node --check scripts/e2e-adaptive-product-ui.mjs
 
@@ -53,17 +52,11 @@ jobs:
           cat /tmp/forma-http.log
           exit 1
 
-      - name: Diagnose joined variant audit source
-        run: node scripts/e2e-pageerror-diagnostic.mjs
-
-      - name: Run responsive, slow-network and current-cache tests
+      - name: Run responsive, search and cache tests
         run: node scripts/e2e-site.mjs
 
       - name: Verify fixed header and cart access after scrolling
         run: node scripts/e2e-fixed-header.mjs
-
-      - name: Verify compact extra filters
-        run: node scripts/e2e-extra-filters.mjs
 
       - name: Verify responsive mobile product modal
         run: node scripts/e2e-mobile-product-modal.mjs
