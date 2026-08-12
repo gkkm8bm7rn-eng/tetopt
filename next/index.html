@@ -7,9 +7,9 @@
   <title>FORMA HOME / ФОРМА ХОУМ — каталог мебели</title>
   <link rel="stylesheet" href="styles.css?v=8">
   <link rel="stylesheet" href="styles-quiet-home-v1.css?v=20260812-1">
-  <link rel="stylesheet" href="styles-executions-v2.css?v=20260812-1">
   <script defer src="site-content.js?v=20260812-1"></script>
-  <script defer src="storefront-v2.js?v=20260812-1"></script>
+  <script defer src="catalog-preprocess.js?v=5"></script>
+  <script defer src="app-registry.js?v=4"></script>
 </head>
 <body>
   <header class="site-header">
@@ -52,7 +52,6 @@
           <span class="sr-only">Поиск товаров</span>
           <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="Поиск по названию, коллекции, характеристикам">
         </label>
-        <button class="search-action" id="search-submit" type="button">Найти товары</button>
         <label class="select-field" id="category-field">
           <span>Категория</span>
           <select id="category-filter"><option value="">Все категории</option></select>
@@ -101,15 +100,17 @@
         <button class="card-gallery-arrow card-next" type="button" aria-label="Следующее фото" hidden>›</button>
         <span class="card-gallery-count" hidden></span>
       </div>
-      <div class="card-body">
-        <span class="card-collection"></span>
-        <button class="card-open card-info-open" type="button"><strong class="card-name"></strong></button>
-        <span class="card-swatches" aria-label="Реальные исполнения товара"></span>
-        <span class="card-meta"></span>
-        <span class="card-price"></span>
-        <del class="card-retail" hidden></del>
-      </div>
-      <button class="favorite-button" type="button" aria-label="Добавить исполнение в избранное">♡</button>
+      <button class="card-open card-info-open" type="button">
+        <span class="card-body">
+          <span class="card-collection"></span>
+          <strong class="card-name"></strong>
+          <span class="card-swatches" aria-label="Доступные варианты цвета"></span>
+          <span class="card-meta"></span>
+          <span class="card-price"></span>
+          <del class="card-retail" hidden></del>
+        </span>
+      </button>
+      <button class="favorite-button" type="button" aria-label="Добавить в избранное">♡</button>
     </article>
   </template>
 
