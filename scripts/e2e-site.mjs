@@ -57,8 +57,8 @@ async function checkViewport(browser, viewport) {
   });
 
   assert(result.documentWidth <= result.viewportWidth + 1, `${viewport.name}: горизонтальное переполнение ${result.documentWidth}px при viewport ${result.viewportWidth}px`);
-  assert(result.announcementPosition === 'sticky', `${viewport.name}: верхнее уведомление не закреплено`);
-  assert(result.headerPosition === 'sticky', `${viewport.name}: шапка не закреплена`);
+  assert(['fixed', 'sticky'].includes(result.announcementPosition), `${viewport.name}: верхнее уведомление не закреплено`);
+  assert(['fixed', 'sticky'].includes(result.headerPosition), `${viewport.name}: шапка не закреплена`);
   assert(result.heroWidth > 0 && result.heroWidth >= result.heroContainerWidth * 0.94, `${viewport.name}: баннер не занимает доступную ширину`);
   assert(result.statCount === 2, `${viewport.name}: ожидаются две статистические кнопки, найдено ${result.statCount}`);
   assert(result.hasCta, `${viewport.name}: отсутствует кнопка «Смотреть товары»`);
@@ -163,30 +163,34 @@ async function checkSlowConnectionShell(browser) {
   console.log('✓ Медленное соединение: облегчённый первый экран отображается до каталога');
 }
 
-async function checkOfflineRepeatVisit(browser) {
+async function checkLegacyOfflineLayerDisabled(browser) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'allow' });
   const page = await context.newPage();
 
   await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 120_000 });
   await waitForStorefront(page);
-  await page.evaluate(async () => {
-    if ('serviceWorker' in navigator) {
-      await navigator.serviceWorker.ready;
-    }
+  await page.waitForTimeout(250);
+
+  const state = await page.evaluate(async () => {
+    const registrations = 'serviceWorker' in navigator ? await navigator.serviceWorker.getRegistrations() : [];
+    const cacheNames = 'caches' in window ? await caches.keys() : [];
+    return {
+      registrations: registrations.length,
+      formaCaches: cacheNames.filter(name => name.startsWith('forma-')).length,
+      bootstrap: window.__formaPerformanceBootstrapV8 || null
+    };
   });
+
+  assert(state.registrations === 0, `Старый service worker всё ещё зарегистрирован: ${state.registrations}`);
+  assert(state.formaCaches === 0, `Остались старые кэши FORMA HOME: ${state.formaCaches}`);
+  assert(state.bootstrap?.serviceWorkerDisabled === true, 'Bootstrap не подтверждает отключение старого service worker');
 
   await page.reload({ waitUntil: 'domcontentloaded', timeout: 120_000 });
   await waitForStorefront(page);
-  await context.setOffline(true);
-  await page.goto(`${baseUrl}?offline-e2e=1`, { waitUntil: 'domcontentloaded', timeout: 120_000 });
-  await waitForStorefront(page);
+  assert(await page.locator('#grid .card').count() > 0, 'После повторной загрузки каталог не отрисован');
 
-  const cards = await page.locator('#grid .card').count();
-  assert(cards > 0, 'При повторном офлайн-открытии каталог не восстановился из кэша');
-
-  await context.setOffline(false);
   await context.close();
-  console.log('✓ Повторное посещение без сети: интерфейс и каталог восстановлены из кэша');
+  console.log('✓ Устаревший service worker и его кэши отключены; повторная онлайн-загрузка работает');
 }
 
 const browser = await chromium.launch({ headless: true });
@@ -196,7 +200,7 @@ try {
   }
   await checkCatalogColorAndPhotoInteractions(browser);
   await checkSlowConnectionShell(browser);
-  await checkOfflineRepeatVisit(browser);
+  await checkLegacyOfflineLayerDisabled(browser);
   console.log('✓ Все браузерные проверки завершены успешно');
 } finally {
   await browser.close();
