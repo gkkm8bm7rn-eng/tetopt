@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5f0">
-  <meta name="description" content="FORMA HOME / ФОРМА HOME — каталог мебели и предметов интерьера с проверенными вариантами, оптовыми ценами и фотографиями.">
-  <title>FORMA HOME / ФОРМА HOME — мебель и интерьер</title>
+  <meta name="description" content="FORMA HOME / ФОРМА ХОУМ — каталог мебели и предметов интерьера с проверенными вариантами, оптовыми ценами и фотографиями.">
+  <title>FORMA HOME / ФОРМА ХОУМ — мебель и интерьер</title>
   <link rel="preconnect" href="https://gkkm8bm7rn-eng.github.io">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="enhancements.css">
@@ -16,7 +16,7 @@
   <a class="skip-link" href="#catalog">К каталогу</a>
   <div class="trade-note">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
   <header class="site-header">
-    <a class="brand-lockup" href="#top" aria-label="FORMA HOME / ФОРМА HOME, на главную"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a>
+    <a class="brand-lockup" href="#top" aria-label="FORMA HOME / ФОРМА ХОУМ, на главную"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a>
     <nav class="header-actions" aria-label="Основная навигация">
       <button class="favorites-button" id="favoritesButton" type="button"><span class="action-icon" aria-hidden="true">♡</span><span class="action-label">Избранное</span><span class="action-count" id="favoritesCount">0</span></button>
       <button class="cart-button" id="cartButton" type="button"><span class="action-label">Корзина</span><span class="action-count" id="cartCount">0</span></button>
@@ -43,7 +43,7 @@
       <div class="catalog-tools">
         <label class="search-field"><span class="sr-only">Поиск</span><input id="searchInput" type="search" placeholder="Название, материал или размер" autocomplete="off"><span aria-hidden="true">⌕</span></label>
         <button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button>
-        <label class="sort-field"><span>Показать</span><select id="sortSelect"><option value="featured">Сначала популярные</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label>
+        <label class="sort-field"><span class="sort-icon" aria-hidden="true">↕</span><span class="sr-only">Порядок товаров</span><select id="sortSelect" aria-label="Порядок товаров"><option value="featured">Рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label>
       </div>
 
       <div class="category-row" id="categoryRow" aria-label="Категории"></div>
@@ -64,7 +64,7 @@
     <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><h2>Недавно смотрели</h2></div></div><div class="recent-row" id="recentRow"></div></section>
   </main>
 
-  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Оптовая цена выделена крупно, рекомендованная розничная показана для сравнения. Наличие и условия доставки уточняются при оформлении.</p></footer>
+  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Оптовая цена выделена крупно, рекомендованная розничная показана для сравнения. Наличие и условия доставки уточняются при оформлении.</p></footer>
 
   <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
   <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
