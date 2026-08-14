@@ -87,7 +87,7 @@ function cardTemplate(product){
   let variant=axisVariant(product,currentVariant(product,product._selected));
   product._selected=variant.sourceId;
   const selectors=axisControls(product,variant)||variantChoices(product,variant);
-  return`<article class="product-card"><div class="product-visual" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0"><div class="product-image-stage" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy"></div><div class="product-visual-controls"><div class="card-photo-pager"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><span class="card-photo-position" aria-hidden="true">Фото</span><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button></div><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="${state.favorites.includes(product.id)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.includes(product.id)?'♥':'♡'}</button></div></div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3><p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">В корзину</button></div></div></article>`;
+  return`<article class="product-card"><div class="product-visual" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0"><div class="product-image-stage" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy"></div><div class="product-visual-controls"><div class="card-photo-pager"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button></div><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="${state.favorites.includes(product.id)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.includes(product.id)?'♥':'♡'}</button></div></div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3><p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">В корзину</button></div></div></article>`;
 }
 
 function detailTemplate(product,variant){
@@ -124,8 +124,6 @@ async function changeCardPhoto(visual,delta){
   const current=Number(visual.dataset.photoIndex||0),next=(current+delta+images.length)%images.length;
   visual.dataset.photoIndex=String(next);
   visual.querySelector('img').src=imageUrl(images[next]);
-  const position=visual.querySelector('.card-photo-position');
-  position.textContent=`${next+1}/${images.length}`;
 }
 
 document.addEventListener('click',event=>{
