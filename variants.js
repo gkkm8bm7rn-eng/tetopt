@@ -3,10 +3,13 @@ const SWATCH_PALETTE=[
   [['тёмно-сер','темно-сер'],'#5c5e5d'],[['светло-сер'],'#c9cbc9'],[['серо-беж'],'#aaa092'],[['сер'],'#8b8d8b'],
   [['светло-корич'],'#aa8870'],[['корич'],'#74513e'],[['какао'],'#80675d'],[['капуч'],'#aa8b70'],[['кофе'],'#755747'],
   [['горч'],'#b58a32'],[['крем'],'#e8d8bb'],[['беж'],'#cfbea0'],[['айвори','слонов'],'#eee7d8'],
-  [['олив'],'#747b55'],[['изумруд'],'#286b57'],[['зелён','зелен'],'#4d765e'],[['син'],'#3f6287'],[['голуб'],'#82aabd'],
+  [['олив'],'#747b55'],[['изумруд'],'#286b57'],[['бирюз'],'#268a87'],[['мятн','минт'],'#83a99a'],[['лайм'],'#94a94a'],
+  [['хаки'],'#777454'],[['зелён','зелен'],'#4d765e'],[['тёмно-син','темно-син'],'#314b69'],[['син'],'#3f6287'],[['голуб'],'#82aabd'],
   [['бордо','винн'],'#743d45'],[['красн'],'#9f4540'],[['оранж'],'#c7783e'],[['жёлт','желт'],'#d3ae4c'],
-  [['розов'],'#d5a8aa'],[['фиолет','лилов'],'#7c6485'],[['золот'],'#b49a61'],[['сереб'],'#a7aaa9'],
-  [['бел'],'#f4f2eb'],[['натуральн'],'#bd9c70']
+  [['терракот'],'#a85f49'],[['кирпич'],'#9a5543'],[['персик'],'#dc9c78'],[['пудров'],'#d1a6a2'],[['розов'],'#d5a8aa'],
+  [['фиолет','лилов'],'#7c6485'],[['золот'],'#b49a61'],[['бронз'],'#8c7048'],[['сереб'],'#a7aaa9'],
+  [['коньяч'],'#9a623e'],[['медов'],'#bd8b47'],[['песоч'],'#c9ad7e'],[['тауп'],'#8e8278'],[['молоч'],'#eee7da'],
+  [['бел'],'#f4f2eb'],[['натуральн'],'#bd9c70'],[['орех'],'#76563e']
 ];
 
 function trustedColor(text=''){
@@ -78,7 +81,7 @@ function cardTemplate(product){
   let variant=axisVariant(product,currentVariant(product,product._selected));
   product._selected=variant.sourceId;
   const selectors=axisControls(product,variant)||variantChoices(product,variant);
-  return`<article class="product-card"><div class="product-visual" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy"><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="Избранное">${state.favorites.includes(product.id)?'♥':'♡'}</button></div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3><p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">В корзину</button></div></div></article>`;
+  return`<article class="product-card"><div class="product-visual" data-open="${escapeAttr(product.id)}" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button><span class="card-photo-position" aria-hidden="true"></span><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="Избранное">${state.favorites.includes(product.id)?'♥':'♡'}</button></div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3><p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">В корзину</button></div></div></article>`;
 }
 
 function detailTemplate(product,variant){
@@ -105,4 +108,45 @@ document.addEventListener('click',async event=>{
     full._selected=match.sourceId;
     els.detail.innerHTML=detailTemplate(full,currentVariant(full,match.sourceId));
   }else renderCatalog();
+},true);
+
+async function changeCardPhoto(visual,delta){
+  const product=state.products.find(item=>item.id===visual.dataset.cardGallery);
+  if(!product)return;
+  const full=await getFullProduct(product),variant=currentVariant(full,product._selected),images=curateGallery(full,variant);
+  if(images.length<2)return;
+  const current=Number(visual.dataset.photoIndex||0),next=(current+delta+images.length)%images.length;
+  visual.dataset.photoIndex=String(next);
+  visual.querySelector('img').src=imageUrl(images[next]);
+  const position=visual.querySelector('.card-photo-position');
+  position.textContent=`${next+1}/${images.length}`;
+}
+
+document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-card-photo]');
+  if(!button)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  changeCardPhoto(button.closest('[data-card-gallery]'),Number(button.dataset.cardPhoto));
+},true);
+
+let cardSwipe=null;
+document.addEventListener('pointerdown',event=>{
+  const visual=event.target.closest('[data-card-gallery]');
+  if(!visual||event.target.closest('button'))return;
+  cardSwipe={visual,x:event.clientX,y:event.clientY};
+},{passive:true,capture:true});
+document.addEventListener('pointerup',event=>{
+  if(!cardSwipe)return;
+  const dx=event.clientX-cardSwipe.x,dy=event.clientY-cardSwipe.y,visual=cardSwipe.visual;
+  cardSwipe=null;
+  if(Math.abs(dx)<42||Math.abs(dx)<Math.abs(dy))return;
+  event.preventDefault();event.stopImmediatePropagation();
+  visual.dataset.suppressOpen='true';
+  setTimeout(()=>delete visual.dataset.suppressOpen,350);
+  changeCardPhoto(visual,dx<0?1:-1);
+},true);
+document.addEventListener('click',event=>{
+  const visual=event.target.closest('[data-card-gallery][data-suppress-open]');
+  if(!visual)return;
+  event.preventDefault();event.stopImmediatePropagation();
 },true);
