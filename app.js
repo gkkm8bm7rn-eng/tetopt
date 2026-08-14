@@ -16,7 +16,7 @@ function colorFor(t=''){const c=[['бел','#f4f1e8'],['черн','#242424'],['�
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
 
 const hasPackagingNote=name=>/\d+\s*шт\.?\s*в\s*упаковке/i.test(name||'');
-const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни';
+const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',OUTDOOR_FURNITURE_CATEGORY='Уличная мебель: садовая, дачная, для террас и кафе',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе';
 const CONSTRUCTION_MARKERS=[
   {key:'swivel-360',label:'поворотная опора 360°',pattern:/опора\s*360(?:\s*°)?/i},
   {key:'swivel',label:'поворотная основа',pattern:/(?:поворотн|вращающ)[а-яё]*/i},
@@ -28,24 +28,30 @@ const CONSTRUCTION_MARKERS=[
 ];
 function constructionDescriptor(product){const text=[product.name,...(product.variants||[]).map(v=>`${v.specs||''} ${v.label||''}`)].join(' ').toLocaleLowerCase('ru-RU'),markers=CONSTRUCTION_MARKERS.filter(marker=>marker.pattern.test(text));return{key:markers.map(marker=>marker.key).join('|')||'standard',label:markers.map(marker=>marker.label).join(' · ')}}
 const isComputerChair=product=>/^кресла\s+tetchair(?:\s|$)/i.test(product.collection||'');
+function outdoorCatalogText(product){return[product.name,product.category,product.collection,product.searchText,...(product.variants||[]).flatMap(variant=>[variant.label,variant.specs])].filter(Boolean).join(' ')}
+function isOutdoorFurniture(product){
+  const text=outdoorCatalogText(product);
+  return product.category==='Ротанг'||/(?:^|[^а-яё])ротанг[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^а-яё])ковк[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^а-яё])пластик[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^a-z])plastic(?:$|[^a-z])/i.test(text);
+}
 function enrichCatalogProduct(product){
-  const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:product.category,construction=constructionDescriptor(product);
-  const searchTerms=computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'';
+  const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',outdoor=isOutdoorFurniture(product),category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:outdoor?OUTDOOR_FURNITURE_CATEGORY:product.category,construction=constructionDescriptor(product);
+  const searchTerms=[computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'',outdoor?OUTDOOR_FURNITURE_TERMS:''].filter(Boolean).join(' ');
   return {...product,category,constructionKey:construction.key,kindLabel:computerChair?COMPUTER_CHAIR_LABEL:'',searchText:[product.searchText,product.name,category,product.collection,searchTerms].filter(Boolean).join(' ')};
 }
 function packagingDuplicateKey(name=''){return stripPackaging(name).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
 function familyNameKey(name=''){return stripModel(name).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
 function commercialProductKey(product){return`${familyNameKey(product.name)}::${constructionDescriptor(product).key}`}
 function variantDuplicateKey(variant){
-  const text=`${variant.specs||''} ${variant.label||''}`.toLocaleLowerCase('ru-RU');
+  const text=stripPackaging(variant.specs||variant.label||'').toLocaleLowerCase('ru-RU');
   const hlr=text.match(/hlr\s*\d+/i)?.[0]?.replace(/\s/g,'');
   if(hlr)return hlr;
-  const colors=['светло-лаванд','лаванд','аквамарин','темно-бирюз','тёмно-бирюз','бирюз','изумруд','светло-беж','беж','сливоч','крем','песоч','темно-корич','тёмно-корич','корич','светло-сер','серо-беж','сер','син','голуб','коралл','лайм','зел','бел','черн','чёрн','натуральн','орех'];
-  const found=colors.map(color=>({color,index:text.indexOf(color)})).filter(x=>x.index>=0).sort((a,b)=>a.index-b.index||b.color.length-a.color.length)[0];
-  return found?.color||text.replace(/\d+(?:[.,]\d+)?\s*[хx×]\s*\d+(?:[.,]\d+)?(?:\s*[хx×]\s*\d+(?:[.,]\d+)?)?\s*см?/g,'').replace(/\s+/g,' ').trim();
+  return text
+    .replace(/(?:^|[\s,;/(])(?:[a-z]{1,5}(?:[-\s][a-z]{1,5})?[-\s]?\d+[a-z0-9-]*|\d{3,})(?=$|[\s,;)/])/gi,' ')
+    .replace(/[(),;·/]+/g,' ')
+    .replace(/(^|\s)([а-яё-]+)(?:\s+\2)(?=\s|$)/giu,'$1$2')
+    .replace(/\s+/g,' ').trim();
 }
-function exactVariantKey(variant){return stripPackaging(`${variant.label||''} ${variant.specs||''}`).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
-function cheapestVariants(variants,keyFor=exactVariantKey){const winners=new Map;variants.forEach(variant=>{const key=keyFor(variant),current=winners.get(key);if(!current||Number(variant.wholesalePrice)<Number(current.wholesalePrice))winners.set(key,variant)});return[...winners.values()]}
+function cheapestVariants(variants,keyFor=variantDuplicateKey){const winners=new Map;variants.forEach(variant=>{const key=keyFor(variant),current=winners.get(key);if(!current||Number(variant.wholesalePrice)<Number(current.wholesalePrice))winners.set(key,variant)});return[...winners.values()]}
 function normalizeCatalogProducts(products){
   const constructionFamilies=new Map;
   products.forEach(product=>{const key=familyNameKey(product.name);if(!constructionFamilies.has(key))constructionFamilies.set(key,new Set);constructionFamilies.get(key).add(constructionDescriptor(product).key)});
@@ -77,7 +83,7 @@ function normalizeCatalogProducts(products){
 }
 async function init(){try{const r=await fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'});if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();state.products=normalizeCatalogProducts(d.products);restoreSharedState();renderCategories();applyFilters();updateCounters();renderRecent();$('#searchForm')?.addEventListener('submit',submitSearch);const q=hashParams();if(q.get('product'))await openProduct(q.get('product'),q.get('variant'))}catch(e){console.error('[catalog-index]',e);els.count.hidden=false;els.count.textContent='Каталог временно недоступен';els.empty.hidden=false}}
 function restoreSharedState(){const q=hashParams();if(q.get('favorites')){state.favorites=q.get('favorites').split('~').filter(id=>state.products.some(p=>p.id===id));storage.write('forma:favorites',state.favorites);state.view='favorites'}if(q.get('cart')){const cart={};q.get('cart').split('~').forEach(x=>{const[id,qty]=x.split('.');if(/^\d+$/.test(id))cart[id]=Math.max(1,Number(qty)||1)});if(Object.keys(cart).length){state.cart=cart;storage.write('forma:cart',cart)}}}
-const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны','Хранение',BEDROOM_CATEGORY,'Комплекты','Декор','Ротанг','Вешалки','Комплектующие','Другое'];
+const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны',OUTDOOR_FURNITURE_CATEGORY,'Хранение',BEDROOM_CATEGORY,'Комплекты','Декор','Вешалки','Комплектующие','Другое'];
 function renderCategories(){const counts=new Map;state.products.forEach(p=>counts.set(p.category,(counts.get(p.category)||0)+1));const ordered=[...counts.keys()].sort((a,b)=>{const ai=CATEGORY_PRIORITY.indexOf(a),bi=CATEGORY_PRIORITY.indexOf(b);return(ai<0?999:ai)-(bi<0?999:bi)});els.categories.innerHTML=['Все',...ordered].map(c=>`<button class="category-chip ${c===state.category?'active':''}" data-category="${escapeAttr(c)}">${escapeHtml(c)}${c==='Все'?'':` <span>${counts.get(c)}</span>`}</button>`).join('')}
 const RU_KEYS='йцукенгшщзхъфывапролджэячсмитьбю.',EN_KEYS="qwertyuiop[]asdfghjkl;'zxcvbnm,./";
 function normalizeSearch(value=''){return String(value).toLocaleLowerCase('ru-RU').replace(/ё/g,'е').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zа-я0-9]+/giu,' ').trim()}
