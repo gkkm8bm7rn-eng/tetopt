@@ -6,6 +6,11 @@ const stripPackaging=(n='')=>String(n).replace(/[(/]\s*\d+\s*шт\.?\s*в\s*уп
 const money=v=>new Intl.NumberFormat('ru-RU').format(Number(v)||0)+' ₽',imageUrl=p=>!p?'':/^https?:/.test(p)?p:ASSET_BASE+String(p).replace(/^\//,''),stripModel=(n='')=>stripPackaging(n).replace(/\s*\(мод\.[^)]+\)\s*/gi,' ').replace(/\s+/g,' ').trim();
 const currentVariant=(p,id)=>p.variants.find(v=>String(v.sourceId)===String(id))||p.variants[0],minPrice=p=>Math.min(...p.variants.map(v=>Number(v.wholesalePrice)||Infinity));
 const variantLabel=v=>v.label||(v.specs||'').split(',').map(s=>s.trim()).filter(Boolean).slice(-2).join(' · ')||`Вариант ${v.sourceId}`;
+function sleepingSize(product,variant){
+  if(!/^\s*кровать(?:\s|$)/i.test(product.name||''))return'';
+  const match=`${variant.specs||''} ${variant.label||''}`.match(/(\d{2,3}(?:[.,]\d+)?\s*[хx×]\s*\d{2,3}(?:[.,]\d+)?)\s*см/i);
+  return match?match[1].replace(/\s*[хx×]\s*/i,' × ').replace(/\s+/g,' ').trim()+' см':'';
+}
 const plural=(n,a,b,c)=>n%100>=11&&n%100<=14?c:n%10===1?a:n%10>=2&&n%10<=4?b:c,escapeHtml=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),escapeAttr=escapeHtml;
 function colorFor(t=''){const c=[['бел','#f4f1e8'],['черн','#242424'],['сер','#9a9a96'],['беж','#d8c4a7'],['корич','#76513d'],['орех','#8a5a3c'],['натурал','#c49a69'],['золот','#c4a45d'],['зел','#657762'],['син','#526879'],['голуб','#88a9b8'],['красн','#9a473d'],['роз','#c89aa0'],['оранж','#c97943'],['желт','#d2b950'],['хром','#b8bdc0']];return c.find(([k])=>t.toLowerCase().includes(k))?.[1]||'#d8d4ca'} const hardVariant=(t='')=>/металл|дерев|мрамор|хром|каркас|основан|ножк|пластик/i.test(t)&&!/ткан|велюр|экокож|кож|букле|рогож/i.test(t);
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
