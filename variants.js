@@ -83,7 +83,7 @@ function cardTemplate(product){
 
 function detailTemplate(product,variant){
   variant=axisVariant(product,variant);
-  const images=(variant.images?.length?variant.images:[variant.primaryImage]).filter(Boolean);
+  const images=curateGallery(product,variant);
   return`<article class="detail" data-detail-id="${escapeAttr(product.id)}"><div class="gallery"><img class="gallery-main" id="galleryMain" src="${escapeAttr(imageUrl(images[0]))}" alt="${escapeAttr(stripModel(product.name))}"><div class="thumbnails">${images.map((src,i)=>`<button class="thumbnail ${i===0?'active':''}" data-image="${escapeAttr(imageUrl(src))}"><img src="${escapeAttr(imageUrl(src))}" alt="Фото ${i+1}"></button>`).join('')}</div></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${axisControls(product,variant)||(product.variants.length>1?`<div class="variant-options">${product.variants.map(v=>`<button class="variant-option ${String(v.sourceId)===String(variant.sourceId)?'active':''}" data-variant="${v.sourceId}">${escapeHtml(variantLabel(v))}</button>`).join('')}</div>`:'')}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div><div class="detail-actions"><button class="primary-button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button><button class="share-button" data-share-product="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Поделиться</button></div></div></article>`;
 }
 
