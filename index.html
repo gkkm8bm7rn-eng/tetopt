@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="FORMA — каталог мебели и предметов интерьера с проверенными вариантами, ценами и фотографиями.">
+  <title>FORMA — мебель для живых интерьеров</title>
+  <link rel="preconnect" href="https://gkkm8bm7rn-eng.github.io">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#catalog">К каталогу</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="FORMA, на главную">FOR<span>MA</span></a>
+    <nav class="header-actions" aria-label="Основная навигация">
+      <button class="icon-button" id="favoritesButton" type="button" aria-label="Избранное">♡ <span id="favoritesCount">0</span></button>
+      <button class="cart-button" id="cartButton" type="button">Корзина <span id="cartCount">0</span></button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <p class="eyebrow">Мебель для дома и бизнеса</p>
+      <h1 id="heroTitle">Интерьер начинается<br>с правильной формы</h1>
+      <p class="hero-copy">Собрали проверенные модели в спокойный каталог: реальные фотографии, понятные варианты и точные характеристики.</p>
+      <a class="primary-button" href="#catalog">Смотреть каталог</a>
+    </section>
+
+    <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
+      <div class="section-heading">
+        <div><p class="eyebrow">Каталог</p><h2 id="catalogTitle">Выберите свою модель</h2></div>
+        <p class="result-count" id="resultCount" aria-live="polite">Загружаем товары…</p>
+      </div>
+
+      <div class="catalog-tools">
+        <label class="search-field"><span class="sr-only">Поиск</span><input id="searchInput" type="search" placeholder="Название, материал или размер" autocomplete="off"><span aria-hidden="true">⌕</span></label>
+        <button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button>
+        <label class="sort-field"><span>Сортировка</span><select id="sortSelect"><option value="featured">Сначала рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label>
+      </div>
+
+      <div class="category-row" id="categoryRow" aria-label="Категории"></div>
+      <div class="catalog-layout">
+        <aside class="filters" id="filters" aria-label="Фильтры">
+          <div class="filter-head"><strong>Фильтры</strong><button id="clearFilters" type="button">Сбросить</button></div>
+          <fieldset><legend>Цена, ₽</legend><div class="price-inputs"><input id="priceMin" inputmode="numeric" placeholder="от"><input id="priceMax" inputmode="numeric" placeholder="до"></div></fieldset>
+          <fieldset><legend>Наличие вариантов</legend><label class="check"><input id="multiVariant" type="checkbox"> <span>Несколько цветов</span></label></fieldset>
+        </aside>
+        <div class="catalog-content">
+          <div class="product-grid" id="productGrid" aria-live="polite"></div>
+          <div class="empty-state" id="emptyState" hidden><h3>Ничего не нашли</h3><p>Попробуйте изменить запрос или сбросить фильтры.</p><button class="secondary-button" id="emptyReset" type="button">Сбросить фильтры</button></div>
+          <nav class="pagination" id="pagination" aria-label="Страницы каталога"></nav>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><p class="eyebrow">Недавно смотрели</p><h2>Можно вернуться</h2></div></div><div class="recent-row" id="recentRow"></div></section>
+  </main>
+
+  <footer><a class="brand brand-light" href="#top">FOR<span>MA</span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Цены указаны в рублях. Наличие и условия доставки уточняются при оформлении.</p></footer>
+
+  <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
+  <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
