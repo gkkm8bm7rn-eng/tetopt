@@ -1,4 +1,4 @@
-const DATA_URL = 'https://gkkm8bm7rn-eng.github.io/tetopt/catalog.json';
+const DATA_URL = './catalog.json';
 const ASSET_BASE = 'https://gkkm8bm7rn-eng.github.io/tetopt/';
 const PAGE_SIZE = 24;
 const state = { products: [], filtered: [], category: 'Все', search: '', sort: 'featured', page: 1, min: '', max: '', multi: false, favorites: readStore('forma:favorites', []), cart: readStore('forma:cart', {}), recent: readStore('forma:recent', []) };
