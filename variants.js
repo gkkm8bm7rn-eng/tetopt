@@ -71,7 +71,7 @@ function variantChoices(product,variant){
     return true;
   }).slice(0,8);
   return`<div class="card-variants">${choices.map((item,index)=>{
-    const label=variantLabel(item),color=trustedColor(label)||trustedColor(item.specs),active=String(item.sourceId)===String(variant.sourceId)?'active':'';
+    const label=variantLabel(item),color=trustedColor(label)||item.axes?.soft?.hex||trustedColor(item.specs)||item.axes?.hard?.hex,active=String(item.sourceId)===String(variant.sourceId)?'active':'';
     return color
       ?`<button class="card-swatch ${active}" style="--swatch:${color}" data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}" title="${escapeAttr(label)}" aria-label="${escapeAttr('Цвет: '+label)}"></button>`
       :`<button class="variant-text ${active}" data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}" title="${escapeAttr(label)}">${escapeHtml(label||`Вариант ${index+1}`)}</button>`;
