@@ -97,8 +97,8 @@ function detailGallery(images,name){
 
 function detailTemplate(product,variant){
   variant=axisVariant(product,variant);
-  const images=curateGallery(product,variant);
-  return`<article class="detail" data-detail-id="${escapeAttr(product.id)}">${detailGallery(images,product.name)}<div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${axisControls(product,variant)||(product.variants.length>1?`<div class="variant-options">${product.variants.map(v=>`<button class="variant-option ${String(v.sourceId)===String(variant.sourceId)?'active':''}" data-variant="${v.sourceId}">${escapeHtml(variantLabel(v))}</button>`).join('')}</div>`:'')}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div><div class="detail-actions"><button class="primary-button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button><button class="share-button" data-share-product="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Поделиться</button></div></div></article>`;
+  const images=curateGallery(product,variant),favorite=state.favorites.includes(product.id);
+  return`<article class="detail" data-detail-id="${escapeAttr(product.id)}">${detailGallery(images,product.name)}<div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${axisControls(product,variant)||(product.variants.length>1?`<div class="variant-options">${product.variants.map(v=>`<button class="variant-option ${String(v.sourceId)===String(variant.sourceId)?'active':''}" data-variant="${v.sourceId}">${escapeHtml(variantLabel(v))}</button>`).join('')}</div>`:'')}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div></div><div class="detail-sticky-actions" role="group" aria-label="Действия с товаром"><button class="detail-favorite ${favorite?'active':''}" type="button" data-favorite="${escapeAttr(product.id)}" data-detail-favorite aria-pressed="${favorite}" aria-label="${favorite?'Убрать из избранного':'Добавить в избранное'}">${favorite?'♥':'♡'}</button><button class="primary-button" type="button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button></div></article>`;
 }
 
 function renderCart(){
@@ -182,6 +182,18 @@ document.addEventListener('click',event=>{
   const gallery=button.closest('.gallery');
   if(button.dataset.galleryPhoto!==undefined)changeGalleryPhoto(gallery,Number(button.dataset.galleryPhoto));
   else activateGalleryPhoto(gallery,[...gallery.querySelectorAll('.thumbnail')].indexOf(button));
+},true);
+
+document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-detail-favorite]');
+  if(!button)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  toggleFavorite(button.dataset.favorite);
+  const favorite=state.favorites.includes(button.dataset.favorite);
+  button.classList.toggle('active',favorite);
+  button.setAttribute('aria-pressed',String(favorite));
+  button.setAttribute('aria-label',favorite?'Убрать из избранного':'Добавить в избранное');
+  button.textContent=favorite?'♥':'♡';
 },true);
 
 let detailGallerySwipe=null;
