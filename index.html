@@ -11,9 +11,15 @@
 </head>
 <body>
   <a class="skip-link" href="#catalog">К каталогу</a>
+  <div class="trade-note">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="FORMA, на главную">FOR<span>MA</span></a>
+    <a class="brand-lockup" href="#top" aria-label="FORMA HOME, ФОРМА HOME, на главную">
+      <span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span></span>
+      <span class="brand-line brand-cyr"><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span>
+    </a>
     <nav class="header-actions" aria-label="Основная навигация">
+      <a class="header-link" href="#catalog">Каталог</a>
+      <a class="header-link" href="#delivery">Доставка</a>
       <button class="icon-button" id="favoritesButton" type="button" aria-label="Избранное">♡ <span id="favoritesCount">0</span></button>
       <button class="cart-button" id="cartButton" type="button">Корзина <span id="cartCount">0</span></button>
     </nav>
@@ -21,10 +27,13 @@
 
   <main id="top">
     <section class="hero" aria-labelledby="heroTitle">
-      <p class="eyebrow">Мебель для дома и бизнеса</p>
-      <h1 id="heroTitle">Интерьер начинается<br>с правильной формы</h1>
-      <p class="hero-copy">Собрали проверенные модели в спокойный каталог: реальные фотографии, понятные варианты и точные характеристики.</p>
-      <a class="primary-button" href="#catalog">Смотреть каталог</a>
+      <div class="hero-content">
+        <p class="eyebrow">Мебель для продуманного интерьера</p>
+        <h1 id="heroTitle">Дом, в который<br>хочется возвращаться</h1>
+        <p class="hero-copy">Столы, кресла, стулья, декор и коллекционная мебель — выбирайте по стилю, материалу и точной цене выбранного варианта.</p>
+        <a class="primary-button hero-button" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a>
+        <div class="hero-stats" aria-label="Состав каталога"><div><strong>542</strong><span>проверенные<br>модели</span></div><div><strong>1 196</strong><span>вариантов<br>товаров</span></div></div>
+      </div>
     </section>
 
     <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
@@ -57,7 +66,7 @@
     <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><p class="eyebrow">Недавно смотрели</p><h2>Можно вернуться</h2></div></div><div class="recent-row" id="recentRow"></div></section>
   </main>
 
-  <footer><a class="brand brand-light" href="#top">FOR<span>MA</span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Цены указаны в рублях. Наличие и условия доставки уточняются при оформлении.</p></footer>
+  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span></span><span class="brand-line brand-cyr"><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Оптовая цена выделена крупно, рекомендованная розничная показана для сравнения. Наличие и условия доставки уточняются при оформлении.</p></footer>
 
   <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
   <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
