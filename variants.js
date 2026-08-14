@@ -90,10 +90,15 @@ function cardTemplate(product){
   return`<article class="product-card"><div class="product-visual" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0"><div class="product-image-stage" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy"></div><div class="product-visual-controls"><div class="card-photo-pager"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button></div><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="${state.favorites.includes(product.id)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.includes(product.id)?'♥':'♡'}</button></div></div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3>${product.kindLabel?`<button class="product-type product-category-link" type="button" data-category="${escapeAttr(product.category)}" data-category-link aria-label="Показать категорию «${escapeAttr(product.category)}»">${escapeHtml(product.kindLabel)}</button>`:''}<p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${sleepSize?`<p class="product-sleep-size">Спальное место: <strong>${escapeHtml(sleepSize)}</strong></p>`:''}${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">В корзину</button></div></div></article>`;
 }
 
+function detailGallery(images,name){
+  const navigation=images.length>1?`<div class="gallery-navigation"><button class="gallery-nav previous" type="button" data-gallery-photo="-1" aria-label="Предыдущее фото">‹</button><button class="gallery-nav next" type="button" data-gallery-photo="1" aria-label="Следующее фото">›</button></div>`:'';
+  return`<div class="gallery" data-gallery-index="0"><div class="gallery-stage"><img class="gallery-main" id="galleryMain" src="${escapeAttr(imageUrl(images[0]))}" alt="${escapeAttr(stripModel(name))}">${navigation}<span class="sr-only" data-gallery-status aria-live="polite">Фото 1 из ${images.length}</span></div><div class="thumbnails">${images.map((src,i)=>`<button class="thumbnail ${i===0?'active':''}" type="button" data-image="${escapeAttr(imageUrl(src))}" aria-label="Показать фото ${i+1} из ${images.length}"><img src="${escapeAttr(imageUrl(src))}" alt="Фото ${i+1}"></button>`).join('')}</div></div>`;
+}
+
 function detailTemplate(product,variant){
   variant=axisVariant(product,variant);
   const images=curateGallery(product,variant);
-  return`<article class="detail" data-detail-id="${escapeAttr(product.id)}"><div class="gallery"><img class="gallery-main" id="galleryMain" src="${escapeAttr(imageUrl(images[0]))}" alt="${escapeAttr(stripModel(product.name))}"><div class="thumbnails">${images.map((src,i)=>`<button class="thumbnail ${i===0?'active':''}" data-image="${escapeAttr(imageUrl(src))}"><img src="${escapeAttr(imageUrl(src))}" alt="Фото ${i+1}"></button>`).join('')}</div></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${axisControls(product,variant)||(product.variants.length>1?`<div class="variant-options">${product.variants.map(v=>`<button class="variant-option ${String(v.sourceId)===String(variant.sourceId)?'active':''}" data-variant="${v.sourceId}">${escapeHtml(variantLabel(v))}</button>`).join('')}</div>`:'')}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div><div class="detail-actions"><button class="primary-button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button><button class="share-button" data-share-product="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Поделиться</button></div></div></article>`;
+  return`<article class="detail" data-detail-id="${escapeAttr(product.id)}">${detailGallery(images,product.name)}<div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${axisControls(product,variant)||(product.variants.length>1?`<div class="variant-options">${product.variants.map(v=>`<button class="variant-option ${String(v.sourceId)===String(variant.sourceId)?'active':''}" data-variant="${v.sourceId}">${escapeHtml(variantLabel(v))}</button>`).join('')}</div>`:'')}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div><div class="detail-actions"><button class="primary-button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button><button class="share-button" data-share-product="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Поделиться</button></div></div></article>`;
 }
 
 function renderCart(){
@@ -153,6 +158,45 @@ document.addEventListener('click',event=>{
   const visual=event.target.closest('[data-card-gallery][data-suppress-open]');
   if(!visual)return;
   event.preventDefault();event.stopImmediatePropagation();
+},true);
+
+function activateGalleryPhoto(gallery,index){
+  const thumbnails=[...gallery.querySelectorAll('.thumbnail')];
+  if(!thumbnails.length)return;
+  const next=(index+thumbnails.length)%thumbnails.length,button=thumbnails[next],main=gallery.querySelector('.gallery-main');
+  main.src=button.dataset.image;
+  thumbnails.forEach((thumbnail,thumbnailIndex)=>thumbnail.classList.toggle('active',thumbnailIndex===next));
+  gallery.dataset.galleryIndex=String(next);
+  gallery.querySelector('[data-gallery-status]').textContent=`Фото ${next+1} из ${thumbnails.length}`;
+}
+
+function changeGalleryPhoto(gallery,delta){
+  if(!gallery)return;
+  activateGalleryPhoto(gallery,Number(gallery.dataset.galleryIndex||0)+delta);
+}
+
+document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-gallery-photo],.gallery .thumbnail[data-image]');
+  if(!button)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  const gallery=button.closest('.gallery');
+  if(button.dataset.galleryPhoto!==undefined)changeGalleryPhoto(gallery,Number(button.dataset.galleryPhoto));
+  else activateGalleryPhoto(gallery,[...gallery.querySelectorAll('.thumbnail')].indexOf(button));
+},true);
+
+let detailGallerySwipe=null;
+document.addEventListener('pointerdown',event=>{
+  const stage=event.target.closest('.gallery-stage');
+  if(!stage||event.target.closest('button'))return;
+  detailGallerySwipe={stage,x:event.clientX,y:event.clientY};
+},{passive:true,capture:true});
+document.addEventListener('pointerup',event=>{
+  if(!detailGallerySwipe)return;
+  const {stage,x,y}=detailGallerySwipe,dx=event.clientX-x,dy=event.clientY-y;
+  detailGallerySwipe=null;
+  if(Math.abs(dx)<42||Math.abs(dx)<Math.abs(dy))return;
+  event.preventDefault();event.stopImmediatePropagation();
+  changeGalleryPhoto(stage.closest('.gallery'),dx<0?1:-1);
 },true);
 
 document.addEventListener('click',event=>{
