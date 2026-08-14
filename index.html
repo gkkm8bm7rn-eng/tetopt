@@ -8,15 +8,13 @@
   <title>FORMA HOME / ФОРМА HOME — мебель и интерьер</title>
   <link rel="preconnect" href="https://gkkm8bm7rn-eng.github.io">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="enhancements.css">
 </head>
 <body>
   <a class="skip-link" href="#catalog">К каталогу</a>
   <div class="trade-note">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
   <header class="site-header">
-    <a class="brand-lockup" href="#top" aria-label="FORMA HOME, ФОРМА HOME, на главную">
-      <span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span></span>
-      <span class="brand-line brand-cyr"><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span>
-    </a>
+    <a class="brand-lockup" href="#top" aria-label="FORMA HOME / ФОРМА HOME, на главную"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a>
     <nav class="header-actions" aria-label="Основная навигация">
       <a class="header-link" href="#catalog">Каталог</a>
       <a class="header-link" href="#delivery">Доставка</a>
@@ -39,7 +37,7 @@
     <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
       <div class="section-heading">
         <div><p class="eyebrow">Каталог</p><h2 id="catalogTitle">Выберите свою модель</h2></div>
-        <p class="result-count" id="resultCount" aria-live="polite">Загружаем товары…</p>
+        <div class="result-actions"><p class="result-count" id="resultCount" aria-live="polite">Загружаем товары…</p><button class="share-selection" id="shareFavorites" type="button" hidden>Поделиться избранным</button></div>
       </div>
 
       <div class="catalog-tools">
@@ -66,7 +64,7 @@
     <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><p class="eyebrow">Недавно смотрели</p><h2>Можно вернуться</h2></div></div><div class="recent-row" id="recentRow"></div></section>
   </main>
 
-  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span></span><span class="brand-line brand-cyr"><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Оптовая цена выделена крупно, рекомендованная розничная показана для сравнения. Наличие и условия доставки уточняются при оформлении.</p></footer>
+  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">HOME</span></span></a><p>Проверенные модели. Честные варианты. Ничего лишнего.</p><p class="fine-print">Оптовая цена выделена крупно, рекомендованная розничная показана для сравнения. Наличие и условия доставки уточняются при оформлении.</p></footer>
 
   <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
   <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
