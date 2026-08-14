@@ -11,10 +11,10 @@ function colorFor(t=''){const c=[['бел','#f4f1e8'],['черн','#242424'],['�
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
 
 const hasPackagingNote=name=>/\d+\s*шт\.?\s*в\s*упаковке/i.test(name||'');
-const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло';
+const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни';
 const isComputerChair=product=>/^кресла\s+tetchair(?:\s|$)/i.test(product.collection||'');
 function enrichCatalogProduct(product){
-  const computerChair=isComputerChair(product),category=computerChair?COMPUTER_CHAIR_CATEGORY:product.category;
+  const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:product.category;
   const searchTerms=computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'';
   return {...product,category,kindLabel:computerChair?COMPUTER_CHAIR_LABEL:'',searchText:[product.searchText,product.name,category,product.collection,searchTerms].filter(Boolean).join(' ')};
 }
@@ -58,7 +58,7 @@ function normalizeCatalogProducts(products){
 }
 async function init(){try{const r=await fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'});if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();state.products=normalizeCatalogProducts(d.products);restoreSharedState();renderCategories();applyFilters();updateCounters();renderRecent();const q=hashParams();if(q.get('product'))await openProduct(q.get('product'),q.get('variant'))}catch(e){console.error('[catalog-index]',e);els.count.textContent='Каталог временно недоступен';els.empty.hidden=false}}
 function restoreSharedState(){const q=hashParams();if(q.get('favorites')){state.favorites=q.get('favorites').split('~').filter(id=>state.products.some(p=>p.id===id));storage.write('forma:favorites',state.favorites);state.view='favorites'}if(q.get('cart')){const cart={};q.get('cart').split('~').forEach(x=>{const[id,qty]=x.split('.');if(/^\d+$/.test(id))cart[id]=Math.max(1,Number(qty)||1)});if(Object.keys(cart).length){state.cart=cart;storage.write('forma:cart',cart)}}}
-const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны','Хранение','Спальня','Комплекты','Декор','Ротанг','Вешалки','Комплектующие','Другое'];
+const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны','Хранение',BEDROOM_CATEGORY,'Комплекты','Декор','Ротанг','Вешалки','Комплектующие','Другое'];
 function renderCategories(){const counts=new Map;state.products.forEach(p=>counts.set(p.category,(counts.get(p.category)||0)+1));const ordered=[...counts.keys()].sort((a,b)=>{const ai=CATEGORY_PRIORITY.indexOf(a),bi=CATEGORY_PRIORITY.indexOf(b);return(ai<0?999:ai)-(bi<0?999:bi)});els.categories.innerHTML=['Все',...ordered].map(c=>`<button class="category-chip ${c===state.category?'active':''}" data-category="${escapeAttr(c)}">${escapeHtml(c)}${c==='Все'?'':` <span>${counts.get(c)}</span>`}</button>`).join('')}
 const RU_KEYS='йцукенгшщзхъфывапролджэячсмитьбю.',EN_KEYS="qwertyuiop[]asdfghjkl;'zxcvbnm,./";
 function normalizeSearch(value=''){return String(value).toLocaleLowerCase('ru-RU').replace(/ё/g,'е').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zа-я0-9]+/giu,' ').trim()}
