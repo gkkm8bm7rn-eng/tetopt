@@ -14,8 +14,13 @@ const SWATCH_PALETTE=[
 
 function trustedColor(text=''){
   const value=String(text).toLocaleLowerCase('ru-RU');
-  const match=SWATCH_PALETTE.find(([tokens])=>tokens.some(token=>value.includes(token)));
-  return match?.[1]||null;
+  const matches=[];
+  SWATCH_PALETTE.forEach(([tokens,hex])=>tokens.forEach(token=>{
+    const index=value.indexOf(token);
+    if(index>=0)matches.push({index,length:token.length,hex});
+  }));
+  matches.sort((a,b)=>a.index-b.index||b.length-a.length);
+  return matches[0]?.hex||null;
 }
 
 function axisModel(product){
