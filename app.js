@@ -21,6 +21,8 @@ function variantDuplicateKey(variant){
   const found=colors.map(color=>({color,index:text.indexOf(color)})).filter(x=>x.index>=0).sort((a,b)=>a.index-b.index||b.color.length-a.color.length)[0];
   return found?.color||text.replace(/\d+(?:[.,]\d+)?\s*[хx×]\s*\d+(?:[.,]\d+)?(?:\s*[хx×]\s*\d+(?:[.,]\d+)?)?\s*см?/g,'').replace(/\s+/g,' ').trim();
 }
+function exactVariantKey(variant){return stripPackaging(`${variant.label||''} ${variant.specs||''}`).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
+function cheapestVariants(variants,keyFor=exactVariantKey){const winners=new Map;variants.forEach(variant=>{const key=keyFor(variant),current=winners.get(key);if(!current||Number(variant.wholesalePrice)<Number(current.wholesalePrice))winners.set(key,variant)});return[...winners.values()]}
 function normalizeCatalogProducts(products){
   const commercialGroups=new Map;
   products.forEach((product,index)=>{
@@ -41,7 +43,7 @@ function normalizeCatalogProducts(products){
   });
   const winners=new Map;
   expanded.forEach(product=>{
-    const candidate={...product,name:stripPackaging(product.name),_index:product._sourceIndex,_selected:product.variants[0].sourceId};
+    const variants=cheapestVariants(product.variants),candidate={...product,name:stripPackaging(product.name),variants,variantCount:variants.length,_index:product._sourceIndex,_selected:variants[0].sourceId};
     const key=packagingDuplicateKey(product.name),current=winners.get(key);
     if(!current||minPrice(candidate)<minPrice(current))winners.set(key,candidate);
   });
