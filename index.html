@@ -22,8 +22,8 @@
     .site-header .cart-icon::after{position:absolute;top:2px;left:6px;width:9px;height:7px;border:2px solid currentColor;border-bottom:0;border-radius:6px 6px 0 0;box-shadow:none;content:""}
     .site-header .action-count{top:-5px;right:-5px;min-width:19px;height:19px;border:2px solid #f7f5f0!important;background:#435d41!important;color:#fff!important;font-size:10px;box-shadow:none}
     .hero-content{background:linear-gradient(118deg,#ebe7d8 0%,#d9dbc9 53%,#b9c9b0 100%)}
-    .hero-content::before{right:-420px;bottom:-165px}
-    .hero-content::after{right:-155px;bottom:14%}
+    .hero-content::before{right:-335px;bottom:-335px}
+    .hero-content::after{content:none}
     .search-field{display:flex;gap:10px}
     .search-field input{min-width:0;flex:1}
     .search-submit{flex:none;min-height:38px;padding:0 14px;border:0;border-radius:11px;background:#435d41;color:#fff;font-size:13px;font-weight:750;cursor:pointer}
@@ -39,7 +39,7 @@
     .detail-copy{padding-bottom:112px}.product-dialog[open] .detail-sticky-actions{position:fixed;z-index:6;left:50%;bottom:max(14px,env(safe-area-inset-bottom));display:grid;grid-template-columns:50px minmax(0,1fr);gap:8px;width:min(520px,calc(100vw - 32px));padding:8px;transform:translateX(-50%);border:1px solid rgba(67,93,65,.14);border-radius:18px;background:rgba(247,245,240,.93);box-shadow:0 12px 34px rgba(28,31,25,.18);backdrop-filter:blur(10px)}
     .detail-sticky-actions .primary-button{min-height:50px;border:0;border-radius:12px;background:#435d41;color:#fff;font-weight:750}.detail-sticky-actions .primary-button:hover,.detail-sticky-actions .primary-button:focus-visible{background:#314d32}
     .detail-favorite{display:grid;min-height:50px;padding:0;place-items:center;border:1px solid #cbd7c7;border-radius:12px;background:#fff;color:#435d41;font-family:"Arial Black",Arial,sans-serif;font-size:28px;font-weight:900;line-height:1;-webkit-text-stroke:1.3px currentColor;cursor:pointer}.detail-favorite:hover,.detail-favorite:focus-visible{background:#eff4ed}.detail-favorite.active{background:#435d41;color:#fff;border-color:#435d41;-webkit-text-stroke:0}
-    @media(max-width:640px){.site-header .favorites-button,.site-header .cart-button{width:42px;min-width:42px;height:42px;min-height:42px}.site-header .action-count{top:-4px;right:-4px}.search-submit{min-height:38px;padding:0 12px;font-size:12px}.hero-content::before{right:-450px;bottom:-155px}.hero-content::after{right:-190px;bottom:16%}.gallery-nav{width:27px;height:48px;margin-top:-24px;font-size:27px}.detail-copy{padding-bottom:104px}.product-dialog[open] .detail-sticky-actions{bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 24px);padding:6px;border-radius:15px}.detail-sticky-actions .primary-button,.detail-favorite{min-height:48px}}
+    @media(max-width:640px){.site-header .favorites-button,.site-header .cart-button{width:42px;min-width:42px;height:42px;min-height:42px}.site-header .action-count{top:-4px;right:-4px}.search-submit{min-height:38px;padding:0 12px;font-size:12px}.gallery-nav{width:27px;height:48px;margin-top:-24px;font-size:27px}.detail-copy{padding-bottom:104px}.product-dialog[open] .detail-sticky-actions{bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 24px);padding:6px;border-radius:15px}.detail-sticky-actions .primary-button,.detail-favorite{min-height:48px}}
   </style>
 </head>
 <body>
@@ -66,7 +66,7 @@
     <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
       <div class="section-heading">
         <div><p class="eyebrow">Каталог FORMA HOME</p><h2 id="catalogTitle">Мебель для вашего дома</h2></div>
-        <div class="result-actions"><p class="result-count" id="resultCount" aria-live="polite" hidden>Загружаем товары…</p><button class="share-selection" id="shareFavorites" type="button" hidden>Поделиться избранным</button></div>
+        <p class="result-count" id="resultCount" aria-live="polite" hidden>Загружаем товары…</p>
       </div>
 
       <div class="catalog-tools">
@@ -83,6 +83,7 @@
           <fieldset><legend>Наличие вариантов</legend><label class="check"><input id="multiVariant" type="checkbox"> <span>Несколько цветов</span></label></fieldset>
         </aside>
         <div class="catalog-content">
+          <div class="favorites-toolbar" id="favoritesToolbar" hidden><strong>Избранное</strong><button class="share-selection" id="shareFavorites" type="button" hidden>Поделиться подборкой</button></div>
           <div class="product-grid" id="productGrid" aria-live="polite"></div>
           <div class="empty-state" id="emptyState" hidden><h3>Ничего не нашли</h3><p>Попробуйте изменить запрос или сбросить фильтры.</p><button class="secondary-button" id="emptyReset" type="button">Сбросить фильтры</button></div>
           <nav class="pagination" id="pagination" aria-label="Страницы каталога"></nav>

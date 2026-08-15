@@ -86,7 +86,10 @@ function uniqueVariants(products, indexById) {
   return candidates.flatMap(candidate => {
     const sourceId = String(candidate.variant.sourceId);
     if (visited.has(sourceId)) return [];
-    const equivalent = candidates.filter(other => other.product.id !== candidate.product.id && variantsEquivalent(candidate.variant, other.variant));
+    // A previous normalization pass may already have moved packaging variants into
+    // the same surviving product. Compare every other candidate, including siblings,
+    // so rerunning the pipeline remains idempotent and cannot preserve duplicates.
+    const equivalent = candidates.filter(other => other !== candidate && variantsEquivalent(candidate.variant, other.variant));
     const group = [candidate, ...equivalent];
     group.forEach(item => visited.add(String(item.variant.sourceId)));
     const winner = group.reduce((best, item) => Number(item.variant.wholesalePrice) < Number(best.variant.wholesalePrice)
@@ -112,7 +115,7 @@ for (const ids of components) {
   const fullVariants = selected.map(({ variant, candidates }) => {
     const full = fullBySourceId.get(String(variant.sourceId));
     const images = [...new Set(candidates.flatMap(candidate => fullBySourceId.get(String(candidate.variant.sourceId))?.images || []))];
-    return { ...full, images, localImageCount: images.length, mergedDuplicateSourceIds: candidates.map(candidate => candidate.variant.sourceId).filter(sourceId => String(sourceId) !== String(variant.sourceId)) };
+    return { ...full, images, localImageCount: images.length };
   });
   const full = detailById.get(survivor.id);
   full.name = stripPackaging(full.name);
