@@ -204,7 +204,7 @@ function detailTemplate(product,variant){
   return`<article class="detail" data-detail-id="${escapeAttr(product.id)}">${detailGallery(images,product.name)}<div class="detail-copy"><p class="eyebrow">${escapeHtml(product.category)}</p><h2>${escapeHtml(stripModel(product.name))}</h2>${priceTemplate(variant,true)}${selectors}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${variant.sourceId}</span></div><p class="specs">${escapeHtml(variant.specs)}</p></div></div><div class="detail-sticky-actions" role="group" aria-label="Действия с товаром"><button class="detail-favorite ${favorite?'active':''}" type="button" data-favorite="${escapeAttr(product.id)}" data-detail-favorite aria-pressed="${favorite}" aria-label="${favorite?'Убрать из избранного':'Добавить в избранное'}">${favorite?'♥':'♡'}</button><button class="primary-button" type="button" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в корзину</button></div></article>`;
 }
 
-function auditVariantPresentation(products){
+function auditVariantPresentation(products=state.products){
   const report={products:products.length,variants:0,withoutVisibleChoice:[],legacyHiddenChoices:0};
   products.forEach(product=>{
     const variants=product.variants||[];
@@ -217,6 +217,7 @@ function auditVariantPresentation(products){
     if(choices.length>8)report.legacyHiddenChoices+=choices.length-8;
   });
   console.info('[FORMA HOME variant audit]',report);
+  window.lastVariantPresentationAudit=report;
   return report;
 }
 
