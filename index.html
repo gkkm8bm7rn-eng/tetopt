@@ -39,7 +39,15 @@
     .detail-copy{padding-bottom:112px}.product-dialog[open] .detail-sticky-actions{position:fixed;z-index:6;left:50%;bottom:max(14px,env(safe-area-inset-bottom));display:grid;grid-template-columns:50px minmax(0,1fr);gap:8px;width:min(520px,calc(100vw - 32px));padding:8px;transform:translateX(-50%);border:1px solid rgba(67,93,65,.14);border-radius:18px;background:rgba(247,245,240,.93);box-shadow:0 12px 34px rgba(28,31,25,.18);backdrop-filter:blur(10px)}
     .detail-sticky-actions .primary-button{min-height:50px;border:0;border-radius:12px;background:#435d41;color:#fff;font-weight:750}.detail-sticky-actions .primary-button:hover,.detail-sticky-actions .primary-button:focus-visible{background:#314d32}
     .detail-favorite{display:grid;min-height:50px;padding:0;place-items:center;border:1px solid #cbd7c7;border-radius:12px;background:#fff;color:#435d41;font-family:"Arial Black",Arial,sans-serif;font-size:28px;font-weight:900;line-height:1;-webkit-text-stroke:1.3px currentColor;cursor:pointer}.detail-favorite:hover,.detail-favorite:focus-visible{background:#eff4ed}.detail-favorite.active{background:#435d41;color:#fff;border-color:#435d41;-webkit-text-stroke:0}
-    @media(max-width:640px){.site-header .favorites-button,.site-header .cart-button{width:42px;min-width:42px;height:42px;min-height:42px}.site-header .action-count{top:-4px;right:-4px}.search-submit{min-height:38px;padding:0 12px;font-size:12px}.gallery-nav{width:27px;height:48px;margin-top:-24px;font-size:27px}.detail-copy{padding-bottom:104px}.product-dialog[open] .detail-sticky-actions{bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 24px);padding:6px;border-radius:15px}.detail-sticky-actions .primary-button,.detail-favorite{min-height:48px}}
+    footer#delivery{display:grid;grid-template-columns:1fr 2fr;gap:28px;padding:46px clamp(20px,5vw,72px);background:#252521;color:#fff}
+    .footer-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+    .footer-columns section{max-width:320px}
+    .footer-columns h2{margin:0 0 12px;font:700 12px/1.2 Georgia,serif;letter-spacing:.12em;text-transform:uppercase;color:#d9d7cf}
+    .footer-columns p{margin:0 0 10px;color:#c9c7bf;line-height:1.55;font-size:14px}
+    .footer-columns a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
+    .footer-columns a:hover{border-bottom-color:#fff}
+    @media(max-width:900px){footer#delivery{grid-template-columns:1fr}.footer-columns{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.site-header .favorites-button,.site-header .cart-button{width:42px;min-width:42px;height:42px;min-height:42px}.site-header .action-count{top:-4px;right:-4px}.search-submit{min-height:38px;padding:0 12px;font-size:12px}.gallery-nav{width:27px;height:48px;margin-top:-24px;font-size:27px}.detail-copy{padding-bottom:104px}.product-dialog[open] .detail-sticky-actions{bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 24px);padding:6px;border-radius:15px}.detail-sticky-actions .primary-button,.detail-favorite{min-height:48px}footer#delivery{padding:34px 16px}.footer-columns{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -94,7 +102,24 @@
     <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><h2>Недавно смотрели</h2></div></div><div class="recent-row" id="recentRow"></div></section>
   </main>
 
-  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a></footer>
+  <footer id="delivery">
+    <a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a>
+    <div class="footer-columns">
+      <section>
+        <h2>Доставка</h2>
+        <p>Доставляем по Москве и области. Стоимость и срок подтверждает менеджер после оформления заявки.</p>
+      </section>
+      <section>
+        <h2>Оплата</h2>
+        <p>Оплата согласуется с менеджером после подтверждения заказа.</p>
+        <p><a href="mailto:postes@mail.ru">postes@mail.ru</a></p>
+      </section>
+      <section>
+        <h2>Самовывоз</h2>
+        <p>Самовывоз из Чехова возможен по согласованию с менеджером. Окончательный адрес и время выдачи подтвердим при заказе.</p>
+      </section>
+    </div>
+  </footer>
 
   <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
   <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
