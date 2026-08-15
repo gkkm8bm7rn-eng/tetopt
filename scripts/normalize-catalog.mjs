@@ -46,6 +46,7 @@ const variantKey = variant => {
   return `${hlr ? `hlr${hlr}` : size}:${colors}`;
 };
 const variantLabelKey = variant => String(variant.label || '').toLocaleLowerCase('ru-RU').replace(/ё/gu, 'е').replace(/[^a-zа-яё0-9]+/giu, ' ').replace(/\s+/g, ' ').trim();
+const variantsEquivalent = (left, right) => variantKey(left) === variantKey(right) && (dimensionsClose(dimensions(left.specs || left.label), dimensions(right.specs || right.label)) || (variantLabelKey(left) && variantLabelKey(left) === variantLabelKey(right)));
 const minPrice = product => Math.min(...product.variants.map(variant => Number(variant.wholesalePrice) || Infinity));
 
 function confirmedPairs(products) {
@@ -55,7 +56,7 @@ function confirmedPairs(products) {
     for (const plain of unpackaged) {
       if (nameKey(packaged.name) !== nameKey(plain.name) || constructionKey(packaged) !== constructionKey(plain)) continue;
       const sameCode = modelCode(packaged.name) && modelCode(packaged.name) === modelCode(plain.name);
-      const sameVariant = packaged.variants.some(left => plain.variants.some(right => variantKey(left) === variantKey(right) && (dimensionsClose(dimensions(left.specs || left.label), dimensions(right.specs || right.label)) || (variantLabelKey(left) && variantLabelKey(left) === variantLabelKey(right)))));
+      const sameVariant = packaged.variants.some(left => plain.variants.some(right => variantsEquivalent(left, right)));
       if (sameCode || sameVariant) pairs.push([packaged.id, plain.id]);
     }
   }
@@ -80,17 +81,18 @@ function connectedComponents(ids, pairs) {
 }
 
 function uniqueVariants(products, indexById) {
-  const winners = new Map();
-  products.forEach(product => product.variants.forEach((variant, variantIndex) => {
-    const candidate = { variant, product, order: indexById.get(product.id) * 10000 + variantIndex };
-    const key = variantKey(variant), current = winners.get(key);
-    if (current) current.candidates.push(candidate);
-    const candidatePreferred = Number(candidate.variant.wholesalePrice) < Number(current?.variant.wholesalePrice)
-      || (Number(candidate.variant.wholesalePrice) === Number(current?.variant.wholesalePrice) && !hasPackaging(candidate.product.name) && hasPackaging(current?.product.name));
-    if (!current) winners.set(key, { ...candidate, candidates: [candidate] });
-    else if (candidatePreferred) winners.set(key, { ...candidate, candidates: current.candidates });
-  }));
-  return [...winners.values()].sort((left, right) => left.order - right.order);
+  const candidates = products.flatMap(product => product.variants.map((variant, variantIndex) => ({ variant, product, order: indexById.get(product.id) * 10000 + variantIndex })));
+  const visited = new Set();
+  return candidates.flatMap(candidate => {
+    const sourceId = String(candidate.variant.sourceId);
+    if (visited.has(sourceId)) return [];
+    const equivalent = candidates.filter(other => other.product.id !== candidate.product.id && variantsEquivalent(candidate.variant, other.variant));
+    const group = [candidate, ...equivalent];
+    group.forEach(item => visited.add(String(item.variant.sourceId)));
+    const winner = group.reduce((best, item) => Number(item.variant.wholesalePrice) < Number(best.variant.wholesalePrice)
+      || (Number(item.variant.wholesalePrice) === Number(best.variant.wholesalePrice) && !hasPackaging(item.product.name) && hasPackaging(best.product.name)) ? item : best);
+    return [{ ...winner, candidates: group }];
+  }).sort((left, right) => left.order - right.order);
 }
 
 const index = await readJson('catalog-index.json');
