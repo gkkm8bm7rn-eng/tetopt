@@ -14,7 +14,7 @@ function sleepingSize(product,variant){
 const plural=(n,a,b,c)=>n%100>=11&&n%100<=14?c:n%10===1?a:n%10>=2&&n%10<=4?b:c,escapeHtml=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),escapeAttr=escapeHtml;
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
 
-const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',RATTAN_CATEGORY='Ротанг',OUTDOOR_FURNITURE_CATEGORY='Уличная мебель: садовая, дачная, для террас и кафе',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе кованая мебель ковка',RATTAN_TERMS='ротанг мебель из ротанга';
+const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',RATTAN_CATEGORY='Ротанг',OUTDOOR_FURNITURE_CATEGORY='Садовая мебель, ковка',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе кованая мебель ковка',RATTAN_TERMS='ротанг мебель из ротанга';
 const CONSTRUCTION_MARKERS=[
   {key:'swivel-360',label:'поворотная опора 360°',pattern:/опора\s*360(?:\s*°)?/i},
   {key:'swivel',label:'поворотная основа',pattern:/(?:поворотн|вращающ)[а-яё]*/i},
