@@ -2,21 +2,23 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const dataRoot = new URL('../data/', import.meta.url);
 const detailPaths = Array.from({ length: 14 }, (_, index) => `details/${String(index + 1).padStart(3, '0')}.json`);
-const packagingPattern = /\d+\s*(?:шт\.?|штук)\s*(?:в\s*)?(?:упаковк[а-яёa-z]*|уп\.?)/iu;
+const packagingPattern = /\d+\s*(?:шт\.?|штук)\s*(?:в\s*(?:\d+\s*(?:[-–—]\s*х)?\s*)?)?(?:упаковк[а-яёa-z]*|уп\.?)/iu;
 const ignoredNameWords = new Set(['стул', 'кресло', 'стол', 'обеденный', 'барный', 'офисное', 'мягкое', 'сиденье', 'сидение', 'chair', 'iron', 'soft', 'fashion']);
 const colorWords = ['бел', 'черн', 'сер', 'беж', 'корич', 'орех', 'натурал', 'олив', 'зел', 'син', 'голуб', 'бирюз', 'корал', 'лаванд', 'желт', 'крем', 'песоч', 'коф', 'изумруд', 'светло', 'темно'];
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, dataRoot), 'utf8'));
 const writeJson = (path, value) => writeFile(new URL(path, dataRoot), JSON.stringify(value), 'utf8');
 const stripPackaging = value => String(value ?? '')
-  .replace(/(?:\s*[\[(/-]?\s*)\d+\s*(?:шт\.?|штук)\s*(?:в\s*)?(?:упаковк[а-яёa-z]*|уп\.?)(?:\s*[\])/-])?/giu, ' ')
+  .replace(/\(\s*\d+\s*(?:шт\.?|штук)\s*(?:в\s*(?:\d+\s*(?:[-–—]\s*х)?\s*)?)?(?:упаковк[а-яёa-z]*|уп\.?)\s*\)/giu, ' ')
+  .replace(/,\s*\d+\s*(?:шт\.?|штук)\s*(?:в\s*(?:\d+\s*(?:[-–—]\s*х)?\s*)?)?(?:упаковк[а-яёa-z]*|уп\.?)\s*\)/giu, ')')
+  .replace(/(?:\s*[\[(/,-]?\s*)\d+\s*(?:шт\.?|штук)\s*(?:в\s*(?:\d+\s*(?:[-–—]\s*х)?\s*)?)?(?:упаковк[а-яёa-z]*|уп\.?)/giu, ' ')
   .replace(/\s+/g, ' ').trim();
 const hasPackaging = value => packagingPattern.test(value || '');
 const modelCode = value => {
   const match = String(value ?? '').match(/\(\s*мод\.?\s*([^)]+)\)/iu);
   return match ? match[1].toLocaleLowerCase('ru-RU').replace(/[^a-zа-яё0-9]+/giu, '') : '';
 };
-const nameKey = value => stripPackaging(value).toLocaleLowerCase('ru-RU')
+const nameKey = value => stripPackaging(value).toLocaleLowerCase('ru-RU').replace(/ё/gu, 'е')
   .replace(/\([^)]*\)/g, ' ').replace(/\b\d+\b/gu, ' ').replace(/[^a-zа-яё]+/giu, ' ')
   .split(/\s+/).filter(Boolean).filter(word => !ignoredNameWords.has(word)).sort().join(' ');
 const dimensions = value => {
@@ -37,12 +39,13 @@ const constructionKey = product => {
 };
 const constructionLabel = key => key.split('|').map(part => ({ swivel: 'поворотная опора', runners: 'опора-полозья', casters: 'на колёсах', 'no-armrests': 'без подлокотников', armrests: 'с подлокотниками', folding: 'складная конструкция' })[part]).filter(Boolean).join(' · ');
 const variantKey = variant => {
-  const text = String(variant.specs || variant.label || '').toLocaleLowerCase('ru-RU').replace(/barkhat/giu, 'бархат').replace(/torquoise/giu, 'бирюзовый');
+  const text = String(variant.specs || variant.label || '').toLocaleLowerCase('ru-RU').replace(/ё/gu, 'е').replace(/barkhat/giu, 'бархат').replace(/torquoise/giu, 'бирюзовый');
   const hlr = text.match(/hlr\s*(\d+)/iu)?.[1];
   const size = dimensions(text)?.join('x') || '';
   const colors = colorWords.filter(word => text.includes(word)).join('|');
   return `${hlr ? `hlr${hlr}` : size}:${colors}`;
 };
+const variantLabelKey = variant => String(variant.label || '').toLocaleLowerCase('ru-RU').replace(/ё/gu, 'е').replace(/[^a-zа-яё0-9]+/giu, ' ').replace(/\s+/g, ' ').trim();
 const minPrice = product => Math.min(...product.variants.map(variant => Number(variant.wholesalePrice) || Infinity));
 
 function confirmedPairs(products) {
@@ -52,7 +55,7 @@ function confirmedPairs(products) {
     for (const plain of unpackaged) {
       if (nameKey(packaged.name) !== nameKey(plain.name) || constructionKey(packaged) !== constructionKey(plain)) continue;
       const sameCode = modelCode(packaged.name) && modelCode(packaged.name) === modelCode(plain.name);
-      const sameVariant = packaged.variants.some(left => plain.variants.some(right => dimensionsClose(dimensions(left.specs || left.label), dimensions(right.specs || right.label)) && variantKey(left) === variantKey(right)));
+      const sameVariant = packaged.variants.some(left => plain.variants.some(right => variantKey(left) === variantKey(right) && (dimensionsClose(dimensions(left.specs || left.label), dimensions(right.specs || right.label)) || (variantLabelKey(left) && variantLabelKey(left) === variantLabelKey(right)))));
       if (sameCode || sameVariant) pairs.push([packaged.id, plain.id]);
     }
   }
@@ -81,9 +84,11 @@ function uniqueVariants(products, indexById) {
   products.forEach(product => product.variants.forEach((variant, variantIndex) => {
     const candidate = { variant, product, order: indexById.get(product.id) * 10000 + variantIndex };
     const key = variantKey(variant), current = winners.get(key);
+    if (current) current.candidates.push(candidate);
     const candidatePreferred = Number(candidate.variant.wholesalePrice) < Number(current?.variant.wholesalePrice)
       || (Number(candidate.variant.wholesalePrice) === Number(current?.variant.wholesalePrice) && !hasPackaging(candidate.product.name) && hasPackaging(current?.product.name));
-    if (!current || candidatePreferred) winners.set(key, candidate);
+    if (!current) winners.set(key, { ...candidate, candidates: [candidate] });
+    else if (candidatePreferred) winners.set(key, { ...candidate, candidates: current.candidates });
   }));
   return [...winners.values()].sort((left, right) => left.order - right.order);
 }
@@ -101,8 +106,12 @@ for (const ids of components) {
   const products = ids.map(id => indexProducts.get(id));
   const survivor = [...products].sort((left, right) => minPrice(left) - minPrice(right) || Number(hasPackaging(left.name)) - Number(hasPackaging(right.name)) || indexById.get(left.id) - indexById.get(right.id))[0];
   const selected = uniqueVariants(products, indexById);
-  const selectedIds = new Set(selected.map(({ variant }) => String(variant.sourceId)));
-  const fullVariants = products.flatMap(product => detailById.get(product.id).variants).filter(variant => selectedIds.has(String(variant.sourceId)));
+  const fullBySourceId = new Map(products.flatMap(product => detailById.get(product.id).variants).map(variant => [String(variant.sourceId), variant]));
+  const fullVariants = selected.map(({ variant, candidates }) => {
+    const full = fullBySourceId.get(String(variant.sourceId));
+    const images = [...new Set(candidates.flatMap(candidate => fullBySourceId.get(String(candidate.variant.sourceId))?.images || []))];
+    return { ...full, images, localImageCount: images.length, mergedDuplicateSourceIds: candidates.map(candidate => candidate.variant.sourceId).filter(sourceId => String(sourceId) !== String(variant.sourceId)) };
+  });
   const full = detailById.get(survivor.id);
   full.name = stripPackaging(full.name);
   full.variants = fullVariants;
