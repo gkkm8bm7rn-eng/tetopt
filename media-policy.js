@@ -1,10 +1,13 @@
-const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,complex:6}};
+const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,complex:6,computer:4}};
 
 function mediaSourceId(path=''){
   return String(path).match(/assets\/products\/(\d+)\//)?.[1]||'';
 }
 
 function mediaComplexity(product,variant){
+  // Computer chairs always keep the complete source-isolated gallery: the rear,
+  // mechanism and base views are purchase-critical even when the model is low-cost.
+  if(isComputerChair(product))return'computer';
   const text=`${product.category||''} ${product.name||''}`.toLocaleLowerCase('ru-RU');
   if(/диван|кровать|шкаф|витрин|комод|гарнитур|комплект|остров|библиотек/.test(text)||variant.wholesalePrice>=30000)return'complex';
   if(/стул|кресло|вешалк|табурет|пуф|декор|подставк|стакан|тарелк/.test(text)&&variant.wholesalePrice<15000)return'simple';
