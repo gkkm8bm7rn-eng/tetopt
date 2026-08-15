@@ -14,7 +14,7 @@ function sleepingSize(product,variant){
 const plural=(n,a,b,c)=>n%100>=11&&n%100<=14?c:n%10===1?a:n%10>=2&&n%10<=4?b:c,escapeHtml=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),escapeAttr=escapeHtml;
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
 
-const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',OUTDOOR_FURNITURE_CATEGORY='Уличная мебель: садовая, дачная, для террас и кафе',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе';
+const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',RATTAN_CATEGORY='Ротанг',OUTDOOR_FURNITURE_CATEGORY='Уличная мебель: садовая, дачная, для террас и кафе',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе кованая мебель ковка',RATTAN_TERMS='ротанг мебель из ротанга';
 const CONSTRUCTION_MARKERS=[
   {key:'swivel-360',label:'поворотная опора 360°',pattern:/опора\s*360(?:\s*°)?/i},
   {key:'swivel',label:'поворотная основа',pattern:/(?:поворотн|вращающ)[а-яё]*/i},
@@ -27,13 +27,11 @@ const CONSTRUCTION_MARKERS=[
 function constructionDescriptor(product){const text=[product.name,...(product.variants||[]).map(v=>`${v.specs||''} ${v.label||''}`)].join(' ').toLocaleLowerCase('ru-RU'),markers=CONSTRUCTION_MARKERS.filter(marker=>marker.pattern.test(text));return{key:markers.map(marker=>marker.key).join('|')||'standard',label:markers.map(marker=>marker.label).join(' · ')}}
 const isComputerChair=product=>/^кресла\s+tetchair(?:\s|$)/i.test(product.collection||'');
 function outdoorCatalogText(product){return[product.name,product.category,product.collection,product.searchText,...(product.variants||[]).flatMap(variant=>[variant.label,variant.specs])].filter(Boolean).join(' ')}
-function isOutdoorFurniture(product){
-  const text=outdoorCatalogText(product);
-  return product.category==='Ротанг'||/(?:^|[^а-яё])ротанг[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^а-яё])ковк[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^а-яё])пластик[а-яё]*(?:$|[^а-яё])/iu.test(text)||/(?:^|[^a-z])plastic(?:$|[^a-z])/i.test(text);
-}
+function isRattanFurniture(product){const text=outdoorCatalogText(product);return product.category===RATTAN_CATEGORY||/(?:^|[^а-яё])ротанг[а-яё]*(?:$|[^а-яё])/iu.test(text)}
+function isForgedOutdoorFurniture(product){const text=outdoorCatalogText(product);return/(?:^|[^а-яё])ковк[а-яё]*(?:$|[^а-яё])/iu.test(text)}
 function enrichCatalogProduct(product){
-  const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',outdoor=isOutdoorFurniture(product),category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:outdoor?OUTDOOR_FURNITURE_CATEGORY:product.category,construction=constructionDescriptor(product);
-  const searchTerms=[computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'',outdoor?OUTDOOR_FURNITURE_TERMS:''].filter(Boolean).join(' ');
+  const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',rattan=isRattanFurniture(product),outdoor=isForgedOutdoorFurniture(product),category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:rattan?RATTAN_CATEGORY:outdoor?OUTDOOR_FURNITURE_CATEGORY:product.category,construction=constructionDescriptor(product);
+  const searchTerms=[computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'',rattan?RATTAN_TERMS:'',outdoor?OUTDOOR_FURNITURE_TERMS:''].filter(Boolean).join(' ');
   return {...product,category,constructionKey:construction.key,kindLabel:computerChair?COMPUTER_CHAIR_LABEL:'',searchTerms};
 }
 function normalizeCatalogProducts(products){
@@ -44,7 +42,7 @@ function normalizeCatalogProducts(products){
 }
 async function init(){try{const r=await fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'});if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();state.products=normalizeCatalogProducts(d.products);window.auditVariantPresentation?.(state.products);restoreSharedState();renderCategories();applyFilters();updateCounters();renderRecent();$('#searchForm')?.addEventListener('submit',submitSearch);const q=hashParams();if(q.get('product'))await openProduct(q.get('product'),q.get('variant'));if(q.get('view')==='cart'&&Object.keys(state.cart).length){renderCart();els.cartDialog.showModal();document.body.style.overflow='hidden'}}catch(e){console.error('[catalog-index]',e);els.count.hidden=false;els.count.textContent='Каталог временно недоступен';els.empty.hidden=false}}
 function restoreSharedState(){const q=hashParams();if(q.get('favorites')){state.favorites=q.get('favorites').split('~').filter(id=>state.products.some(p=>p.id===id));storage.write('forma:favorites',state.favorites);state.view='favorites'}if(q.get('cart')){const cart={};q.get('cart').split('~').forEach(x=>{const[id,qty]=x.split('.');if(/^\d+$/.test(id))cart[id]=Math.max(1,Number(qty)||1)});if(Object.keys(cart).length){state.cart=cart;storage.write('forma:cart',cart)}}}
-const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны',OUTDOOR_FURNITURE_CATEGORY,'Хранение',BEDROOM_CATEGORY,'Комплекты','Декор','Вешалки','Комплектующие','Другое'];
+const CATEGORY_PRIORITY=[COMPUTER_CHAIR_CATEGORY,'Кресла и стулья','Столы','Диваны',OUTDOOR_FURNITURE_CATEGORY,RATTAN_CATEGORY,'Хранение',BEDROOM_CATEGORY,'Комплекты','Декор','Вешалки','Комплектующие','Другое'];
 function renderCategories(){const counts=new Map;state.products.forEach(p=>counts.set(p.category,(counts.get(p.category)||0)+1));const ordered=[...counts.keys()].sort((a,b)=>{const ai=CATEGORY_PRIORITY.indexOf(a),bi=CATEGORY_PRIORITY.indexOf(b);return(ai<0?999:ai)-(bi<0?999:bi)});els.categories.innerHTML=['Все',...ordered].map(c=>`<button class="category-chip ${c===state.category?'active':''}" data-category="${escapeAttr(c)}">${escapeHtml(c)}${c==='Все'?'':` <span>${counts.get(c)}</span>`}</button>`).join('')}
 const RU_KEYS='йцукенгшщзхъфывапролджэячсмитьбю.',EN_KEYS="qwertyuiop[]asdfghjkl;'zxcvbnm,./";
 function normalizeSearch(value=''){return String(value).toLocaleLowerCase('ru-RU').replace(/ё/g,'е').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zа-я0-9]+/giu,' ').trim()}
