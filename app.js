@@ -2,7 +2,7 @@ const DATA_BASE='./data/',ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/',
 const storage={read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}},write(k,v){localStorage.setItem(k,JSON.stringify(v))}};
 const state={products:[],filtered:[],category:'Все',search:'',sort:'featured',page:1,min:'',max:'',multi:false,view:'catalog',favorites:storage.read('forma:favorites',[]),cart:storage.read('forma:cart',{}),recent:storage.read('forma:recent',[]),detailCache:new Map()};
 const $=(s,r=document)=>r.querySelector(s),els={grid:$('#productGrid'),count:$('#resultCount'),categories:$('#categoryRow'),pages:$('#pagination'),empty:$('#emptyState'),detail:$('#productDetail'),productDialog:$('#productDialog'),cartDialog:$('#cartDialog'),cartItems:$('#cartItems'),cartFooter:$('#cartFooter'),toast:$('#toast'),shareFavorites:$('#shareFavorites')};
-const stripPackaging=(n='')=>String(n).replace(/[(/]\s*\d+\s*шт\.?\s*в\s*упаковке\s*\)?/gi,' ').replace(/\s+/g,' ').trim();
+const stripPackaging=(n='')=>String(n).replace(/(?:\s*[\[(/-]?\s*)\d+\s*(?:шт\.?|штук)\s*(?:в\s*)?(?:упаковк[а-яёa-z]*|уп\.?)(?:\s*[\])/-])?/giu,' ').replace(/\s+/g,' ').trim();
 const money=v=>new Intl.NumberFormat('ru-RU').format(Number(v)||0)+' ₽',imageUrl=p=>!p?'':/^https?:/.test(p)?p:ASSET_BASE+String(p).replace(/^\//,''),stripModel=(n='')=>stripPackaging(n).replace(/\s*\(мод\.[^)]+\)\s*/gi,' ').replace(/\s+/g,' ').trim();
 const currentVariant=(p,id)=>p.variants.find(v=>String(v.sourceId)===String(id))||p.variants[0],minPrice=p=>Math.min(...p.variants.map(v=>Number(v.wholesalePrice)||Infinity));
 const variantLabel=v=>v.label||(v.specs||'').split(',').map(s=>s.trim()).filter(Boolean).slice(-2).join(' · ')||`Вариант ${v.sourceId}`;
@@ -15,7 +15,6 @@ const plural=(n,a,b,c)=>n%100>=11&&n%100<=14?c:n%10===1?a:n%10>=2&&n%10<=4?b:c,e
 function colorFor(t=''){const c=[['бел','#f4f1e8'],['черн','#242424'],['сер','#9a9a96'],['беж','#d8c4a7'],['корич','#76513d'],['орех','#8a5a3c'],['натурал','#c49a69'],['золот','#c4a45d'],['зел','#657762'],['син','#526879'],['голуб','#88a9b8'],['красн','#9a473d'],['роз','#c89aa0'],['оранж','#c97943'],['желт','#d2b950'],['хром','#b8bdc0']];return c.find(([k])=>t.toLowerCase().includes(k))?.[1]||'#d8d4ca'} const hardVariant=(t='')=>/металл|дерев|мрамор|хром|каркас|основан|ножк|пластик/i.test(t)&&!/ткан|велюр|экокож|кож|букле|рогож/i.test(t);
 const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];
 
-const hasPackagingNote=name=>/\d+\s*шт\.?\s*в\s*упаковке/i.test(name||'');
 const COMPUTER_CHAIR_CATEGORY='Компьютерные кресла',COMPUTER_CHAIR_LABEL='Компьютерное кресло',BEDROOM_CATEGORY='Кровати и мебель для спальни',OUTDOOR_FURNITURE_CATEGORY='Уличная мебель: садовая, дачная, для террас и кафе',OUTDOOR_FURNITURE_TERMS='уличная мебель садовая мебель дачная мебель мебель для террас мебель для кафе';
 const CONSTRUCTION_MARKERS=[
   {key:'swivel-360',label:'поворотная опора 360°',pattern:/опора\s*360(?:\s*°)?/i},
@@ -36,50 +35,13 @@ function isOutdoorFurniture(product){
 function enrichCatalogProduct(product){
   const computerChair=isComputerChair(product),bedroom=product.category==='Спальня',outdoor=isOutdoorFurniture(product),category=computerChair?COMPUTER_CHAIR_CATEGORY:bedroom?BEDROOM_CATEGORY:outdoor?OUTDOOR_FURNITURE_CATEGORY:product.category,construction=constructionDescriptor(product);
   const searchTerms=[computerChair?'компьютерное кресло компьютерные кресла офисное кресло офисные кресла':'',outdoor?OUTDOOR_FURNITURE_TERMS:''].filter(Boolean).join(' ');
-  return {...product,category,constructionKey:construction.key,kindLabel:computerChair?COMPUTER_CHAIR_LABEL:'',searchText:[product.searchText,product.name,category,product.collection,searchTerms].filter(Boolean).join(' ')};
+  return {...product,category,constructionKey:construction.key,kindLabel:computerChair?COMPUTER_CHAIR_LABEL:'',searchTerms};
 }
-function packagingDuplicateKey(name=''){return stripPackaging(name).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
-function familyNameKey(name=''){return stripModel(name).toLocaleLowerCase('ru-RU').replace(/\s+/g,' ').trim()}
-function commercialProductKey(product){return`${familyNameKey(product.name)}::${constructionDescriptor(product).key}`}
-function variantDuplicateKey(variant){
-  const text=stripPackaging(variant.specs||variant.label||'').toLocaleLowerCase('ru-RU');
-  const hlr=text.match(/hlr\s*\d+/i)?.[0]?.replace(/\s/g,'');
-  if(hlr)return hlr;
-  return text
-    .replace(/(?:^|[\s,;/(])(?:[a-z]{1,5}(?:[-\s][a-z]{1,5})?[-\s]?\d+[a-z0-9-]*|\d{3,})(?=$|[\s,;)/])/gi,' ')
-    .replace(/[(),;·/]+/g,' ')
-    .replace(/(^|\s)([а-яё-]+)(?:\s+\2)(?=\s|$)/giu,'$1$2')
-    .replace(/\s+/g,' ').trim();
-}
-function cheapestVariants(variants,keyFor=variantDuplicateKey){const winners=new Map;variants.forEach(variant=>{const key=keyFor(variant),current=winners.get(key);if(!current||Number(variant.wholesalePrice)<Number(current.wholesalePrice))winners.set(key,variant)});return[...winners.values()]}
 function normalizeCatalogProducts(products){
-  const constructionFamilies=new Map;
-  products.forEach(product=>{const key=familyNameKey(product.name);if(!constructionFamilies.has(key))constructionFamilies.set(key,new Set);constructionFamilies.get(key).add(constructionDescriptor(product).key)});
-  const hasConstructionAlternative=product=>constructionFamilies.get(familyNameKey(product.name)).size>1;
-  const commercialGroups=new Map;
-  products.forEach((product,index)=>{
-    const key=commercialProductKey(product);
-    if(!commercialGroups.has(key))commercialGroups.set(key,[]);
-    commercialGroups.get(key).push({...product,_sourceIndex:index});
+  return products.map((product,index)=>{
+    const variants=product.variants||[];
+    return enrichCatalogProduct({...product,name:stripPackaging(product.name),variants,variantCount:variants.length,_index:index,_selected:variants[0]?.sourceId});
   });
-  const expanded=[];
-  commercialGroups.forEach(group=>{
-    if(group.length<2||!group.some(item=>hasPackagingNote(item.name))){expanded.push(...group);return}
-    const base=[...group].sort((a,b)=>minPrice(a)-minPrice(b)||a._sourceIndex-b._sourceIndex)[0];
-    const variants=new Map;
-    group.flatMap(item=>item.variants).forEach(variant=>{
-      const key=variantDuplicateKey(variant),current=variants.get(key);
-      if(!current||Number(variant.wholesalePrice)<Number(current.wholesalePrice))variants.set(key,variant);
-    });
-    expanded.push({...base,name:stripModel(base.name),variants:[...variants.values()],variantCount:variants.size,searchText:group.map(x=>x.searchText).join(' '),_mergedProductIds:group.map(x=>x.id),_sourceIndex:Math.min(...group.map(x=>x._sourceIndex))});
-  });
-  const winners=new Map;
-  expanded.forEach(product=>{
-    const variants=cheapestVariants(product.variants),construction=constructionDescriptor(product),name=stripPackaging(product.name)+(hasConstructionAlternative(product)&&construction.label?` — ${construction.label}`:''),candidate=enrichCatalogProduct({...product,name,variants,variantCount:variants.length,_index:product._sourceIndex,_selected:variants[0].sourceId});
-    const key=`${packagingDuplicateKey(product.name)}::${candidate.constructionKey}`,current=winners.get(key);
-    if(!current||minPrice(candidate)<minPrice(current))winners.set(key,candidate);
-  });
-  return[...winners.values()].sort((a,b)=>a._index-b._index);
 }
 async function init(){try{const r=await fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'});if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();state.products=normalizeCatalogProducts(d.products);restoreSharedState();renderCategories();applyFilters();updateCounters();renderRecent();$('#searchForm')?.addEventListener('submit',submitSearch);const q=hashParams();if(q.get('product'))await openProduct(q.get('product'),q.get('variant'))}catch(e){console.error('[catalog-index]',e);els.count.hidden=false;els.count.textContent='Каталог временно недоступен';els.empty.hidden=false}}
 function restoreSharedState(){const q=hashParams();if(q.get('favorites')){state.favorites=q.get('favorites').split('~').filter(id=>state.products.some(p=>p.id===id));storage.write('forma:favorites',state.favorites);state.view='favorites'}if(q.get('cart')){const cart={};q.get('cart').split('~').forEach(x=>{const[id,qty]=x.split('.');if(/^\d+$/.test(id))cart[id]=Math.max(1,Number(qty)||1)});if(Object.keys(cart).length){state.cart=cart;storage.write('forma:cart',cart)}}}
@@ -97,7 +59,7 @@ function renderCatalog(){const list=state.filtered.slice((state.page-1)*PAGE_SIZ
 function cardTemplate(p){const v=currentVariant(p,p._selected);return `<article class="product-card"><div class="product-visual" data-open="${escapeAttr(p.id)}" tabindex="0" role="button" aria-label="Открыть ${escapeAttr(p.name)}"><img src="${escapeAttr(imageUrl(v.primaryImage))}" alt="${escapeAttr(stripModel(p.name))}" loading="lazy" onerror="this.remove()"><button class="favorite ${state.favorites.includes(p.id)?'active':''}" data-favorite="${escapeAttr(p.id)}"> ${state.favorites.includes(p.id)?'♥':'♡'}</button>${p.variants.length>1?`<span class="variant-badge">${p.variants.length} ${plural(p.variants.length,'вариант','варианта','вариантов')}</span>`:''}</div><div class="product-info"><h3 class="product-name">${escapeHtml(stripModel(p.name))}</h3><p class="product-meta">${escapeHtml(variantLabel(v))}</p>${p.variants.length>1?`<div class="card-variants">${p.variants.slice(0,8).map(x=>`<button class="card-swatch ${String(x.sourceId)===String(v.sourceId)?'active':''} ${hardVariant(x.specs)?'hard':''}" style="--swatch:${colorFor(variantLabel(x))}" data-card-variant="${x.sourceId}" data-product="${escapeAttr(p.id)}" title="${escapeAttr(variantLabel(x))}"></button>`).join('')}</div>`:''}<div class="product-bottom"><span class="price-stack"><strong class="product-price">${money(v.wholesalePrice)}</strong>${Number(v.retailPrice)>Number(v.wholesalePrice)?`<del>${money(v.retailPrice)}</del>`:''}</span><button class="quick-add" data-add="${escapeAttr(p.id)}" data-source="${v.sourceId}">В корзину</button></div></div></article>`}
 function renderPagination(){const total=Math.ceil(state.filtered.length/PAGE_SIZE);if(total<=1){els.pages.innerHTML='';return}const pages=[];for(let i=1;i<=total;i++)if(i===1||i===total||Math.abs(i-state.page)<=1)pages.push(i);let prev=0;const pageButtons=pages.map(i=>`${i-prev>1?'<span class="pagination-gap" aria-hidden="true">…</span>':''}<button class="page-button ${i===state.page?'active':''}" data-page="${i}"${i===state.page?' aria-current="page"':''}>${i}</button>${(prev=i)&&''}`).join('');const previous=state.page>1?`data-page="${state.page-1}"`:"disabled";const next=state.page<total?`data-page="${state.page+1}"`:"disabled";els.pages.innerHTML=`<button class="page-button page-arrow" ${previous} aria-label="Предыдущая страница"><span aria-hidden="true">‹</span></button>${pageButtons}<button class="page-button page-arrow" ${next} aria-label="Следующая страница"><span aria-hidden="true">›</span></button>`}
 
-async function getFullProduct(p){if(state.detailCache.has(p.id))return{...state.detailCache.get(p.id),name:p.name,constructionKey:p.constructionKey};const r=await fetch(DATA_BASE+p.detailShard);if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();Object.values(d.products).forEach(x=>state.detailCache.set(x.id,enrichCatalogProduct(x)));if(p._mergedProductIds?.length){const fullVariants=p._mergedProductIds.flatMap(id=>state.detailCache.get(id)?.variants||[]),wanted=new Set(p.variants.map(v=>String(v.sourceId))),merged={...p,variants:fullVariants.filter(v=>wanted.has(String(v.sourceId)))};state.detailCache.set(p.id,merged);return merged}const full=state.detailCache.get(p.id)||p;return{...full,name:p.name,constructionKey:p.constructionKey}}
+async function getFullProduct(p){if(state.detailCache.has(p.id))return{...state.detailCache.get(p.id),name:p.name,constructionKey:p.constructionKey};const r=await fetch(DATA_BASE+p.detailShard);if(!r.ok)throw Error(`HTTP ${r.status}`);const d=await r.json();Object.values(d.products).forEach(x=>state.detailCache.set(x.id,enrichCatalogProduct(x)));const full=state.detailCache.get(p.id)||p;return{...full,name:p.name,constructionKey:p.constructionKey}}
 async function openProduct(id,sourceId){const s=state.products.find(p=>p.id===id);if(!s)return;if(!state.recent.includes(id)){state.recent.unshift(id);state.recent=state.recent.slice(0,8);storage.write('forma:recent',state.recent)}els.detail.innerHTML='<div class="detail-loading">Загружаем фотографии…</div>';els.productDialog.showModal();document.body.style.overflow='hidden';try{const p=await getFullProduct(s);p._selected=sourceId||s._selected;els.detail.innerHTML=detailTemplate(p,currentVariant(p,p._selected));renderRecent()}catch{els.detail.innerHTML='<div class="detail-loading">Не удалось загрузить карточку.</div>'}}
 function detailTemplate(p,v){const images=(v.images?.length?v.images:[v.primaryImage]).filter(Boolean);return `<article class="detail" data-detail-id="${escapeAttr(p.id)}"><div class="gallery"><img class="gallery-main" id="galleryMain" src="${escapeAttr(imageUrl(images[0]))}" alt="${escapeAttr(stripModel(p.name))}"><div class="thumbnails">${images.map((src,i)=>`<button class="thumbnail ${i===0?'active':''}" data-image="${escapeAttr(imageUrl(src))}"><img src="${escapeAttr(imageUrl(src))}" alt="Фото ${i+1}"></button>`).join('')}</div></div><div class="detail-copy"><p class="eyebrow">${escapeHtml(p.category)}</p><h2>${escapeHtml(stripModel(p.name))}</h2><div class="detail-prices"><strong class="detail-price">${money(v.wholesalePrice)}</strong>${Number(v.retailPrice)>Number(v.wholesalePrice)?`<span>Розничная цена <del>${money(v.retailPrice)}</del></span>`:''}</div>${p.variants.length>1?`<div class="variant-section"><div class="variant-label"><strong>Доступные варианты</strong><span>${p.variants.length}</span></div><div class="variant-options">${p.variants.map(x=>`<button class="variant-option ${hardVariant(x.specs)?'hard':''} ${String(x.sourceId)===String(v.sourceId)?'active':''}" data-variant="${x.sourceId}"><span class="swatch" style="background:${colorFor(variantLabel(x))}"></span>${escapeHtml(variantLabel(x))}</button>`).join('')}</div></div>`:''}<div class="variant-section"><div class="variant-label"><strong>Характеристики и размеры</strong><span>арт. ${v.sourceId}</span></div><p class="specs">${escapeHtml(v.specs||'Характеристики уточняются')}</p></div><div class="detail-actions"><button class="primary-button" data-add="${escapeAttr(p.id)}" data-source="${v.sourceId}">Добавить в корзину</button><button class="share-button" data-share-product="${escapeAttr(p.id)}" data-source="${v.sourceId}">Поделиться</button></div></div></article>`}
 async function selectVariant(id,sourceId){const s=state.products.find(p=>p.id===id);s._selected=sourceId;const p=await getFullProduct(s);p._selected=sourceId;els.detail.innerHTML=detailTemplate(p,currentVariant(p,sourceId))}
