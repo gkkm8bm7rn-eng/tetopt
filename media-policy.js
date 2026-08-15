@@ -1,4 +1,4 @@
-const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,complex:6,computer:4}};
+const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,computer:4}};
 
 function mediaSourceId(path=''){
   return String(path).match(/assets\/products\/(\d+)\//)?.[1]||'';
@@ -30,5 +30,9 @@ function curateGallery(product,variant){
   const isolated=own.length?own:all;
   const unique=[...new Set(isolated)];
   unique.sort((a,b)=>mediaRank(a,variant.primaryImage)-mediaRank(b,variant.primaryImage));
-  return unique.slice(0,MEDIA_POLICY.limits[mediaComplexity(product,variant)]);
+  const complexity=mediaComplexity(product,variant);
+  // Technical drawings in a complex product's source folder must never be
+  // cut off by a gallery limit. Current source folders contain 2–4 images,
+  // so this keeps the site light while preserving every available detail.
+  return complexity==='complex'?unique:unique.slice(0,MEDIA_POLICY.limits[complexity]);
 }
