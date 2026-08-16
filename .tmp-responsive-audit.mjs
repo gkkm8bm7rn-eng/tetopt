@@ -1,3 +1,4 @@
+// Final responsive audit after narrow-card action fix.
 import { chromium } from 'playwright';
 
 const viewports=[
@@ -50,4 +51,4 @@ for(const [name,width,height] of viewports){
 }
 await browser.close();
 if(failures.length){console.error('\nAUDIT FAILURES\n'+failures.join('\n'));process.exit(1)}
-console.log(`Responsive interaction audit passed for ${viewports.length} viewport profiles after mobile overflow fix.`);
+console.log(`Responsive interaction audit passed for ${viewports.length} viewport profiles after narrow-card action fix.`);
