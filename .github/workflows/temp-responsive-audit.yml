@@ -1,0 +1,67 @@
+name: Temporary Atelier responsive audit
+on:
+  push:
+    branches: [forma-atelier-zero-2026]
+    paths:
+      - '.tmp-responsive-audit.mjs'
+      - '.github/workflows/temp-responsive-audit.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install playwright@1.55.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium
+      - name: Start static server
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          sleep 2
+      - name: Responsive interaction audit
+        run: node .tmp-responsive-audit.mjs
+      - name: Verify Atelier wholesale prices match main by sourceId
+        run: |
+          git fetch origin main
+          python3 - <<'PY'
+          import json,re,subprocess,glob
+          main=subprocess.check_output(['git','show','origin/main:catalog-source.html'],text=True,errors='ignore')
+          # Capture sourceId near wholesalePrice in product objects.
+          pairs={}
+          for m in re.finditer(r'"sourceId"\s*:\s*"?(\d+)"?[\s\S]{0,1200}?"wholesalePrice"\s*:\s*(\d+(?:\.\d+)?)',main):
+              pairs[m.group(1)]=float(m.group(2))
+          if not pairs:
+              raise SystemExit('Could not parse main wholesale prices')
+          mismatches=[]; checked=0
+          for path in ['data/catalog-index.json',*glob.glob('data/details/*.json')]:
+              data=json.load(open(path,encoding='utf-8'))
+              products=data.get('products',{})
+              if isinstance(products,list): iterable=products
+              else: iterable=products.values()
+              for p in iterable:
+                  for v in p.get('variants',[]):
+                      sid=str(v.get('sourceId',''))
+                      if sid in pairs:
+                          checked+=1
+                          got=float(v.get('wholesalePrice') or 0)
+                          if abs(got-pairs[sid])>0.001:mismatches.append((sid,got,pairs[sid],path))
+          print('checked sourceId price matches:',checked)
+          if mismatches:
+              print('mismatches:',mismatches[:30])
+              raise SystemExit(f'{len(mismatches)} wholesale price mismatches')
+          PY
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-audit-screenshots
+          path: audit-*.png
