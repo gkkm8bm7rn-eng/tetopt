@@ -1,0 +1,35 @@
+name: Temporary optimize Atelier favorite toggle
+
+on:
+  push:
+    branches: [forma-atelier-zero-2026]
+    paths:
+      - '.tmp-optimize-favorite-toggle.py'
+      - '.github/workflows/temp-optimize-favorite-toggle.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+          fetch-depth: 0
+      - name: Optimize favorite toggle
+        run: python .tmp-optimize-favorite-toggle.py
+      - name: Validate
+        run: |
+          node --check app.js
+          grep -q "function syncFavoriteButtons" app.js
+          grep -q "if(state.view==='favorites')applyFilters();renderRecent();syncFavoriteButtons" app.js
+          grep -q "toggleFavorite(b.dataset.favorite);return}if(b.dataset.open)" app.js
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js
+          git commit -m "Optimize Atelier favorite toggle without catalog rerender"
+          git push origin HEAD:forma-atelier-zero-2026
