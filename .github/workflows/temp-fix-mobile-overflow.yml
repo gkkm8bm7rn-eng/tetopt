@@ -1,0 +1,31 @@
+name: Temporary Atelier mobile overflow fix
+on:
+  push:
+    branches: [forma-atelier-zero-2026]
+    paths:
+      - '.tmp-fix-mobile-overflow.py'
+      - '.github/workflows/temp-fix-mobile-overflow.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+          fetch-depth: 0
+      - name: Apply fix
+        run: python .tmp-fix-mobile-overflow.py
+      - name: Validate
+        run: |
+          grep -q '.category-row{margin-inline:0;padding-inline:0}' card-polish.css
+          node --check app.js
+          node --check variants.js
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add card-polish.css
+          git commit -m "Fix mobile category row overflow"
+          git push origin HEAD:forma-atelier-zero-2026
