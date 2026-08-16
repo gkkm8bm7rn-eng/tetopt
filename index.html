@@ -17,9 +17,7 @@
     .site-header .favorites-button,.site-header .cart-button{position:relative;display:grid;width:46px;min-width:46px;height:46px;min-height:46px;padding:0;place-items:center;border:1px solid #d7dfd3!important;border-radius:14px!important;background:#fff!important;color:#435d41!important;box-shadow:0 6px 18px rgba(49,77,50,.08)}
     .site-header .favorites-button:hover,.site-header .cart-button:hover{background:#eff4ed!important;border-color:#b8c9b3!important}
     .site-header .action-icon{display:grid;width:25px;height:25px;place-items:center;font-family:Arial,sans-serif;font-size:30px;font-weight:700;line-height:1;-webkit-text-stroke:1px currentColor}
-    .site-header .cart-icon{position:relative;width:24px;height:25px;font-size:0;-webkit-text-stroke:0}
-    .site-header .cart-icon::before{position:absolute;top:7px;left:2px;width:17px;height:14px;border:2px solid currentColor;border-radius:3px 3px 5px 5px;content:""}
-    .site-header .cart-icon::after{position:absolute;top:2px;left:6px;width:9px;height:7px;border:2px solid currentColor;border-bottom:0;border-radius:6px 6px 0 0;box-shadow:none;content:""}
+    .site-header .cart-trolley{display:block;width:29px;height:29px;color:#20201d;overflow:visible}
     .site-header .action-count{top:-5px;right:-5px;min-width:19px;height:19px;border:2px solid #f7f5f0!important;background:#435d41!important;color:#fff!important;font-size:10px;box-shadow:none}
     .hero-content{background:linear-gradient(118deg,#ebe7d8 0%,#d9dbc9 53%,#b9c9b0 100%)}
     .hero-content::before{right:-335px;bottom:-335px}
@@ -57,7 +55,7 @@
     <a class="brand-lockup" href="#top" aria-label="FORMA HOME / ФОРМА ХОУМ, на главную"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a>
     <nav class="header-actions" aria-label="Основная навигация">
       <button class="favorites-button" id="favoritesButton" type="button" aria-label="Избранное: 0 товаров"><span class="action-icon" aria-hidden="true">♥</span><span class="sr-only">Избранное</span><span class="action-count" id="favoritesCount">0</span></button>
-      <button class="cart-button" id="cartButton" type="button" aria-label="Корзина: 0 товаров"><span class="action-icon cart-icon" aria-hidden="true"></span><span class="sr-only">Корзина</span><span class="action-count" id="cartCount">0</span></button>
+      <button class="cart-button" id="cartButton" type="button" aria-label="Корзина: 0 товаров"><svg class="cart-trolley" aria-hidden="true" viewBox="0 0 32 32" fill="none"><path d="M3.5 5.5h3.2l2.7 13.1a2 2 0 0 0 2 1.6h11.7a2 2 0 0 0 1.9-1.4l2.2-8.1H8.1" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 24.6h12.7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12.2" cy="27" r="1.8" fill="currentColor"/><circle cx="23" cy="27" r="1.8" fill="currentColor"/></svg><span class="sr-only">Корзина</span><span class="action-count" id="cartCount">0</span></button>
     </nav>
   </header>
 
