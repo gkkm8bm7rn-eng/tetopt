@@ -13,7 +13,14 @@ for(const [name,width,height] of viewports){
   await page.goto('http://127.0.0.1:8000/',{waitUntil:'networkidle'});
   await page.waitForSelector('.product-card',{timeout:20000});
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
-  if(overflow>2)failures.push(`${name}: horizontal overflow ${overflow}px`);
+  if(overflow>2){
+    failures.push(`${name}: horizontal overflow ${overflow}px`);
+    const offenders=await page.evaluate(()=>{
+      const vw=document.documentElement.clientWidth;
+      return [...document.querySelectorAll('body *')].map(el=>{const r=el.getBoundingClientRect();return {tag:el.tagName.toLowerCase(),cls:el.className?.toString().slice(0,120)||'',id:el.id||'',left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),overflowRight:Math.round(r.right-vw),overflowLeft:Math.round(-r.left)}}).filter(x=>x.overflowRight>2||x.overflowLeft>2).sort((a,b)=>Math.max(b.overflowRight,b.overflowLeft)-Math.max(a.overflowRight,a.overflowLeft)).slice(0,12);
+    });
+    console.log(`OVERFLOW ${name} viewport=${width}:`,JSON.stringify(offenders));
+  }
   const cards=await page.locator('.product-card').count();
   if(cards<1)failures.push(`${name}: no product cards`);
   const fav=page.locator('.product-card button[data-favorite]').first();
