@@ -1,0 +1,125 @@
+name: Temporary Atelier wholesale-price sync
+
+on:
+  push:
+    branches:
+      - forma-atelier-zero-2026
+    paths:
+      - '.github/workflows/temp-atelier-wholesale-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wholesale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Atelier branch
+        uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+          fetch-depth: 0
+
+      - name: Sync wholesale prices from corrected main source IDs
+        run: |
+          python - <<'PY'
+          import copy, json, re, urllib.request
+          from pathlib import Path
+
+          root=Path('.')
+          source_url='https://raw.githubusercontent.com/gkkm8bm7rn-eng/tetopt/main/catalog-source.html'
+          text=urllib.request.urlopen(source_url, timeout=30).read().decode('utf-8')
+          token='const PRODUCTS = '
+          start=text.index(token)+len(token)
+          main_products,_=json.JSONDecoder().raw_decode(text[start:])
+          price_by_id={int(p['id']):int(p.get('wholesalePrice') or 0) for p in main_products}
+
+          files=[root/'data/catalog-index.json', *sorted((root/'data/details').glob('*.json'))]
+          before_non_wholesale={}
+          before_retail={}
+          changes=[]
+          seen=set()
+
+          def strip_wholesale(obj):
+              if isinstance(obj,dict):
+                  return {k:strip_wholesale(v) for k,v in obj.items() if k!='wholesalePrice'}
+              if isinstance(obj,list): return [strip_wholesale(v) for v in obj]
+              return obj
+
+          for path in files:
+              data=json.loads(path.read_text(encoding='utf-8'))
+              before_non_wholesale[str(path)]=strip_wholesale(copy.deepcopy(data))
+              retail=[]
+              def walk(obj):
+                  if isinstance(obj,dict):
+                      if 'sourceId' in obj and 'wholesalePrice' in obj:
+                          sid=int(obj['sourceId'])
+                          retail.append((sid,obj.get('retailPrice')))
+                          if sid in price_by_id:
+                              seen.add(sid)
+                              new=price_by_id[sid]
+                              old=int(obj.get('wholesalePrice') or 0)
+                              if old!=new:
+                                  changes.append((str(path),sid,old,new))
+                                  obj['wholesalePrice']=new
+                      for v in obj.values(): walk(v)
+                  elif isinstance(obj,list):
+                      for v in obj: walk(v)
+              walk(data)
+              before_retail[str(path)]=retail
+              path.write_text(json.dumps(data,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+
+          # Verify only wholesalePrice changed and retail stayed identical.
+          for path in files:
+              data=json.loads(path.read_text(encoding='utf-8'))
+              assert strip_wholesale(data)==before_non_wholesale[str(path)], f'Non-wholesale data changed in {path}'
+              retail=[]
+              def collect(obj):
+                  if isinstance(obj,dict):
+                      if 'sourceId' in obj and 'wholesalePrice' in obj: retail.append((int(obj['sourceId']),obj.get('retailPrice')))
+                      for v in obj.values(): collect(v)
+                  elif isinstance(obj,list):
+                      for v in obj: collect(v)
+              collect(data)
+              assert retail==before_retail[str(path)], f'Retail changed in {path}'
+
+          # Cross-check every Atelier sourceId that exists in main against corrected price.
+          mismatches=[]
+          for path in files:
+              data=json.loads(path.read_text(encoding='utf-8'))
+              def verify(obj):
+                  if isinstance(obj,dict):
+                      if 'sourceId' in obj and 'wholesalePrice' in obj:
+                          sid=int(obj['sourceId'])
+                          if sid in price_by_id and int(obj['wholesalePrice'] or 0)!=price_by_id[sid]:
+                              mismatches.append((str(path),sid,obj['wholesalePrice'],price_by_id[sid]))
+                      for v in obj.values(): verify(v)
+                  elif isinstance(obj,list):
+                      for v in obj: verify(v)
+              verify(data)
+          assert not mismatches, mismatches[:20]
+
+          report={
+            'mainProducts':len(main_products),
+            'atelierSourceIdsMatched':len(seen),
+            'wholesaleOccurrencesChanged':len(changes),
+            'retailPricesUnchanged':True,
+            'onlyWholesaleFieldsChanged':True,
+            'changedFiles':sorted(set(p for p,_,_,_ in changes)),
+            'sampleChanges':[{'file':p,'sourceId':sid,'oldWholesale':old,'newWholesale':new} for p,sid,old,new in changes[:40]],
+          }
+          Path('atelier-price-sync-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+
+      - name: Commit corrected Atelier prices
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/catalog-index.json data/details/*.json atelier-price-sync-report.json
+          if git diff --cached --quiet; then
+            echo "No Atelier price changes needed"
+          else
+            git commit -m "Correct Atelier wholesale prices from approved main mapping"
+            git push origin HEAD:forma-atelier-zero-2026
+          fi
