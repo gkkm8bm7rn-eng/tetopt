@@ -1,0 +1,34 @@
+name: Temporary clean Atelier favorites
+on:
+  push:
+    branches: [forma-atelier-zero-2026]
+    paths:
+      - '.tmp-clean-favorites.py'
+      - '.github/workflows/temp-clean-favorites.yml'
+permissions:
+  contents: write
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+          fetch-depth: 0
+      - name: Apply cleanup
+        run: python .tmp-clean-favorites.py
+      - name: Validate
+        run: |
+          node --check app.js
+          grep -q "button.textContent=active?'♥':'♡'" app.js
+          grep -q "if(b.dataset.add){e.preventDefault();e.stopPropagation();addToCart" app.js
+          grep -q 'FORMA FAVORITES — single native control' card-polish.css
+          grep -q '>♥</span><span class="sr-only">Избранное' index.html
+          ! grep -q 'favorite-icon-image' app.js
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js index.html card-polish.css
+          git commit -m "Clean Atelier favorites to one native heart control"
+          git push origin HEAD:forma-atelier-zero-2026
