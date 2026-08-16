@@ -1,0 +1,7 @@
+from pathlib import Path
+p=Path('card-polish.css')
+s=p.read_text(encoding='utf-8')
+marker='/* FORMA SEARCH — white prominent field with magnifier */'
+block='''\n/* FORMA SEARCH — white prominent field with magnifier */\n.search-field{position:relative!important;min-height:52px!important;padding:0 16px 0 48px!important;border:1.5px solid #c9d7c6!important;border-radius:16px!important;background:#fff!important;box-shadow:0 7px 22px rgba(49,77,50,.10)!important;transition:border-color .18s ease,box-shadow .18s ease!important}\n.search-field::before{content:"";position:absolute;left:17px;top:50%;width:18px;height:18px;transform:translateY(-56%);border:2px solid #435d41;border-radius:50%;pointer-events:none}\n.search-field::after{content:"";position:absolute;left:31px;top:31px;width:8px;height:2px;transform:rotate(45deg);transform-origin:left center;border-radius:2px;background:#435d41;pointer-events:none}\n.search-field:focus-within{border-color:#435d41!important;box-shadow:0 0 0 3px rgba(67,93,65,.13),0 9px 26px rgba(49,77,50,.12)!important}\n.search-field input{height:50px!important;background:#fff!important;color:#20201d!important;font-size:15px!important}\n.search-field input::placeholder{color:#77766f!important;opacity:1}\n@media(max-width:760px){.search-field{min-height:50px!important;padding-left:46px!important}.search-field::before{left:16px}.search-field::after{left:30px;top:30px}}\n'''
+if marker not in s:
+    p.write_text(s.rstrip()+block+'\n',encoding='utf-8')
