@@ -1,0 +1,42 @@
+name: Temporary cart item navigation fix
+on:
+  push:
+    branches: [forma-atelier-zero-2026]
+    paths: ['.github/workflows/temp-cart-item-open.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: forma-atelier-zero-2026
+      - name: Patch cart item navigation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('app.js')
+          s=p.read_text(encoding='utf-8')
+          old='<article class="cart-item"><img src="${escapeAttr(imageUrl(v.primaryImage))}" alt=""><div><h3>${escapeHtml(stripModel(p.name))}</h3>'
+          new='<article class="cart-item" data-open="${escapeAttr(p.id)}" data-source="${v.sourceId}"><img src="${escapeAttr(imageUrl(v.primaryImage))}" alt=""><div><h3>${escapeHtml(stripModel(p.name))}</h3>'
+          if old not in s: raise SystemExit('cart item markup target not found')
+          s=s.replace(old,new,1)
+          old2='if(b.dataset.open)await openProduct(b.dataset.open);'
+          new2='if(b.dataset.open){if(els.cartDialog.open)closeDialog(els.cartDialog);await openProduct(b.dataset.open,b.dataset.source)}'
+          if old2 not in s: raise SystemExit('open handler target not found')
+          s=s.replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Validate syntax and patch
+        run: |
+          node --check app.js
+          grep -F 'class="cart-item" data-open=' app.js
+          grep -F 'if(els.cartDialog.open)closeDialog(els.cartDialog)' app.js
+      - name: Commit fix
+        run: |
+          git config user.name 'gkkm8bm7rn-eng'
+          git config user.email 'gkkm8bm7rn@privaterelay.appleid.com'
+          git add app.js
+          git commit -m 'Open products from cart items'
+          git push origin HEAD:forma-atelier-zero-2026
