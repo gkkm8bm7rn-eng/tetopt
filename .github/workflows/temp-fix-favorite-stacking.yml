@@ -3,7 +3,9 @@ name: Temporary fix Atelier favorite stacking
 on:
   push:
     branches: [forma-atelier-zero-2026]
-    paths: ['.github/workflows/temp-fix-favorite-stacking.yml']
+    paths:
+      - '.tmp-favorite-direct-render.py'
+      - '.github/workflows/temp-fix-favorite-stacking.yml'
 
 permissions:
   contents: write
@@ -16,109 +18,23 @@ jobs:
         with:
           ref: forma-atelier-zero-2026
           fetch-depth: 0
-      - name: Replace stacked favorite rendering with direct button backgrounds
+      - name: Apply direct favorite rendering
+        run: python .tmp-favorite-direct-render.py
+      - name: Validate
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          p=Path('card-polish.css')
-          css=p.read_text(encoding='utf-8')
-          marker='/* FORMA FAVORITE ICON SYSTEM — exact reference assets */'
-          assert marker in css
-          css=css.split(marker,1)[0].rstrip()+'\n'
-          component=r'''/* FORMA FAVORITE ICON SYSTEM — exact reference assets, direct rendering */
-:root{
-  --favorite-inactive-image:url("assets/ui/favorite-inactive.png");
-  --favorite-active-image:url("assets/ui/favorite-active.png");
-  --cart-trolley-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M7 11h8l6 30h28l7-21H20' fill='none' stroke='%2320201d' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M24 49h25' fill='none' stroke='%2320201d' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='27' cy='55' r='3.6' fill='%2320201d'/%3E%3Ccircle cx='48' cy='55' r='3.6' fill='%2320201d'/%3E%3C/svg%3E");
-}
-/* Favorite controls render the reference asset directly on the real button: no overlay pseudo-layer. */
-button[data-favorite]{
-  --favorite-image:var(--favorite-inactive-image);
-  position:relative!important;
-  width:58px!important;height:64px!important;min-width:58px!important;min-height:64px!important;
-  padding:0!important;border:0!important;border-radius:0!important;
-  background-color:transparent!important;
-  background-image:var(--favorite-image)!important;
-  background-repeat:no-repeat!important;
-  background-position:center!important;
-  background-size:54px auto!important;
-  box-shadow:none!important;backdrop-filter:none!important;
-  color:transparent!important;font-size:0!important;line-height:0!important;
-  text-shadow:none!important;-webkit-text-stroke:0!important;-webkit-text-fill-color:transparent!important;
-  overflow:visible!important;opacity:1!important;
-}
-button[data-favorite].active{
-  --favorite-image:var(--favorite-active-image);
-  background-color:transparent!important;
-  background-image:var(--favorite-image)!important;
-}
-button[data-favorite]::before,button[data-favorite]::after{content:none!important;display:none!important}
-.product-visual-controls .favorite{right:4px!important;top:2px!important}
-.recent-favorite{top:3px!important;right:3px!important;z-index:4!important;width:52px!important;height:58px!important;min-width:52px!important;min-height:58px!important;background-size:48px auto!important}
-.detail-favorite{width:62px!important;height:68px!important;min-width:62px!important;min-height:68px!important;background-size:58px auto!important}
-
-/* Header uses the same active reference asset as a real span inside the existing button. */
-.site-header,.site-header .header-actions{overflow:visible!important}
-.site-header .favorites-button{
-  position:relative!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;
-  width:auto!important;min-width:158px!important;height:52px!important;min-height:52px!important;
-  padding:0 14px 0 8px!important;border:1px solid #d7dfd3!important;border-radius:15px!important;
-  background:#fff!important;color:#20201d!important;box-shadow:0 6px 18px rgba(49,77,50,.08)!important;
-  overflow:visible!important;font-weight:750!important;
-}
-.site-header .favorites-button::before{content:none!important;display:none!important}
-.site-header .favorites-button::after{content:"Избранное"!important;font-size:14px;font-weight:750;line-height:1;color:#20201d}
-.site-header .favorites-button .action-icon{
-  display:block!important;flex:0 0 62px!important;width:62px!important;height:70px!important;
-  margin:-9px 0 -9px -8px!important;
-  background:var(--favorite-active-image) center/60px auto no-repeat!important;
-  color:transparent!important;font-size:0!important;-webkit-text-stroke:0!important;
-  pointer-events:none!important;
-}
-.site-header .favorites-button:hover{background:#f7f5f0!important}
-
-.site-header .cart-button{
-  position:relative!important;display:grid!important;place-items:center!important;
-  width:50px!important;min-width:50px!important;height:50px!important;min-height:50px!important;
-  padding:0!important;border:1px solid #d7dfd3!important;border-radius:15px!important;
-  background:#fff!important;color:#20201d!important;box-shadow:0 6px 18px rgba(49,77,50,.08)!important;
-}
-.site-header .cart-button:hover{background:#f7f5f0!important}
-.site-header .cart-icon{display:block!important;width:30px!important;height:30px!important;background:var(--cart-trolley-image) center/contain no-repeat!important;font-size:0!important;-webkit-text-stroke:0!important}
-.site-header .cart-icon::before,.site-header .cart-icon::after{content:none!important;display:none!important;border:0!important;box-shadow:none!important}
-.site-header .action-count{z-index:5!important;top:-6px!important;right:-6px!important;background:#435d41!important;color:#fff!important;border:2px solid #f7f5f0!important}
-
-@media(max-width:640px){
-  button[data-favorite]{width:54px!important;height:60px!important;min-width:54px!important;min-height:60px!important;background-size:50px auto!important}
-  .recent-favorite{width:48px!important;height:54px!important;min-width:48px!important;min-height:54px!important;background-size:44px auto!important}
-  .detail-favorite{width:58px!important;height:64px!important;min-width:58px!important;min-height:64px!important;background-size:54px auto!important}
-  .site-header .favorites-button{min-width:136px!important;height:46px!important;min-height:46px!important;padding-right:9px!important}
-  .site-header .favorites-button .action-icon{flex-basis:54px!important;width:54px!important;height:62px!important;margin:-8px 0 -8px -7px!important;background-size:52px auto!important}
-  .site-header .favorites-button::after{font-size:12px}
-  .site-header .cart-button{width:46px!important;min-width:46px!important;height:46px!important;min-height:46px!important}
-  .site-header .cart-icon{width:28px!important;height:28px!important}
-}
-'''
-          p.write_text(css+component,encoding='utf-8')
-          PY
-      - name: Validate no stacking layer remains
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          css=Path('card-polish.css').read_text(encoding='utf-8')
-          assert 'background-image:var(--favorite-image)!important' in css
-          assert 'button[data-favorite]::before,button[data-favorite]::after{content:none!important' in css
-          assert '.favorites-button .action-icon' in css
-          assert 'background:var(--favorite-active-image)' in css
-          assert Path('assets/ui/favorite-inactive.png').exists()
-          assert Path('assets/ui/favorite-active.png').exists()
-          print('OK: favorites render directly; no heart pseudo-overlay remains')
-          PY
           node --check app.js
+          test -f assets/ui/favorite-inactive.png
+          test -f assets/ui/favorite-active.png
+          grep -q 'background-image:var(--favorite-image)!important' card-polish.css
+          grep -q 'button\[data-favorite\]::before,button\[data-favorite\]::after{content:none!important' card-polish.css
       - name: Commit fix
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add card-polish.css
-          git commit -m "Render Atelier favorite icons directly on controls"
-          git push origin HEAD:forma-atelier-zero-2026
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Render Atelier favorite icons directly on controls"
+            git push origin HEAD:forma-atelier-zero-2026
+          fi
