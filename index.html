@@ -47,6 +47,37 @@
     .footer-columns a:hover{border-bottom-color:#fff}
     @media(max-width:900px){footer#delivery{grid-template-columns:1fr}.footer-columns{grid-template-columns:1fr 1fr}}
     @media(max-width:640px){.site-header .favorites-button,.site-header .cart-button{width:42px;min-width:42px;height:42px;min-height:42px}.site-header .action-count{top:-4px;right:-4px}.search-submit{min-height:38px;padding:0 12px;font-size:12px}.gallery-nav{width:27px;height:48px;margin-top:-24px;font-size:27px}.detail-copy{padding-bottom:104px}.product-dialog[open] .detail-sticky-actions{bottom:max(8px,env(safe-area-inset-bottom));width:calc(100vw - 24px);padding:6px;border-radius:15px}.detail-sticky-actions .primary-button,.detail-favorite{min-height:48px}footer#delivery{padding:34px 16px}.footer-columns{grid-template-columns:1fr}}
+    /* Desktop catalog-first demonstration */
+    @media(min-width:641px){
+      main#top{display:grid;grid-template-columns:minmax(220px,.82fr) minmax(0,1.18fr);grid-template-areas:"hero heading" "hero tools" "hero categories" "catalog catalog" "recent recent";column-gap:22px;row-gap:0;padding:30px clamp(20px,5vw,72px) 0;align-items:stretch}
+      .hero{grid-area:hero;min-width:0;margin:0!important;padding:0!important}
+      .hero-content{display:flex;height:100%;min-height:250px;flex-direction:column;justify-content:center;padding:28px 30px!important;border-radius:22px}
+      .hero-content::before{right:-230px!important;bottom:-280px!important}
+      .hero h1{max-width:520px!important;font-size:clamp(38px,3.8vw,58px)!important;line-height:.98}
+      .hero-copy{max-width:480px!important;margin:14px 0 0!important;font-size:15px!important;line-height:1.45!important}
+      .hero-button{display:none!important}
+      .catalog-section{display:contents}
+      .catalog-section>.section-heading{grid-area:heading;display:flex!important;align-items:center!important;margin:0!important;padding:18px 18px 7px;border:1px solid #dfe3d9;border-bottom:0;border-radius:22px 22px 0 0;background:rgba(255,255,255,.74)}
+      .catalog-section>.section-heading>div{display:flex;align-items:center;gap:12px}
+      .catalog-section>.section-heading .eyebrow{margin:0!important}
+      .catalog-section>.section-heading h2{display:none}
+      .catalog-section>.section-heading .result-count{margin:0 0 0 auto!important;padding:7px 10px;font-size:11px}
+      .catalog-tools{grid-area:tools;grid-template-columns:minmax(0,1fr) auto minmax(170px,230px)!important;gap:8px!important;margin:0!important;padding:7px 12px!important;border:1px solid #dfe3d9!important;border-top:0!important;border-bottom:0!important;border-radius:0!important;background:rgba(255,255,255,.74)!important;box-shadow:none!important}
+      .catalog-tools .filter-toggle{display:block!important;min-width:110px}
+      .category-row{grid-area:categories;margin:0!important;padding:8px 12px 14px!important;border:1px solid #dfe3d9;border-top:0;border-radius:0 0 22px 22px;background:rgba(255,255,255,.74);align-self:stretch}
+      .category-chip{padding:9px 13px!important;font-size:12px}
+      .catalog-layout{grid-area:catalog;display:block!important;min-width:0;margin-top:18px}
+      .filters{display:none!important;margin:0 0 14px;padding:14px 16px;border:1px solid #dfe3d9;border-radius:16px;background:#fbfaf6}
+      .filters.open{display:grid!important;grid-template-columns:auto repeat(2,minmax(220px,1fr));gap:14px;align-items:end}
+      .filters .filter-head{padding:0 12px 0 0}.filters fieldset{border:0!important;padding:0!important}.filters legend{padding:0 0 8px!important}
+      .catalog-content{min-width:0}.recent-section{grid-area:recent;padding-left:0!important;padding-right:0!important}
+    }
+    @media(min-width:641px) and (max-width:900px){
+      main#top{grid-template-columns:minmax(200px,.72fr) minmax(0,1.28fr);column-gap:14px;padding-inline:18px}
+      .hero-content{padding:24px 22px!important}.hero h1{font-size:clamp(34px,5.2vw,46px)!important}.hero-copy{font-size:13px!important}
+      .catalog-tools{grid-template-columns:minmax(0,1fr) auto!important}.catalog-tools .search-field{grid-column:1/-1}.catalog-tools .sort-field{min-width:0}.catalog-tools .filter-toggle{min-width:96px}
+      .category-chip{padding:8px 11px!important;font-size:11px}.filters.open{grid-template-columns:1fr 1fr}.filters.open .filter-head{grid-column:1/-1}
+    }
   </style>
 </head>
 <body>
