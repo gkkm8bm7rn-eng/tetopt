@@ -1,0 +1,64 @@
+{
+  "switch_http_status": "403",
+  "switch_response": {
+    "message": "Resource not accessible by integration",
+    "documentation_url": "https://docs.github.com/rest/pages/pages#update-information-about-a-apiname-pages-site",
+    "status": "403"
+  },
+  "request_build_http_status": "201",
+  "request_build_response": {
+    "status": "queued",
+    "url": "https://api.github.com/repositories/1312329363/pages/builds/latest"
+  },
+  "pages_http_status": "200",
+  "pages": {
+    "url": "https://api.github.com/repos/gkkm8bm7rn-eng/tetopt/pages",
+    "status": "building",
+    "cname": null,
+    "custom_404": false,
+    "html_url": "https://gkkm8bm7rn-eng.github.io/tetopt/",
+    "build_type": "legacy",
+    "source": {
+      "branch": "forma-atelier-zero-2026",
+      "path": "/"
+    },
+    "public": true,
+    "protected_domain_state": null,
+    "pending_domain_unverified_at": null,
+    "https_enforced": true
+  },
+  "latest_build_http_status": "200",
+  "latest_build": {
+    "url": "https://api.github.com/repos/gkkm8bm7rn-eng/tetopt/pages/builds/1162129772",
+    "status": "building",
+    "error": {
+      "message": null
+    },
+    "pusher": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "955e8061cac55a2e17c9883fda24a28913b74efd",
+    "duration": 0,
+    "created_at": "2026-08-19T20:52:42Z",
+    "updated_at": "2026-08-19T20:52:42Z"
+  },
+  "trigger_sha": "8d2a5f140de64af95540605c90df762b7aaefdc5"
+}
