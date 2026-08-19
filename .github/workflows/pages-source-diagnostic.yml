@@ -1,4 +1,4 @@
-name: Pages source diagnostic
+name: Switch Pages source to main
 
 on:
   push:
@@ -8,16 +8,16 @@ on:
 
 permissions:
   contents: write
-  pages: read
+  pages: write
 
 jobs:
-  inspect:
+  switch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Read Pages configuration
+      - name: Point GitHub Pages at main root
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
@@ -26,6 +26,18 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p data
+          switch_status=$(curl -sS -o /tmp/switch.json -w '%{http_code}' -X PUT \
+            -H 'Accept: application/vnd.github+json' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "https://api.github.com/repos/$REPO/pages" \
+            -d '{"source":{"branch":"main","path":"/"}}' || true)
+          build_status=$(curl -sS -o /tmp/build.json -w '%{http_code}' -X POST \
+            -H 'Accept: application/vnd.github+json' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "https://api.github.com/repos/$REPO/pages/builds" || true)
+          sleep 4
           pages_status=$(curl -sS -o /tmp/pages.json -w '%{http_code}' \
             -H 'Accept: application/vnd.github+json' \
             -H "Authorization: Bearer $GH_TOKEN" \
@@ -36,28 +48,34 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             -H 'X-GitHub-Api-Version: 2022-11-28' \
             "https://api.github.com/repos/$REPO/pages/builds/latest" || true)
-          PAGES_STATUS="$pages_status" LATEST_STATUS="$latest_status" python - <<'PY'
+          SWITCH_STATUS="$switch_status" BUILD_STATUS="$build_status" PAGES_STATUS="$pages_status" LATEST_STATUS="$latest_status" TRIGGER_SHA="$TRIGGER_SHA" python - <<'PY'
           import json, os
           def load(path):
               try:
-                  with open(path, encoding='utf-8') as f: return json.load(f)
+                  with open(path, encoding='utf-8') as f:
+                      text=f.read().strip()
+                  return json.loads(text) if text else None
               except Exception as e:
                   return {'parse_error': str(e)}
-          out = {
-              'pages_http_status': os.environ.get('PAGES_STATUS'),
-              'pages': load('/tmp/pages.json'),
-              'latest_build_http_status': os.environ.get('LATEST_STATUS'),
-              'latest_build': load('/tmp/latest.json'),
-              'trigger_sha': os.environ.get('TRIGGER_SHA'),
+          out={
+              'switch_http_status':os.environ.get('SWITCH_STATUS'),
+              'switch_response':load('/tmp/switch.json'),
+              'request_build_http_status':os.environ.get('BUILD_STATUS'),
+              'request_build_response':load('/tmp/build.json'),
+              'pages_http_status':os.environ.get('PAGES_STATUS'),
+              'pages':load('/tmp/pages.json'),
+              'latest_build_http_status':os.environ.get('LATEST_STATUS'),
+              'latest_build':load('/tmp/latest.json'),
+              'trigger_sha':os.environ.get('TRIGGER_SHA')
           }
-          with open('data/pages-diagnostic.json','w',encoding='utf-8') as f:
+          with open('data/pages-switch-result.json','w',encoding='utf-8') as f:
               json.dump(out,f,ensure_ascii=False,indent=2)
               f.write('\n')
           PY
-      - name: Save diagnostic result
+      - name: Save switch result
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/pages-diagnostic.json
-          git commit -m 'Record temporary Pages diagnostic' || exit 0
+          git add data/pages-switch-result.json
+          git commit -m 'Record Pages source switch result' || exit 0
           git push origin HEAD:main
