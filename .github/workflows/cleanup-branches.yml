@@ -20,16 +20,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          keep_main='main'
-          keep_backup='backup-main-before-atelier-2026-08-16'
           git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
-          git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin/ | while IFS= read -r branch; do
-            [ -z "$branch" ] && continue
-            [ "$branch" = 'HEAD' ] && continue
-            if [ "$branch" = "$keep_main" ] || [ "$branch" = "$keep_backup" ]; then
-              echo "KEEP $branch"
-            else
-              echo "DELETE $branch"
-              git push origin --delete "$branch" || true
-            fi
-          done
+          mapfile -t branches < <(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin/ | grep -v '^HEAD$' | grep -v '^main$' | grep -v '^backup-main-before-atelier-2026-08-16$' || true)
+          printf 'Deleting %s branches\n' "${#branches[@]}"
+          if [ "${#branches[@]}" -gt 0 ]; then
+            printf '%s\0' "${branches[@]}" | xargs -0 -r -n 20 git push origin --delete
+          fi
+          git fetch --prune origin '+refs/heads/*:refs/remotes/origin/*'
+          git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin/
