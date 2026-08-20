@@ -1,4 +1,4 @@
-name: Temporary deployment source check
+name: Temporary Cloudflare source check
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - '.github/workflows/live-host-check.yml'
 
 concurrency:
-  group: temporary-deployment-source-check
+  group: temporary-cloudflare-source-check
   cancel-in-progress: true
 
 permissions:
@@ -20,35 +20,68 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Check current main probe on live hosts
+          fetch-depth: 0
+      - name: Publish invisible main probe in index
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p data /tmp/probe
-          python - <<'PY'
-          import json, subprocess
-          expected=open('deployment-source-probe.txt',encoding='utf-8').read()
-          hosts={
-            'pages':'https://gkkm8bm7rn-eng.github.io/tetopt/deployment-source-probe.txt',
-            'cloudflare':'https://tetopt.m78m6cfc2v.workers.dev/deployment-source-probe.txt',
-          }
-          out={}
-          for name,url in hosts.items():
-              p=subprocess.run(['curl','-L','-sS','-w','\n__STATUS__%{http_code}\n__FINAL__%{url_effective}','-o','-','--max-time','20',url+'?check=current'],capture_output=True,text=True)
-              text=p.stdout
-              body,status,final=text,'000',url
-              if '\n__STATUS__' in text:
-                  body,tail=text.rsplit('\n__STATUS__',1)
-                  status,finalpart=tail.split('\n__FINAL__',1)
-                  final=finalpart.strip()
-              out[name]={'http_status':status.strip(),'final_url':final,'fresh_main_probe_visible':body==expected,'body':body}
-          with open('data/deployment-source-check.json','w',encoding='utf-8') as f:
-              json.dump(out,f,ensure_ascii=False,indent=2);f.write('\n')
+          token="CF_MAIN_SOURCE_PROBE_${GITHUB_SHA}"
+          TOKEN="$token" python - <<'PY'
+          import os
+          p='index.html'
+          s=open(p,encoding='utf-8').read()
+          token=os.environ['TOKEN']
+          s=s.replace('<head>','<head>\n  <!-- '+token+' -->',1)
+          open(p,'w',encoding='utf-8').write(s)
           PY
-      - name: Save result
-        run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/deployment-source-check.json
-          git commit -m 'Record temporary deployment source check' || exit 0
+          git add index.html
+          git commit -m 'Temporary main core deployment probe'
+          git push origin HEAD:main
+          echo "$token" > /tmp/probe-token
+      - name: Wait for live hosts
+        shell: bash
+        run: |
+          set -euo pipefail
+          token=$(cat /tmp/probe-token)
+          check_host(){
+            name="$1"; base="$2"; seen=false; status=000; tries=0
+            for i in $(seq 1 18); do
+              tries=$i
+              status=$(curl -L -sS -o "/tmp/${name}-index.html" -w '%{http_code}' --max-time 20 "$base/index.html?source_probe=$token-$i" || true)
+              if [ "$status" = "200" ] && grep -q "$token" "/tmp/${name}-index.html"; then seen=true; break; fi
+              sleep 10
+            done
+            printf '%s|%s|%s\n' "$seen" "$status" "$tries" > "/tmp/${name}-result"
+          }
+          check_host pages 'https://gkkm8bm7rn-eng.github.io/tetopt' &
+          p1=$!
+          check_host cloudflare 'https://tetopt.m78m6cfc2v.workers.dev' &
+          p2=$!
+          wait "$p1" "$p2"
+      - name: Remove probe and record result
+        shell: bash
+        run: |
+          set -euo pipefail
+          token=$(cat /tmp/probe-token)
+          TOKEN="$token" python - <<'PY'
+          import json, os, re
+          p='index.html'
+          s=open(p,encoding='utf-8').read()
+          token=os.environ['TOKEN']
+          s=s.replace('  <!-- '+token+' -->\n','',1)
+          open(p,'w',encoding='utf-8').write(s)
+          out={}
+          for name in ('pages','cloudflare'):
+              seen,status,tries=open('/tmp/'+name+'-result',encoding='utf-8').read().strip().split('|')
+              out[name]={'probe_seen':seen=='true','http_status':status,'tries':int(tries)}
+          out['probe_token']=token
+          out['meaning']='probe_seen=true means this host picked up a fresh invisible index.html change pushed only to main during this workflow'
+          os.makedirs('data',exist_ok=True)
+          with open('data/cloudflare-source-check.json','w',encoding='utf-8') as f:
+              json.dump(out,f,ensure_ascii=False,indent=2);f.write('\n')
+          PY
+          git add index.html data/cloudflare-source-check.json
+          git commit -m 'Record Cloudflare source check and remove probe'
           git push origin HEAD:main
