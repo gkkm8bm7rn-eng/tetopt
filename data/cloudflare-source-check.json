@@ -1,0 +1,14 @@
+{
+  "pages": {
+    "probe_seen": true,
+    "http_status": "200",
+    "tries": 12
+  },
+  "cloudflare": {
+    "probe_seen": true,
+    "http_status": "200",
+    "tries": 11
+  },
+  "probe_token": "CF_MAIN_SOURCE_PROBE_5b1dfa2bac7d488112bf8a5487b3db4ea89e64ac",
+  "meaning": "probe_seen=true means this host picked up a fresh invisible index.html change pushed only to main during this workflow"
+}
