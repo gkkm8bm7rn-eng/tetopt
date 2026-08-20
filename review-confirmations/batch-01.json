@@ -1,0 +1,10 @@
+{
+  "batch": 1,
+  "confirmed_groups": [
+    {"numbers": [1, 2, 3, 4], "product_ids": [30, 32, 31, 33]},
+    {"numbers": [5, 6], "product_ids": [51, 52]},
+    {"numbers": [7, 8], "product_ids": [63, 64]},
+    {"numbers": [9, 10], "product_ids": [69, 70]},
+    {"numbers": [11, 12], "product_ids": [71, 72]}
+  ]
+}
