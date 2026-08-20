@@ -1,0 +1,1175 @@
+{
+  "count": 130,
+  "branches": [
+    {
+      "branch": "__temp_dummy_never_use",
+      "sha": "96236177f3e48295f0cf01b21d2a7c4490fb37c7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 1,
+      "last_commit_date": "2026-08-20T11:57:17+03:00",
+      "last_commit_subject": "Remove temporary live host check workflow"
+    },
+    {
+      "branch": "agent/audit-all-color-variant-groups",
+      "sha": "2c8b8f09827d3afa1d89d194d38ee0777ade756b",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 565,
+      "last_commit_date": "2026-08-02T20:56:03+03:00",
+      "last_commit_subject": "Bump audited color swatches module version"
+    },
+    {
+      "branch": "agent/bump-pagination-cache",
+      "sha": "30036f6689711fe514b0053024a642e23e1c9317",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 586,
+      "last_commit_date": "2026-08-02T18:41:57+03:00",
+      "last_commit_subject": "Обновить версию модуля пагинации"
+    },
+    {
+      "branch": "agent/catalog-pagination",
+      "sha": "ce9c9aa2450c42ff887ca101b7537e4a79a3ab5e",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 8,
+      "main_commits_ahead": 588,
+      "last_commit_date": "2026-08-02T18:20:45+03:00",
+      "last_commit_subject": "Подключить постраничную навигацию каталога"
+    },
+    {
+      "branch": "agent/color-review-sheets",
+      "sha": "6327da703bdcd00db5b3d3de0432fcaef55a793c",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 52,
+      "main_commits_ahead": 559,
+      "last_commit_date": "2026-08-07T21:25:36+03:00",
+      "last_commit_subject": "Add PR workflow for local-photo catalog JSON"
+    },
+    {
+      "branch": "agent/confirm-current-covers-batch-21",
+      "sha": "a750045b6ffa766aaf3e8c247b9419e84088de89",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 595,
+      "last_commit_date": "2026-08-01T18:19:50+03:00",
+      "last_commit_subject": "Confirm 23 existing covers and defer 37 in batch 21"
+    },
+    {
+      "branch": "agent/confirm-current-covers-batch-22",
+      "sha": "8219bcdf43a913a2aa8eccd4872ca0930d16dead",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 594,
+      "last_commit_date": "2026-08-01T18:25:15+03:00",
+      "last_commit_subject": "Confirm 17 existing covers and defer 43 in batch 22"
+    },
+    {
+      "branch": "agent/confirm-current-covers-batch-23",
+      "sha": "cbd32324ad39059078983f8f69391065d1fc2f9b",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 593,
+      "last_commit_date": "2026-08-01T18:29:56+03:00",
+      "last_commit_subject": "Confirm 10 existing covers and defer 50 in batch 23"
+    },
+    {
+      "branch": "agent/confirm-current-covers-batch-24",
+      "sha": "ac7ef0e35bfaf8f9319bba7cbf63ba9231a3bc15",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 592,
+      "last_commit_date": "2026-08-01T18:35:12+03:00",
+      "last_commit_subject": "Confirm 33 existing covers and defer 27 in batch 24"
+    },
+    {
+      "branch": "agent/confirm-current-covers-batch-25",
+      "sha": "57919ba59d1188fcbae521482bea611d872ecb6c",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 591,
+      "last_commit_date": "2026-08-01T18:38:31+03:00",
+      "last_commit_subject": "Confirm 16 existing covers and defer one in batch 25"
+    },
+    {
+      "branch": "agent/correct-batch-18-side-views",
+      "sha": "d2e74c4ae46caa47fa3dabe7c68eadffc1635cbe",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 598,
+      "last_commit_date": "2026-08-01T16:30:48+03:00",
+      "last_commit_subject": "Remove temporary batch 18 correction workflow"
+    },
+    {
+      "branch": "agent/explicit-color-registry",
+      "sha": "b97a2f1870ed58660450a7ad6c800957da3ce08c",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 564,
+      "last_commit_date": "2026-08-02T21:38:05+03:00",
+      "last_commit_subject": "Ensure verified color registry is included in PR"
+    },
+    {
+      "branch": "agent/explicit-color-registry-v2",
+      "sha": "4f1d190c3ffeef72250ca1322e834a2d52984c32",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 560,
+      "last_commit_date": "2026-08-02T23:26:33+03:00",
+      "last_commit_subject": "Переключить цветовые кружочки на явный реестр"
+    },
+    {
+      "branch": "agent/favorites-sharing",
+      "sha": "c4574980911f9ab380c301f367e6e12ccaeb49d5",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 580,
+      "last_commit_date": "2026-08-02T19:26:02+03:00",
+      "last_commit_subject": "Стабилизировать обновление избранного"
+    },
+    {
+      "branch": "agent/fix-catalog-pagination",
+      "sha": "de4a35d0eb65b2342a5ffdfba35aa6053612de70",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 587,
+      "last_commit_date": "2026-08-02T18:41:06+03:00",
+      "last_commit_subject": "Исправить пагинацию для текущего шаблона каталога"
+    },
+    {
+      "branch": "agent/fix-color-variant-grouping",
+      "sha": "63e477d103e7edb6340e50332ce79b0866d510c9",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 568,
+      "last_commit_date": "2026-08-02T20:25:18+03:00",
+      "last_commit_subject": "Обновить версию модуля цветовых вариантов"
+    },
+    {
+      "branch": "agent/fix-initial-product-images",
+      "sha": "7b5624d29ddc962fbf0355c86f37f103de7ded72",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 574,
+      "last_commit_date": "2026-08-02T19:52:34+03:00",
+      "last_commit_subject": "Add pagination render recovery"
+    },
+    {
+      "branch": "agent/fix-pagination-visible",
+      "sha": "2b606fb7a08e8d1e65449b9bef84f39931fb0e9f",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 571,
+      "last_commit_date": "2026-08-02T19:53:38+03:00",
+      "last_commit_subject": "Connect pagination render recovery"
+    },
+    {
+      "branch": "agent/fix-primary-product-photos",
+      "sha": "6ab26c5e1cc3802dd8d39d3f8c0e56ba642eea17",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 25,
+      "main_commits_ahead": 624,
+      "last_commit_date": "2026-07-31T11:54:15Z",
+      "last_commit_subject": "Finalize verified first photos and clear diagnostics"
+    },
+    {
+      "branch": "agent/fix-real-pagination-slice",
+      "sha": "665d118e856e9bf2f956f96b87d7c7bbb54de28a",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 570,
+      "last_commit_date": "2026-08-02T20:00:09+03:00",
+      "last_commit_subject": "Load functional pagination fix"
+    },
+    {
+      "branch": "agent/front-three-quarter-and-image-zoom",
+      "sha": "59bb4c7d4525811caea46bcee70142d941269924",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 36,
+      "main_commits_ahead": 622,
+      "last_commit_date": "2026-08-01T00:33:00+03:00",
+      "last_commit_subject": "Build gallery review for noncompliant cover angles"
+    },
+    {
+      "branch": "agent/interior-images-batch-01",
+      "sha": "65c98bdbc87e4e1eede6b70c7d68fcdaef7424e6",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 626,
+      "last_commit_date": "2026-07-31T12:52:50+03:00",
+      "last_commit_subject": "Добавить правила точной интерьерной визуализации"
+    },
+    {
+      "branch": "agent/primary-photo-audit",
+      "sha": "5fe7e3bd4a69ccd52ea81b34a1d8bf0d02bb2b72",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 292,
+      "last_commit_date": "2026-08-07T23:31:02+03:00",
+      "last_commit_subject": "Trigger primary photo audit workflow"
+    },
+    {
+      "branch": "agent/product-color-swatches",
+      "sha": "e2f614128d2824c7cd4505ea70cbebfce86cffcc",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 569,
+      "last_commit_date": "2026-08-02T20:09:17+03:00",
+      "last_commit_subject": "Подключить цветовые варианты товаров"
+    },
+    {
+      "branch": "agent/publish-confident-photos-swipe",
+      "sha": "b1e3ee2809d1f21c6515e274dd5e4badbe174c3d",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 6,
+      "main_commits_ahead": 622,
+      "last_commit_date": "2026-08-01T01:19:04+03:00",
+      "last_commit_subject": "Remove temporary release builder"
+    },
+    {
+      "branch": "agent/publish-deferred-galleries-batch-26",
+      "sha": "f7059c0dc8fd86d98fc480e515517edcb8d7c0ba",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 590,
+      "last_commit_date": "2026-08-01T18:45:02+03:00",
+      "last_commit_subject": "Remove temporary deferred batch 26 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-deferred-galleries-batch-27",
+      "sha": "7927841213119bd8b4d9e24feff1d03800078671",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 589,
+      "last_commit_date": "2026-08-01T18:51:32+03:00",
+      "last_commit_subject": "Remove temporary deferred batch 27 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-deferred-galleries-batch-28",
+      "sha": "07b45ec382580df5f39d3d9682506465aaddb66c",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 588,
+      "last_commit_date": "2026-08-01T22:00:07Z",
+      "last_commit_subject": "Resolve 7 deferred product covers in batch 28"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-02",
+      "sha": "6f20cb9e26a7fdbad4c7e4575e12b49c23ebe6dd",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 621,
+      "last_commit_date": "2026-08-01T09:43:27+03:00",
+      "last_commit_subject": "Remove temporary batch 02 workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-03",
+      "sha": "4630170154ce7d4a8e11936c0989052133d1e9a4",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 620,
+      "last_commit_date": "2026-08-01T09:53:38+03:00",
+      "last_commit_subject": "Remove temporary batch 03 workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-04",
+      "sha": "6424583b93123832df2432e93f1f035d9bbfe395",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 619,
+      "last_commit_date": "2026-08-01T10:48:26+03:00",
+      "last_commit_subject": "Remove temporary batch 04 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-05",
+      "sha": "ceeae027923081f105b298cee84a4a37c5721e18",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 618,
+      "last_commit_date": "2026-08-01T10:57:24+03:00",
+      "last_commit_subject": "Remove temporary batch 05 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-06",
+      "sha": "1c858fb926023e08fc173ab10cae733aa1342ccd",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 617,
+      "last_commit_date": "2026-08-01T11:19:24+03:00",
+      "last_commit_subject": "Remove temporary batch 06 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-07",
+      "sha": "84cca9916916f9799bf3a1c172321e4d3f932160",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 616,
+      "last_commit_date": "2026-08-01T11:24:37+03:00",
+      "last_commit_subject": "Remove temporary batch 07 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-08",
+      "sha": "f8f5010fd288a16ae7a118cd20d260de93650835",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 615,
+      "last_commit_date": "2026-08-01T11:37:56+03:00",
+      "last_commit_subject": "Remove temporary batch 08 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-09",
+      "sha": "3067f497eb8d96ba12538ea0749fbe34635c1864",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 614,
+      "last_commit_date": "2026-08-01T11:49:20+03:00",
+      "last_commit_subject": "Remove temporary batch 09 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-10",
+      "sha": "655c1927931726c3bb2379c47d08dadece7adde3",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 613,
+      "last_commit_date": "2026-08-01T11:55:52+03:00",
+      "last_commit_subject": "Remove temporary batch 10 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-11",
+      "sha": "72371dd66a8dc9ca8004778de870313940867019",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 609,
+      "last_commit_date": "2026-08-01T12:17:19+03:00",
+      "last_commit_subject": "Remove temporary batch 11 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-12",
+      "sha": "895988f954a88b71bc43a32758fedb52fe1bda93",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 608,
+      "last_commit_date": "2026-08-01T13:19:18+03:00",
+      "last_commit_subject": "Remove temporary batch 12 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-13",
+      "sha": "a444c16fc69a05300837d6df1f9460bcee15f2d7",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 607,
+      "last_commit_date": "2026-08-01T15:20:23+03:00",
+      "last_commit_subject": "Add selective publish workflow for photo batch 13"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-14",
+      "sha": "5b96bc8c4dfc03090bbdcc7bd9c898e894d45552",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 603,
+      "last_commit_date": "2026-08-01T15:25:27+03:00",
+      "last_commit_subject": "Remove temporary batch 14 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-15",
+      "sha": "c241bfab360431c9003c396521bea61c81e3ec82",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 602,
+      "last_commit_date": "2026-08-01T15:59:37+03:00",
+      "last_commit_subject": "Remove temporary batch 15 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-16",
+      "sha": "242b26b7a55cc085b31105fd69c3e197ea1d38a2",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 601,
+      "last_commit_date": "2026-08-01T16:09:21+03:00",
+      "last_commit_subject": "Remove temporary batch 16 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-17",
+      "sha": "343c441aa3640e7f9713fad554823ba9bbc2acd5",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 600,
+      "last_commit_date": "2026-08-01T16:18:15+03:00",
+      "last_commit_subject": "Remove temporary batch 17 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-18",
+      "sha": "201af9b65dd326b78ebe619ee99e39f543173821",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 599,
+      "last_commit_date": "2026-08-01T16:23:49+03:00",
+      "last_commit_subject": "Remove temporary batch 18 publish workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-19",
+      "sha": "702717680460272ecbad16f713f961ee9af70b5e",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 597,
+      "last_commit_date": "2026-08-01T18:09:57+03:00",
+      "last_commit_subject": "Remove temporary batch 19 publishing workflow"
+    },
+    {
+      "branch": "agent/publish-remaining-batch-20",
+      "sha": "8a34404ccf59ebc0f6db56cbbb8db9b67baafc22",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 596,
+      "last_commit_date": "2026-08-01T18:14:27+03:00",
+      "last_commit_subject": "Remove temporary batch 20 publishing workflow"
+    },
+    {
+      "branch": "agent/purchase-journey",
+      "sha": "b8de7e55bff9987ab25f1091590c768290ca6a4a",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 5,
+      "main_commits_ahead": 584,
+      "last_commit_date": "2026-08-02T19:08:15+03:00",
+      "last_commit_subject": "Подключить рекомендации корзины"
+    },
+    {
+      "branch": "agent/recently-viewed",
+      "sha": "72a30118e3d771cea97793e6760d4143e20e77d3",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 585,
+      "last_commit_date": "2026-08-02T19:04:37+03:00",
+      "last_commit_subject": "Добавить связанный путь покупки"
+    },
+    {
+      "branch": "agent/review-current-covers-batch-21",
+      "sha": "ad8080123a20e55f1c49c55a40ba5a301f9b7190",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 595,
+      "last_commit_date": "2026-08-01T18:16:05+03:00",
+      "last_commit_subject": "Add current-cover review workflow for batch 21"
+    },
+    {
+      "branch": "agent/review-current-covers-batch-22",
+      "sha": "c2a30433dabb1717566b9710914abe0a4989ef3f",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 594,
+      "last_commit_date": "2026-08-01T18:21:36+03:00",
+      "last_commit_subject": "Add current-cover review workflow for batch 22"
+    },
+    {
+      "branch": "agent/review-current-covers-batch-23",
+      "sha": "d9ffa61f6300295332aaa9b1406a664343042684",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 593,
+      "last_commit_date": "2026-08-01T18:27:13+03:00",
+      "last_commit_subject": "Add current-cover review workflow for batch 23"
+    },
+    {
+      "branch": "agent/review-current-covers-batch-24",
+      "sha": "641da462ab77fb849d39ec8376f62cdabf5f9840",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 592,
+      "last_commit_date": "2026-08-01T18:31:07+03:00",
+      "last_commit_subject": "Add current-cover review workflow for batch 24"
+    },
+    {
+      "branch": "agent/review-current-covers-batch-25",
+      "sha": "648d50cfb34f3d57fd57d0f792a3305811eb997f",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 591,
+      "last_commit_date": "2026-08-01T18:36:22+03:00",
+      "last_commit_subject": "Add current-cover review workflow for batch 25"
+    },
+    {
+      "branch": "agent/review-deferred-galleries-batch-26",
+      "sha": "4cd28fcb8d294456b23c2a920ea2b06ade1ff7b5",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 590,
+      "last_commit_date": "2026-08-01T18:40:07+03:00",
+      "last_commit_subject": "Add full-gallery review for deferred photo batch 26"
+    },
+    {
+      "branch": "agent/review-deferred-galleries-batch-27",
+      "sha": "63d7dfd9761b217f7b5931443b2a85510410b0a0",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 589,
+      "last_commit_date": "2026-08-01T18:46:47+03:00",
+      "last_commit_subject": "Add full-gallery review for deferred photo batch 27"
+    },
+    {
+      "branch": "agent/review-deferred-galleries-batch-28",
+      "sha": "b5dd0150d62e004c0a057437941c20f44e09be25",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 588,
+      "last_commit_date": "2026-08-01T18:52:55+03:00",
+      "last_commit_subject": "Add full-gallery review for deferred photo batch 28"
+    },
+    {
+      "branch": "agent/review-remaining-batch-02",
+      "sha": "759e13010c889200fbb36fd8c53c5d88e1e2e42a",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 621,
+      "last_commit_date": "2026-08-01T09:34:37+03:00",
+      "last_commit_subject": "Build review sheets for the next 60 active products"
+    },
+    {
+      "branch": "agent/review-remaining-batch-03",
+      "sha": "3441c020e9a7bfd5b6b4f3aaf2a71c190d0cadc4",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 620,
+      "last_commit_date": "2026-08-01T09:48:32+03:00",
+      "last_commit_subject": "Fix batch 03 review sheet builder"
+    },
+    {
+      "branch": "agent/review-remaining-batch-04",
+      "sha": "f7f6a231e9f8077af24711bb3bd8fa840e37e469",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 619,
+      "last_commit_date": "2026-08-01T10:43:30+03:00",
+      "last_commit_subject": "Build visual review for remaining covers batch 04"
+    },
+    {
+      "branch": "agent/review-remaining-batch-05",
+      "sha": "9f1d4693760bd4c51dce6da6bd802c62b0422490",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 618,
+      "last_commit_date": "2026-08-01T10:49:55+03:00",
+      "last_commit_subject": "Build visual review for remaining covers batch 05"
+    },
+    {
+      "branch": "agent/review-remaining-batch-06",
+      "sha": "2c3931bf4b7c875bbb56084fb68f9e04e484a19b",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 617,
+      "last_commit_date": "2026-08-01T11:15:01+03:00",
+      "last_commit_subject": "Build review sheets for remaining covers batch 06"
+    },
+    {
+      "branch": "agent/review-remaining-batch-07",
+      "sha": "18a3acc1e7ffb6265eed98688730985ef67d790f",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 616,
+      "last_commit_date": "2026-08-01T11:20:44+03:00",
+      "last_commit_subject": "Build review sheets for remaining covers batch 07"
+    },
+    {
+      "branch": "agent/review-remaining-batch-08",
+      "sha": "bc1700cb954ca49ff9a626c86ea079ef66e0d1e3",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 615,
+      "last_commit_date": "2026-08-01T11:30:50+03:00",
+      "last_commit_subject": "Add review workflow for product covers batch 08"
+    },
+    {
+      "branch": "agent/review-remaining-batch-09",
+      "sha": "4454f5418661cabb1c01863d465f254afe0d7ff5",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 614,
+      "last_commit_date": "2026-08-01T11:44:36+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 09"
+    },
+    {
+      "branch": "agent/review-remaining-batch-10",
+      "sha": "825edda0ae69f0d489bcb19c459ad5bf4bfb7d96",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 613,
+      "last_commit_date": "2026-08-01T11:50:57+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 10"
+    },
+    {
+      "branch": "agent/review-remaining-batch-11",
+      "sha": "977f3de81681931126f68cbbd57b1adeedce144e",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 612,
+      "last_commit_date": "2026-08-01T12:13:18+03:00",
+      "last_commit_subject": "Add review workflow for product photo batch 11"
+    },
+    {
+      "branch": "agent/review-remaining-batch-12",
+      "sha": "3fdc046016d56a8719d9baca83e5a36a91adfc55",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 608,
+      "last_commit_date": "2026-08-01T12:18:12+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 12"
+    },
+    {
+      "branch": "agent/review-remaining-batch-13",
+      "sha": "7c31ae59f70b5e676ff70f9bef39964bc3858b6c",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 607,
+      "last_commit_date": "2026-08-01T13:20:12+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 13"
+    },
+    {
+      "branch": "agent/review-remaining-batch-14",
+      "sha": "08706cb99db2a6de58ce7fc1c62d1c30a64d7e83",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 606,
+      "last_commit_date": "2026-08-01T14:23:16+03:00",
+      "last_commit_subject": "Prepare product cover review batch 14"
+    },
+    {
+      "branch": "agent/review-remaining-batch-15",
+      "sha": "2c7e696d250e968e218bb6832953c98ee228bb1f",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 602,
+      "last_commit_date": "2026-08-01T15:52:35+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 15"
+    },
+    {
+      "branch": "agent/review-remaining-batch-16",
+      "sha": "3d6e181930b14594614fda2e1da88f4112f22f17",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 601,
+      "last_commit_date": "2026-08-01T16:01:40+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 16"
+    },
+    {
+      "branch": "agent/review-remaining-batch-17",
+      "sha": "455de8f20574f4ac1e5ef3f89a7514254dc37264",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 600,
+      "last_commit_date": "2026-08-01T16:11:05+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 17"
+    },
+    {
+      "branch": "agent/review-remaining-batch-18",
+      "sha": "7b5dc34633570c6db930483c537a247260dcf751",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 599,
+      "last_commit_date": "2026-08-01T16:20:13+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 18"
+    },
+    {
+      "branch": "agent/review-remaining-batch-19",
+      "sha": "1d629e69a104ecddab7693a712a7e377bb693e71",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 598,
+      "last_commit_date": "2026-08-01T18:01:25+03:00",
+      "last_commit_subject": "Fix published count for batch 19 review"
+    },
+    {
+      "branch": "agent/review-remaining-batch-20",
+      "sha": "9de988ceab867a1c39e2862ce7c6115ec42def28",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 596,
+      "last_commit_date": "2026-08-01T18:11:36+03:00",
+      "last_commit_subject": "Add review workflow for photo batch 20"
+    },
+    {
+      "branch": "agent/visually-fix-primary-photos",
+      "sha": "082d00819a5772e09c424be5fe4cd020d298e707",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 22,
+      "main_commits_ahead": 623,
+      "last_commit_date": "2026-07-31T20:25:12+03:00",
+      "last_commit_subject": "Remove temporary photo review sheet"
+    },
+    {
+      "branch": "audit-batch-03-20260731",
+      "sha": "b1a83220373b7dd9ba2152d9ac4de374a313b462",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 10,
+      "main_commits_ahead": 651,
+      "last_commit_date": "2026-07-31T07:31:40Z",
+      "last_commit_subject": "Исправить четыре спорные карточки третьей партии"
+    },
+    {
+      "branch": "audit-next-batch-20260731",
+      "sha": "ff95eeaf00b934a4df76d6e53f9aea2974f1d5ab",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 6,
+      "main_commits_ahead": 638,
+      "last_commit_date": "2026-07-31T07:50:08Z",
+      "last_commit_subject": "Провести аудит следующей активной партии"
+    },
+    {
+      "branch": "automation/finish-batch-04-manzana-107",
+      "sha": "57d0404b2b0b3b845ffcbbed53d2f35e4e8cddcb",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 626,
+      "last_commit_date": "2026-07-31T09:16:41Z",
+      "last_commit_subject": "Применить точные фото Manzana 80x80 для ID 107"
+    },
+    {
+      "branch": "backup-dimensions-2026-08-09",
+      "sha": "b73f65ad8f8125b5a314a9424f6a88c0fa339439",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 7,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T17:10:49+03:00",
+      "last_commit_subject": "Merge PR #108: publish verified product dimensions"
+    },
+    {
+      "branch": "backup-main-before-atelier-2026-08-16",
+      "sha": "91a8847180e61ccdfe4e8b32d57cc9c501fd8499",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 17,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-16T18:11:56+03:00",
+      "last_commit_subject": "Correct wholesale prices from approved Excel"
+    },
+    {
+      "branch": "batch-04-exact-manzana-107",
+      "sha": "51c86ca3f972e021050c4ea17a06bf5bd4d195a3",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 631,
+      "last_commit_date": "2026-07-31T11:02:50+03:00",
+      "last_commit_subject": "Исправить запуск на точный код 20620"
+    },
+    {
+      "branch": "batch-04-exact-manzana-107-v2",
+      "sha": "3627ff34da47447601100592db7fa2b260f4f4f2",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 8,
+      "main_commits_ahead": 631,
+      "last_commit_date": "2026-07-31T11:17:11+03:00",
+      "last_commit_subject": "Повторно запустить точный импорт Manzana 80x80"
+    },
+    {
+      "branch": "branch-audit-temp-trigger",
+      "sha": "96236177f3e48295f0cf01b21d2a7c4490fb37c7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 1,
+      "last_commit_date": "2026-08-20T11:57:17+03:00",
+      "last_commit_subject": "Remove temporary live host check workflow"
+    },
+    {
+      "branch": "branch-audit-temp-trigger-2",
+      "sha": "96236177f3e48295f0cf01b21d2a7c4490fb37c7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 1,
+      "last_commit_date": "2026-08-20T11:57:17+03:00",
+      "last_commit_subject": "Remove temporary live host check workflow"
+    },
+    {
+      "branch": "catalog-json-client-v1",
+      "sha": "47f70a507d1b602fd10fca1ef476e3289dad5e6d",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 27,
+      "main_commits_ahead": 288,
+      "last_commit_date": "2026-08-08T09:00:28+03:00",
+      "last_commit_subject": "Stop repeated variant label mutations"
+    },
+    {
+      "branch": "chatgpt/apply-full-product-registry",
+      "sha": "e608cb17852c225ba9a63c8ad064773ce97c663b",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 258,
+      "last_commit_date": "2026-08-09T00:28:55+03:00",
+      "last_commit_subject": "Use improved registry variant selector runtime"
+    },
+    {
+      "branch": "chatgpt/fix-duplicates-swatches",
+      "sha": "864094a2cd30d4dfe287026f05624ce9ddaae67a",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 4,
+      "main_commits_ahead": 265,
+      "last_commit_date": "2026-08-09T00:07:24+03:00",
+      "last_commit_subject": "Keep legacy catalog preprocessor intact"
+    },
+    {
+      "branch": "chatgpt/restore-next-final-ux",
+      "sha": "cb7b8e39484d79fba6500c0264ff55b64b34718f",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 281,
+      "last_commit_date": "2026-08-08T19:36:10+03:00",
+      "last_commit_subject": "Restore final /next catalog styling"
+    },
+    {
+      "branch": "chore/finalize-footer-source",
+      "sha": "af3e2100320dfa5e7d1c66d52d0079e030cf7391",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 11,
+      "main_commits_ahead": 818,
+      "last_commit_date": "2026-07-27T14:26:45+03:00",
+      "last_commit_subject": "temporary"
+    },
+    {
+      "branch": "chore/normalize-footer-source",
+      "sha": "4a96be8c12197cf18cb0402ac5e8516b4e9d6622",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 824,
+      "last_commit_date": "2026-07-27T14:07:42+03:00",
+      "last_commit_subject": "Prepare footer source normalization"
+    },
+    {
+      "branch": "chore/publish-footer-cleanup",
+      "sha": "43e159b6ed4dc5b2f9c32fb7e2ffc628c00ac7eb",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 801,
+      "last_commit_date": "2026-07-27T15:56:02+03:00",
+      "last_commit_subject": "Refresh catalog loader after footer cleanup"
+    },
+    {
+      "branch": "chore/run-footer-cleanup",
+      "sha": "6a412c431270952fd96eac7076530e34621193c7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 814,
+      "last_commit_date": "2026-07-27T15:26:16+03:00",
+      "last_commit_subject": "Trigger physical footer cleanup"
+    },
+    {
+      "branch": "chore/run-footer-cleanup-v2",
+      "sha": "89046b6606b0a81199827e39efb819807d9c32bf",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 809,
+      "last_commit_date": "2026-07-27T15:44:55+03:00",
+      "last_commit_subject": "Prepare corrected footer cleanup trigger"
+    },
+    {
+      "branch": "chore/run-footer-cleanup-v3",
+      "sha": "73af3e4a6a6522cdcd56045ca0ae2acbc9bcf1b5",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 806,
+      "last_commit_date": "2026-07-27T15:50:04+03:00",
+      "last_commit_subject": "Prepare push-safe footer cleanup trigger"
+    },
+    {
+      "branch": "chore/run-footer-normalization-v2",
+      "sha": "b1d81ac6176e7468e7173c327033dd743a69adb2",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 821,
+      "last_commit_date": "2026-07-27T14:12:17+03:00",
+      "last_commit_subject": "Trigger corrected footer normalization workflow"
+    },
+    {
+      "branch": "codex-current",
+      "sha": "a8f2d582034fec6dbf60387766fd2b306eb8c4c0",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T02:01:14+03:00",
+      "last_commit_subject": "Promote consolidated /next runtime"
+    },
+    {
+      "branch": "codex/-checkout-gkkm8bm7rn-eng/tetopt",
+      "sha": "7c6dd2ac3921f6543c3801e2bdbfdcd918da0a91",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 257,
+      "last_commit_date": "2026-08-09T01:53:50+03:00",
+      "last_commit_subject": "Consolidate next catalog assets"
+    },
+    {
+      "branch": "codex/-codex_dimensions_task.md",
+      "sha": "bfee0755c0bf110e93ad8b58733a2fa583f67108",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 5,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T17:04:10+03:00",
+      "last_commit_subject": "Add price dimensions fallback to next catalog"
+    },
+    {
+      "branch": "codex/-codex_site_finalization.md",
+      "sha": "b28f6b8810605d13debd802ecdf635e32b937d3b",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 255,
+      "last_commit_date": "2026-08-09T20:33:37+03:00",
+      "last_commit_subject": "Finish production next storefront"
+    },
+    {
+      "branch": "codex/-forma-home",
+      "sha": "24ef50537490ac80c2b40c6a38c47916c7ce6893",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 13,
+      "main_commits_ahead": 253,
+      "last_commit_date": "2026-08-11T12:58:19+03:00",
+      "last_commit_subject": "Prevent narrow header overflow"
+    },
+    {
+      "branch": "dummy-never",
+      "sha": "099181896ab42b0ef91f81bc30265e31a7d63c26",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 18,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-17T00:00:48+03:00",
+      "last_commit_subject": "Remove temporary branch size measurement"
+    },
+    {
+      "branch": "fix/hero-action-buttons",
+      "sha": "034d0577dea9ff9d3c08cb5ed1e8cc9d14053ccd",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 793,
+      "last_commit_date": "2026-07-27T20:13:57+03:00",
+      "last_commit_subject": "Refresh catalog loader for hero actions"
+    },
+    {
+      "branch": "fix/missing-photo-state",
+      "sha": "bb6f9495a25de4ffefa413be8458023cb70effc0",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 847,
+      "last_commit_date": "2026-07-26T20:53:29+03:00",
+      "last_commit_subject": "Trigger missing-photo fix in pull request"
+    },
+    {
+      "branch": "inventory/hide-out-of-stock-2026-07-27",
+      "sha": "3dd49af8a2587deed3b789e75db09c0a5d8a4eea",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 797,
+      "last_commit_date": "2026-07-27T17:51:47+03:00",
+      "last_commit_subject": "Refresh catalog loader after inventory update"
+    },
+    {
+      "branch": "new",
+      "sha": "1ab9fdac5c2c2290ba1393add8a59ad0c482b6b7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 312,
+      "last_commit_date": "2026-08-06T22:18:51+03:00",
+      "last_commit_subject": "Run final catalog group reconciliation after all grouping rules"
+    },
+    {
+      "branch": "next-staging-public",
+      "sha": "b0add02d6ea45331a1c01f17ca342694f53f3970",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 288,
+      "last_commit_date": "2026-08-08T09:06:16+03:00",
+      "last_commit_subject": "Prepare isolated next catalog staging client"
+    },
+    {
+      "branch": "noop-never2",
+      "sha": "92231dd133f78fc899ea066f7625123dc79356f7",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 16,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-12T23:38:53+03:00",
+      "last_commit_subject": "Delete obsolete adaptive product UI test"
+    },
+    {
+      "branch": "noop-never3",
+      "sha": "92231dd133f78fc899ea066f7625123dc79356f7",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 16,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-12T23:38:53+03:00",
+      "last_commit_subject": "Delete obsolete adaptive product UI test"
+    },
+    {
+      "branch": "photo-hq-himawari-6",
+      "sha": "a77ea931490d3d4312d542f8c6390d261a9e4647",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 778,
+      "last_commit_date": "2026-07-30T14:44:03+03:00",
+      "last_commit_subject": "Исправить порядок фотографий в карточках товаров"
+    },
+    {
+      "branch": "photo-quality-first-batch",
+      "sha": "a10941d6cfd7c451de9ad499b741192a318a5e97",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 779,
+      "last_commit_date": "2026-07-30T14:42:58+03:00",
+      "last_commit_subject": "Refresh catalog loader after gallery order fix"
+    },
+    {
+      "branch": "preview-aug6-screenshot",
+      "sha": "b91c74cb18d649e04d5093d3ac3906e2ad55a8ad",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 312,
+      "last_commit_date": "2026-08-12T22:54:36+03:00",
+      "last_commit_subject": "Fix isolated historical preview verification"
+    },
+    {
+      "branch": "price-audit-main-20260816",
+      "sha": "4a95448996463dce822fca5f1e6bedeae20f50ad",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 49,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-16T18:17:53+03:00",
+      "last_commit_subject": "Remove temporary wholesale audit report"
+    },
+    {
+      "branch": "probe-next-staging-once",
+      "sha": "03b22754d4e1ff8c2cac667617be775dc7de5e10",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 285,
+      "last_commit_date": "2026-08-08T09:12:12+03:00",
+      "last_commit_subject": "Trigger one-time public staging probe"
+    },
+    {
+      "branch": "public-next-browser-smoke",
+      "sha": "28dfed82af7ce0e563ad576ac374f0b9ac777edc",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 285,
+      "last_commit_date": "2026-08-08T09:15:12+03:00",
+      "last_commit_subject": "Trigger public staging browser smoke"
+    },
+    {
+      "branch": "purge-hidden-products",
+      "sha": "04a3bb7f8289f17504e780567a1aed22144fd744",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 308,
+      "last_commit_date": "2026-08-06T23:39:52+03:00",
+      "last_commit_subject": "Trigger verified hidden product purge"
+    },
+    {
+      "branch": "registry-product-grouping",
+      "sha": "1b963335f81ac205c16ebf6cf3cad53536cedac2",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 268,
+      "last_commit_date": "2026-08-08T23:54:52+03:00",
+      "last_commit_subject": "Restrict swatches to real color combinations"
+    },
+    {
+      "branch": "site-finalization",
+      "sha": "225fc970af1cec1d7c91dd6d1323da6caa071cbf",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 254,
+      "last_commit_date": "2026-08-09T20:46:19+03:00",
+      "last_commit_subject": "Finalize /next catalog storefront"
+    },
+    {
+      "branch": "site-finalization-backup",
+      "sha": "a8f2d582034fec6dbf60387766fd2b306eb8c4c0",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T02:01:14+03:00",
+      "last_commit_subject": "Promote consolidated /next runtime"
+    },
+    {
+      "branch": "site-finalization-docs",
+      "sha": "a8f2d582034fec6dbf60387766fd2b306eb8c4c0",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T02:01:14+03:00",
+      "last_commit_subject": "Promote consolidated /next runtime"
+    },
+    {
+      "branch": "site-finalization-work",
+      "sha": "a8f2d582034fec6dbf60387766fd2b306eb8c4c0",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 256,
+      "last_commit_date": "2026-08-09T02:01:14+03:00",
+      "last_commit_subject": "Promote consolidated /next runtime"
+    },
+    {
+      "branch": "test-2026-08-06-final-colors",
+      "sha": "1ab9fdac5c2c2290ba1393add8a59ad0c482b6b7",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 312,
+      "last_commit_date": "2026-08-06T22:18:51+03:00",
+      "last_commit_subject": "Run final catalog group reconciliation after all grouping rules"
+    },
+    {
+      "branch": "test-forma-atelier-zero-2026-fixed",
+      "sha": "2bb6ef1ccf09a0f1bfcb97c6c3432b41ef13a450",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 1,
+      "main_commits_ahead": 164,
+      "last_commit_date": "2026-08-15T19:13:17+03:00",
+      "last_commit_subject": "Add pinned preview for corrected FORMA ATELIER build"
+    },
+    {
+      "branch": "test-forma-atelier-zero-2026-fresh",
+      "sha": "89e37a7ea58372e99e7e9be7181ef2cb4c6c5d41",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 8,
+      "main_commits_ahead": 163,
+      "last_commit_date": "2026-08-16T15:17:01+03:00",
+      "last_commit_subject": "Centralize favorite and cart icon styling"
+    },
+    {
+      "branch": "tmp-noop",
+      "sha": "1822d4b8eb94239f98d172378fd919059f8711e4",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 54,
+      "last_commit_date": "2026-08-16T23:46:53+03:00",
+      "last_commit_subject": "Remove temporary chair table search workflow"
+    },
+    {
+      "branch": "verify-batch-02-20260731",
+      "sha": "6374efa4e7b7c301fcea56d06481a41f0b819b6e",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 3,
+      "main_commits_ahead": 657,
+      "last_commit_date": "2026-07-31T07:15:11Z",
+      "last_commit_subject": "Завершить окончательную проверку второй партии"
+    },
+    {
+      "branch": "verify-batch-03-20260731",
+      "sha": "da3a5dc690c4e1c3795799967f63ec859c4e74ec",
+      "merged_into_main": false,
+      "unique_commits_vs_main": 2,
+      "main_commits_ahead": 641,
+      "last_commit_date": "2026-07-31T07:39:32Z",
+      "last_commit_subject": "Завершить окончательную проверку третьей партии"
+    },
+    {
+      "branch": "Сайт-Жени",
+      "sha": "f5890b7e79f5d517d1a2f6715522005d441dd2a9",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 244,
+      "last_commit_date": "2026-08-12T00:38:47+03:00",
+      "last_commit_subject": "Fix execution selector card markup"
+    },
+    {
+      "branch": "сайт-Жени",
+      "sha": "54dd582c63ead0a214c4ebda832b577b48826d1f",
+      "merged_into_main": true,
+      "unique_commits_vs_main": 0,
+      "main_commits_ahead": 226,
+      "last_commit_date": "2026-08-12T17:05:58+03:00",
+      "last_commit_subject": "Reset сайт-Жени to empty branch"
+    }
+  ]
+}
