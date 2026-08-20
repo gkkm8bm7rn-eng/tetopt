@@ -10,7 +10,7 @@ window.fetch=function(resource,options){
   if(!/(?:^|\/)data\/details\/\d+\.json(?:[?#].*)?$/.test(url))return nativeFetch(resource,options);
   const shard=url.match(/data\/details\/(\d+\.json)/)?.[1];
   if(!shard)return nativeFetch(resource,options);
-  const fallback=`https://raw.githubusercontent.com/gkkm8bm7rn-eng/tetopt/forma-atelier-zero-2026/data/details/${shard}`;
+  const fallback=`https://raw.githubusercontent.com/gkkm8bm7rn-eng/tetopt/main/data/details/${shard}`;
   return new Promise((resolve,reject)=>{
     let settled=false,primaryError=null,fallbackStarted=false;
     const finish=response=>{if(settled)return;if(response?.ok){settled=true;resolve(response)}else{primaryError=primaryError||new Error(`HTTP ${response?.status||'error'}`)}};
