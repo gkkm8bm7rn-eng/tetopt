@@ -10553,11 +10553,246 @@
           "infoUrl": "https://price.tetchair.ru/download_photo/?id=19385&only_info=1"
         }
       ]
+    },
+    {
+      "at": "2026-08-20T17:21:00Z",
+      "batchIndex": 1,
+      "batchSize": 12,
+      "start": 12,
+      "end": 24,
+      "results": [
+        {
+          "sourceId": "962",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19386",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/962/pb-photo-01.webp",
+            "assets/products/962/pb-photo-02.webp",
+            "assets/products/962/pb-photo-03.webp",
+            "assets/products/962/pb-photo-04.webp",
+            "assets/products/962/pb-info-01.webp",
+            "assets/products/962/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19386",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19386&only_info=1"
+        },
+        {
+          "sourceId": "963",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19387",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/963/pb-photo-01.webp",
+            "assets/products/963/pb-photo-02.webp",
+            "assets/products/963/pb-photo-03.webp",
+            "assets/products/963/pb-photo-04.webp",
+            "assets/products/963/pb-info-01.webp",
+            "assets/products/963/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19387",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19387&only_info=1"
+        },
+        {
+          "sourceId": "964",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19388",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/964/pb-photo-01.webp",
+            "assets/products/964/pb-photo-02.webp",
+            "assets/products/964/pb-photo-03.webp",
+            "assets/products/964/pb-photo-04.webp",
+            "assets/products/964/pb-info-01.webp",
+            "assets/products/964/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19388",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19388&only_info=1"
+        },
+        {
+          "sourceId": "965",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "25885",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/965/pb-photo-01.webp",
+            "assets/products/965/pb-photo-02.webp",
+            "assets/products/965/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25885",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "974",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19291",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/974/pb-photo-01.webp",
+            "assets/products/974/pb-photo-02.webp",
+            "assets/products/974/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19291",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "976",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19294",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/976/pb-photo-01.webp",
+            "assets/products/976/pb-photo-02.webp",
+            "assets/products/976/pb-photo-03.webp",
+            "assets/products/976/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19294",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "977",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19295",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/977/pb-photo-01.webp",
+            "assets/products/977/pb-photo-02.webp",
+            "assets/products/977/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19295",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "979",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19297",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/979/pb-photo-01.webp",
+            "assets/products/979/pb-photo-02.webp",
+            "assets/products/979/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19297",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "980",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19298",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/980/pb-photo-01.webp",
+            "assets/products/980/pb-photo-02.webp",
+            "assets/products/980/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19298",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "981",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19299",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/981/pb-photo-01.webp",
+            "assets/products/981/pb-photo-02.webp",
+            "assets/products/981/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19299",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "982",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19300",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/982/pb-photo-01.webp",
+            "assets/products/982/pb-photo-02.webp",
+            "assets/products/982/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19300",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "983",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19301",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/983/pb-photo-01.webp",
+            "assets/products/983/pb-photo-02.webp",
+            "assets/products/983/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19301",
+          "infoUrl": null
+        }
+      ]
     }
   ],
   "applySummary": {
     "eligible": 240,
-    "lastBatch": 0,
+    "lastBatch": 1,
     "updatedThisBatch": 12,
     "unchangedThisBatch": 0,
     "errorsThisBatch": 0
