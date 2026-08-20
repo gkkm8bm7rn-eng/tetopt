@@ -1,3 +1,0 @@
-FORMA HOME deployment source probe
-branch=main
-probe=2026-08-20T08:50Z
