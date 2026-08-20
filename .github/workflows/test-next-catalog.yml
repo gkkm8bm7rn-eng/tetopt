@@ -1,0 +1,43 @@
+name: Test next catalog client
+
+on:
+  pull_request:
+    paths:
+      - 'next/**'
+      - 'catalog.json'
+      - 'scripts/e2e-next-catalog.mjs'
+      - '.github/workflows/test-next-catalog.yml'
+  workflow_dispatch:
+
+jobs:
+  next-browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check next/app.js
+          node --check scripts/e2e-next-catalog.mjs
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start local server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/next-http.log 2>&1 &
+          echo $! > /tmp/next-http.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/next/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/next-http.log
+          exit 1
+      - name: Run responsive next-client tests
+        run: node scripts/e2e-next-catalog.mjs
+      - name: Show server log on failure
+        if: failure()
+        run: cat /tmp/next-http.log || true
