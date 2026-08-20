@@ -1,15 +1,13 @@
 name: Fix Amura and Moncler media
 on:
-  issues:
-    types: [opened, reopened]
   push:
-    paths:
-      - 'data/amura-moncler-fix-request.txt'
+    branches: [main]
+  schedule:
+    - cron: '*/5 * * * *'
 permissions:
   contents: write
 jobs:
   fix:
-    if: github.event_name == 'push' || github.event.issue.title == '[media-fix] Amura Moncler'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,12 +21,12 @@ jobs:
         run: pip install --disable-pip-version-check requests Pillow
       - name: Apply targeted fixes
         run: python scripts/fix-amura-moncler-media.py
-      - name: Commit verified media repair
+      - name: Commit verified media repair and clean one-shot files
         run: |
           git config user.name 'FORMA HOME media bot'
           git config user.email 'actions@users.noreply.github.com'
           git add assets/products/495 data/details/001.json data/catalog-index.json
-          if git diff --cached --quiet; then echo 'No changes'; exit 0; fi
+          git rm -f .github/workflows/fix-amura-moncler-media.yml scripts/fix-amura-moncler-media.py data/amura-moncler-fix-request.txt
           git commit -m 'Fix Amura and Moncler product media'
           git pull --rebase origin main
           git push origin HEAD:main
