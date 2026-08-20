@@ -2,11 +2,14 @@ name: Fix Amura and Moncler media
 on:
   issues:
     types: [opened, reopened]
+  push:
+    paths:
+      - 'data/amura-moncler-fix-request.txt'
 permissions:
   contents: write
 jobs:
   fix:
-    if: github.event.issue.title == '[media-fix] Amura Moncler'
+    if: github.event_name == 'push' || github.event.issue.title == '[media-fix] Amura Moncler'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
