@@ -1,4 +1,4 @@
-const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,computer:4}};
+const MEDIA_POLICY={requiredHero:'front-three-quarter',sourceIsolation:true,limits:{simple:3,standard:4,computer:10}};
 
 // Product detail data is split into JSON shards. On some connections GitHub Pages
 // can stall on an individual shard, leaving the product dialog waiting and then
@@ -26,8 +26,8 @@ function mediaSourceId(path=''){
 }
 
 function mediaComplexity(product,variant){
-  // Computer chairs always keep the complete source-isolated gallery: the rear,
-  // mechanism and base views are purchase-critical even when the model is low-cost.
+  // Computer chairs may use up to ten source-isolated images: front 3/4 first,
+  // then useful alternate views, mechanisms and dimension drawings when present.
   if(isComputerChair(product))return'computer';
   const text=`${product.category||''} ${product.name||''}`.toLocaleLowerCase('ru-RU');
   if(/диван|кровать|шкаф|витрин|комод|гарнитур|комплект|остров|библиотек/.test(text)||variant.wholesalePrice>=30000)return'complex';
@@ -53,7 +53,6 @@ function curateGallery(product,variant){
   unique.sort((a,b)=>mediaRank(a,variant.primaryImage)-mediaRank(b,variant.primaryImage));
   const complexity=mediaComplexity(product,variant);
   // Technical drawings in a complex product's source folder must never be
-  // cut off by a gallery limit. Current source folders contain 2–4 images,
-  // so this keeps the site light while preserving every available detail.
+  // cut off by a gallery limit. Computer chairs use their dedicated limit above.
   return complexity==='complex'?unique:unique.slice(0,MEDIA_POLICY.limits[complexity]);
 }
