@@ -10788,11 +10788,4427 @@
           "infoUrl": null
         }
       ]
+    },
+    {
+      "at": "2026-08-20T17:29:19Z",
+      "batchIndex": 2,
+      "batchSize": 12,
+      "start": 24,
+      "end": 36,
+      "results": [
+        {
+          "sourceId": "986",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "19327",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/986/pb-photo-01.webp",
+            "assets/products/986/pb-photo-02.webp",
+            "assets/products/986/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19327",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "987",
+          "productId": "model-215",
+          "name": "Кресло Драйвер/Driver (22)",
+          "supplierCode": "21153",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/987/pb-photo-01.webp",
+            "assets/products/987/pb-photo-02.webp",
+            "assets/products/987/pb-photo-03.webp",
+            "assets/products/987/pb-info-01.webp",
+            "assets/products/987/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21153",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21153&only_info=1"
+        },
+        {
+          "sourceId": "994",
+          "productId": "model-218",
+          "name": "Кресло Дюк МеталБл/Duke metal BL",
+          "supplierCode": "24986",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/994/pb-photo-01.webp",
+            "assets/products/994/pb-photo-02.webp",
+            "assets/products/994/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24986",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "995",
+          "productId": "model-218",
+          "name": "Кресло Дюк МеталБл/Duke metal BL",
+          "supplierCode": "24987",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/995/pb-photo-01.webp",
+            "assets/products/995/pb-photo-02.webp",
+            "assets/products/995/pb-photo-03.webp",
+            "assets/products/995/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24987",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "996",
+          "productId": "model-218",
+          "name": "Кресло Дюк МеталБл/Duke metal BL",
+          "supplierCode": "24988",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/996/pb-photo-01.webp",
+            "assets/products/996/pb-photo-02.webp",
+            "assets/products/996/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24988",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "997",
+          "productId": "model-218",
+          "name": "Кресло Дюк МеталБл/Duke metal BL",
+          "supplierCode": "24989",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/997/pb-photo-01.webp",
+            "assets/products/997/pb-photo-02.webp",
+            "assets/products/997/pb-photo-03.webp",
+            "assets/products/997/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24989",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "998",
+          "productId": "model-218",
+          "name": "Кресло Дюк МеталБл/Duke metal BL",
+          "supplierCode": "25887",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/998/pb-photo-01.webp",
+            "assets/products/998/pb-photo-02.webp",
+            "assets/products/998/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25887",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1027",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "15051",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1027/pb-photo-01.webp",
+            "assets/products/1027/pb-photo-02.webp",
+            "assets/products/1027/pb-photo-03.webp",
+            "assets/products/1027/pb-photo-04.webp",
+            "assets/products/1027/pb-info-01.webp",
+            "assets/products/1027/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15051",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15051&only_info=1"
+        },
+        {
+          "sourceId": "1028",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "15053",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1028/pb-photo-01.webp",
+            "assets/products/1028/pb-photo-02.webp",
+            "assets/products/1028/pb-photo-03.webp",
+            "assets/products/1028/pb-info-01.webp",
+            "assets/products/1028/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15053",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15053&only_info=1"
+        },
+        {
+          "sourceId": "1029",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "15054",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1029/pb-photo-01.webp",
+            "assets/products/1029/pb-photo-02.webp",
+            "assets/products/1029/pb-photo-03.webp",
+            "assets/products/1029/pb-photo-04.webp",
+            "assets/products/1029/pb-info-01.webp",
+            "assets/products/1029/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15054",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15054&only_info=1"
+        },
+        {
+          "sourceId": "1030",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "15055",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1030/pb-photo-01.webp",
+            "assets/products/1030/pb-photo-02.webp",
+            "assets/products/1030/pb-photo-03.webp",
+            "assets/products/1030/pb-info-01.webp",
+            "assets/products/1030/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15055",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15055&only_info=1"
+        },
+        {
+          "sourceId": "1032",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "15059",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1032/pb-photo-01.webp",
+            "assets/products/1032/pb-photo-02.webp",
+            "assets/products/1032/pb-photo-03.webp",
+            "assets/products/1032/pb-photo-04.webp",
+            "assets/products/1032/pb-info-01.webp",
+            "assets/products/1032/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15059",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15059&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:31:29Z",
+      "batchIndex": 3,
+      "batchSize": 12,
+      "start": 36,
+      "end": 48,
+      "results": [
+        {
+          "sourceId": "1034",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "19027",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1034/pb-photo-01.webp",
+            "assets/products/1034/pb-photo-02.webp",
+            "assets/products/1034/pb-photo-03.webp",
+            "assets/products/1034/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19027",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1035",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "19028",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1035/pb-photo-01.webp",
+            "assets/products/1035/pb-photo-02.webp",
+            "assets/products/1035/pb-photo-03.webp",
+            "assets/products/1035/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19028",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1036",
+          "productId": "model-226",
+          "name": "Кресло Мелоди/Melody",
+          "supplierCode": "19029",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1036/pb-photo-01.webp",
+            "assets/products/1036/pb-photo-02.webp",
+            "assets/products/1036/pb-photo-03.webp",
+            "assets/products/1036/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19029",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1060",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "12901",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1060/pb-photo-01.webp",
+            "assets/products/1060/pb-photo-02.webp",
+            "assets/products/1060/pb-photo-03.webp",
+            "assets/products/1060/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=12901",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1062",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13591",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1062/pb-photo-01.webp",
+            "assets/products/1062/pb-photo-02.webp",
+            "assets/products/1062/pb-photo-03.webp",
+            "assets/products/1062/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13591",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1063",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13592",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1063/pb-photo-01.webp",
+            "assets/products/1063/pb-photo-02.webp",
+            "assets/products/1063/pb-photo-03.webp",
+            "assets/products/1063/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13592",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1064",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13593",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1064/pb-photo-01.webp",
+            "assets/products/1064/pb-photo-02.webp",
+            "assets/products/1064/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13593",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1065",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13594",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1065/pb-photo-01.webp",
+            "assets/products/1065/pb-photo-02.webp",
+            "assets/products/1065/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13594",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1066",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13595",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1066/pb-photo-01.webp",
+            "assets/products/1066/pb-photo-02.webp",
+            "assets/products/1066/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13595",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1067",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "13952",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1067/pb-photo-01.webp",
+            "assets/products/1067/pb-photo-02.webp",
+            "assets/products/1067/pb-photo-03.webp",
+            "assets/products/1067/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13952",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1068",
+          "productId": "model-236",
+          "name": "Кресло Софти Люкс/Softy Lux",
+          "supplierCode": "25739",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1068/pb-photo-01.webp",
+            "assets/products/1068/pb-photo-02.webp",
+            "assets/products/1068/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25739",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1071",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13563",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1071/pb-photo-01.webp",
+            "assets/products/1071/pb-photo-02.webp",
+            "assets/products/1071/pb-photo-03.webp",
+            "assets/products/1071/pb-info-01.webp",
+            "assets/products/1071/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13563",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13563&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:33:20Z",
+      "batchIndex": 4,
+      "batchSize": 12,
+      "start": 48,
+      "end": 60,
+      "results": [
+        {
+          "sourceId": "1072",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13564",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1072/pb-photo-01.webp",
+            "assets/products/1072/pb-photo-02.webp",
+            "assets/products/1072/pb-photo-03.webp",
+            "assets/products/1072/pb-photo-04.webp",
+            "assets/products/1072/pb-info-01.webp",
+            "assets/products/1072/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13564",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13564&only_info=1"
+        },
+        {
+          "sourceId": "1073",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13565",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1073/pb-photo-01.webp",
+            "assets/products/1073/pb-photo-02.webp",
+            "assets/products/1073/pb-photo-03.webp",
+            "assets/products/1073/pb-photo-04.webp",
+            "assets/products/1073/pb-info-01.webp",
+            "assets/products/1073/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13565",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13565&only_info=1"
+        },
+        {
+          "sourceId": "1075",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13568",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1075/pb-photo-01.webp",
+            "assets/products/1075/pb-photo-02.webp",
+            "assets/products/1075/pb-photo-03.webp",
+            "assets/products/1075/pb-photo-04.webp",
+            "assets/products/1075/pb-info-01.webp",
+            "assets/products/1075/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13568",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13568&only_info=1"
+        },
+        {
+          "sourceId": "1076",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13569",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1076/pb-photo-01.webp",
+            "assets/products/1076/pb-photo-02.webp",
+            "assets/products/1076/pb-photo-03.webp",
+            "assets/products/1076/pb-photo-04.webp",
+            "assets/products/1076/pb-info-01.webp",
+            "assets/products/1076/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13569",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13569&only_info=1"
+        },
+        {
+          "sourceId": "1077",
+          "productId": "model-237",
+          "name": "Кресло Стайл/Style",
+          "supplierCode": "13953",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1077/pb-photo-01.webp",
+            "assets/products/1077/pb-photo-02.webp",
+            "assets/products/1077/pb-photo-03.webp",
+            "assets/products/1077/pb-photo-04.webp",
+            "assets/products/1077/pb-info-01.webp",
+            "assets/products/1077/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13953",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13953&only_info=1"
+        },
+        {
+          "sourceId": "1078",
+          "productId": "model-238",
+          "name": "Кресло Сван/Swan",
+          "supplierCode": "15317",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1078/pb-photo-01.webp",
+            "assets/products/1078/pb-photo-02.webp",
+            "assets/products/1078/pb-photo-03.webp",
+            "assets/products/1078/pb-info-01.webp",
+            "assets/products/1078/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15317",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15317&only_info=1"
+        },
+        {
+          "sourceId": "1080",
+          "productId": "model-238",
+          "name": "Кресло Сван/Swan",
+          "supplierCode": "15331",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1080/pb-photo-01.webp",
+            "assets/products/1080/pb-photo-02.webp",
+            "assets/products/1080/pb-photo-03.webp",
+            "assets/products/1080/pb-info-01.webp",
+            "assets/products/1080/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15331",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15331&only_info=1"
+        },
+        {
+          "sourceId": "1081",
+          "productId": "model-238",
+          "name": "Кресло Сван/Swan",
+          "supplierCode": "15332",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1081/pb-photo-01.webp",
+            "assets/products/1081/pb-photo-02.webp",
+            "assets/products/1081/pb-photo-03.webp",
+            "assets/products/1081/pb-photo-04.webp",
+            "assets/products/1081/pb-info-01.webp",
+            "assets/products/1081/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15332",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15332&only_info=1"
+        },
+        {
+          "sourceId": "1082",
+          "productId": "model-238",
+          "name": "Кресло Сван/Swan",
+          "supplierCode": "15333",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1082/pb-photo-01.webp",
+            "assets/products/1082/pb-photo-02.webp",
+            "assets/products/1082/pb-photo-03.webp",
+            "assets/products/1082/pb-photo-04.webp",
+            "assets/products/1082/pb-info-01.webp",
+            "assets/products/1082/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15333",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15333&only_info=1"
+        },
+        {
+          "sourceId": "1083",
+          "productId": "model-238",
+          "name": "Кресло Сван/Swan",
+          "supplierCode": "15334",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1083/pb-photo-01.webp",
+            "assets/products/1083/pb-photo-02.webp",
+            "assets/products/1083/pb-photo-03.webp",
+            "assets/products/1083/pb-info-01.webp",
+            "assets/products/1083/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15334",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15334&only_info=1"
+        },
+        {
+          "sourceId": "1084",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19463",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1084/pb-photo-01.webp",
+            "assets/products/1084/pb-photo-02.webp",
+            "assets/products/1084/pb-photo-03.webp",
+            "assets/products/1084/pb-photo-04.webp",
+            "assets/products/1084/pb-info-01.webp",
+            "assets/products/1084/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19463",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19463&only_info=1"
+        },
+        {
+          "sourceId": "1085",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19515",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1085/pb-photo-01.webp",
+            "assets/products/1085/pb-photo-02.webp",
+            "assets/products/1085/pb-photo-03.webp",
+            "assets/products/1085/pb-photo-04.webp",
+            "assets/products/1085/pb-info-01.webp",
+            "assets/products/1085/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19515",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19515&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:35:57Z",
+      "batchIndex": 5,
+      "batchSize": 12,
+      "start": 60,
+      "end": 72,
+      "results": [
+        {
+          "sourceId": "1087",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19518",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1087/pb-photo-01.webp",
+            "assets/products/1087/pb-photo-02.webp",
+            "assets/products/1087/pb-photo-03.webp",
+            "assets/products/1087/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19518",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1088",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19519",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1088/pb-photo-01.webp",
+            "assets/products/1088/pb-photo-02.webp",
+            "assets/products/1088/pb-photo-03.webp",
+            "assets/products/1088/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19519",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1089",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19520",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1089/pb-photo-01.webp",
+            "assets/products/1089/pb-photo-02.webp",
+            "assets/products/1089/pb-photo-03.webp",
+            "assets/products/1089/pb-photo-04.webp",
+            "assets/products/1089/pb-info-01.webp",
+            "assets/products/1089/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19520",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19520&only_info=1"
+        },
+        {
+          "sourceId": "1090",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "19521",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1090/pb-photo-01.webp",
+            "assets/products/1090/pb-photo-02.webp",
+            "assets/products/1090/pb-photo-03.webp",
+            "assets/products/1090/pb-photo-04.webp",
+            "assets/products/1090/pb-info-01.webp",
+            "assets/products/1090/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19521",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19521&only_info=1"
+        },
+        {
+          "sourceId": "1091",
+          "productId": "model-239",
+          "name": "Кресло Тренди/Trendy (22)",
+          "supplierCode": "25888",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1091/pb-photo-01.webp",
+            "assets/products/1091/pb-photo-02.webp",
+            "assets/products/1091/pb-photo-03.webp",
+            "assets/products/1091/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25888",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1108",
+          "productId": "model-244",
+          "name": "Кресло Йорк/York",
+          "supplierCode": "13860",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1108/pb-photo-01.webp",
+            "assets/products/1108/pb-photo-02.webp",
+            "assets/products/1108/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13860",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1109",
+          "productId": "model-244",
+          "name": "Кресло Йорк/York",
+          "supplierCode": "13861",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1109/pb-photo-01.webp",
+            "assets/products/1109/pb-photo-02.webp",
+            "assets/products/1109/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13861",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1110",
+          "productId": "model-244",
+          "name": "Кресло Йорк/York",
+          "supplierCode": "13862",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1110/pb-photo-01.webp",
+            "assets/products/1110/pb-photo-02.webp",
+            "assets/products/1110/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13862",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1115",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "26090",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1115/pb-photo-01.webp",
+            "assets/products/1115/pb-photo-02.webp",
+            "assets/products/1115/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=26090",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1117",
+          "productId": "model-244",
+          "name": "Кресло Йорк/York",
+          "supplierCode": "26144",
+          "status": "unchanged",
+          "before": 3,
+          "after": 3,
+          "photoAdded": 0,
+          "infoAdded": 0,
+          "files": [],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=26144",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1119",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "973",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1119/pb-photo-01.webp",
+            "assets/products/1119/pb-photo-02.webp",
+            "assets/products/1119/pb-photo-03.webp",
+            "assets/products/1119/pb-photo-04.webp",
+            "assets/products/1119/pb-info-01.webp",
+            "assets/products/1119/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=973",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=973&only_info=1"
+        },
+        {
+          "sourceId": "1120",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "1040",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1120/pb-photo-01.webp",
+            "assets/products/1120/pb-photo-02.webp",
+            "assets/products/1120/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=1040",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:37:33Z",
+      "batchIndex": 6,
+      "batchSize": 12,
+      "start": 72,
+      "end": 84,
+      "results": [
+        {
+          "sourceId": "1121",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "2151",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1121/pb-photo-01.webp",
+            "assets/products/1121/pb-photo-02.webp",
+            "assets/products/1121/pb-photo-03.webp",
+            "assets/products/1121/pb-info-01.webp",
+            "assets/products/1121/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=2151",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=2151&only_info=1"
+        },
+        {
+          "sourceId": "1122",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "2229",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1122/pb-photo-01.webp",
+            "assets/products/1122/pb-photo-02.webp",
+            "assets/products/1122/pb-photo-03.webp",
+            "assets/products/1122/pb-info-01.webp",
+            "assets/products/1122/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=2229",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=2229&only_info=1"
+        },
+        {
+          "sourceId": "1123",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "2558",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1123/pb-photo-01.webp",
+            "assets/products/1123/pb-photo-02.webp",
+            "assets/products/1123/pb-photo-03.webp",
+            "assets/products/1123/pb-info-01.webp",
+            "assets/products/1123/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=2558",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=2558&only_info=1"
+        },
+        {
+          "sourceId": "1124",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "15027",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1124/pb-photo-01.webp",
+            "assets/products/1124/pb-photo-02.webp",
+            "assets/products/1124/pb-photo-03.webp",
+            "assets/products/1124/pb-photo-04.webp",
+            "assets/products/1124/pb-info-01.webp",
+            "assets/products/1124/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15027",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15027&only_info=1"
+        },
+        {
+          "sourceId": "1125",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "15142",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1125/pb-photo-01.webp",
+            "assets/products/1125/pb-photo-02.webp",
+            "assets/products/1125/pb-photo-03.webp",
+            "assets/products/1125/pb-info-01.webp",
+            "assets/products/1125/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15142",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15142&only_info=1"
+        },
+        {
+          "sourceId": "1126",
+          "productId": "model-247",
+          "name": "Кресло СН747",
+          "supplierCode": "15143",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1126/pb-photo-01.webp",
+            "assets/products/1126/pb-photo-02.webp",
+            "assets/products/1126/pb-photo-03.webp",
+            "assets/products/1126/pb-info-01.webp",
+            "assets/products/1126/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15143",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15143&only_info=1"
+        },
+        {
+          "sourceId": "1183",
+          "productId": "model-269",
+          "name": "Кресло Рейнбоу/Rainbow",
+          "supplierCode": "20169",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1183/pb-photo-01.webp",
+            "assets/products/1183/pb-photo-02.webp",
+            "assets/products/1183/pb-photo-03.webp",
+            "assets/products/1183/pb-info-01.webp",
+            "assets/products/1183/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20169",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20169&only_info=1"
+        },
+        {
+          "sourceId": "1184",
+          "productId": "model-269",
+          "name": "Кресло Рейнбоу/Rainbow",
+          "supplierCode": "20170",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1184/pb-photo-01.webp",
+            "assets/products/1184/pb-photo-02.webp",
+            "assets/products/1184/pb-photo-03.webp",
+            "assets/products/1184/pb-info-01.webp",
+            "assets/products/1184/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20170",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20170&only_info=1"
+        },
+        {
+          "sourceId": "1185",
+          "productId": "model-269",
+          "name": "Кресло Рейнбоу/Rainbow",
+          "supplierCode": "20171",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1185/pb-photo-01.webp",
+            "assets/products/1185/pb-photo-02.webp",
+            "assets/products/1185/pb-photo-03.webp",
+            "assets/products/1185/pb-info-01.webp",
+            "assets/products/1185/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20171",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20171&only_info=1"
+        },
+        {
+          "sourceId": "1186",
+          "productId": "model-269",
+          "name": "Кресло Рейнбоу/Rainbow",
+          "supplierCode": "25662",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1186/pb-photo-01.webp",
+            "assets/products/1186/pb-photo-02.webp",
+            "assets/products/1186/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25662",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1223",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "21871",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1223/pb-photo-01.webp",
+            "assets/products/1223/pb-photo-02.webp",
+            "assets/products/1223/pb-photo-03.webp",
+            "assets/products/1223/pb-photo-04.webp",
+            "assets/products/1223/pb-info-01.webp",
+            "assets/products/1223/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21871",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21871&only_info=1"
+        },
+        {
+          "sourceId": "1224",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "21872",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1224/pb-photo-01.webp",
+            "assets/products/1224/pb-photo-02.webp",
+            "assets/products/1224/pb-photo-03.webp",
+            "assets/products/1224/pb-photo-04.webp",
+            "assets/products/1224/pb-info-01.webp",
+            "assets/products/1224/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21872",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21872&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:39:44Z",
+      "batchIndex": 7,
+      "batchSize": 12,
+      "start": 84,
+      "end": 96,
+      "results": [
+        {
+          "sourceId": "1225",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "21873",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1225/pb-photo-01.webp",
+            "assets/products/1225/pb-photo-02.webp",
+            "assets/products/1225/pb-photo-03.webp",
+            "assets/products/1225/pb-photo-04.webp",
+            "assets/products/1225/pb-info-01.webp",
+            "assets/products/1225/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21873",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21873&only_info=1"
+        },
+        {
+          "sourceId": "1226",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "21874",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1226/pb-photo-01.webp",
+            "assets/products/1226/pb-photo-02.webp",
+            "assets/products/1226/pb-photo-03.webp",
+            "assets/products/1226/pb-photo-04.webp",
+            "assets/products/1226/pb-info-01.webp",
+            "assets/products/1226/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21874",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21874&only_info=1"
+        },
+        {
+          "sourceId": "1227",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "24702",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1227/pb-photo-01.webp",
+            "assets/products/1227/pb-photo-02.webp",
+            "assets/products/1227/pb-photo-03.webp",
+            "assets/products/1227/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24702",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1228",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25731",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1228/pb-photo-01.webp",
+            "assets/products/1228/pb-photo-02.webp",
+            "assets/products/1228/pb-photo-03.webp",
+            "assets/products/1228/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25731",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1229",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25732",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1229/pb-photo-01.webp",
+            "assets/products/1229/pb-photo-02.webp",
+            "assets/products/1229/pb-photo-03.webp",
+            "assets/products/1229/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25732",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1230",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25733",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1230/pb-photo-01.webp",
+            "assets/products/1230/pb-photo-02.webp",
+            "assets/products/1230/pb-photo-03.webp",
+            "assets/products/1230/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25733",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1231",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25734",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1231/pb-photo-01.webp",
+            "assets/products/1231/pb-photo-02.webp",
+            "assets/products/1231/pb-photo-03.webp",
+            "assets/products/1231/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25734",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1232",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25735",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1232/pb-photo-01.webp",
+            "assets/products/1232/pb-photo-02.webp",
+            "assets/products/1232/pb-photo-03.webp",
+            "assets/products/1232/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25735",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1233",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25736",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1233/pb-photo-01.webp",
+            "assets/products/1233/pb-photo-02.webp",
+            "assets/products/1233/pb-photo-03.webp",
+            "assets/products/1233/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25736",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1234",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25953",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1234/pb-photo-01.webp",
+            "assets/products/1234/pb-photo-02.webp",
+            "assets/products/1234/pb-photo-03.webp",
+            "assets/products/1234/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25953",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1235",
+          "productId": "model-276",
+          "name": "Кресло Фиеста/Fiesta",
+          "supplierCode": "25954",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1235/pb-photo-01.webp",
+            "assets/products/1235/pb-photo-02.webp",
+            "assets/products/1235/pb-photo-03.webp",
+            "assets/products/1235/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25954",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1242",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "21660",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1242/pb-photo-01.webp",
+            "assets/products/1242/pb-photo-02.webp",
+            "assets/products/1242/pb-photo-03.webp",
+            "assets/products/1242/pb-photo-04.webp",
+            "assets/products/1242/pb-info-01.webp",
+            "assets/products/1242/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21660",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21660&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:42:23Z",
+      "batchIndex": 8,
+      "batchSize": 12,
+      "start": 96,
+      "end": 108,
+      "results": [
+        {
+          "sourceId": "1243",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "24701",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1243/pb-photo-01.webp",
+            "assets/products/1243/pb-photo-02.webp",
+            "assets/products/1243/pb-photo-03.webp",
+            "assets/products/1243/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24701",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1244",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25725",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1244/pb-photo-01.webp",
+            "assets/products/1244/pb-photo-02.webp",
+            "assets/products/1244/pb-photo-03.webp",
+            "assets/products/1244/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25725",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1245",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25726",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1245/pb-photo-01.webp",
+            "assets/products/1245/pb-photo-02.webp",
+            "assets/products/1245/pb-photo-03.webp",
+            "assets/products/1245/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25726",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1248",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25729",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1248/pb-photo-01.webp",
+            "assets/products/1248/pb-photo-02.webp",
+            "assets/products/1248/pb-photo-03.webp",
+            "assets/products/1248/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25729",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1249",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25730",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1249/pb-photo-01.webp",
+            "assets/products/1249/pb-photo-02.webp",
+            "assets/products/1249/pb-photo-03.webp",
+            "assets/products/1249/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25730",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1250",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25856",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1250/pb-photo-01.webp",
+            "assets/products/1250/pb-photo-02.webp",
+            "assets/products/1250/pb-photo-03.webp",
+            "assets/products/1250/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25856",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1251",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25892",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1251/pb-photo-01.webp",
+            "assets/products/1251/pb-photo-02.webp",
+            "assets/products/1251/pb-photo-03.webp",
+            "assets/products/1251/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25892",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1252",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25955",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1252/pb-photo-01.webp",
+            "assets/products/1252/pb-photo-02.webp",
+            "assets/products/1252/pb-photo-03.webp",
+            "assets/products/1252/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25955",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1253",
+          "productId": "model-278",
+          "name": "Кресло Ван/One",
+          "supplierCode": "25956",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1253/pb-photo-01.webp",
+            "assets/products/1253/pb-photo-02.webp",
+            "assets/products/1253/pb-photo-03.webp",
+            "assets/products/1253/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25956",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "940",
+          "productId": "model-208",
+          "name": "Кресло Босс Металбл/Boss Metalbl (22)",
+          "supplierCode": "25263",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/940/pb-photo-01.webp",
+            "assets/products/940/pb-photo-02.webp",
+            "assets/products/940/pb-photo-03.webp",
+            "assets/products/940/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25263",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "941",
+          "productId": "model-208",
+          "name": "Кресло Босс Металбл/Boss Metalbl (22)",
+          "supplierCode": "25264",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/941/pb-photo-01.webp",
+            "assets/products/941/pb-photo-02.webp",
+            "assets/products/941/pb-photo-03.webp",
+            "assets/products/941/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25264",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "942",
+          "productId": "model-208",
+          "name": "Кресло Босс Металбл/Boss Metalbl (22)",
+          "supplierCode": "25265",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/942/pb-photo-01.webp",
+            "assets/products/942/pb-photo-02.webp",
+            "assets/products/942/pb-photo-03.webp",
+            "assets/products/942/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25265",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:45:21Z",
+      "batchIndex": 9,
+      "batchSize": 12,
+      "start": 108,
+      "end": 120,
+      "results": [
+        {
+          "sourceId": "943",
+          "productId": "model-208",
+          "name": "Кресло Босс Металбл/Boss Metalbl (22)",
+          "supplierCode": "25281",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/943/pb-photo-01.webp",
+            "assets/products/943/pb-photo-02.webp",
+            "assets/products/943/pb-photo-03.webp",
+            "assets/products/943/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25281",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "951",
+          "productId": "model-211",
+          "name": "Кресло Чиф Металбл/Chief Metalbl",
+          "supplierCode": "25018",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/951/pb-photo-01.webp",
+            "assets/products/951/pb-photo-02.webp",
+            "assets/products/951/pb-photo-03.webp",
+            "assets/products/951/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25018",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "952",
+          "productId": "model-211",
+          "name": "Кресло Чиф Металбл/Chief Metalbl",
+          "supplierCode": "25019",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/952/pb-photo-01.webp",
+            "assets/products/952/pb-photo-02.webp",
+            "assets/products/952/pb-photo-03.webp",
+            "assets/products/952/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25019",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "953",
+          "productId": "model-211",
+          "name": "Кресло Чиф Металбл/Chief Metalbl",
+          "supplierCode": "25020",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/953/pb-photo-01.webp",
+            "assets/products/953/pb-photo-02.webp",
+            "assets/products/953/pb-photo-03.webp",
+            "assets/products/953/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25020",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "954",
+          "productId": "model-211",
+          "name": "Кресло Чиф Металбл/Chief Metalbl",
+          "supplierCode": "25021",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/954/pb-photo-01.webp",
+            "assets/products/954/pb-photo-02.webp",
+            "assets/products/954/pb-photo-03.webp",
+            "assets/products/954/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25021",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "955",
+          "productId": "model-211",
+          "name": "Кресло Чиф Металбл/Chief Metalbl",
+          "supplierCode": "25022",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/955/pb-photo-01.webp",
+            "assets/products/955/pb-photo-02.webp",
+            "assets/products/955/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25022",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "966",
+          "productId": "model-213",
+          "name": "Кресло Комфорт Люкс/Comfort Lux (22)",
+          "supplierCode": "25249",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/966/pb-photo-01.webp",
+            "assets/products/966/pb-photo-02.webp",
+            "assets/products/966/pb-photo-03.webp",
+            "assets/products/966/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25249",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "967",
+          "productId": "model-213",
+          "name": "Кресло Комфорт Люкс/Comfort Lux (22)",
+          "supplierCode": "25250",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/967/pb-photo-01.webp",
+            "assets/products/967/pb-photo-02.webp",
+            "assets/products/967/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25250",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "968",
+          "productId": "model-213",
+          "name": "Кресло Комфорт Люкс/Comfort Lux (22)",
+          "supplierCode": "25345",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/968/pb-photo-01.webp",
+            "assets/products/968/pb-photo-02.webp",
+            "assets/products/968/pb-photo-03.webp",
+            "assets/products/968/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25345",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "970",
+          "productId": "model-214",
+          "name": "Кресло Довер/Dover хром",
+          "supplierCode": "24938",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/970/pb-photo-01.webp",
+            "assets/products/970/pb-photo-02.webp",
+            "assets/products/970/pb-photo-03.webp",
+            "assets/products/970/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24938",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "971",
+          "productId": "model-214",
+          "name": "Кресло Довер/Dover хром",
+          "supplierCode": "24939",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/971/pb-photo-01.webp",
+            "assets/products/971/pb-photo-02.webp",
+            "assets/products/971/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24939",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "972",
+          "productId": "model-214",
+          "name": "Кресло Довер/Dover хром",
+          "supplierCode": "24940",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/972/pb-photo-01.webp",
+            "assets/products/972/pb-photo-02.webp",
+            "assets/products/972/pb-photo-03.webp",
+            "assets/products/972/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24940",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:48:55Z",
+      "batchIndex": 10,
+      "batchSize": 12,
+      "start": 120,
+      "end": 132,
+      "results": [
+        {
+          "sourceId": "989",
+          "productId": "model-216",
+          "name": "Кресло Дублин/Dublin",
+          "supplierCode": "19348",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/989/pb-photo-01.webp",
+            "assets/products/989/pb-photo-02.webp",
+            "assets/products/989/pb-photo-03.webp",
+            "assets/products/989/pb-info-01.webp",
+            "assets/products/989/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19348",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19348&only_info=1"
+        },
+        {
+          "sourceId": "990",
+          "productId": "model-216",
+          "name": "Кресло Дублин/Dublin",
+          "supplierCode": "19961",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/990/pb-photo-01.webp",
+            "assets/products/990/pb-photo-02.webp",
+            "assets/products/990/pb-photo-03.webp",
+            "assets/products/990/pb-info-01.webp",
+            "assets/products/990/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19961",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19961&only_info=1"
+        },
+        {
+          "sourceId": "1002",
+          "productId": "model-220",
+          "name": "Кресло Итон-Лоу/Eton-Low хром 3Д",
+          "supplierCode": "25693",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1002/pb-photo-01.webp",
+            "assets/products/1002/pb-photo-02.webp",
+            "assets/products/1002/pb-photo-03.webp",
+            "assets/products/1002/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25693",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1003",
+          "productId": "model-220",
+          "name": "Кресло Итон-Лоу/Eton-Low хром 3Д",
+          "supplierCode": "25737",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1003/pb-photo-01.webp",
+            "assets/products/1003/pb-photo-02.webp",
+            "assets/products/1003/pb-photo-03.webp",
+            "assets/products/1003/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25737",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1004",
+          "productId": "model-220",
+          "name": "Кресло Итон-Лоу/Eton-Low хром 3Д",
+          "supplierCode": "25738",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1004/pb-photo-01.webp",
+            "assets/products/1004/pb-photo-02.webp",
+            "assets/products/1004/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25738",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1005",
+          "productId": "model-114b",
+          "name": "Кресло Флаффи/Fluffy — колесная база",
+          "supplierCode": "25656",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1005/pb-photo-01.webp",
+            "assets/products/1005/pb-photo-02.webp",
+            "assets/products/1005/pb-photo-03.webp",
+            "assets/products/1005/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25656",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1006",
+          "productId": "model-114b",
+          "name": "Кресло Флаффи/Fluffy — колесная база",
+          "supplierCode": "25715",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1006/pb-photo-01.webp",
+            "assets/products/1006/pb-photo-02.webp",
+            "assets/products/1006/pb-photo-03.webp",
+            "assets/products/1006/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25715",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1007",
+          "productId": "model-114b",
+          "name": "Кресло Флаффи/Fluffy — колесная база",
+          "supplierCode": "25848",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1007/pb-photo-01.webp",
+            "assets/products/1007/pb-photo-02.webp",
+            "assets/products/1007/pb-photo-03.webp",
+            "assets/products/1007/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25848",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1008",
+          "productId": "model-114b",
+          "name": "Кресло Флаффи/Fluffy — колесная база",
+          "supplierCode": "25909",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1008/pb-photo-01.webp",
+            "assets/products/1008/pb-photo-02.webp",
+            "assets/products/1008/pb-photo-03.webp",
+            "assets/products/1008/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25909",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1020",
+          "productId": "model-224",
+          "name": "Кресло Линкольн Металбл/Lincoln Metalbl",
+          "supplierCode": "25554",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1020/pb-photo-01.webp",
+            "assets/products/1020/pb-photo-02.webp",
+            "assets/products/1020/pb-photo-03.webp",
+            "assets/products/1020/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25554",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1022",
+          "productId": "model-224",
+          "name": "Кресло Линкольн Металбл/Lincoln Metalbl",
+          "supplierCode": "25686",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1022/pb-photo-01.webp",
+            "assets/products/1022/pb-photo-02.webp",
+            "assets/products/1022/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25686",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1092",
+          "productId": "model-240",
+          "name": "Кресло Траст Люкс/Trust Lux",
+          "supplierCode": "25696",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1092/pb-photo-01.webp",
+            "assets/products/1092/pb-photo-02.webp",
+            "assets/products/1092/pb-photo-03.webp",
+            "assets/products/1092/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25696",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:51:37Z",
+      "batchIndex": 11,
+      "batchSize": 12,
+      "start": 132,
+      "end": 144,
+      "results": [
+        {
+          "sourceId": "1094",
+          "productId": "model-240",
+          "name": "Кресло Траст Люкс/Trust Lux",
+          "supplierCode": "25698",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1094/pb-photo-01.webp",
+            "assets/products/1094/pb-photo-02.webp",
+            "assets/products/1094/pb-photo-03.webp",
+            "assets/products/1094/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25698",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1096",
+          "productId": "model-240",
+          "name": "Кресло Траст Люкс/Trust Lux",
+          "supplierCode": "19891",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1096/pb-photo-01.webp",
+            "assets/products/1096/pb-photo-02.webp",
+            "assets/products/1096/pb-photo-03.webp",
+            "assets/products/1096/pb-photo-04.webp",
+            "assets/products/1096/pb-info-01.webp",
+            "assets/products/1096/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19891",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19891&only_info=1"
+        },
+        {
+          "sourceId": "1104",
+          "productId": "model-243",
+          "name": "Кресло Урбан-Лоу/Urban-Low",
+          "supplierCode": "14448",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1104/pb-photo-01.webp",
+            "assets/products/1104/pb-photo-02.webp",
+            "assets/products/1104/pb-photo-03.webp",
+            "assets/products/1104/pb-photo-04.webp",
+            "assets/products/1104/pb-info-01.webp",
+            "assets/products/1104/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=14448",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=14448&only_info=1"
+        },
+        {
+          "sourceId": "1128",
+          "productId": "model-249",
+          "name": "Кресло СН833",
+          "supplierCode": "2228",
+          "status": "updated",
+          "before": 3,
+          "after": 4,
+          "photoAdded": 0,
+          "infoAdded": 1,
+          "files": [
+            "assets/products/1128/pb-info-01.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=2228",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=2228&only_info=1"
+        },
+        {
+          "sourceId": "1130",
+          "productId": "model-249",
+          "name": "Кресло СН833",
+          "supplierCode": "11576",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1130/pb-photo-01.webp",
+            "assets/products/1130/pb-photo-02.webp",
+            "assets/products/1130/pb-photo-03.webp",
+            "assets/products/1130/pb-info-01.webp",
+            "assets/products/1130/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=11576",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=11576&only_info=1"
+        },
+        {
+          "sourceId": "1150",
+          "productId": "model-256",
+          "name": "Кресло Фанни/Funny",
+          "supplierCode": "21796",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1150/pb-photo-01.webp",
+            "assets/products/1150/pb-photo-02.webp",
+            "assets/products/1150/pb-photo-03.webp",
+            "assets/products/1150/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21796",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1151",
+          "productId": "model-256",
+          "name": "Кресло Фанни/Funny",
+          "supplierCode": "21797",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1151/pb-photo-01.webp",
+            "assets/products/1151/pb-photo-02.webp",
+            "assets/products/1151/pb-photo-03.webp",
+            "assets/products/1151/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21797",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1153",
+          "productId": "model-257",
+          "name": "Кресло Айбир/Ibear",
+          "supplierCode": "21296",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1153/pb-photo-01.webp",
+            "assets/products/1153/pb-photo-02.webp",
+            "assets/products/1153/pb-photo-03.webp",
+            "assets/products/1153/pb-info-01.webp",
+            "assets/products/1153/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21296",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21296&only_info=1"
+        },
+        {
+          "sourceId": "1154",
+          "productId": "model-257",
+          "name": "Кресло Айбир/Ibear",
+          "supplierCode": "21297",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1154/pb-photo-01.webp",
+            "assets/products/1154/pb-photo-02.webp",
+            "assets/products/1154/pb-photo-03.webp",
+            "assets/products/1154/pb-info-01.webp",
+            "assets/products/1154/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21297",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21297&only_info=1"
+        },
+        {
+          "sourceId": "1178",
+          "productId": "model-267",
+          "name": "Кресло Миракл/Miracle",
+          "supplierCode": "20172",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1178/pb-photo-01.webp",
+            "assets/products/1178/pb-photo-02.webp",
+            "assets/products/1178/pb-photo-03.webp",
+            "assets/products/1178/pb-photo-04.webp",
+            "assets/products/1178/pb-info-01.webp",
+            "assets/products/1178/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20172",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20172&only_info=1"
+        },
+        {
+          "sourceId": "1179",
+          "productId": "model-267",
+          "name": "Кресло Миракл/Miracle",
+          "supplierCode": "20175",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1179/pb-photo-01.webp",
+            "assets/products/1179/pb-photo-02.webp",
+            "assets/products/1179/pb-photo-03.webp",
+            "assets/products/1179/pb-photo-04.webp",
+            "assets/products/1179/pb-info-01.webp",
+            "assets/products/1179/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20175",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20175&only_info=1"
+        },
+        {
+          "sourceId": "1180",
+          "productId": "model-267",
+          "name": "Кресло Миракл/Miracle",
+          "supplierCode": "20177",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1180/pb-photo-01.webp",
+            "assets/products/1180/pb-photo-02.webp",
+            "assets/products/1180/pb-photo-03.webp",
+            "assets/products/1180/pb-photo-04.webp",
+            "assets/products/1180/pb-info-01.webp",
+            "assets/products/1180/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20177",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20177&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:55:04Z",
+      "batchIndex": 12,
+      "batchSize": 12,
+      "start": 144,
+      "end": 156,
+      "results": [
+        {
+          "sourceId": "1181",
+          "productId": "model-267",
+          "name": "Кресло Миракл/Miracle",
+          "supplierCode": "25663",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1181/pb-photo-01.webp",
+            "assets/products/1181/pb-photo-02.webp",
+            "assets/products/1181/pb-photo-03.webp",
+            "assets/products/1181/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25663",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1213",
+          "productId": "model-272",
+          "name": "Кресло Авиатор/Aviator",
+          "supplierCode": "21645",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1213/pb-photo-01.webp",
+            "assets/products/1213/pb-photo-02.webp",
+            "assets/products/1213/pb-photo-03.webp",
+            "assets/products/1213/pb-photo-04.webp",
+            "assets/products/1213/pb-info-01.webp",
+            "assets/products/1213/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21645",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21645&only_info=1"
+        },
+        {
+          "sourceId": "1214",
+          "productId": "model-272",
+          "name": "Кресло Авиатор/Aviator",
+          "supplierCode": "21646",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1214/pb-photo-01.webp",
+            "assets/products/1214/pb-photo-02.webp",
+            "assets/products/1214/pb-photo-03.webp",
+            "assets/products/1214/pb-photo-04.webp",
+            "assets/products/1214/pb-info-01.webp",
+            "assets/products/1214/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21646",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21646&only_info=1"
+        },
+        {
+          "sourceId": "1215",
+          "productId": "model-272",
+          "name": "Кресло Авиатор/Aviator",
+          "supplierCode": "21647",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1215/pb-photo-01.webp",
+            "assets/products/1215/pb-photo-02.webp",
+            "assets/products/1215/pb-photo-03.webp",
+            "assets/products/1215/pb-photo-04.webp",
+            "assets/products/1215/pb-info-01.webp",
+            "assets/products/1215/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21647",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21647&only_info=1"
+        },
+        {
+          "sourceId": "1258",
+          "productId": "model-281",
+          "name": "Кресло Прагматик Плт/Pragmatic Plt",
+          "supplierCode": "24246",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1258/pb-photo-01.webp",
+            "assets/products/1258/pb-photo-02.webp",
+            "assets/products/1258/pb-photo-03.webp",
+            "assets/products/1258/pb-photo-04.webp",
+            "assets/products/1258/pb-info-01.webp",
+            "assets/products/1258/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24246",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24246&only_info=1"
+        },
+        {
+          "sourceId": "1259",
+          "productId": "model-281",
+          "name": "Кресло Прагматик Плт/Pragmatic Plt",
+          "supplierCode": "24247",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1259/pb-photo-01.webp",
+            "assets/products/1259/pb-photo-02.webp",
+            "assets/products/1259/pb-photo-03.webp",
+            "assets/products/1259/pb-photo-04.webp",
+            "assets/products/1259/pb-info-01.webp",
+            "assets/products/1259/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24247",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24247&only_info=1"
+        },
+        {
+          "sourceId": "1260",
+          "productId": "model-281",
+          "name": "Кресло Прагматик Плт/Pragmatic Plt",
+          "supplierCode": "24248",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1260/pb-photo-01.webp",
+            "assets/products/1260/pb-photo-02.webp",
+            "assets/products/1260/pb-photo-03.webp",
+            "assets/products/1260/pb-info-01.webp",
+            "assets/products/1260/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24248",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24248&only_info=1"
+        },
+        {
+          "sourceId": "921",
+          "productId": "model-203",
+          "name": "Кресло Арена Металбл/Arena Metalbl",
+          "supplierCode": "25026",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/921/pb-photo-01.webp",
+            "assets/products/921/pb-photo-02.webp",
+            "assets/products/921/pb-photo-03.webp",
+            "assets/products/921/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25026",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "922",
+          "productId": "model-203",
+          "name": "Кресло Арена Металбл/Arena Metalbl",
+          "supplierCode": "25027",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/922/pb-photo-01.webp",
+            "assets/products/922/pb-photo-02.webp",
+            "assets/products/922/pb-photo-03.webp",
+            "assets/products/922/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25027",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "923",
+          "productId": "model-203",
+          "name": "Кресло Арена Металбл/Arena Metalbl",
+          "supplierCode": "25028",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/923/pb-photo-01.webp",
+            "assets/products/923/pb-photo-02.webp",
+            "assets/products/923/pb-photo-03.webp",
+            "assets/products/923/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25028",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "925",
+          "productId": "model-204",
+          "name": "Кресло Базука Металбл/Bazuka Metalbl",
+          "supplierCode": "25044",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/925/pb-photo-01.webp",
+            "assets/products/925/pb-photo-02.webp",
+            "assets/products/925/pb-photo-03.webp",
+            "assets/products/925/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25044",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "926",
+          "productId": "model-204",
+          "name": "Кресло Базука Металбл/Bazuka Metalbl",
+          "supplierCode": "25045",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/926/pb-photo-01.webp",
+            "assets/products/926/pb-photo-02.webp",
+            "assets/products/926/pb-photo-03.webp",
+            "assets/products/926/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25045",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T17:57:57Z",
+      "batchIndex": 13,
+      "batchSize": 12,
+      "start": 156,
+      "end": 168,
+      "results": [
+        {
+          "sourceId": "927",
+          "productId": "model-204",
+          "name": "Кресло Базука Металбл/Bazuka Metalbl",
+          "supplierCode": "25046",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/927/pb-photo-01.webp",
+            "assets/products/927/pb-photo-02.webp",
+            "assets/products/927/pb-photo-03.webp",
+            "assets/products/927/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25046",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "946",
+          "productId": "model-210",
+          "name": "Кресло Шарм/Charm",
+          "supplierCode": "13246",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/946/pb-photo-01.webp",
+            "assets/products/946/pb-photo-02.webp",
+            "assets/products/946/pb-photo-03.webp",
+            "assets/products/946/pb-photo-04.webp",
+            "assets/products/946/pb-info-01.webp",
+            "assets/products/946/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13246",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13246&only_info=1"
+        },
+        {
+          "sourceId": "947",
+          "productId": "model-210",
+          "name": "Кресло Шарм/Charm",
+          "supplierCode": "13910",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/947/pb-photo-01.webp",
+            "assets/products/947/pb-photo-02.webp",
+            "assets/products/947/pb-photo-03.webp",
+            "assets/products/947/pb-photo-04.webp",
+            "assets/products/947/pb-info-01.webp",
+            "assets/products/947/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13910",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13910&only_info=1"
+        },
+        {
+          "sourceId": "948",
+          "productId": "model-210",
+          "name": "Кресло Шарм/Charm",
+          "supplierCode": "13911",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/948/pb-photo-01.webp",
+            "assets/products/948/pb-photo-02.webp",
+            "assets/products/948/pb-photo-03.webp",
+            "assets/products/948/pb-photo-04.webp",
+            "assets/products/948/pb-info-01.webp",
+            "assets/products/948/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13911",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13911&only_info=1"
+        },
+        {
+          "sourceId": "950",
+          "productId": "model-210",
+          "name": "Кресло Шарм/Charm",
+          "supplierCode": "13913",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/950/pb-photo-01.webp",
+            "assets/products/950/pb-photo-02.webp",
+            "assets/products/950/pb-photo-03.webp",
+            "assets/products/950/pb-photo-04.webp",
+            "assets/products/950/pb-info-01.webp",
+            "assets/products/950/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13913",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13913&only_info=1"
+        },
+        {
+          "sourceId": "1099",
+          "productId": "model-241",
+          "name": "Кресло Урбан/Urban",
+          "supplierCode": "14441",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1099/pb-photo-01.webp",
+            "assets/products/1099/pb-photo-02.webp",
+            "assets/products/1099/pb-photo-03.webp",
+            "assets/products/1099/pb-info-01.webp",
+            "assets/products/1099/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=14441",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=14441&only_info=1"
+        },
+        {
+          "sourceId": "1216",
+          "productId": "model-273",
+          "name": "Кресло Авиатор Плт Металбл/Aviator Plt Metalbl",
+          "supplierCode": "24682",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1216/pb-photo-01.webp",
+            "assets/products/1216/pb-photo-02.webp",
+            "assets/products/1216/pb-photo-03.webp",
+            "assets/products/1216/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24682",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1217",
+          "productId": "model-273",
+          "name": "Кресло Авиатор Плт Металбл/Aviator Plt Metalbl",
+          "supplierCode": "25108",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1217/pb-photo-01.webp",
+            "assets/products/1217/pb-photo-02.webp",
+            "assets/products/1217/pb-photo-03.webp",
+            "assets/products/1217/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25108",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1218",
+          "productId": "model-273",
+          "name": "Кресло Авиатор Плт Металбл/Aviator Plt Metalbl",
+          "supplierCode": "25109",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1218/pb-photo-01.webp",
+            "assets/products/1218/pb-photo-02.webp",
+            "assets/products/1218/pb-photo-03.webp",
+            "assets/products/1218/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25109",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1266",
+          "productId": "model-283",
+          "name": "Кресло Спарк/Spark",
+          "supplierCode": "20604",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1266/pb-photo-01.webp",
+            "assets/products/1266/pb-photo-02.webp",
+            "assets/products/1266/pb-photo-03.webp",
+            "assets/products/1266/pb-photo-04.webp",
+            "assets/products/1266/pb-info-01.webp",
+            "assets/products/1266/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20604",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20604&only_info=1"
+        },
+        {
+          "sourceId": "1267",
+          "productId": "model-283",
+          "name": "Кресло Спарк/Spark",
+          "supplierCode": "21292",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1267/pb-photo-01.webp",
+            "assets/products/1267/pb-photo-02.webp",
+            "assets/products/1267/pb-photo-03.webp",
+            "assets/products/1267/pb-photo-04.webp",
+            "assets/products/1267/pb-info-01.webp",
+            "assets/products/1267/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21292",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21292&only_info=1"
+        },
+        {
+          "sourceId": "1269",
+          "productId": "model-283",
+          "name": "Кресло Спарк/Spark",
+          "supplierCode": "21418",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1269/pb-photo-01.webp",
+            "assets/products/1269/pb-photo-02.webp",
+            "assets/products/1269/pb-photo-03.webp",
+            "assets/products/1269/pb-photo-04.webp",
+            "assets/products/1269/pb-info-01.webp",
+            "assets/products/1269/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21418",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21418&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:00:05Z",
+      "batchIndex": 14,
+      "batchSize": 12,
+      "start": 168,
+      "end": 180,
+      "results": [
+        {
+          "sourceId": "1270",
+          "productId": "model-283",
+          "name": "Кресло Спарк/Spark",
+          "supplierCode": "21419",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1270/pb-photo-01.webp",
+            "assets/products/1270/pb-photo-02.webp",
+            "assets/products/1270/pb-photo-03.webp",
+            "assets/products/1270/pb-photo-04.webp",
+            "assets/products/1270/pb-info-01.webp",
+            "assets/products/1270/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21419",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21419&only_info=1"
+        },
+        {
+          "sourceId": "938",
+          "productId": "model-207",
+          "name": "Кресло Босс Люкс/Boss Lux (26) хром",
+          "supplierCode": "25932",
+          "status": "updated",
+          "before": 2,
+          "after": 7,
+          "photoAdded": 5,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/938/pb-photo-01.webp",
+            "assets/products/938/pb-photo-02.webp",
+            "assets/products/938/pb-photo-03.webp",
+            "assets/products/938/pb-photo-04.webp",
+            "assets/products/938/pb-photo-05.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25932",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "944",
+          "productId": "model-209",
+          "name": "Кресло Кэмбридж Металбл/Cambridge Metalbl",
+          "supplierCode": "25023",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/944/pb-photo-01.webp",
+            "assets/products/944/pb-photo-02.webp",
+            "assets/products/944/pb-photo-03.webp",
+            "assets/products/944/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25023",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1011",
+          "productId": "model-221",
+          "name": "Кресло Гарда/Garda",
+          "supplierCode": "15292",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1011/pb-photo-01.webp",
+            "assets/products/1011/pb-photo-02.webp",
+            "assets/products/1011/pb-photo-03.webp",
+            "assets/products/1011/pb-photo-04.webp",
+            "assets/products/1011/pb-info-01.webp",
+            "assets/products/1011/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15292",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15292&only_info=1"
+        },
+        {
+          "sourceId": "1012",
+          "productId": "model-221",
+          "name": "Кресло Гарда/Garda",
+          "supplierCode": "15293",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1012/pb-photo-01.webp",
+            "assets/products/1012/pb-photo-02.webp",
+            "assets/products/1012/pb-photo-03.webp",
+            "assets/products/1012/pb-photo-04.webp",
+            "assets/products/1012/pb-info-01.webp",
+            "assets/products/1012/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15293",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15293&only_info=1"
+        },
+        {
+          "sourceId": "1013",
+          "productId": "model-221",
+          "name": "Кресло Гарда/Garda",
+          "supplierCode": "15294",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1013/pb-photo-01.webp",
+            "assets/products/1013/pb-photo-02.webp",
+            "assets/products/1013/pb-photo-03.webp",
+            "assets/products/1013/pb-photo-04.webp",
+            "assets/products/1013/pb-info-01.webp",
+            "assets/products/1013/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15294",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=15294&only_info=1"
+        },
+        {
+          "sourceId": "1014",
+          "productId": "model-222",
+          "name": "Кресло Интер/Inter (24)",
+          "supplierCode": "24614",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1014/pb-photo-01.webp",
+            "assets/products/1014/pb-photo-02.webp",
+            "assets/products/1014/pb-photo-03.webp",
+            "assets/products/1014/pb-photo-04.webp",
+            "assets/products/1014/pb-info-01.webp",
+            "assets/products/1014/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24614",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24614&only_info=1"
+        },
+        {
+          "sourceId": "1015",
+          "productId": "model-222",
+          "name": "Кресло Интер/Inter (24)",
+          "supplierCode": "24615",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1015/pb-photo-01.webp",
+            "assets/products/1015/pb-photo-02.webp",
+            "assets/products/1015/pb-photo-03.webp",
+            "assets/products/1015/pb-photo-04.webp",
+            "assets/products/1015/pb-info-01.webp",
+            "assets/products/1015/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24615",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24615&only_info=1"
+        },
+        {
+          "sourceId": "1016",
+          "productId": "model-222",
+          "name": "Кресло Интер/Inter (24)",
+          "supplierCode": "24616",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1016/pb-photo-01.webp",
+            "assets/products/1016/pb-photo-02.webp",
+            "assets/products/1016/pb-photo-03.webp",
+            "assets/products/1016/pb-photo-04.webp",
+            "assets/products/1016/pb-info-01.webp",
+            "assets/products/1016/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24616",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24616&only_info=1"
+        },
+        {
+          "sourceId": "1017",
+          "productId": "model-223",
+          "name": "Кресло Лидер/Leader (22)",
+          "supplierCode": "25037",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1017/pb-photo-01.webp",
+            "assets/products/1017/pb-photo-02.webp",
+            "assets/products/1017/pb-photo-03.webp",
+            "assets/products/1017/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25037",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1018",
+          "productId": "model-223",
+          "name": "Кресло Лидер/Leader (22)",
+          "supplierCode": "25038",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1018/pb-photo-01.webp",
+            "assets/products/1018/pb-photo-02.webp",
+            "assets/products/1018/pb-photo-03.webp",
+            "assets/products/1018/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25038",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1019",
+          "productId": "model-223",
+          "name": "Кресло Лидер/Leader (22)",
+          "supplierCode": "25039",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1019/pb-photo-01.webp",
+            "assets/products/1019/pb-photo-02.webp",
+            "assets/products/1019/pb-photo-03.webp",
+            "assets/products/1019/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25039",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:03:23Z",
+      "batchIndex": 15,
+      "batchSize": 12,
+      "start": 180,
+      "end": 192,
+      "results": [
+        {
+          "sourceId": "1024",
+          "productId": "model-225",
+          "name": "Кресло Луц/Lutz хром",
+          "supplierCode": "25478",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1024/pb-photo-01.webp",
+            "assets/products/1024/pb-photo-02.webp",
+            "assets/products/1024/pb-photo-03.webp",
+            "assets/products/1024/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25478",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1037",
+          "productId": "model-227",
+          "name": "Кресло Мурано/Murano хром",
+          "supplierCode": "25217",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1037/pb-photo-01.webp",
+            "assets/products/1037/pb-photo-02.webp",
+            "assets/products/1037/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25217",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1038",
+          "productId": "model-227",
+          "name": "Кресло Мурано/Murano хром",
+          "supplierCode": "25218",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1038/pb-photo-01.webp",
+            "assets/products/1038/pb-photo-02.webp",
+            "assets/products/1038/pb-photo-03.webp",
+            "assets/products/1038/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25218",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1039",
+          "productId": "model-228",
+          "name": "Кресло Ореон Металбл/Oreon Metalbl",
+          "supplierCode": "25041",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1039/pb-photo-01.webp",
+            "assets/products/1039/pb-photo-02.webp",
+            "assets/products/1039/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25041",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1041",
+          "productId": "model-229",
+          "name": "Кресло Оксфорд/Oxford хром",
+          "supplierCode": "21163",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1041/pb-photo-01.webp",
+            "assets/products/1041/pb-photo-02.webp",
+            "assets/products/1041/pb-photo-03.webp",
+            "assets/products/1041/pb-info-01.webp",
+            "assets/products/1041/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21163",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21163&only_info=1"
+        },
+        {
+          "sourceId": "1042",
+          "productId": "model-229",
+          "name": "Кресло Оксфорд/Oxford хром",
+          "supplierCode": "21164",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1042/pb-photo-01.webp",
+            "assets/products/1042/pb-photo-02.webp",
+            "assets/products/1042/pb-photo-03.webp",
+            "assets/products/1042/pb-photo-04.webp",
+            "assets/products/1042/pb-info-01.webp",
+            "assets/products/1042/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21164",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21164&only_info=1"
+        },
+        {
+          "sourceId": "1043",
+          "productId": "model-230",
+          "name": "Кресло Парма/Parma (22)",
+          "supplierCode": "25034",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1043/pb-photo-01.webp",
+            "assets/products/1043/pb-photo-02.webp",
+            "assets/products/1043/pb-photo-03.webp",
+            "assets/products/1043/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25034",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1044",
+          "productId": "model-230",
+          "name": "Кресло Парма/Parma (22)",
+          "supplierCode": "25035",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1044/pb-photo-01.webp",
+            "assets/products/1044/pb-photo-02.webp",
+            "assets/products/1044/pb-photo-03.webp",
+            "assets/products/1044/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25035",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1047",
+          "productId": "model-231",
+          "name": "Кресло Пилот/Pilot (24)",
+          "supplierCode": "21671",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1047/pb-photo-01.webp",
+            "assets/products/1047/pb-photo-02.webp",
+            "assets/products/1047/pb-photo-03.webp",
+            "assets/products/1047/pb-photo-04.webp",
+            "assets/products/1047/pb-info-01.webp",
+            "assets/products/1047/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21671",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21671&only_info=1"
+        },
+        {
+          "sourceId": "1048",
+          "productId": "model-231",
+          "name": "Кресло Пилот/Pilot (24)",
+          "supplierCode": "24354",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1048/pb-photo-01.webp",
+            "assets/products/1048/pb-photo-02.webp",
+            "assets/products/1048/pb-photo-03.webp",
+            "assets/products/1048/pb-photo-04.webp",
+            "assets/products/1048/pb-info-01.webp",
+            "assets/products/1048/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24354",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24354&only_info=1"
+        },
+        {
+          "sourceId": "1049",
+          "productId": "model-232",
+          "name": "Кресло Планет Металбл/Planet Metalbl",
+          "supplierCode": "25678",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1049/pb-photo-01.webp",
+            "assets/products/1049/pb-photo-02.webp",
+            "assets/products/1049/pb-photo-03.webp",
+            "assets/products/1049/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25678",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1051",
+          "productId": "model-232",
+          "name": "Кресло Планет Металбл/Planet Metalbl",
+          "supplierCode": "25680",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1051/pb-photo-01.webp",
+            "assets/products/1051/pb-photo-02.webp",
+            "assets/products/1051/pb-photo-03.webp",
+            "assets/products/1051/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25680",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:05:40Z",
+      "batchIndex": 16,
+      "batchSize": 12,
+      "start": 192,
+      "end": 204,
+      "results": [
+        {
+          "sourceId": "1052",
+          "productId": "model-233",
+          "name": "Кресло Рейсер Гт Нью/Racer Gt New",
+          "supplierCode": "13249",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1052/pb-photo-01.webp",
+            "assets/products/1052/pb-photo-02.webp",
+            "assets/products/1052/pb-photo-03.webp",
+            "assets/products/1052/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13249",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1053",
+          "productId": "model-233",
+          "name": "Кресло Рейсер Гт Нью/Racer Gt New",
+          "supplierCode": "13252",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1053/pb-photo-01.webp",
+            "assets/products/1053/pb-photo-02.webp",
+            "assets/products/1053/pb-photo-03.webp",
+            "assets/products/1053/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13252",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1054",
+          "productId": "model-234",
+          "name": "Кресло Рио Пл/Rio Pl",
+          "supplierCode": "25439",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1054/pb-photo-01.webp",
+            "assets/products/1054/pb-photo-02.webp",
+            "assets/products/1054/pb-photo-03.webp",
+            "assets/products/1054/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25439",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1055",
+          "productId": "model-234",
+          "name": "Кресло Рио Пл/Rio Pl",
+          "supplierCode": "25440",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1055/pb-photo-01.webp",
+            "assets/products/1055/pb-photo-02.webp",
+            "assets/products/1055/pb-photo-03.webp",
+            "assets/products/1055/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25440",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1056",
+          "productId": "model-235",
+          "name": "Кресло Селфи/Selfi",
+          "supplierCode": "15299",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1056/pb-photo-01.webp",
+            "assets/products/1056/pb-photo-02.webp",
+            "assets/products/1056/pb-photo-03.webp",
+            "assets/products/1056/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15299",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1057",
+          "productId": "model-235",
+          "name": "Кресло Селфи/Selfi",
+          "supplierCode": "15301",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1057/pb-photo-01.webp",
+            "assets/products/1057/pb-photo-02.webp",
+            "assets/products/1057/pb-photo-03.webp",
+            "assets/products/1057/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15301",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1058",
+          "productId": "model-235",
+          "name": "Кресло Селфи/Selfi",
+          "supplierCode": "15302",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1058/pb-photo-01.webp",
+            "assets/products/1058/pb-photo-02.webp",
+            "assets/products/1058/pb-photo-03.webp",
+            "assets/products/1058/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=15302",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1111",
+          "productId": "model-245",
+          "name": "Кресло Зеро/Zero",
+          "supplierCode": "13495",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1111/pb-photo-01.webp",
+            "assets/products/1111/pb-photo-02.webp",
+            "assets/products/1111/pb-photo-03.webp",
+            "assets/products/1111/pb-photo-04.webp",
+            "assets/products/1111/pb-info-01.webp",
+            "assets/products/1111/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13495",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13495&only_info=1"
+        },
+        {
+          "sourceId": "1114",
+          "productId": "model-245",
+          "name": "Кресло Зеро/Zero",
+          "supplierCode": "19180",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1114/pb-photo-01.webp",
+            "assets/products/1114/pb-photo-02.webp",
+            "assets/products/1114/pb-photo-03.webp",
+            "assets/products/1114/pb-photo-04.webp",
+            "assets/products/1114/pb-info-01.webp",
+            "assets/products/1114/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19180",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19180&only_info=1"
+        },
+        {
+          "sourceId": "1131",
+          "productId": "model-250",
+          "name": "Кресло СН888 (22)",
+          "supplierCode": "19524",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1131/pb-photo-01.webp",
+            "assets/products/1131/pb-photo-02.webp",
+            "assets/products/1131/pb-photo-03.webp",
+            "assets/products/1131/pb-photo-04.webp",
+            "assets/products/1131/pb-info-01.webp",
+            "assets/products/1131/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19524",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19524&only_info=1"
+        },
+        {
+          "sourceId": "1132",
+          "productId": "model-250",
+          "name": "Кресло СН888 (22)",
+          "supplierCode": "19525",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1132/pb-photo-01.webp",
+            "assets/products/1132/pb-photo-02.webp",
+            "assets/products/1132/pb-photo-03.webp",
+            "assets/products/1132/pb-info-01.webp",
+            "assets/products/1132/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19525",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19525&only_info=1"
+        },
+        {
+          "sourceId": "1133",
+          "productId": "model-251",
+          "name": "Кресло СН9944 (22) хром",
+          "supplierCode": "19467",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1133/pb-photo-01.webp",
+            "assets/products/1133/pb-photo-02.webp",
+            "assets/products/1133/pb-photo-03.webp",
+            "assets/products/1133/pb-photo-04.webp",
+            "assets/products/1133/pb-info-01.webp",
+            "assets/products/1133/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19467",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19467&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:08:03Z",
+      "batchIndex": 17,
+      "batchSize": 12,
+      "start": 204,
+      "end": 216,
+      "results": [
+        {
+          "sourceId": "1134",
+          "productId": "model-251",
+          "name": "Кресло СН9944 (22) хром",
+          "supplierCode": "21160",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1134/pb-photo-01.webp",
+            "assets/products/1134/pb-photo-02.webp",
+            "assets/products/1134/pb-photo-03.webp",
+            "assets/products/1134/pb-photo-04.webp",
+            "assets/products/1134/pb-info-01.webp",
+            "assets/products/1134/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21160",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21160&only_info=1"
+        },
+        {
+          "sourceId": "1135",
+          "productId": "model-251",
+          "name": "Кресло СН9944 (22) хром",
+          "supplierCode": "21161",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1135/pb-photo-01.webp",
+            "assets/products/1135/pb-photo-02.webp",
+            "assets/products/1135/pb-photo-03.webp",
+            "assets/products/1135/pb-photo-04.webp",
+            "assets/products/1135/pb-info-01.webp",
+            "assets/products/1135/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21161",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21161&only_info=1"
+        },
+        {
+          "sourceId": "1166",
+          "productId": "model-263",
+          "name": "Кресло Лугано/Lugano",
+          "supplierCode": "21800",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1166/pb-photo-01.webp",
+            "assets/products/1166/pb-photo-02.webp",
+            "assets/products/1166/pb-photo-03.webp",
+            "assets/products/1166/pb-photo-04.webp",
+            "assets/products/1166/pb-info-01.webp",
+            "assets/products/1166/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21800",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21800&only_info=1"
+        },
+        {
+          "sourceId": "1169",
+          "productId": "model-264",
+          "name": "Кресло Лугано Вт/Lugano Wh",
+          "supplierCode": "21802",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1169/pb-photo-01.webp",
+            "assets/products/1169/pb-photo-02.webp",
+            "assets/products/1169/pb-photo-03.webp",
+            "assets/products/1169/pb-photo-04.webp",
+            "assets/products/1169/pb-info-01.webp",
+            "assets/products/1169/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21802",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21802&only_info=1"
+        },
+        {
+          "sourceId": "1170",
+          "productId": "model-264",
+          "name": "Кресло Лугано Вт/Lugano Wh",
+          "supplierCode": "24334",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1170/pb-photo-01.webp",
+            "assets/products/1170/pb-photo-02.webp",
+            "assets/products/1170/pb-photo-03.webp",
+            "assets/products/1170/pb-photo-04.webp",
+            "assets/products/1170/pb-info-01.webp",
+            "assets/products/1170/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24334",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24334&only_info=1"
+        },
+        {
+          "sourceId": "1192",
+          "productId": "model-270",
+          "name": "Кресло Вимта/Vimta",
+          "supplierCode": "13662",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1192/pb-photo-01.webp",
+            "assets/products/1192/pb-photo-02.webp",
+            "assets/products/1192/pb-photo-03.webp",
+            "assets/products/1192/pb-photo-04.webp",
+            "assets/products/1192/pb-info-01.webp",
+            "assets/products/1192/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13662",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13662&only_info=1"
+        },
+        {
+          "sourceId": "1193",
+          "productId": "model-270",
+          "name": "Кресло Вимта/Vimta",
+          "supplierCode": "13663",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1193/pb-photo-01.webp",
+            "assets/products/1193/pb-photo-02.webp",
+            "assets/products/1193/pb-photo-03.webp",
+            "assets/products/1193/pb-photo-04.webp",
+            "assets/products/1193/pb-info-01.webp",
+            "assets/products/1193/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13663",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13663&only_info=1"
+        },
+        {
+          "sourceId": "1221",
+          "productId": "model-275",
+          "name": "Кресло Бенефит/Benefit",
+          "supplierCode": "24243",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1221/pb-photo-01.webp",
+            "assets/products/1221/pb-photo-02.webp",
+            "assets/products/1221/pb-photo-03.webp",
+            "assets/products/1221/pb-photo-04.webp",
+            "assets/products/1221/pb-info-01.webp",
+            "assets/products/1221/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24243",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24243&only_info=1"
+        },
+        {
+          "sourceId": "1222",
+          "productId": "model-275",
+          "name": "Кресло Бенефит/Benefit",
+          "supplierCode": "24244",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1222/pb-photo-01.webp",
+            "assets/products/1222/pb-photo-02.webp",
+            "assets/products/1222/pb-photo-03.webp",
+            "assets/products/1222/pb-photo-04.webp",
+            "assets/products/1222/pb-info-01.webp",
+            "assets/products/1222/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24244",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24244&only_info=1"
+        },
+        {
+          "sourceId": "1236",
+          "productId": "model-277",
+          "name": "Кресло Флай/Fly",
+          "supplierCode": "20538",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1236/pb-photo-01.webp",
+            "assets/products/1236/pb-photo-02.webp",
+            "assets/products/1236/pb-photo-03.webp",
+            "assets/products/1236/pb-photo-04.webp",
+            "assets/products/1236/pb-info-01.webp",
+            "assets/products/1236/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20538",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20538&only_info=1"
+        },
+        {
+          "sourceId": "1238",
+          "productId": "model-277",
+          "name": "Кресло Флай/Fly",
+          "supplierCode": "21290",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1238/pb-photo-01.webp",
+            "assets/products/1238/pb-photo-02.webp",
+            "assets/products/1238/pb-photo-03.webp",
+            "assets/products/1238/pb-photo-04.webp",
+            "assets/products/1238/pb-info-01.webp",
+            "assets/products/1238/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21290",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21290&only_info=1"
+        },
+        {
+          "sourceId": "1239",
+          "productId": "model-277",
+          "name": "Кресло Флай/Fly",
+          "supplierCode": "21291",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1239/pb-photo-01.webp",
+            "assets/products/1239/pb-photo-02.webp",
+            "assets/products/1239/pb-photo-03.webp",
+            "assets/products/1239/pb-photo-04.webp",
+            "assets/products/1239/pb-info-01.webp",
+            "assets/products/1239/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21291",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21291&only_info=1"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:11:19Z",
+      "batchIndex": 18,
+      "batchSize": 12,
+      "start": 216,
+      "end": 228,
+      "results": [
+        {
+          "sourceId": "1263",
+          "productId": "model-282",
+          "name": "Кресло Профит Плт/Profit Plt",
+          "supplierCode": "20614",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1263/pb-photo-01.webp",
+            "assets/products/1263/pb-photo-02.webp",
+            "assets/products/1263/pb-photo-03.webp",
+            "assets/products/1263/pb-photo-04.webp",
+            "assets/products/1263/pb-info-01.webp",
+            "assets/products/1263/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20614",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20614&only_info=1"
+        },
+        {
+          "sourceId": "1272",
+          "productId": "model-284",
+          "name": "Кресло Стафф/Staff",
+          "supplierCode": "21346",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1272/pb-photo-01.webp",
+            "assets/products/1272/pb-photo-02.webp",
+            "assets/products/1272/pb-photo-03.webp",
+            "assets/products/1272/pb-photo-04.webp",
+            "assets/products/1272/pb-info-01.webp",
+            "assets/products/1272/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21346",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21346&only_info=1"
+        },
+        {
+          "sourceId": "1276",
+          "productId": "model-284",
+          "name": "Кресло Стафф/Staff",
+          "supplierCode": "21455",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1276/pb-photo-01.webp",
+            "assets/products/1276/pb-photo-02.webp",
+            "assets/products/1276/pb-photo-03.webp",
+            "assets/products/1276/pb-photo-04.webp",
+            "assets/products/1276/pb-info-01.webp",
+            "assets/products/1276/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21455",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21455&only_info=1"
+        },
+        {
+          "sourceId": "1279",
+          "productId": "model-285",
+          "name": "Кресло Старт/Start",
+          "supplierCode": "20603",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1279/pb-photo-01.webp",
+            "assets/products/1279/pb-photo-02.webp",
+            "assets/products/1279/pb-photo-03.webp",
+            "assets/products/1279/pb-photo-04.webp",
+            "assets/products/1279/pb-info-01.webp",
+            "assets/products/1279/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20603",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=20603&only_info=1"
+        },
+        {
+          "sourceId": "1280",
+          "productId": "model-285",
+          "name": "Кресло Старт/Start",
+          "supplierCode": "21293",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1280/pb-photo-01.webp",
+            "assets/products/1280/pb-photo-02.webp",
+            "assets/products/1280/pb-photo-03.webp",
+            "assets/products/1280/pb-photo-04.webp",
+            "assets/products/1280/pb-info-01.webp",
+            "assets/products/1280/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21293",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21293&only_info=1"
+        },
+        {
+          "sourceId": "1281",
+          "productId": "model-285",
+          "name": "Кресло Старт/Start",
+          "supplierCode": "21294",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1281/pb-photo-01.webp",
+            "assets/products/1281/pb-photo-02.webp",
+            "assets/products/1281/pb-photo-03.webp",
+            "assets/products/1281/pb-photo-04.webp",
+            "assets/products/1281/pb-info-01.webp",
+            "assets/products/1281/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21294",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21294&only_info=1"
+        },
+        {
+          "sourceId": "1282",
+          "productId": "model-286",
+          "name": "Кресло Винд/Wind",
+          "supplierCode": "21620",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1282/pb-photo-01.webp",
+            "assets/products/1282/pb-photo-02.webp",
+            "assets/products/1282/pb-photo-03.webp",
+            "assets/products/1282/pb-photo-04.webp",
+            "assets/products/1282/pb-info-01.webp",
+            "assets/products/1282/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21620",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21620&only_info=1"
+        },
+        {
+          "sourceId": "1283",
+          "productId": "model-286",
+          "name": "Кресло Винд/Wind",
+          "supplierCode": "21621",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1283/pb-photo-01.webp",
+            "assets/products/1283/pb-photo-02.webp",
+            "assets/products/1283/pb-photo-03.webp",
+            "assets/products/1283/pb-photo-04.webp",
+            "assets/products/1283/pb-info-01.webp",
+            "assets/products/1283/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21621",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21621&only_info=1"
+        },
+        {
+          "sourceId": "1284",
+          "productId": "model-286",
+          "name": "Кресло Винд/Wind",
+          "supplierCode": "21622",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1284/pb-photo-01.webp",
+            "assets/products/1284/pb-photo-02.webp",
+            "assets/products/1284/pb-photo-03.webp",
+            "assets/products/1284/pb-photo-04.webp",
+            "assets/products/1284/pb-info-01.webp",
+            "assets/products/1284/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21622",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21622&only_info=1"
+        },
+        {
+          "sourceId": "991",
+          "productId": "model-217",
+          "name": "Кресло Дублин/Dublin хром",
+          "supplierCode": "24322",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/991/pb-photo-01.webp",
+            "assets/products/991/pb-photo-02.webp",
+            "assets/products/991/pb-photo-03.webp",
+            "assets/products/991/pb-info-01.webp",
+            "assets/products/991/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24322",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=24322&only_info=1"
+        },
+        {
+          "sourceId": "1102",
+          "productId": "model-242",
+          "name": "Кресло Урбан С/Urban S (на полозьях)",
+          "supplierCode": "25816",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1102/pb-photo-01.webp",
+            "assets/products/1102/pb-photo-02.webp",
+            "assets/products/1102/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25816",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1148",
+          "productId": "model-255",
+          "name": "Кресло Фентэзи/Fantasy",
+          "supplierCode": "25664",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1148/pb-photo-01.webp",
+            "assets/products/1148/pb-photo-02.webp",
+            "assets/products/1148/pb-photo-03.webp",
+            "assets/products/1148/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25664",
+          "infoUrl": null
+        }
+      ]
+    },
+    {
+      "at": "2026-08-20T18:13:42Z",
+      "batchIndex": 19,
+      "batchSize": 12,
+      "start": 228,
+      "end": 240,
+      "results": [
+        {
+          "sourceId": "1149",
+          "productId": "model-255",
+          "name": "Кресло Фентэзи/Fantasy",
+          "supplierCode": "25665",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1149/pb-photo-01.webp",
+            "assets/products/1149/pb-photo-02.webp",
+            "assets/products/1149/pb-photo-03.webp",
+            "assets/products/1149/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25665",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1165",
+          "productId": "model-262",
+          "name": "Кресло Кингкобра/Kingcobra",
+          "supplierCode": "24849",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1165/pb-photo-01.webp",
+            "assets/products/1165/pb-photo-02.webp",
+            "assets/products/1165/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24849",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1136",
+          "productId": "model-252",
+          "name": "Кресло Бэнд/Bend",
+          "supplierCode": "13665",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1136/pb-photo-01.webp",
+            "assets/products/1136/pb-photo-02.webp",
+            "assets/products/1136/pb-photo-03.webp",
+            "assets/products/1136/pb-photo-04.webp",
+            "assets/products/1136/pb-info-01.webp",
+            "assets/products/1136/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=13665",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=13665&only_info=1"
+        },
+        {
+          "sourceId": "1155",
+          "productId": "model-258",
+          "name": "Кресло Айкобра/Icobra",
+          "supplierCode": "24848",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1155/pb-photo-01.webp",
+            "assets/products/1155/pb-photo-02.webp",
+            "assets/products/1155/pb-photo-03.webp",
+            "assets/products/1155/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=24848",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1118",
+          "productId": "model-246",
+          "name": "Кресло Планет C/Planet S (на полозьях)",
+          "supplierCode": "25930",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1118/pb-photo-01.webp",
+            "assets/products/1118/pb-photo-02.webp",
+            "assets/products/1118/pb-photo-03.webp",
+            "assets/products/1118/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25930",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1137",
+          "productId": "model-253",
+          "name": "Кресло Бэст/Best",
+          "supplierCode": "20195",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1137/pb-photo-01.webp",
+            "assets/products/1137/pb-photo-02.webp",
+            "assets/products/1137/pb-photo-03.webp",
+            "assets/products/1137/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=20195",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1176",
+          "productId": "model-265",
+          "name": "Кресло Меш-11Хр/Mesh-11Hr",
+          "supplierCode": "19507",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1176/pb-photo-01.webp",
+            "assets/products/1176/pb-photo-02.webp",
+            "assets/products/1176/pb-photo-03.webp",
+            "assets/products/1176/pb-photo-04.webp",
+            "assets/products/1176/pb-info-01.webp",
+            "assets/products/1176/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19507",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19507&only_info=1"
+        },
+        {
+          "sourceId": "1182",
+          "productId": "model-268",
+          "name": "Кресло Нордик/Nordic",
+          "supplierCode": "25661",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1182/pb-photo-01.webp",
+            "assets/products/1182/pb-photo-02.webp",
+            "assets/products/1182/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25661",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1202",
+          "productId": "model-271",
+          "name": "Офисное кресло Тулип/Tulip (мод.106-1)",
+          "supplierCode": "21230",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1202/pb-photo-01.webp",
+            "assets/products/1202/pb-photo-02.webp",
+            "assets/products/1202/pb-photo-03.webp",
+            "assets/products/1202/pb-photo-04.webp",
+            "assets/products/1202/pb-info-01.webp",
+            "assets/products/1202/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21230",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21230&only_info=1"
+        },
+        {
+          "sourceId": "1219",
+          "productId": "model-274",
+          "name": "Кресло Азура/Azura",
+          "supplierCode": "21867",
+          "status": "updated",
+          "before": 3,
+          "after": 7,
+          "photoAdded": 4,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/1219/pb-photo-01.webp",
+            "assets/products/1219/pb-photo-02.webp",
+            "assets/products/1219/pb-photo-03.webp",
+            "assets/products/1219/pb-photo-04.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21867",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "1254",
+          "productId": "model-279",
+          "name": "Кресло Практик/Practic (мп)",
+          "supplierCode": "21448",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1254/pb-photo-01.webp",
+            "assets/products/1254/pb-photo-02.webp",
+            "assets/products/1254/pb-photo-03.webp",
+            "assets/products/1254/pb-photo-04.webp",
+            "assets/products/1254/pb-info-01.webp",
+            "assets/products/1254/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21448",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21448&only_info=1"
+        },
+        {
+          "sourceId": "1256",
+          "productId": "model-280",
+          "name": "Кресло Практик Плт/Practic Plt",
+          "supplierCode": "21416",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/1256/pb-photo-01.webp",
+            "assets/products/1256/pb-photo-02.webp",
+            "assets/products/1256/pb-photo-03.webp",
+            "assets/products/1256/pb-photo-04.webp",
+            "assets/products/1256/pb-info-01.webp",
+            "assets/products/1256/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=21416",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=21416&only_info=1"
+        }
+      ]
     }
   ],
   "applySummary": {
     "eligible": 240,
-    "lastBatch": 1,
+    "lastBatch": 19,
     "updatedThisBatch": 12,
     "unchangedThisBatch": 0,
     "errorsThisBatch": 0
