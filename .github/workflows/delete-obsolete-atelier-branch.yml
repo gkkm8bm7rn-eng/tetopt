@@ -1,0 +1,28 @@
+name: Delete obsolete Atelier branch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/delete-obsolete-atelier-branch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Delete obsolete branch
+        run: git push origin --delete forma-atelier-zero-2026
+      - name: Remove this one-shot workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/delete-obsolete-atelier-branch.yml
+          git commit -m 'Remove one-shot branch cleanup workflow'
+          git push origin HEAD:main
