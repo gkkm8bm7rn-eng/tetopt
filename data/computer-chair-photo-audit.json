@@ -10299,5 +10299,267 @@
         "sourcePage": "https://tetchair.ru/catalog_old/kompyuternye-kresla/ofisnye-kresla/"
       }
     }
-  ]
+  ],
+  "applyRuns": [
+    {
+      "at": "2026-08-20T17:15:33Z",
+      "batchIndex": 0,
+      "batchSize": 12,
+      "start": 0,
+      "end": 12,
+      "results": [
+        {
+          "sourceId": "928",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19366",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/928/pb-photo-01.webp",
+            "assets/products/928/pb-photo-02.webp",
+            "assets/products/928/pb-photo-03.webp",
+            "assets/products/928/pb-info-01.webp",
+            "assets/products/928/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19366",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19366&only_info=1"
+        },
+        {
+          "sourceId": "929",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19370",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/929/pb-photo-01.webp",
+            "assets/products/929/pb-photo-02.webp",
+            "assets/products/929/pb-photo-03.webp",
+            "assets/products/929/pb-photo-04.webp",
+            "assets/products/929/pb-info-01.webp",
+            "assets/products/929/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19370",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19370&only_info=1"
+        },
+        {
+          "sourceId": "930",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19371",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/930/pb-photo-01.webp",
+            "assets/products/930/pb-photo-02.webp",
+            "assets/products/930/pb-photo-03.webp",
+            "assets/products/930/pb-info-01.webp",
+            "assets/products/930/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19371",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19371&only_info=1"
+        },
+        {
+          "sourceId": "931",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19372",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/931/pb-photo-01.webp",
+            "assets/products/931/pb-photo-02.webp",
+            "assets/products/931/pb-photo-03.webp",
+            "assets/products/931/pb-photo-04.webp",
+            "assets/products/931/pb-info-01.webp",
+            "assets/products/931/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19372",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19372&only_info=1"
+        },
+        {
+          "sourceId": "932",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19374",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/932/pb-photo-01.webp",
+            "assets/products/932/pb-photo-02.webp",
+            "assets/products/932/pb-photo-03.webp",
+            "assets/products/932/pb-info-01.webp",
+            "assets/products/932/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19374",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19374&only_info=1"
+        },
+        {
+          "sourceId": "933",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "19399",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/933/pb-photo-01.webp",
+            "assets/products/933/pb-photo-02.webp",
+            "assets/products/933/pb-photo-03.webp",
+            "assets/products/933/pb-photo-04.webp",
+            "assets/products/933/pb-info-01.webp",
+            "assets/products/933/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19399",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19399&only_info=1"
+        },
+        {
+          "sourceId": "934",
+          "productId": "model-205",
+          "name": "Кресло Бергамо/Bergamo хром (22)",
+          "supplierCode": "25886",
+          "status": "updated",
+          "before": 4,
+          "after": 7,
+          "photoAdded": 3,
+          "infoAdded": 0,
+          "files": [
+            "assets/products/934/pb-photo-01.webp",
+            "assets/products/934/pb-photo-02.webp",
+            "assets/products/934/pb-photo-03.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=25886",
+          "infoUrl": null
+        },
+        {
+          "sourceId": "956",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19378",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/956/pb-photo-01.webp",
+            "assets/products/956/pb-photo-02.webp",
+            "assets/products/956/pb-photo-03.webp",
+            "assets/products/956/pb-photo-04.webp",
+            "assets/products/956/pb-info-01.webp",
+            "assets/products/956/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19378",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19378&only_info=1"
+        },
+        {
+          "sourceId": "957",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19381",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/957/pb-photo-01.webp",
+            "assets/products/957/pb-photo-02.webp",
+            "assets/products/957/pb-photo-03.webp",
+            "assets/products/957/pb-info-01.webp",
+            "assets/products/957/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19381",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19381&only_info=1"
+        },
+        {
+          "sourceId": "959",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19383",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/959/pb-photo-01.webp",
+            "assets/products/959/pb-photo-02.webp",
+            "assets/products/959/pb-photo-03.webp",
+            "assets/products/959/pb-photo-04.webp",
+            "assets/products/959/pb-info-01.webp",
+            "assets/products/959/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19383",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19383&only_info=1"
+        },
+        {
+          "sourceId": "960",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19384",
+          "status": "updated",
+          "before": 3,
+          "after": 9,
+          "photoAdded": 4,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/960/pb-photo-01.webp",
+            "assets/products/960/pb-photo-02.webp",
+            "assets/products/960/pb-photo-03.webp",
+            "assets/products/960/pb-photo-04.webp",
+            "assets/products/960/pb-info-01.webp",
+            "assets/products/960/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19384",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19384&only_info=1"
+        },
+        {
+          "sourceId": "961",
+          "productId": "model-212",
+          "name": "Кресло Комфорт Лт/Comfort Lt (22)",
+          "supplierCode": "19385",
+          "status": "updated",
+          "before": 4,
+          "after": 9,
+          "photoAdded": 3,
+          "infoAdded": 2,
+          "files": [
+            "assets/products/961/pb-photo-01.webp",
+            "assets/products/961/pb-photo-02.webp",
+            "assets/products/961/pb-photo-03.webp",
+            "assets/products/961/pb-info-01.webp",
+            "assets/products/961/pb-info-02.webp"
+          ],
+          "photoUrl": "https://price.tetchair.ru/download_photo/?id=19385",
+          "infoUrl": "https://price.tetchair.ru/download_photo/?id=19385&only_info=1"
+        }
+      ]
+    }
+  ],
+  "applySummary": {
+    "eligible": 240,
+    "lastBatch": 0,
+    "updatedThisBatch": 12,
+    "unchangedThisBatch": 0,
+    "errorsThisBatch": 0
+  }
 }
