@@ -1,0 +1,74 @@
+name: Temporary live host check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/live-host-check.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Compare GitHub Pages and Cloudflare with main
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data /tmp/livecheck
+          check_host(){
+            name="$1"; base="$2"
+            for file in index.html ui.css app.js; do
+              url="$base/$file?check=${GITHUB_SHA}"
+              meta=$(curl -L -sS -o "/tmp/livecheck/${name}-${file}" -w '%{http_code}|%{url_effective}' "$url" || true)
+              printf '%s %s %s\n' "$name" "$file" "$meta" >> /tmp/livecheck/meta.txt
+            done
+          }
+          check_host pages 'https://gkkm8bm7rn-eng.github.io/tetopt'
+          check_host cloudflare 'https://tetopt.m78m6cfc2v.workers.dev'
+          python - <<'PY'
+          import hashlib, json, os
+          files=['index.html','ui.css','app.js']
+          out={'main_sha':os.environ.get('GITHUB_SHA'),'hosts':{}}
+          def sha(path):
+              try:
+                  with open(path,'rb') as f:return hashlib.sha256(f.read()).hexdigest()
+              except FileNotFoundError:return None
+          meta={}
+          try:
+              for line in open('/tmp/livecheck/meta.txt',encoding='utf-8'):
+                  host,file,rest=line.rstrip('\n').split(' ',2)
+                  status,final=rest.split('|',1)
+                  meta[(host,file)]={'http_status':status,'final_url':final}
+          except FileNotFoundError:pass
+          for host in ['pages','cloudflare']:
+              h={}
+              for file in files:
+                  live=f'/tmp/livecheck/{host}-{file}'
+                  local=file
+                  entry=meta.get((host,file),{})
+                  entry.update({'live_sha256':sha(live),'main_sha256':sha(local),'matches_main':sha(live)==sha(local)})
+                  if file=='index.html':
+                      try:
+                          text=open(live,encoding='utf-8',errors='replace').read()
+                      except FileNotFoundError:text=''
+                      entry['has_catalog_first_demo']='Desktop catalog-first demonstration' in text
+                      entry['has_hero_button']='Смотреть товары' in text
+                  h[file]=entry
+              out['hosts'][host]=h
+          with open('data/live-host-check.json','w',encoding='utf-8') as f:
+              json.dump(out,f,ensure_ascii=False,indent=2);f.write('\n')
+          PY
+      - name: Save result
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/live-host-check.json
+          git commit -m 'Record temporary live host check' || exit 0
+          git push origin HEAD:main
