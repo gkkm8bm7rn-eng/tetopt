@@ -11,3 +11,13 @@ document.addEventListener('click',function(event){var detailAdd=event.target.clo
 var detail=document.getElementById('productDetail'),grid=document.getElementById('productGrid'),recent=document.getElementById('recentRow');[detail,grid,recent].forEach(function(node){if(node&&window.MutationObserver)new MutationObserver(function(){window.setTimeout(syncAllCartFeedback,0)}).observe(node,{childList:true,subtree:true})});
 document.addEventListener('DOMContentLoaded',syncAllCartFeedback);window.setTimeout(syncAllCartFeedback,500);
 })();
+
+/* Keep the storefront shell available after a successful visit. Registration is
+   deliberately non-blocking: first paint and buying interactions never wait for it. */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(function(error){
+      console.warn('[service-worker] registration skipped',error);
+    });
+  },{once:true});
+}
