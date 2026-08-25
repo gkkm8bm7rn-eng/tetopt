@@ -2,7 +2,7 @@
  * Goal: a complete, consistent buying shell on weak/intermittent connections.
  * New shell versions activate only after every critical file is available.
  */
-const CACHE_VERSION='20260822-2';
+const CACHE_VERSION='20260825-1';
 const SHELL_CACHE=`forma-shell-${CACHE_VERSION}`;
 const DATA_CACHE=`forma-data-${CACHE_VERSION}`;
 const IMAGE_CACHE=`forma-images-${CACHE_VERSION}`;
@@ -21,7 +21,8 @@ const SHELL_ASSETS=[
   './app.js',
   './search-fallback.js',
   './cart-feedback.js',
-  './data/catalog-index.json'
+  './data/catalog-index.json',
+  './data/category-assignments.json'
 ];
 
 self.addEventListener('install',event=>{
@@ -111,7 +112,7 @@ self.addEventListener('fetch',event=>{
     return;
   }
 
-  if(url.pathname.endsWith('/data/catalog-index.json')){
+  if(url.pathname.endsWith('/data/catalog-index.json')||url.pathname.endsWith('/data/category-assignments.json')){
     event.respondWith(staleWhileRevalidate(request,SHELL_CACHE));
     return;
   }

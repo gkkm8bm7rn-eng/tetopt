@@ -78,6 +78,43 @@
       .catalog-tools{grid-template-columns:minmax(0,1fr) auto!important}.catalog-tools .search-field{grid-column:1/-1}.catalog-tools .sort-field{min-width:0}.catalog-tools .filter-toggle{min-width:96px}
       .category-chip{padding:8px 11px!important;font-size:11px}.filters.open{grid-template-columns:1fr 1fr}.filters.open .filter-head{grid-column:1/-1}
     }
+    /* One responsive category hierarchy for desktop, iOS and Android browsers. */
+    html,body{max-width:100%;overflow-x:hidden;overflow-x:clip}
+    .catalog-tools{align-items:start}
+    .catalog-tools .search-field{min-width:0;height:46px;padding-left:12px;border:1px solid #d8ddd4!important;border-radius:13px;background:#fff}
+    .catalog-tools .search-field input{height:44px;font-size:13px}
+    .catalog-tools .search-submit{min-height:34px;margin-right:5px}
+    .category-row{display:grid!important;grid-area:auto!important;gap:12px!important;min-width:0;margin:0!important;padding:0!important;overflow:visible!important;border:0!important;background:transparent!important}
+    .category-primary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+    .category-main{display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto;column-gap:7px;min-height:48px;padding:5px 8px;border:1px solid #d7dfd3;border-radius:13px;background:#fff;color:#273326;text-align:left;cursor:pointer;touch-action:manipulation}
+    .category-main:hover,.category-main:focus-visible{border-color:#91a98d;background:#f2f6f0}.category-main.active{border-color:#435d41;background:#435d41;color:#fff}
+    .category-icon{grid-row:1/3;align-self:center;display:grid;width:30px;height:30px;place-items:center;border-radius:10px;background:#edf2ea;font:700 18px/1 Georgia,serif;color:#435d41}.category-main.active .category-icon{background:rgba(255,255,255,.16);color:#fff}
+    .category-main>span:nth-child(2){align-self:end;font-size:10px;font-weight:750;line-height:1.08}.category-main small{align-self:start;font-size:9px;opacity:.67}
+    .category-subgroups{display:grid;grid-template-columns:1fr;gap:8px}
+    .category-subgroup{min-width:0;padding:10px 11px;border:1px solid #e1e5dd;border-radius:14px;background:#fbfaf7}.category-subgroup.active{border-color:#9db495;background:#f3f7f1}
+    .category-subgroup h3{margin:0 0 8px;font:700 10px/1.2 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#657361}
+    .category-subgroup>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.category-subgroup:last-child>div{grid-template-columns:repeat(2,minmax(0,1fr))}.category-subgroup .category-chip{display:flex;min-width:0;height:38px;align-items:center;padding:5px 8px!important;border-radius:11px!important;background:#fff;font-size:10px;line-height:1.12;text-align:left;white-space:normal;overflow:hidden}.category-subgroup .category-chip span{margin-left:4px;opacity:.62}.category-subgroup .category-chip.active{background:#435d41;color:#fff}
+    .card-variants{contain:inline-size}
+    .catalog-utility{display:flex;align-items:center;justify-content:flex-end;gap:8px}.catalog-utility .sort-field{min-width:180px;min-height:42px;padding:0 10px;border:1px solid #dfe3d9;border-radius:12px;background:#fff}.catalog-utility .filter-toggle{border-radius:12px}
+    .detail-breadcrumbs{display:flex;align-items:center;gap:7px;margin:0 42px 18px 0;overflow:auto;white-space:nowrap;scrollbar-width:none}.detail-breadcrumbs button{min-height:34px;padding:5px 9px;border:0;border-radius:9px;background:#edf2ea;color:#435d41;font-size:11px;font-weight:700;cursor:pointer}.detail-breadcrumbs button:hover,.detail-breadcrumbs button:focus-visible{background:#dce8d8}.detail-breadcrumbs span{color:#8b9588}
+    @media(min-width:901px){
+      main#top{grid-template-areas:"hero heading" "hero tools" "catalog catalog" "recent recent"!important}
+      .catalog-tools{grid-template-columns:minmax(180px,220px) minmax(0,1fr)!important;grid-template-areas:"search categories" "utility utility"!important;gap:10px!important;padding:8px 12px 12px!important;border-bottom:1px solid #dfe3d9!important;border-radius:0 0 22px 22px!important}
+      .catalog-tools .search-field{grid-area:search}.catalog-tools .category-row{grid-area:categories!important}.catalog-utility{grid-area:utility}
+      .catalog-layout{margin-top:18px}
+    }
+    @media(min-width:641px) and (max-width:900px){
+      main#top{grid-template-areas:"hero heading" "hero tools" "catalog catalog" "recent recent"!important}
+      .catalog-tools{grid-template-columns:1fr!important;grid-template-areas:"search" "categories" "utility"!important;padding-bottom:12px!important;border-bottom:1px solid #dfe3d9!important;border-radius:0 0 22px 22px!important}
+      .catalog-tools .search-field{grid-area:search;grid-column:auto!important}.catalog-tools .category-row{grid-area:categories!important}.catalog-utility{grid-area:utility}
+      .category-primary{grid-template-columns:repeat(3,minmax(0,1fr))}.category-subgroups{grid-template-columns:1fr}.catalog-layout{margin-top:14px}
+    }
+    @media(max-width:640px){
+      .hero{margin-top:18px}.hero-content{min-height:190px;padding:26px 22px!important}.hero h1{font-size:36px!important}.hero-copy{margin:12px 0 0!important;font-size:13px!important;line-height:1.35!important}
+      .catalog-section{padding-top:38px!important}.catalog-tools{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}.catalog-tools .search-field{grid-column:auto!important}.catalog-utility{display:grid;grid-template-columns:auto minmax(0,1fr)}.catalog-utility .sort-field{grid-column:auto!important;min-width:0}
+      .category-primary{display:flex;grid-template-columns:none;gap:7px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}.category-primary::-webkit-scrollbar{display:none}.category-main,.category-main:first-child{grid-column:auto;flex:0 0 148px;min-height:52px;scroll-snap-align:start}.category-main:first-child{flex-basis:122px}.category-main>span:nth-child(2){font-size:11px}.category-subgroups{grid-template-columns:1fr}.category-subgroup{padding:9px}.category-subgroup>div,.category-subgroup:last-child>div{display:grid;grid-template-columns:none;grid-template-rows:44px 44px;grid-auto-flow:column;grid-auto-columns:minmax(145px,46vw);gap:6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}.category-subgroup:last-child>div{grid-template-rows:44px}.category-subgroup>div::-webkit-scrollbar{display:none}.category-subgroup .category-chip{height:44px;padding:7px 9px!important;font-size:11px;scroll-snap-align:start}
+      .detail-breadcrumbs{margin-right:32px}.detail-breadcrumbs button{min-height:44px}
+    }
   </style>
 </head>
 <body>
@@ -94,8 +131,7 @@
     <section class="hero" aria-labelledby="heroTitle"><div class="hero-content"><p class="eyebrow">Мебель для продуманного интерьера</p><h1 id="heroTitle">Дом, в который<br>хочется возвращаться</h1><p class="hero-copy">Столы, кресла, стулья, декор и коллекционная мебель — выбирайте по стилю, материалу и точной цене выбранного варианта.</p><a class="primary-button hero-button" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a></div></section>
     <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
       <div class="section-heading"><div><p class="eyebrow">Каталог FORMA HOME</p><h2 id="catalogTitle">Мебель для вашего дома</h2></div><p class="result-count" id="resultCount" aria-live="polite" hidden>Загружаем товары…</p></div>
-      <div class="catalog-tools"><form class="search-field" id="searchForm" role="search"><label class="sr-only" for="searchInput">Поиск по каталогу</label><input id="searchInput" type="search" placeholder="Название, материал или размер" autocomplete="off"><button class="search-submit" type="submit">Искать</button></form><button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button><label class="sort-field"><span class="sort-icon" aria-hidden="true">↕</span><span class="sr-only">Порядок товаров</span><select id="sortSelect" aria-label="Порядок товаров"><option value="featured">Рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label></div>
-      <div class="category-row" id="categoryRow" aria-label="Категории"></div>
+      <div class="catalog-tools"><form class="search-field" id="searchForm" role="search"><label class="sr-only" for="searchInput">Поиск по каталогу</label><input id="searchInput" type="search" placeholder="Поиск" autocomplete="off"><button class="search-submit" type="submit">Найти</button></form><div class="category-row" id="categoryRow" aria-label="Категории"></div><div class="catalog-utility"><button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button><label class="sort-field"><span class="sort-icon" aria-hidden="true">↕</span><span class="sr-only">Порядок товаров</span><select id="sortSelect" aria-label="Порядок товаров"><option value="featured">Рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label></div></div>
       <div class="catalog-layout"><aside class="filters" id="filters" aria-label="Фильтры"><div class="filter-head"><strong>Фильтры</strong><button id="clearFilters" type="button">Сбросить</button></div><fieldset><legend>Цена, ₽</legend><div class="price-inputs"><input id="priceMin" inputmode="numeric" placeholder="от"><input id="priceMax" inputmode="numeric" placeholder="до"></div></fieldset><fieldset><legend>Наличие вариантов</legend><label class="check"><input id="multiVariant" type="checkbox"> <span>Несколько цветов</span></label></fieldset></aside><div class="catalog-content"><div class="favorites-toolbar" id="favoritesToolbar" hidden><strong>Избранное</strong><button class="share-selection" id="shareFavorites" type="button" hidden>Поделиться подборкой</button></div><div class="product-grid" id="productGrid" aria-live="polite"></div><div class="empty-state" id="emptyState" hidden><h3>Ничего не нашли</h3><p>Попробуйте изменить запрос или сбросить фильтры.</p><button class="secondary-button" id="emptyReset" type="button">Сбросить фильтры</button></div><nav class="pagination" id="pagination" aria-label="Страницы каталога"></nav></div></div>
     </section>
     <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><h2>Недавно смотрели</h2></div></div><div class="recent-row" id="recentRow"></div></section>

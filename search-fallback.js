@@ -6,10 +6,10 @@ if(!form)return;
 form.addEventListener('submit',function(event){
   const input=document.getElementById('searchInput');
   const query=(input?.value||'').trim();
-  if(!query||state.category==='Все'||state.view==='favorites')return;
-  const currentCategory=state.category;
+  if(!query||(state.categoryMain==='all'&&state.categoryCode==='all')||state.view==='favorites')return;
+  const currentCategory=state.categoryCode!=='all'?categoryLabel(state.categoryCode):CATEGORY_TREE.find(item=>item.id===state.categoryMain)?.label||'категории';
   const categoryHasMatches=state.products.some(product=>
-    product.category===currentCategory&&
+    matchesSelectedCategory(product)&&
     searchMatches(product,query)&&
     (!state.min||minPrice(product)>=Number(state.min))&&
     (!state.max||minPrice(product)<=Number(state.max))&&
@@ -26,15 +26,17 @@ form.addEventListener('submit',function(event){
   event.preventDefault();
   event.stopImmediatePropagation();
   state.search=query;
-  state.category='Все';
+  state.categoryMain='all';
+  state.categoryCode='all';
   state.page=1;
   renderCategories();
   applyFilters();
+  syncCatalogHistory();
   const count=document.getElementById('resultCount');
   if(count){
     count.hidden=false;
     count.textContent=`В категории «${currentCategory}» ничего не найдено — показываем по всему каталогу: ${state.filtered.length}`;
   }
-  requestAnimationFrame(()=>document.getElementById('productGrid')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}));
+  requestAnimationFrame(()=>instantScroll(document.getElementById('productGrid')));
 },true);
 })();
