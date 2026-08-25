@@ -49,6 +49,29 @@ const SWATCH_PALETTE=[
   {key:'gold',label:'золотой',hex:'#b49a61',tokens:['золот','бронз','латун','медов']}
 ];
 
+// Some upholstery collections identify colours only by a fabric collection
+// and sample number. These source-specific swatches are verified against the
+// product photos so they remain visual choices instead of long text buttons.
+const SOURCE_SWATCH_OVERRIDES={
+  1402:{key:'start-cream',label:'кремово-бежевый',hex:'#d8bda4'},
+  1418:{key:'vienna-melange',label:'серо-бежевый меланж',hex:'#a99c91'},
+  1424:{key:'strap-beige',label:'бежевый',hex:'#c9b092'},
+  1430:{key:'strap-grey',label:'серо-бежевый',hex:'#968b80'},
+  1587:{key:'lici-grisaille',label:'гризайль',hex:'#8d8b87'},
+  1588:{key:'lici-mineral-shell',label:'минерал шелл',hex:'#d4c8b9'},
+  1589:{key:'lici-moonstone',label:'мунстоун',hex:'#c5b4aa'},
+  1591:{key:'lici-maris-9',label:'Марис 9 — бежевый',hex:'#b7a58f'},
+  1592:{key:'lici-maris-5',label:'Марис 5 — пыльно-бордовый',hex:'#8a6662'},
+  1593:{key:'lici-smalta-2',label:'Смальта 2 — пыльно-розовый',hex:'#b59a91'},
+  1594:{key:'lici-smalta-4',label:'Смальта 4 — оливково-золотой',hex:'#ad9c66'},
+  1595:{key:'lici-box-02',label:'Бокс 02 — серо-коричневый',hex:'#6f6862'},
+  1596:{key:'lici-maris-9',label:'Марис 9 — бежевый',hex:'#b7a58f'},
+  1597:{key:'lici-maris-5',label:'Марис 5 — пыльно-бордовый',hex:'#8a6662'},
+  1598:{key:'lici-smalta-2',label:'Смальта 2 — пыльно-розовый',hex:'#b59a91'},
+  1599:{key:'lici-smalta-4',label:'Смальта 4 — оливково-золотой',hex:'#ad9c66'},
+  1600:{key:'lici-box-02',label:'Бокс 02 — серо-коричневый',hex:'#6f6862'}
+};
+
 const colorText=value=>String(value||'').toLocaleLowerCase('ru-RU').replace(/ё/gu,'е');
 const stableColorKey=value=>colorText(value).replace(/[^a-zа-я0-9]+/giu,' ').trim();
 
@@ -81,7 +104,8 @@ function uniqueColors(colors=[]){
 }
 
 function variantPresentation(variant){
-  const detected=colorsIn(`${variant.label||''} ${variant.specs||''}`),explicitSoft=colorFromAxis(variant.axes?.soft),explicitHard=colorFromAxis(variant.axes?.hard);
+  const detected=colorsIn(`${variant.label||''} ${variant.specs||''}`),override=SOURCE_SWATCH_OVERRIDES[variant.sourceId],explicitSoft=colorFromAxis(variant.axes?.soft),explicitHard=colorFromAxis(variant.axes?.hard);
+  if(!detected.length&&override)detected.push(override);
   let soft=explicitSoft,hard=explicitHard;
   if(!soft&&hard)soft=detected.find(color=>color.key!==hard.key)||null;
   if(!hard&&soft)hard=detected.find(color=>color.key!==soft.key)||null;
