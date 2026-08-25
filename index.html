@@ -50,11 +50,10 @@
     /* Desktop catalog-first demonstration */
     @media(min-width:641px){
       main#top{display:grid;grid-template-columns:minmax(220px,.82fr) minmax(0,1.18fr);grid-template-areas:"hero heading" "hero tools" "hero categories" "catalog catalog" "recent recent";column-gap:22px;row-gap:0;padding:30px clamp(20px,5vw,72px) 0;align-items:stretch}
-      .hero{grid-area:hero;min-width:0;margin:0!important;padding:0!important}
-      .hero-content{display:flex;height:100%;min-height:250px;flex-direction:column;justify-content:center;padding:28px 30px!important;border-radius:22px}
+      .hero{grid-area:hero;min-width:0;margin:0!important;padding:0!important;align-self:start}
+      .hero-content{display:flex;height:auto;min-height:220px;flex-direction:column;justify-content:center;padding:26px 30px!important;border-radius:22px}
       .hero-content::before{right:-230px!important;bottom:-280px!important}
       .hero h1{max-width:520px!important;font-size:clamp(38px,3.8vw,58px)!important;line-height:.98}
-      .hero-copy{max-width:480px!important;margin:14px 0 0!important;font-size:15px!important;line-height:1.45!important}
       .hero-button{display:none!important}
       .catalog-section{display:contents}
       .catalog-section>.section-heading{grid-area:heading;display:flex!important;align-items:center!important;margin:0!important;padding:18px 18px 7px;border:1px solid #dfe3d9;border-bottom:0;border-radius:22px 22px 0 0;background:rgba(255,255,255,.74)}
@@ -74,7 +73,7 @@
     }
     @media(min-width:641px) and (max-width:900px){
       main#top{grid-template-columns:minmax(200px,.72fr) minmax(0,1.28fr);column-gap:14px;padding-inline:18px}
-      .hero-content{padding:24px 22px!important}.hero h1{font-size:clamp(34px,5.2vw,46px)!important}.hero-copy{font-size:13px!important}
+      .hero-content{min-height:200px;padding:24px 22px!important}.hero h1{font-size:clamp(34px,5.2vw,46px)!important}
       .catalog-tools{grid-template-columns:minmax(0,1fr) auto!important}.catalog-tools .search-field{grid-column:1/-1}.catalog-tools .sort-field{min-width:0}.catalog-tools .filter-toggle{min-width:96px}
       .category-chip{padding:8px 11px!important;font-size:11px}.filters.open{grid-template-columns:1fr 1fr}.filters.open .filter-head{grid-column:1/-1}
     }
@@ -110,7 +109,7 @@
       .category-primary{grid-template-columns:repeat(3,minmax(0,1fr))}.category-subgroups{grid-template-columns:1fr}.catalog-layout{margin-top:14px}
     }
     @media(max-width:640px){
-      .hero{margin-top:18px}.hero-content{min-height:190px;padding:26px 22px!important}.hero h1{font-size:36px!important}.hero-copy{margin:12px 0 0!important;font-size:13px!important;line-height:1.35!important}
+      .hero{margin-top:18px}.hero-content{min-height:165px;padding:22px!important}.hero-content .eyebrow{margin-bottom:10px}.hero h1{font-size:34px!important}
       .catalog-section{padding-top:38px!important}.catalog-tools{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}.catalog-tools .search-field{grid-column:auto!important}.catalog-utility{display:grid;grid-template-columns:auto minmax(0,1fr)}.catalog-utility .sort-field{grid-column:auto!important;min-width:0}
       .category-primary{display:flex;grid-template-columns:none;gap:7px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}.category-primary::-webkit-scrollbar{display:none}.category-main,.category-main:first-child{grid-column:auto;flex:0 0 148px;min-height:52px;scroll-snap-align:start}.category-main:first-child{flex-basis:122px}.category-main>span:nth-child(2){font-size:11px}.category-subgroups{grid-template-columns:1fr}.category-subgroup{padding:9px}.category-subgroup>div,.category-subgroup:last-child>div{display:grid;grid-template-columns:none;grid-template-rows:44px 44px;grid-auto-flow:column;grid-auto-columns:minmax(145px,46vw);gap:6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}.category-subgroup:last-child>div{grid-template-rows:44px}.category-subgroup>div::-webkit-scrollbar{display:none}.category-subgroup .category-chip{height:44px;padding:7px 9px!important;font-size:11px;scroll-snap-align:start}
       .detail-breadcrumbs{margin-right:32px}.detail-breadcrumbs button{min-height:44px}
@@ -128,7 +127,7 @@
     </nav>
   </header>
   <main id="top">
-    <section class="hero" aria-labelledby="heroTitle"><div class="hero-content"><p class="eyebrow">Мебель для продуманного интерьера</p><h1 id="heroTitle">Дом, в который<br>хочется возвращаться</h1><p class="hero-copy">Столы, кресла, стулья, декор и коллекционная мебель — выбирайте по стилю, материалу и точной цене выбранного варианта.</p><a class="primary-button hero-button" href="#catalog">Смотреть товары <span aria-hidden="true">→</span></a></div></section>
+    <section class="hero" aria-labelledby="heroTitle"><div class="hero-content"><p class="eyebrow">Зелёная мебель для продуманного интерьера</p><h1 id="heroTitle">Дом, в который<br>хочется возвращаться</h1></div></section>
     <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
       <div class="section-heading"><div><p class="eyebrow">Каталог FORMA HOME</p><h2 id="catalogTitle">Мебель для вашего дома</h2></div><p class="result-count" id="resultCount" aria-live="polite" hidden>Загружаем товары…</p></div>
       <div class="catalog-tools"><form class="search-field" id="searchForm" role="search"><label class="sr-only" for="searchInput">Поиск по каталогу</label><input id="searchInput" type="search" placeholder="Поиск" autocomplete="off"><button class="search-submit" type="submit">Найти</button></form><div class="category-row" id="categoryRow" aria-label="Категории"></div><div class="catalog-utility"><button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button><label class="sort-field"><span class="sort-icon" aria-hidden="true">↕</span><span class="sr-only">Порядок товаров</span><select id="sortSelect" aria-label="Порядок товаров"><option value="featured">Рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label></div></div>
