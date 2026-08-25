@@ -2,7 +2,7 @@
  * Goal: a complete, consistent buying shell on weak/intermittent connections.
  * New shell versions activate only after every critical file is available.
  */
-const CACHE_VERSION='20260825-3';
+const CACHE_VERSION='20260825-4';
 const SHELL_CACHE=`forma-shell-${CACHE_VERSION}`;
 const DATA_CACHE=`forma-data-${CACHE_VERSION}`;
 const IMAGE_CACHE=`forma-images-${CACHE_VERSION}`;
