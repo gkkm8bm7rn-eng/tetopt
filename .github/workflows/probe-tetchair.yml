@@ -6,7 +6,10 @@ permissions:
   contents: write
 jobs:
   apply:
-    if: github.event.issue.title == '[media-apply] Tetchair computer chairs' || github.event.issue.title == '[media-fix] Amura Moncler'
+    if: >-
+      github.event.issue.user.login == github.repository_owner &&
+      (github.event.issue.title == '[media-apply] Tetchair computer chairs' ||
+       github.event.issue.title == '[media-fix] Amura Moncler')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
