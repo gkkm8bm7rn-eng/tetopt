@@ -2,8 +2,9 @@
  * Goal: a complete, consistent buying shell on weak/intermittent connections.
  * Shell/data revisions may change with the interface. The image cache is kept
  * on its own stable version so a design update does not discard product photos.
+ * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20260828-1';
+const SHELL_VERSION='20260828-2';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
@@ -114,28 +115,24 @@ async function staleWhileRevalidate(request,cacheName){
 async function fetchImageSource(request,normalized){
   if(normalized){
     try{
-      const local=await fetch(normalized,{cache:'no-cache'});
+      const local=await fetch(normalized);
       if(local.ok)return local;
     }catch{}
   }
   return fetch(request);
 }
 
-async function imageStaleWhileRevalidate(request,event){
+async function imageCacheFirst(request){
   const cache=await caches.open(IMAGE_CACHE),normalized=normalizedAssetUrl(request);
   const key=normalized?new Request(normalized):request;
   const cached=await cache.match(key,{ignoreSearch:true});
-  const refresh=fetchImageSource(request,normalized).then(async response=>{
-    if(response&&(response.ok||response.type==='opaque')){
-      await cache.put(key,response.clone());
-      trimImages(cache).catch(()=>{});
-    }
-    return response;
-  }).catch(()=>null);
-  if(cached){event.waitUntil(refresh.catch(()=>{}));return cached;}
-  const response=await refresh;
-  if(response)return response;
-  throw new Error('Image unavailable and no cached response');
+  if(cached)return cached;
+  const response=await fetchImageSource(request,normalized);
+  if(response&&(response.ok||response.type==='opaque')){
+    await cache.put(key,response.clone());
+    trimImages(cache).catch(()=>{});
+  }
+  return response;
 }
 
 self.addEventListener('fetch',event=>{
@@ -149,7 +146,7 @@ self.addEventListener('fetch',event=>{
   }
 
   if(request.destination==='image'){
-    event.respondWith(imageStaleWhileRevalidate(request,event).catch(()=>fetch(request)));
+    event.respondWith(imageCacheFirst(request).catch(()=>fetch(request)));
     return;
   }
 
