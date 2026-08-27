@@ -1,6 +1,9 @@
 name: Audit live storefront
 
 on:
+  push:
+    branches:
+      - audit/site-20260828
   workflow_dispatch:
 
 permissions:
@@ -37,8 +40,10 @@ jobs:
       - name: Run catalog, responsive and Slow 3G audits
         id: audit
         continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
-          python scripts/audit-live-storefront.py 2>&1 | tee audit-log.txt
+          python scripts/audit-live-storefront-v2.py 2>&1 | tee audit-log.txt
           exit ${PIPESTATUS[0]}
 
       - name: Upload audit report and screenshots
