@@ -1,0 +1,66 @@
+name: Audit live storefront
+
+on:
+  push:
+    branches:
+      - audit/site-20260828
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout audit branch without media blobs
+        uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*.html
+            /*.css
+            /*.js
+            /data/**
+            /scripts/**
+            /.github/workflows/audit-live-storefront.yml
+
+      - name: Verify current branch and media tree
+        run: |
+          git rev-parse HEAD
+          git ls-tree -rl HEAD -- assets/products | wc -l
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install browser audit tooling
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium webkit
+
+      - name: Run catalog, responsive and Slow 3G audits
+        id: audit
+        continue-on-error: true
+        run: |
+          python scripts/audit-live-storefront.py 2>&1 | tee audit-log.txt
+          exit ${PIPESTATUS[0]}
+
+      - name: Upload audit report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tetopt-live-audit
+          path: |
+            audit-report.json
+            audit-log.txt
+            audit-screens/*.png
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Fail job if audit found regressions
+        if: steps.audit.outcome == 'failure'
+        run: exit 1
