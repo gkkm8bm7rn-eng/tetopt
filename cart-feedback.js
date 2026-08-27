@@ -77,9 +77,7 @@ var resizeTimer=0;window.addEventListener('resize',function(){clearTimeout(resiz
    connection this lets the worker claim the page while catalog data is still
    loading, so product images can already use the same-origin Cloudflare path. */
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(function(registration){
-    registration.update().catch(function(){});
-  }).catch(function(error){
+  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(function(error){
     console.warn('[service-worker] registration skipped',error);
   });
 }
