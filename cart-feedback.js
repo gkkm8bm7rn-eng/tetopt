@@ -12,12 +12,74 @@ var detail=document.getElementById('productDetail'),grid=document.getElementById
 document.addEventListener('DOMContentLoaded',syncAllCartFeedback);window.setTimeout(syncAllCartFeedback,500);
 })();
 
-/* Keep the storefront shell available after a successful visit. Registration is
-   deliberately non-blocking: first paint and buying interactions never wait for it. */
+/* Product media should come from the same Cloudflare-served origin whenever the
+   storefront is not running on GitHub Pages itself. This gives a first-time
+   visitor the Cloudflare edge path instead of making every browser wait on
+   GitHub Pages, while the service worker keeps repeat visits fast. */
+(function(){
+'use strict';
+var GITHUB_HOST='gkkm8bm7rn-eng.github.io',GITHUB_PREFIX='/tetopt/assets/';
+function localAssetUrl(value){
+  if(!value)return value;
+  try{
+    var url=new URL(value,location.href);
+    if(url.hostname!==GITHUB_HOST||url.pathname.indexOf(GITHUB_PREFIX)!==0)return value;
+    if(location.hostname===GITHUB_HOST)return value;
+    return new URL(url.pathname.slice('/tetopt'.length)+url.search,location.origin).href;
+  }catch{return value}
+}
+function localizeMedia(root){
+  var scope=root&&root.querySelectorAll?root:document;
+  scope.querySelectorAll('img[src]').forEach(function(img){
+    var current=img.getAttribute('src'),local=localAssetUrl(current);
+    if(local&&local!==current)img.setAttribute('src',local);
+    if(!img.getAttribute('decoding'))img.setAttribute('decoding','async');
+  });
+  scope.querySelectorAll('[data-image]').forEach(function(node){
+    var current=node.getAttribute('data-image'),local=localAssetUrl(current);
+    if(local&&local!==current)node.setAttribute('data-image',local);
+  });
+}
+function prioritizeImages(){
+  var connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  var weak=!!(connection&&(connection.saveData||connection.effectiveType==='slow-2g'||connection.effectiveType==='2g'));
+  var mobile=window.matchMedia&&window.matchMedia('(max-width:640px)').matches;
+  var highCount=weak?(mobile?2:3):(mobile?4:6);
+  document.querySelectorAll('#productGrid .product-image-stage img').forEach(function(img,index){
+    var high=index<highCount;
+    img.setAttribute('loading',high?'eager':'lazy');
+    img.setAttribute('fetchpriority',high?'high':'low');
+    img.setAttribute('decoding','async');
+  });
+  var main=document.getElementById('galleryMain');
+  if(main){main.setAttribute('loading','eager');main.setAttribute('fetchpriority','high');main.setAttribute('decoding','async')}
+  document.querySelectorAll('#productDetail .thumbnail img,#recentRow img,#cartItems img').forEach(function(img){
+    img.setAttribute('loading','lazy');
+    img.setAttribute('fetchpriority','low');
+    img.setAttribute('decoding','async');
+  });
+}
+function optimizeMedia(root){localizeMedia(root);prioritizeImages()}
+var roots=[document.getElementById('productGrid'),document.getElementById('productDetail'),document.getElementById('recentRow'),document.getElementById('cartItems')];
+roots.forEach(function(root){
+  if(!root||!window.MutationObserver)return;
+  new MutationObserver(function(records){
+    records.forEach(function(record){record.addedNodes.forEach(function(node){if(node.nodeType===1)optimizeMedia(node)})});
+    prioritizeImages();
+  }).observe(root,{childList:true,subtree:true});
+});
+document.addEventListener('DOMContentLoaded',function(){optimizeMedia(document)});
+window.setTimeout(function(){optimizeMedia(document)},0);
+var resizeTimer=0;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=window.setTimeout(prioritizeImages,120)},{passive:true});
+})();
+
+/* Register immediately rather than waiting for window.load. On a weak first
+   connection this lets the worker claim the page while catalog data is still
+   loading, so product images can already use the same-origin Cloudflare path. */
 if('serviceWorker' in navigator){
-  window.addEventListener('load',function(){
-    navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(function(error){
-      console.warn('[service-worker] registration skipped',error);
-    });
-  },{once:true});
+  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(function(registration){
+    registration.update().catch(function(){});
+  }).catch(function(error){
+    console.warn('[service-worker] registration skipped',error);
+  });
 }
