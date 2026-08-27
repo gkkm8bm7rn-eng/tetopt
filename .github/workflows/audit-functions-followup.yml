@@ -1,0 +1,42 @@
+name: Audit storefront functions
+
+on:
+  push:
+    branches:
+      - audit/site-20260828
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  functions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/audit-functions-followup.py
+            /.github/workflows/audit-functions-followup.yml
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium webkit
+      - id: smoke
+        continue-on-error: true
+        run: python scripts/audit-functions-followup.py | tee function-audit.log
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tetopt-function-audit
+          path: |
+            function-audit.json
+            function-audit.log
+          retention-days: 7
+      - if: steps.smoke.outcome == 'failure'
+        run: exit 1
