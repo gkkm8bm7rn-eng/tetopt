@@ -1,0 +1,47 @@
+name: Diagnose catalog anomalies
+
+on:
+  push:
+    branches:
+      - audit/site-20260828
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /data/**
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Print exact catalog anomalies
+        run: |
+          python - <<'PY' | tee diagnostics.txt
+          import json,re
+          from pathlib import Path
+          root=Path('.')
+          index=json.load(open('data/catalog-index.json',encoding='utf-8'))
+          assignments=json.load(open('data/category-assignments.json',encoding='utf-8')).get('assignments',{})
+          sources={str(v['sourceId']) for p in index['products'] for v in p.get('variants',[]) if v.get('sourceId') is not None}
+          print('UNKNOWN_ASSIGNMENT_SOURCES',sorted(set(assignments)-sources,key=lambda x:int(x) if x.isdigit() else x))
+          print('WRONG_PRIMARY_SOURCE')
+          for p in index['products']:
+            for v in p.get('variants',[]):
+              sid=str(v.get('sourceId')); path=v.get('primaryImage') or ''
+              m=re.match(r'^assets/products/([^/]+)/',path)
+              if m and m.group(1)!=sid:
+                print(json.dumps({'productId':p['id'],'name':p['name'],'sourceId':sid,'specs':v.get('specs'),'primaryImage':path,'imageFolder':m.group(1),'detailShard':p.get('detailShard')},ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catalog-anomaly-diagnostics
+          path: diagnostics.txt
+          retention-days: 2
