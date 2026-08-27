@@ -1,9 +1,6 @@
 name: Audit live storefront
 
 on:
-  push:
-    branches:
-      - audit/site-20260828
   workflow_dispatch:
 
 permissions:
@@ -26,11 +23,6 @@ jobs:
             /data/**
             /scripts/**
             /.github/workflows/audit-live-storefront.yml
-
-      - name: Verify current branch and media tree
-        run: |
-          git rev-parse HEAD
-          git ls-tree -rl HEAD -- assets/products | wc -l
 
       - uses: actions/setup-python@v5
         with:
