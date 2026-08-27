@@ -203,7 +203,7 @@ function variantChoices(product,variant,context='card'){
       return `<button class="variant-text ${active?'active':''}" ${attributes} title="${escapeAttr(variantLabel(item))}">${escapeHtml(variantLabel(item)||`Вариант ${index+1}`)}</button>`;
     }
     const attributes=detail?`data-variant="${item.sourceId}"`:`data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}"`;
-    return `<button class="${detail?'variant-swatch-option':'card-swatch'} ${presentation.colors.length>1?'composite':''} ${active?'active':''}" style="--swatch:${escapeAttr(paint)}" ${attributes} title="${escapeAttr(label)}" aria-label="${escapeAttr('Выбрать: '+label)}"><span class="sr-only">${escapeHtml(label)}</span></button>`;
+    return `<button class="${detail?'variant-swatch-option':'card-swatch'} ${presentation.colors.length>1?'composite':''} ${active?'active':''}" style="--swatch:${escapeAttr(paint)}" ${attributes} title="${escapeAttr(label)}" aria-label="${escapeAttr('Выбрать: '+label)}"></button>`;
   }).join('');
   return detail?`<div class="variant-section variant-choice-section"><div class="variant-label"><strong>Цвет и исполнение</strong><span>${escapeHtml(choiceLabel(variant))}</span></div><div class="variant-options variant-swatch-options">${controls}</div></div>`:`<div class="card-variants" aria-label="Доступные цветовые исполнения">${controls}</div>`;
 }
