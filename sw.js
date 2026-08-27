@@ -2,7 +2,7 @@
  * Goal: a complete, consistent buying shell on weak/intermittent connections.
  * New shell versions activate only after every critical file is available.
  */
-const CACHE_VERSION='20260826-8';
+const CACHE_VERSION='20260827-1';
 const SHELL_CACHE=`forma-shell-${CACHE_VERSION}`;
 const DATA_CACHE=`forma-data-${CACHE_VERSION}`;
 const IMAGE_CACHE=`forma-images-${CACHE_VERSION}`;
@@ -12,14 +12,10 @@ const MAX_CACHED_IMAGES=80;
 const SHELL_ASSETS=[
   './',
   './index.html',
-  './styles.css',
-  './enhancements.css',
-  './axes.css',
-  './ui.css',
+  './site.css',
   './media-policy.js',
   './variants.js',
   './app.js',
-  './search-fallback.js',
   './cart-feedback.js',
   './data/catalog-index.json',
   './data/category-assignments.json'
