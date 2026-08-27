@@ -1,0 +1,1 @@
+Trigger photo comparison for sourceIds 443/444 and 656/657.
