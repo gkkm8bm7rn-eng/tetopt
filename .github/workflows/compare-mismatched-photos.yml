@@ -1,0 +1,57 @@
+name: Compare mismatched product photos
+
+on:
+  push:
+    branches:
+      - audit/site-20260828
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /assets/products/443/**
+            /assets/products/444/**
+            /assets/products/656/**
+            /assets/products/657/**
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow
+      - name: Build comparison contact sheet
+        run: |
+          python - <<'PY'
+          from PIL import Image,ImageOps,ImageDraw
+          from pathlib import Path
+          items=[
+            ('443 own — Chilly coral/natural','assets/products/443/00-main.webp'),
+            ('444 current card image','assets/products/444/00-main.webp'),
+            ('656 own — Chavari gold','assets/products/656/00-main.webp'),
+            ('657 current card image','assets/products/657/00-main.webp'),
+          ]
+          cells=[]
+          for label,path in items:
+            im=Image.open(path).convert('RGB')
+            print(label,path,im.size,Path(path).stat().st_size)
+            canvas=Image.new('RGB',(700,760),'white')
+            fit=ImageOps.contain(im,(660,650))
+            canvas.paste(fit,((700-fit.width)//2,20))
+            d=ImageDraw.Draw(canvas); d.text((20,700),label,fill='black'); d.text((20,725),path,fill='black')
+            cells.append(canvas)
+          sheet=Image.new('RGB',(1400,1520),'white')
+          for i,c in enumerate(cells): sheet.paste(c,((i%2)*700,(i//2)*760))
+          sheet.save('mismatched-primary-comparison.jpg',quality=90)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mismatched-primary-comparison
+          path: mismatched-primary-comparison.jpg
+          retention-days: 3
