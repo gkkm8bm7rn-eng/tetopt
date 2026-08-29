@@ -42,10 +42,14 @@ form.addEventListener('submit',function(event){
 })();
 
 /* Mobile category UX: parent categories with children open their subcategories first.
-   Filtering and scrolling to products happens only after a subcategory is chosen,
+   Filtering and scrolling to products happens only after a real subcategory is chosen,
    or immediately for a parent category that has no subcategories. */
 (function(){
 'use strict';
+const style=document.createElement('style');
+style.textContent='@media(max-width:640px){.category-subgroup .category-all{display:none!important}}';
+document.head.appendChild(style);
+
 document.addEventListener('click',function(event){
   if(!window.matchMedia('(max-width: 640px)').matches)return;
   const button=event.target.closest('.category-main[data-main-category]');
