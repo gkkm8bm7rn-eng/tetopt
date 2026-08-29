@@ -40,3 +40,27 @@ form.addEventListener('submit',function(event){
   requestAnimationFrame(()=>instantScroll(document.getElementById('productGrid')));
 },true);
 })();
+
+/* Mobile category UX: parent categories with children open their subcategories first.
+   Filtering and scrolling to products happens only after a subcategory is chosen,
+   or immediately for a parent category that has no subcategories. */
+(function(){
+'use strict';
+document.addEventListener('click',function(event){
+  if(!window.matchMedia('(max-width: 640px)').matches)return;
+  const button=event.target.closest('.category-main[data-main-category]');
+  if(!button)return;
+  const mainId=button.dataset.mainCategory;
+  if(!mainId||mainId==='all')return;
+  const main=CATEGORY_TREE.find(item=>item.id===mainId);
+  if(!main||!main.children.length)return;
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  state.view='catalog';
+  state.categoryMain=mainId;
+  state.categoryCode='all';
+  state.page=1;
+  renderCategories();
+},true);
+})();
