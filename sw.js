@@ -4,7 +4,7 @@
  * on its own stable version so a design update does not discard product photos.
  * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20260828-2';
+const SHELL_VERSION='20260830-3';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
@@ -50,12 +50,6 @@ function normalizedAssetUrl(value){
   }
   if(url.origin===self.location.origin&&url.pathname.startsWith(LOCAL_ASSET_PREFIX))return url.href;
   return'';
-}
-
-async function trimImages(cache){
-  const keys=await cache.keys();
-  if(keys.length<=MAX_CACHED_IMAGES)return;
-  await Promise.all(keys.slice(0,keys.length-MAX_CACHED_IMAGES).map(key=>cache.delete(key)));
 }
 
 async function migrateImageCaches(){
@@ -110,6 +104,12 @@ async function staleWhileRevalidate(request,cacheName){
   const response=await refresh;
   if(response)return response;
   throw new Error('Network unavailable and no cached response');
+}
+
+async function trimImages(cache){
+  const keys=await cache.keys();
+  if(keys.length<=MAX_CACHED_IMAGES)return;
+  await Promise.all(keys.slice(0,keys.length-MAX_CACHED_IMAGES).map(key=>cache.delete(key)));
 }
 
 async function fetchImageSource(request,normalized){
