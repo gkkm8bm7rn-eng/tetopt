@@ -163,6 +163,44 @@
 <script src="app.js"></script>
 <script src="search-fallback.js"></script>
 <script src="cart-feedback.js"></script>
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "59ed2c9fa549420491736b3635615cef"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics -->
+<script>
+(() => {
+  const storageKey = 'tetopt:analytics:internal';
+  const controlParam = 'tetopt_internal';
+  let controlValue = null;
+  let internalBrowser = false;
+
+  try {
+    const url = new URL(window.location.href);
+    controlValue = url.searchParams.get(controlParam);
+    if (controlValue === 'on') localStorage.setItem(storageKey, '1');
+    if (controlValue === 'off') localStorage.removeItem(storageKey);
+    internalBrowser = localStorage.getItem(storageKey) === '1';
+
+    if (controlValue === 'on' || controlValue === 'off') {
+      url.searchParams.delete(controlParam);
+      history.replaceState(history.state, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+  } catch {
+    // If browser storage is unavailable, keep normal privacy-first analytics.
+  }
+
+  if (internalBrowser) {
+    document.documentElement.dataset.analyticsMode = 'internal';
+    return;
+  }
+
+  const beacon = document.createElement('script');
+  beacon.type = 'module';
+  beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  beacon.dataset.cfBeacon = JSON.stringify({
+    token: '59ed2c9fa549420491736b3635615cef',
+    spa: true,
+  });
+  document.head.appendChild(beacon);
+})();
+</script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
