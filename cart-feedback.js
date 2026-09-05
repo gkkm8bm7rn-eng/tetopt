@@ -73,11 +73,63 @@ window.setTimeout(function(){optimizeMedia(document)},0);
 var resizeTimer=0;window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=window.setTimeout(prioritizeImages,120)},{passive:true});
 })();
 
-/* Register immediately rather than waiting for window.load. On a weak first
-   connection this lets the worker claim the page while catalog data is still
-   loading, so product images can already use the same-origin Cloudflare path. */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(function(error){
-    console.warn('[service-worker] registration skipped',error);
+/* Shared-cart recovery is deliberately independent from app.js parsing. It
+   preserves old links, accepts encoded/future source IDs, and captures the
+   original hash before catalog history can replace it. */
+(function(){
+'use strict';
+var initialHash=location.hash,params=new URLSearchParams(initialHash.replace(/^#/,'')),rawCart=params.get('cart'),openSharedCart=params.get('view')==='cart';
+if(!rawCart)return;
+function parseSharedCart(value){
+  var cart={};
+  String(value||'').split(/[~,]/).forEach(function(part){
+    if(!part)return;
+    var separator=part.lastIndexOf('.');
+    if(separator<=0)return;
+    var encodedId=part.slice(0,separator),rawQty=part.slice(separator+1),id;
+    try{id=decodeURIComponent(encodedId)}catch{id=encodedId}
+    var quantity=Number(rawQty);
+    if(!id||!Number.isFinite(quantity)||quantity<=0)return;
+    cart[String(id)]=Math.max(1,Math.floor(quantity));
   });
+  return cart;
+}
+var sharedCart=parseSharedCart(rawCart),sharedKeys=Object.keys(sharedCart);
+if(!sharedKeys.length)return;
+function variantIds(){return new Set(state.products.flatMap(function(product){return (product.variants||[]).map(function(variant){return String(variant.sourceId)})}))}
+function missingSharedKeys(){var known=variantIds();return Object.keys(state.cart).filter(function(key){return !known.has(String(key))})}
+function addMissingNotice(){
+  if(!els.cartItems||!state.products.length)return;
+  var old=els.cartItems.querySelector('.shared-cart-warning');if(old)old.remove();
+  var missing=missingSharedKeys();if(!missing.length)return;
+  var note=document.createElement('div');note.className='shared-cart-warning';note.setAttribute('role','status');note.style.cssText='margin:0 0 14px;padding:12px 14px;border:1px solid #d9c88c;border-radius:12px;background:#fff9e8;color:#5e522a;font-size:13px;line-height:1.45';
+  note.textContent='Не удалось найти '+missing.length+' '+(missing.length===1?'товар':'товара')+' из ссылки в текущем каталоге (арт. '+missing.join(', ')+'). Остальные позиции восстановлены.';
+  els.cartItems.prepend(note);
+}
+var originalRenderCart=renderCart;
+renderCart=function(){originalRenderCart();addMissingNotice()};
+function applySharedCart(){
+  state.cart=Object.assign({},sharedCart);storage.write('forma:cart',state.cart);updateCounters();
+  if(!state.products.length)return false;
+  if(openSharedCart){renderCart();if(els.cartDialog&&!els.cartDialog.open){els.cartDialog.showModal();document.body.style.overflow='hidden'}}
+  return true;
+}
+var attempts=0;
+(function retry(){if(applySharedCart())return;if(attempts++<80)window.setTimeout(retry,100)})();
+})();
+
+/* Register immediately and force a one-time reload when a newer worker takes
+   control. This prevents one stale app.js/catalog pair from surviving a deploy. */
+if('serviceWorker' in navigator){
+  (function(){
+    var reloadKey='tetopt:sw-controller-reload';
+    if(sessionStorage.getItem(reloadKey)==='1')sessionStorage.removeItem(reloadKey);
+    navigator.serviceWorker.addEventListener('controllerchange',function(){
+      if(sessionStorage.getItem(reloadKey)==='1')return;
+      sessionStorage.setItem(reloadKey,'1');location.reload();
+    });
+    navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(function(registration){return registration.update()}).catch(function(error){
+      console.warn('[service-worker] registration skipped',error);
+    });
+  })();
 }
