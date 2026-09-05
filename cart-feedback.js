@@ -12,6 +12,39 @@ var detail=document.getElementById('productDetail'),grid=document.getElementById
 document.addEventListener('DOMContentLoaded',syncAllCartFeedback);window.setTimeout(syncAllCartFeedback,500);
 })();
 
+/* Cross-browser hardening for storage, sharing, checkout text and dialog close. */
+(function(){
+'use strict';
+var originalStorageWrite=storage.write;
+storage.write=function(key,value){try{return originalStorageWrite(key,value)}catch(error){console.warn('[storage] write skipped',error);return false}};
+
+orderText=function(rows,total){
+  rows=rows||cartRows();
+  if(total===undefined)total=rows.reduce(function(sum,row){return sum+row.variant.wholesalePrice*row.qty},0);
+  return 'Здравствуйте! Хочу оформить заказ в FORMA HOME:\n'+
+    rows.map(function(row){return '• '+stripModel(row.product.name)+' — '+variantLabel(row.variant)+', арт. '+row.variant.sourceId+', '+row.qty+' шт.'}).join('\n')+
+    '\nИтого: '+money(total)+'\n\nОкончательное наличие и срок отгрузки подтвердит менеджер после получения заявки.';
+};
+
+sharePayload=async function(title,text,url){
+  if(navigator.share){
+    try{await navigator.share({title:title,text:text,url:url});return true}catch(error){if(error&&error.name==='AbortError')return false}
+  }
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(url);
+    }else{
+      var area=document.createElement('textarea');area.value=url;area.setAttribute('readonly','');area.style.cssText='position:fixed;left:-9999px;top:0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();
+    }
+    toast('Ссылка скопирована');return true;
+  }catch(error){console.warn('[share] unavailable',error);toast('Не удалось скопировать ссылку');return false}
+};
+
+if(els.cartDialog){
+  els.cartDialog.addEventListener('cancel',function(event){event.preventDefault();if(els.cartDialog.open)closeDialog(els.cartDialog)});
+}
+})();
+
 /* Product media should come from the same Cloudflare-served origin whenever the
    storefront is not running on GitHub Pages itself. This gives a first-time
    visitor the Cloudflare edge path instead of making every browser wait on
@@ -123,10 +156,13 @@ var attempts=0;
 if('serviceWorker' in navigator){
   (function(){
     var reloadKey='tetopt:sw-controller-reload';
-    if(sessionStorage.getItem(reloadKey)==='1')sessionStorage.removeItem(reloadKey);
+    function sessionGet(key){try{return sessionStorage.getItem(key)}catch{return null}}
+    function sessionSet(key,value){try{sessionStorage.setItem(key,value)}catch{}}
+    function sessionRemove(key){try{sessionStorage.removeItem(key)}catch{}}
+    if(sessionGet(reloadKey)==='1')sessionRemove(reloadKey);
     navigator.serviceWorker.addEventListener('controllerchange',function(){
-      if(sessionStorage.getItem(reloadKey)==='1')return;
-      sessionStorage.setItem(reloadKey,'1');location.reload();
+      if(sessionGet(reloadKey)==='1')return;
+      sessionSet(reloadKey,'1');location.reload();
     });
     navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).then(function(registration){return registration.update()}).catch(function(error){
       console.warn('[service-worker] registration skipped',error);
