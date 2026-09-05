@@ -4,7 +4,7 @@
  * on its own stable version so a design update does not discard product photos.
  * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20260905-1';
+const SHELL_VERSION='20260830-3';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
@@ -83,7 +83,7 @@ function isSameOrigin(url){return url.origin===self.location.origin;}
 async function networkFirst(request,cacheName,fallbackKey){
   const cache=await caches.open(cacheName);
   try{
-    const response=await fetch(request,{cache:'no-store'});
+    const response=await fetch(request);
     if(response.ok)await cache.put(fallbackKey||request,response.clone());
     return response;
   }catch(error){
@@ -152,22 +152,17 @@ self.addEventListener('fetch',event=>{
 
   if(!isSameOrigin(url))return;
 
-  if(request.destination==='script'){
-    event.respondWith(networkFirst(request,SHELL_CACHE));
-    return;
-  }
-
-  if(['style','font'].includes(request.destination)){
+  if(['style','script','font'].includes(request.destination)){
     event.respondWith(staleWhileRevalidate(request,SHELL_CACHE));
     return;
   }
 
   if(url.pathname.endsWith('/data/catalog-index.json')||url.pathname.endsWith('/data/category-assignments.json')){
-    event.respondWith(networkFirst(request,SHELL_CACHE));
+    event.respondWith(staleWhileRevalidate(request,SHELL_CACHE));
     return;
   }
 
   if(/\/data\/details\/\d+\.json$/.test(url.pathname)){
-    event.respondWith(networkFirst(request,DATA_CACHE));
+    event.respondWith(staleWhileRevalidate(request,DATA_CACHE));
   }
 });
