@@ -26,6 +26,11 @@ orderText=function(rows,total){
     '\nИтого: '+money(total)+'\n\nОкончательное наличие и срок отгрузки подтвердит менеджер после получения заявки.';
 };
 
+cartShareUrl=function(){
+  var cart=Object.entries(state.cart).filter(function(entry){return Number(entry[1])>0}).sort(function(a,b){return String(a[0]).localeCompare(String(b[0]))}).map(function(entry){return encodeURIComponent(String(entry[0]))+'.'+Math.max(1,Math.floor(Number(entry[1])||1))}).join('~');
+  return baseUrl()+'#view=cart&cart='+cart;
+};
+
 sharePayload=async function(title,text,url){
   if(navigator.share){
     try{await navigator.share({title:title,text:text,url:url});return true}catch(error){if(error&&error.name==='AbortError')return false}
@@ -39,6 +44,20 @@ sharePayload=async function(title,text,url){
     toast('Ссылка скопирована');return true;
   }catch(error){console.warn('[share] unavailable',error);toast('Не удалось скопировать ссылку');return false}
 };
+
+function normalizeCheckoutLinks(){
+  if(!els.cartFooter)return;
+  var rows=cartRows();if(!rows.length)return;
+  var total=rows.reduce(function(sum,row){return sum+row.variant.wholesalePrice*row.qty},0),share=cartShareUrl(),order=orderText(rows,total),message=order+'\n\n'+share;
+  var whatsapp=els.cartFooter.querySelector('a[href^="https://wa.me/"]');
+  var telegram=els.cartFooter.querySelector('a[href^="https://t.me/"]');
+  var email=els.cartFooter.querySelector('a[href^="mailto:"]');
+  if(whatsapp)whatsapp.href='https://wa.me/?text='+encodeURIComponent(message);
+  if(telegram)telegram.href='https://t.me/share/url?url='+encodeURIComponent(share)+'&text='+encodeURIComponent(order);
+  if(email)email.href='mailto:'+ORDER_EMAIL+'?subject='+encodeURIComponent('Заказ FORMA HOME')+'&body='+encodeURIComponent(order+'\n\nСсылка на собранную корзину:\n'+share);
+}
+var compatibleRenderCart=renderCart;
+renderCart=function(){compatibleRenderCart();normalizeCheckoutLinks()};
 
 if(els.cartDialog){
   els.cartDialog.addEventListener('cancel',function(event){event.preventDefault();if(els.cartDialog.open)closeDialog(els.cartDialog)});
