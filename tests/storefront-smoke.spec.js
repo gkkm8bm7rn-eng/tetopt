@@ -41,6 +41,14 @@ test('shared multi-item cart restores quantities and total', async ({ page }) =>
   await expect(bufamela.locator('.qty span')).toHaveText('1');
 });
 
+test('legacy comma-separated shared cart still restores', async ({ page }) => {
+  await page.goto('/#view=cart&cart=1616.1,1617.1', { waitUntil: 'domcontentloaded' });
+  const dialog = page.locator('#cartDialog');
+  await expect(dialog).toHaveAttribute('open', '');
+  await expect(dialog.locator('.cart-item[data-source="1616"]')).toBeVisible();
+  await expect(dialog.locator('.cart-item[data-source="1617"]')).toBeVisible();
+});
+
 test('missing product in a shared cart does not erase valid products', async ({ page }) => {
   await page.goto('/#view=cart&cart=1616.1~999999.1', { waitUntil: 'domcontentloaded' });
   const dialog = page.locator('#cartDialog');
@@ -49,7 +57,7 @@ test('missing product in a shared cart does not erase valid products', async ({ 
   await expect(dialog.locator('.shared-cart-warning')).toContainText(/999999/);
 });
 
-test('checkout links keep the shareable cart URL and do not add personal form data', async ({ page }) => {
+test('checkout links keep the shareable cart URL and preserve readable line breaks', async ({ page }) => {
   await page.goto('/#view=cart&cart=1616.1', { waitUntil: 'domcontentloaded' });
   const footer = page.locator('#cartFooter');
   await expect(footer).toBeVisible();
@@ -60,6 +68,10 @@ test('checkout links keep the shareable cart URL and do not add personal form da
     expect(href).toBeTruthy();
     expect(decodeURIComponent(href)).toContain('cart=1616.1');
   }
+  const decodedEmail = decodeURIComponent(emailHref);
+  expect(decodedEmail).toMatch(/FORMA HOME:\n•/);
+  expect(decodedEmail).toMatch(/Итого:[^\n]+\n\nОкончательное наличие/);
+  expect(decodedEmail).toMatch(/Ссылка на собранную корзину:\nhttps?:/);
 });
 
 test('shared cart survives a reload', async ({ page }) => {
@@ -68,6 +80,17 @@ test('shared cart survives a reload', async ({ page }) => {
   await page.reload({ waitUntil: 'domcontentloaded' });
   await expect(page.locator('#cartDialog')).toHaveAttribute('open', '');
   await expect(page.locator('#cartDialog')).toContainText(KATINA_NAME);
+});
+
+test('cart closes with Escape and restores page scrolling', async ({ page }) => {
+  await page.goto('/#view=cart&cart=1616.1', { waitUntil: 'domcontentloaded' });
+  const dialog = page.locator('#cartDialog');
+  await expect(dialog).toHaveAttribute('open', '');
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toHaveAttribute('open', '');
+  const inlineOverflow = await page.locator('body').evaluate(body => body.style.overflow);
+  expect(inlineOverflow).toBe('');
 });
 
 test('service worker becomes ready on supported browsers', async ({ page, browserName }) => {
@@ -86,8 +109,9 @@ test('service worker becomes ready on supported browsers', async ({ page, browse
 
 test('product dialog opens and cart can be changed with pointer/touch clicks', async ({ page }) => {
   await waitForCatalog(page);
-  const card = page.locator('#productGrid .product-card').first();
-  await card.click();
+  const openControl = page.locator('#productGrid .product-card [data-open]').first();
+  await expect(openControl).toBeVisible();
+  await openControl.click();
   await expect(page.locator('#productDialog')).toHaveAttribute('open', '');
   const add = page.locator('#productDialog [data-add]').first();
   await expect(add).toBeVisible();
