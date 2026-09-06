@@ -217,3 +217,20 @@ html body{
     linear-gradient(180deg,#f7f5f0 0%,#f3f4ee 42%,#f5f2ec 100%);
   background-attachment:scroll;
 }
+
+/* Delayed product-image wait state: appears only when an image is still pending after the JS grace period. */
+html body .product-image-stage{position:relative}
+html body .product-image-stage::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:0;
+  background:
+    radial-gradient(circle at 68% 30%,rgba(185,201,176,.22) 0%,rgba(185,201,176,.08) 36%,rgba(185,201,176,0) 68%),
+    linear-gradient(135deg,rgba(247,245,240,.72) 0%,rgba(239,242,235,.84) 52%,rgba(247,245,240,.72) 100%);
+  transition:opacity .24s ease;
+}
+html body .product-image-stage.image-waiting::after{opacity:1}
+@media(prefers-reduced-motion:reduce){html body .product-image-stage::after{transition:none}}
