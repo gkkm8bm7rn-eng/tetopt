@@ -30,3 +30,36 @@ html body .category-main.active[data-main-category]:not([data-main-category="all
   background-size:100% 100%!important;
   color:#435d41!important;
 }
+
+/* Mobile width guard: keep the catalog inside the physical viewport even when card content has long labels/prices. Presentation only. */
+@media(max-width:640px){
+  html,body,main#top,.catalog-section,.catalog-layout,.catalog-content,#productGrid{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  .catalog-section,.catalog-layout,.catalog-content,#productGrid{overflow-x:clip!important}
+  #productGrid.product-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    box-sizing:border-box!important;
+  }
+  #productGrid>.product-card,
+  .product-card .product-info,
+  .product-card .product-bottom,
+  .product-card .price-stack,
+  .product-card .retail-row,
+  .product-card .product-categories,
+  .product-card .card-variants{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  .product-card .retail-row{flex-wrap:wrap!important}
+  .product-card .product-name,
+  .product-card .product-meta,
+  .product-card .product-type,
+  .product-card .quick-add{
+    max-width:100%!important;
+    overflow-wrap:anywhere!important;
+  }
+}
