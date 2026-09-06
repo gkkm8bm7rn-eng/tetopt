@@ -18,3 +18,15 @@
 .mobile-category-trigger[data-mobile-category-toggle="horeca"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-horeca.svg?v=20260906-3")}
 .category-main[data-main-category="office"]>.category-icon,
 .mobile-category-trigger[data-mobile-category-toggle="office"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-office.svg?v=20260906-2")}
+
+/* Selected/open categories keep the same icon tile instead of being replaced by the active-state solid fill from later UI styles. */
+html body .mobile-category-section.open>.mobile-category-trigger>.mobile-category-icon,
+html body .mobile-category-section.selected>.mobile-category-trigger>.mobile-category-icon,
+html body .category-main.active[data-main-category]:not([data-main-category="all"])>.category-icon{
+  background-color:#eef1ea!important;
+  background-image:var(--forma-category-icon)!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 100%!important;
+  color:#435d41!important;
+}
