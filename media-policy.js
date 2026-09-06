@@ -68,6 +68,10 @@ function curateGallery(product,variant){
   loader.setAttribute('aria-hidden','true');
   loader.innerHTML='<div class="site-loader-inner"><div class="site-loader-brand"><span>FORMA</span> <span class="home">HOME</span><span class="slash"> / </span><span>ФОРМА</span> <span class="home">ХОУМ</span></div><div class="site-loader-track"></div><div class="site-loader-caption">Мебель для продуманного интерьера</div></div>';
   document.body.appendChild(loader);
+  // Cached CSS and JS can update on separate requests. If the new loader styles
+  // are not present yet, remove the markup immediately instead of ever showing
+  // an unstyled block to the visitor.
+  if(getComputedStyle(loader).position!=='fixed'){loader.remove();return}
 
   let observer=null,timer=null,finished=false;
   const ready=()=>{
