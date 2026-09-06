@@ -147,3 +147,140 @@ function curateGallery(product,variant){
     });
   }).observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});
 })();
+
+/* Presentation-only delivery dialog and product-close polish.
+   This enhancement does not touch catalog, cart, filter, history or product data.
+   The delivery control keeps #delivery as its no-script fallback, and the original
+   product close button remains available whenever the enhanced close is absent. */
+(function(){
+  if(!document.getElementById('formaDialogPolishStyles')){
+    const style=document.createElement('style');
+    style.id='formaDialogPolishStyles';
+    style.textContent=`
+      .site-header .delivery-button{position:relative;display:grid;width:46px;min-width:46px;height:46px;min-height:46px;padding:0;place-items:center;border:1px solid #d7dfd3;border-radius:14px;background:#fff;color:#435d41;text-decoration:none;box-shadow:0 6px 18px rgba(49,77,50,.08);cursor:pointer}
+      .site-header .delivery-button:hover{background:#eff4ed;border-color:#b8c9b3}
+      .site-header .delivery-button:focus{outline:0}
+      .site-header .delivery-button:focus-visible{border-color:#657c62;box-shadow:0 0 0 3px rgba(67,93,65,.16),0 6px 18px rgba(49,77,50,.08)}
+      .delivery-truck{display:block;width:28px;height:28px;color:#20201d;overflow:visible}
+      .delivery-dialog{width:min(680px,calc(100vw - 24px));max-height:min(86svh,760px);padding:0;border:0;border-radius:24px;background:#f7f5f0;color:#201f1b;box-shadow:0 28px 80px rgba(24,27,22,.24);overflow:auto}
+      .delivery-dialog::backdrop{background:rgba(25,27,23,.48);backdrop-filter:blur(2px)}
+      .delivery-dialog-shell{padding:26px 28px 28px;background:radial-gradient(620px 300px at 92% 0%,rgba(185,201,176,.2),rgba(185,201,176,0) 70%),#f7f5f0}
+      .delivery-dialog-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:start;padding-bottom:20px;border-bottom:1px solid rgba(67,93,65,.13)}
+      .delivery-dialog-kicker{margin:0 0 8px;color:#5f7859;font:750 10px/1.2 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
+      .delivery-dialog-title{margin:0;font:400 clamp(30px,5vw,42px)/1 Georgia,serif;letter-spacing:-.03em;color:#201f1b}
+      .delivery-dialog-intro{max-width:520px;margin:10px 0 0;color:#686760;font:500 13px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+      .delivery-dialog-body{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+      .delivery-dialog-body section{min-width:0;padding:18px 18px 16px;border:1px solid rgba(67,93,65,.14);border-radius:17px;background:rgba(255,255,255,.72)}
+      .delivery-dialog-body section:first-child{background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(239,244,236,.76))}
+      .delivery-dialog-body h2{margin:0 0 12px;color:#314d32;font:750 11px/1.2 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;letter-spacing:.11em;text-transform:uppercase}
+      .delivery-dialog-body p{margin:0 0 9px;color:#54564f;font:500 13px/1.5 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+      .delivery-dialog-body p:last-child{margin-bottom:0}
+      .delivery-dialog-body a{color:#314d32}
+      .forma-close{display:grid;width:42px;height:42px;min-width:42px;padding:0;place-items:center;border:1px solid rgba(67,93,65,.18);border-radius:999px;background:rgba(255,255,255,.86);color:#435d41;box-shadow:0 5px 16px rgba(49,77,50,.08);cursor:pointer;-webkit-tap-highlight-color:transparent}
+      .forma-close svg{width:18px;height:18px;pointer-events:none}
+      .forma-close:hover{background:#eff4ed;border-color:#b8c9b3}
+      .forma-close:focus{outline:0}
+      .forma-close:focus-visible{border-color:#435d41;box-shadow:0 0 0 3px rgba(67,93,65,.16),0 5px 16px rgba(49,77,50,.08)}
+      .detail-copy{position:relative}
+      .detail-inline-close{position:sticky;top:10px;z-index:9;margin:-28px 0 8px auto}
+      .product-dialog>.dialog-close{border:1px solid rgba(67,93,65,.18);border-radius:999px;background:rgba(247,245,240,.94);color:#435d41;box-shadow:0 5px 16px rgba(49,77,50,.08);font-size:0;-webkit-tap-highlight-color:transparent}
+      .product-dialog>.dialog-close::before,.product-dialog>.dialog-close::after{content:"";position:absolute;left:50%;top:50%;width:17px;height:1.6px;border-radius:2px;background:currentColor}
+      .product-dialog>.dialog-close::before{transform:translate(-50%,-50%) rotate(45deg)}
+      .product-dialog>.dialog-close::after{transform:translate(-50%,-50%) rotate(-45deg)}
+      .product-dialog>.dialog-close:focus{outline:0}
+      .product-dialog>.dialog-close:focus-visible{border-color:#435d41;box-shadow:0 0 0 3px rgba(67,93,65,.16),0 5px 16px rgba(49,77,50,.08)}
+      @media(max-width:640px){
+        .site-header .delivery-button{width:42px;min-width:42px;height:42px;min-height:42px}
+        .delivery-truck{width:26px;height:26px}
+        .delivery-dialog{width:calc(100vw - 20px);max-height:88svh;border-radius:21px}
+        .delivery-dialog-shell{padding:22px 18px 20px}
+        .delivery-dialog-head{gap:12px;padding-bottom:17px}
+        .delivery-dialog-title{font-size:32px}
+        .delivery-dialog-body{grid-template-columns:1fr;gap:10px;margin-top:14px}
+        .delivery-dialog-body section{padding:16px;border-radius:15px}
+        .detail-inline-close{top:8px;margin:-20px -4px 8px auto;width:40px;height:40px;min-width:40px}
+      }
+      @media(prefers-reduced-motion:reduce){.delivery-dialog::backdrop{backdrop-filter:none}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  const closeIcon='<svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  const truckIcon='<svg class="delivery-truck" aria-hidden="true" viewBox="0 0 32 32" fill="none"><path d="M4.5 8.5h14v12h-14z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18.5 12.5h4.8l4.2 4.7v3.3h-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M23.3 12.5v4.8h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="9" cy="22.5" r="2.2" stroke="currentColor" stroke-width="1.8"/><circle cx="23.5" cy="22.5" r="2.2" stroke="currentColor" stroke-width="1.8"/><path d="M11.2 22.5h10.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+
+  const headerActions=document.querySelector('.site-header .header-actions');
+  const footer=document.getElementById('delivery');
+  if(headerActions&&footer){
+    let trigger=document.getElementById('deliveryButton')||headerActions.querySelector('a[href="#delivery"],[data-delivery-dialog]');
+    if(!trigger){
+      trigger=document.createElement('a');
+      trigger.id='deliveryButton';
+      trigger.href='#delivery';
+      headerActions.insertBefore(trigger,headerActions.firstElementChild);
+    }
+    trigger.classList.add('delivery-button');
+    trigger.setAttribute('aria-label','Доставка и оплата');
+    trigger.setAttribute('title','Доставка и оплата');
+    trigger.setAttribute('aria-haspopup','dialog');
+    trigger.setAttribute('aria-controls','deliveryDialog');
+    trigger.innerHTML=truckIcon+'<span class="sr-only">Доставка и оплата</span>';
+
+    let dialog=document.getElementById('deliveryDialog');
+    if(!dialog){
+      dialog=document.createElement('dialog');
+      dialog.id='deliveryDialog';
+      dialog.className='delivery-dialog';
+      dialog.setAttribute('aria-labelledby','deliveryDialogTitle');
+      dialog.innerHTML='<div class="delivery-dialog-shell"><div class="delivery-dialog-head"><div><p class="delivery-dialog-kicker">FORMA HOME</p><h2 class="delivery-dialog-title" id="deliveryDialogTitle">Доставка и оплата</h2><p class="delivery-dialog-intro">Все основные условия — в одном месте. После закрытия вы останетесь там же, где смотрели каталог.</p></div><button class="forma-close" type="button" data-close-delivery aria-label="Закрыть">'+closeIcon+'</button></div><div class="delivery-dialog-body" data-delivery-dialog-body></div></div>';
+      document.body.appendChild(dialog);
+    }
+
+    const dialogBody=dialog.querySelector('[data-delivery-dialog-body]');
+    const fillDialog=()=>{
+      if(!dialogBody||dialogBody.childElementCount)return;
+      const columns=footer.querySelector('.footer-columns');
+      if(!columns)return;
+      [...columns.children].forEach(section=>dialogBody.appendChild(section.cloneNode(true)));
+    };
+    let previousOverflow='';
+    const openDialog=event=>{
+      if(typeof dialog.showModal!=='function')return;
+      event?.preventDefault();
+      fillDialog();
+      previousOverflow=document.body.style.overflow;
+      if(!dialog.open)dialog.showModal();
+      document.body.style.overflow='hidden';
+    };
+    trigger.addEventListener('click',openDialog);
+    dialog.querySelector('[data-close-delivery]')?.addEventListener('click',()=>dialog.close());
+    dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+    dialog.addEventListener('close',()=>{
+      document.body.style.overflow=previousOverflow;
+      try{trigger.focus({preventScroll:true})}catch{trigger.focus()}
+    });
+  }
+
+  const productDialog=document.getElementById('productDialog');
+  const productDetail=document.getElementById('productDetail');
+  if(productDialog&&productDetail&&'MutationObserver'in window){
+    const fallback=[...productDialog.children].find(node=>node.matches?.('[data-close-dialog]'))||null;
+    const installDetailClose=()=>{
+      const copy=productDetail.querySelector('.detail-copy');
+      if(!copy){if(fallback)fallback.hidden=false;return}
+      let button=copy.querySelector('.detail-inline-close');
+      if(!button){
+        button=document.createElement('button');
+        button.type='button';
+        button.className='forma-close detail-inline-close';
+        button.setAttribute('data-close-dialog','');
+        button.setAttribute('aria-label','Закрыть карточку товара');
+        button.innerHTML=closeIcon;
+        copy.prepend(button);
+      }
+      if(fallback)fallback.hidden=true;
+    };
+    new MutationObserver(installDetailClose).observe(productDetail,{childList:true});
+    productDialog.addEventListener('close',()=>{if(fallback)fallback.hidden=false});
+    installDetailClose();
+  }
+})();
