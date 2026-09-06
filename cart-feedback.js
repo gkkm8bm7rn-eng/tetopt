@@ -52,6 +52,11 @@ if(dialog){
   link.addEventListener('click',function(event){
     if(typeof dialog.showModal!=='function')return;
     event.preventDefault();
+    var body=dialog.querySelector('[data-delivery-dialog-body]');
+    if(body&&!body.childElementCount){
+      var columns=document.querySelector('#delivery .footer-columns');
+      if(columns)[].slice.call(columns.children).forEach(function(section){body.appendChild(section.cloneNode(true))});
+    }
     previousOverflow=document.body.style.overflow;
     if(!dialog.open)dialog.showModal();
     document.body.style.overflow='hidden';
