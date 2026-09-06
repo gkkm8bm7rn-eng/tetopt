@@ -56,3 +56,41 @@ function curateGallery(product,variant){
   // cut off by a gallery limit. Computer chairs use their dedicated limit above.
   return complexity==='complex'?unique:unique.slice(0,MEDIA_POLICY.limits[complexity]);
 }
+
+/* Presentation-only startup veil.
+   It watches the existing catalog DOM and never changes catalog/cart/filter state.
+   The safety timeout guarantees it can never trap the page if data is slow or unavailable. */
+(function(){
+  if(document.getElementById('siteLoader'))return;
+  const loader=document.createElement('div');
+  loader.id='siteLoader';
+  loader.className='site-loader';
+  loader.setAttribute('aria-hidden','true');
+  loader.innerHTML='<div class="site-loader-inner"><div class="site-loader-brand"><span>FORMA</span> <span class="home">HOME</span><span class="slash"> / </span><span>ФОРМА</span> <span class="home">ХОУМ</span></div><div class="site-loader-track"></div><div class="site-loader-caption">Мебель для продуманного интерьера</div></div>';
+  document.body.appendChild(loader);
+
+  let observer=null,timer=null,finished=false;
+  const ready=()=>{
+    const grid=document.getElementById('productGrid');
+    const empty=document.getElementById('emptyState');
+    const count=document.getElementById('resultCount');
+    const countReady=!!(count&&!count.hidden&&!/загружаем/i.test(count.textContent||''));
+    return !!(grid?.children.length||empty&&!empty.hidden||countReady);
+  };
+  const finish=()=>{
+    if(finished)return;
+    finished=true;
+    observer?.disconnect();
+    if(timer)clearTimeout(timer);
+    loader.classList.add('is-done');
+    window.setTimeout(()=>loader.remove(),420);
+  };
+
+  if(ready()){finish();return}
+  const catalog=document.getElementById('catalog');
+  if(catalog&&'MutationObserver'in window){
+    observer=new MutationObserver(()=>{if(ready())finish()});
+    observer.observe(catalog,{subtree:true,childList:true,attributes:true,characterData:true});
+  }
+  timer=window.setTimeout(finish,2600);
+})();
