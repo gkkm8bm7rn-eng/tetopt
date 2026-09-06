@@ -15,6 +15,6 @@
 .category-main[data-main-category="outdoor"]>.category-icon,
 .mobile-category-trigger[data-mobile-category-toggle="outdoor"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-outdoor.svg")}
 .category-main[data-main-category="horeca"]>.category-icon,
-.mobile-category-trigger[data-mobile-category-toggle="horeca"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-horeca.svg")}
+.mobile-category-trigger[data-mobile-category-toggle="horeca"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-horeca.svg?v=20260906-2")}
 .category-main[data-main-category="office"]>.category-icon,
-.mobile-category-trigger[data-mobile-category-toggle="office"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-office.svg")}
+.mobile-category-trigger[data-mobile-category-toggle="office"]>.mobile-category-icon{--forma-category-icon:url("assets/ui/category-office.svg?v=20260906-2")}
