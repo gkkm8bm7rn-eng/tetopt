@@ -98,3 +98,52 @@ function curateGallery(product,variant){
   }
   timer=window.setTimeout(finish,2600);
 })();
+
+/* Delayed visual feedback for slow product images.
+   It does not change pagination, product state, fetch priorities or image URLs.
+   Cached/fast images never receive the effect; the class appears only after 420 ms. */
+(function(){
+  const grid=document.getElementById('productGrid');
+  if(!grid||!('MutationObserver'in window))return;
+  const DELAY=420;
+  const pending=new WeakMap();
+
+  function clearWait(img,token){
+    const current=pending.get(img);
+    if(token&&current!==token)return;
+    if(current?.timer)clearTimeout(current.timer);
+    pending.delete(img);
+    img.closest('.product-image-stage')?.classList.remove('image-waiting');
+  }
+
+  function watchImage(img){
+    if(!(img instanceof HTMLImageElement))return;
+    const stage=img.closest('.product-image-stage');
+    if(!stage)return;
+    clearWait(img);
+    if(img.complete)return;
+
+    const token={timer:null};
+    pending.set(img,token);
+    const finish=()=>clearWait(img,token);
+    img.addEventListener('load',finish,{once:true});
+    img.addEventListener('error',finish,{once:true});
+    token.timer=window.setTimeout(()=>{
+      if(pending.get(img)!==token||img.complete||!document.contains(img))return;
+      stage.classList.add('image-waiting');
+    },DELAY);
+  }
+
+  function scan(root){
+    if(root instanceof HTMLImageElement)watchImage(root);
+    root.querySelectorAll?.('.product-image-stage img').forEach(watchImage);
+  }
+
+  scan(grid);
+  new MutationObserver(records=>{
+    records.forEach(record=>{
+      if(record.type==='attributes')watchImage(record.target);
+      record.addedNodes.forEach(node=>{if(node.nodeType===1)scan(node)});
+    });
+  }).observe(grid,{childList:true,subtree:true,attributes:true,attributeFilter:['src']});
+})();
