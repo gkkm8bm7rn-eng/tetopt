@@ -207,3 +207,13 @@ html body .mobile-category-hint>span{
   .site-loader::before,.site-loader-track::after{animation:none}
   .site-loader-track::after{transform:none;width:34%}
 }
+
+/* Test: very subtle, static page gradient. No images, animation or fixed backgrounds. */
+html body{
+  background-color:#f5f2ec;
+  background-image:
+    radial-gradient(900px 560px at 82% 7%,rgba(185,201,176,.13) 0%,rgba(185,201,176,.055) 38%,rgba(185,201,176,0) 72%),
+    radial-gradient(780px 520px at 8% 62%,rgba(221,217,202,.14) 0%,rgba(221,217,202,.05) 44%,rgba(221,217,202,0) 76%),
+    linear-gradient(180deg,#f7f5f0 0%,#f3f4ee 42%,#f5f2ec 100%);
+  background-attachment:scroll;
+}
