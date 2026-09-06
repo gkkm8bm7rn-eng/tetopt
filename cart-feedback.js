@@ -37,6 +37,30 @@ link.setAttribute('aria-label','Доставка и оплата');
 link.title='Доставка и оплата';
 link.innerHTML='<svg class="delivery-payment-icon" aria-hidden="true" viewBox="0 0 32 32" fill="none"><path d="M3.5 8.5h15v12H3.5zM18.5 13h5.2l4.8 5v2.5h-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="9" cy="23.5" r="2.5" stroke="currentColor" stroke-width="2"/><circle cx="23.5" cy="23.5" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M23.5 13v5h5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="delivery-payment-slash" aria-hidden="true">/</span><svg class="delivery-payment-icon" aria-hidden="true" viewBox="0 0 32 32" fill="none"><rect x="3.5" y="7" width="25" height="18" rx="3" stroke="currentColor" stroke-width="2"/><path d="M4.5 12h23" stroke="currentColor" stroke-width="2"/><path d="M8 20h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="sr-only">Доставка и оплата</span>';
 actions.insertBefore(link,favorites);
+
+/* Reuse this original combined control for the modal added by media-policy.js.
+   If <dialog> is unavailable, the href still falls back to the footer. */
+var duplicate=document.getElementById('deliveryButton');
+if(duplicate&&duplicate!==link)duplicate.remove();
+var dialog=document.getElementById('deliveryDialog');
+if(dialog){
+  var intro=dialog.querySelector('.delivery-dialog-intro');
+  if(intro)intro.remove();
+  link.setAttribute('aria-haspopup','dialog');
+  link.setAttribute('aria-controls','deliveryDialog');
+  var previousOverflow='';
+  link.addEventListener('click',function(event){
+    if(typeof dialog.showModal!=='function')return;
+    event.preventDefault();
+    previousOverflow=document.body.style.overflow;
+    if(!dialog.open)dialog.showModal();
+    document.body.style.overflow='hidden';
+  });
+  dialog.addEventListener('close',function(){
+    document.body.style.overflow=previousOverflow;
+    try{link.focus({preventScroll:true})}catch{link.focus()}
+  });
+}
 })();
 
 /* Product media should come from the same Cloudflare-served origin whenever the
