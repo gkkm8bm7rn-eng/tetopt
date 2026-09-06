@@ -200,6 +200,14 @@ function curateGallery(product,variant){
         .delivery-dialog-body section{padding:16px;border-radius:15px}
         .detail-inline-close{top:8px;margin:-20px -4px 8px auto;width:40px;height:40px;min-width:40px}
       }
+      @media(max-width:430px){
+        .site-header .header-actions{gap:clamp(4px,1.5vw,7px)!important}
+        .site-header .brand-line{font-size:clamp(9.6px,3vw,12px)!important;letter-spacing:.055em!important}
+        .site-header .delivery-button,.site-header .favorites-button,.site-header .cart-button{width:clamp(34px,10.2vw,42px)!important;min-width:clamp(34px,10.2vw,42px)!important;height:clamp(34px,10.2vw,42px)!important;min-height:clamp(34px,10.2vw,42px)!important}
+        .site-header .delivery-truck{width:clamp(22px,6.5vw,26px);height:clamp(22px,6.5vw,26px)}
+        .site-header .cart-trolley{width:clamp(23px,7vw,29px)!important;height:clamp(23px,7vw,29px)!important}
+        .site-header .action-icon{font-size:clamp(24px,7.2vw,30px)!important}
+      }
       @media(prefers-reduced-motion:reduce){.delivery-dialog::backdrop{backdrop-filter:none}}
     `;
     document.head.appendChild(style);
