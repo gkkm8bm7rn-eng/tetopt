@@ -1,0 +1,31 @@
+name: Apply mobile all and question contact
+on:
+  push:
+    branches: [mobile-all-question-contact]
+    paths: [scripts/patch-mobile-all-question.py]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: mobile-all-question-contact
+          fetch-depth: 0
+      - name: Apply patch
+        run: python scripts/patch-mobile-all-question.py
+      - name: Verify JavaScript
+        run: |
+          node --check app.js
+          node --check cart-feedback.js
+          git diff --check
+      - name: Commit result
+        run: |
+          git config user.name 'FORMA HOME ui bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add app.js cart-feedback.js
+          git rm -f scripts/patch-mobile-all-question.py .github/workflows/mobile-all-question-contact.yml
+          git diff --cached --check
+          git commit -m 'Add mobile all products reset and question contact'
+          git push origin HEAD:mobile-all-question-contact
