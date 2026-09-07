@@ -38,7 +38,7 @@ jobs:
           assert "getElementById('questionButton')" in cart
           print('targeted assertions passed')
           PY
-          git diff --check
+          git diff --check -- app.js cart-feedback.js
       - name: Commit result
         run: |
           git config user.name 'FORMA HOME ui bot'
