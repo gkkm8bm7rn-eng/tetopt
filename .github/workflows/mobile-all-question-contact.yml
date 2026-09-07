@@ -2,7 +2,9 @@ name: Apply mobile all and question contact
 on:
   push:
     branches: [mobile-all-question-contact]
-    paths: [scripts/patch-mobile-all-question.py]
+    paths:
+      - scripts/patch-mobile-all-question.py
+      - .github/workflows/mobile-all-question-contact.yml
 permissions:
   contents: write
 jobs:
