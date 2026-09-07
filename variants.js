@@ -254,13 +254,16 @@ document.addEventListener('click',async event=>{
   const button=event.target.closest('[data-axis]');
   if(!button)return;
   event.stopPropagation();
-  const product=state.products.find(item=>item.id===button.dataset.product),match=product&&selectAxis(product,button.dataset.axis,button.dataset.axisValue);
+  const product=state.products.find(item=>item.id===button.dataset.product),previous=product?String(product._selected):'',match=product&&selectAxis(product,button.dataset.axis,button.dataset.axisValue);
   if(!match)return;
   if(button.closest('[data-detail-id]')){
     const full=await getFullProduct(product);
     full._selected=match.sourceId;
     els.detail.innerHTML=detailTemplate(full,currentVariant(full,match.sourceId));
-  }else renderCatalog();
+  }else if(String(match.sourceId)!==previous){
+    const card=button.closest('.product-card');
+    if(card)card.outerHTML=cardTemplate(product);
+  }
 },true);
 
 async function changeCardPhoto(visual,delta){
