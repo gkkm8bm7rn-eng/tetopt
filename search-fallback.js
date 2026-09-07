@@ -68,3 +68,37 @@ document.addEventListener('click',function(event){
   renderCategories();
 },true);
 })();
+
+/* Variant changes are local to one catalog card.
+   The legacy handlers rebuild the entire 24-item grid, which recreates every image
+   and makes unrelated cards flash. Intercept catalog variant clicks at window capture
+   (before document handlers) and replace only the card whose option changed. */
+(function(){
+'use strict';
+function refreshCard(button,product){
+  const card=button.closest('.product-card');
+  if(!card)return false;
+  card.outerHTML=cardTemplate(product);
+  return true;
+}
+window.addEventListener('click',function(event){
+  const target=event.target;
+  const button=target&&target.closest?target.closest('[data-card-variant],[data-axis]'):null;
+  if(!button||!button.closest('.product-card'))return;
+  const product=state.products.find(item=>item.id===button.dataset.product);
+  if(!product)return;
+
+  let changed=false;
+  if(button.dataset.cardVariant!==undefined){
+    const next=String(button.dataset.cardVariant);
+    changed=String(product._selected)!==next;
+    product._selected=next;
+  }else{
+    changed=!!selectAxis(product,button.dataset.axis,button.dataset.axisValue);
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  if(changed)refreshCard(button,product);
+},true);
+})();
