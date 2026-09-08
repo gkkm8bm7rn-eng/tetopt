@@ -1,0 +1,110 @@
+name: Apply narrow header fix
+on:
+  push:
+    branches: [header-narrow-fix-20260908]
+    paths: [.github/workflows/apply-header-narrow-fix.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: header-narrow-fix-20260908
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Patch shared narrow-header rules
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('cart-feedback.js')
+          s=p.read_text(encoding='utf-8')
+
+          old_delivery="""@media(max-width:390px){.site-header{padding-left:10px!important;padding-right:10px!important}.site-header .header-actions{gap:4px!important}.site-header .brand-line{font-size:11px}.site-header .delivery-payment-button{grid-template-columns:19px auto 19px;gap:4px;width:70px;min-width:70px;height:40px;min-height:40px;padding:0 6px;border-radius:13px}.site-header .delivery-payment-icon{width:19px;height:19px}.site-header .delivery-payment-slash{font-size:16px}.site-header .favorites-button,.site-header .cart-button{width:40px;min-width:40px;height:40px;min-height:40px}}\\
+@media(max-width:340px){.site-header .brand-line{font-size:10px}.site-header .delivery-payment-button{width:66px;min-width:66px}.site-header .favorites-button,.site-header .cart-button{width:38px;min-width:38px;height:38px;min-height:38px}.site-header .delivery-payment-button{height:38px;min-height:38px}}"""
+          if old_delivery not in s:
+              raise SystemExit('old delivery narrow rules not found')
+          s=s.replace(old_delivery,'')
+
+          old_question="""@media(max-width:390px){
+  .site-header{padding-left:10px!important;padding-right:10px!important}
+  .site-header .header-actions{gap:4px!important}
+  .site-header .brand-line{font-size:10.5px!important;letter-spacing:.04em!important}
+  .site-header .question-button{width:36px;min-width:36px;height:40px;min-height:40px}
+  .site-header .question-button svg{width:21px;height:21px}
+  .site-header .delivery-payment-button{width:68px!important;min-width:68px!important;height:40px!important;min-height:40px!important;padding:0 6px!important}
+  .site-header .favorites-button,.site-header .cart-button{width:38px!important;min-width:38px!important;height:40px!important;min-height:40px!important}
+}
+@media(max-width:340px){
+  .site-header{padding-left:8px!important;padding-right:8px!important}
+  .site-header .header-actions{gap:3px!important}
+  .site-header .brand-line{font-size:9px!important;letter-spacing:.025em!important}
+  .site-header .question-button{width:32px;min-width:32px;height:36px;min-height:36px;border-radius:11px}
+  .site-header .question-button svg{width:19px;height:19px}
+  .site-header .delivery-payment-button{width:60px!important;min-width:60px!important;height:36px!important;min-height:36px!important;padding:0 5px!important}
+  .site-header .delivery-payment-icon{width:17px!important;height:17px!important}
+  .site-header .delivery-payment-slash{font-size:14px!important}
+  .site-header .favorites-button,.site-header .cart-button{width:34px!important;min-width:34px!important;height:36px!important;min-height:36px!important}
+}"""
+          new_question="""@media(max-width:430px){
+  .site-header{padding-left:8px!important;padding-right:8px!important}
+  .site-header .brand-lockup{min-width:0;flex:none;margin-right:6px}
+  .site-header .brand-line{font-size:11px!important;line-height:1!important;letter-spacing:.055em!important;white-space:nowrap!important}
+  .site-header .brand-slash,.site-header .brand-slash~span{display:none!important}
+  .site-header .header-actions{flex:none!important;gap:4px!important}
+  .site-header .question-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important;border-radius:13px!important}
+  .site-header .question-button svg{width:22px!important;height:22px!important}
+  .site-header .delivery-payment-button{width:76px!important;min-width:76px!important;height:42px!important;min-height:42px!important;padding:0 6px!important;grid-template-columns:19px auto 19px!important;gap:4px!important;border-radius:13px!important}
+  .site-header .delivery-payment-icon{width:19px!important;height:19px!important}
+  .site-header .delivery-payment-slash{font-size:16px!important}
+  .site-header .favorites-button,.site-header .cart-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important}
+}"""
+          if old_question not in s:
+              raise SystemExit('old question narrow rules not found')
+          s=s.replace(old_question,new_question)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Validate JavaScript and narrow layout
+        run: |
+          node --check cart-feedback.js
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          cat > /tmp/check-header.js <<'JS'
+          const { chromium }=require(process.cwd()+'/node_modules/playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const widths=[320,340,360,375,390,414,420,428,430,431,440,480];
+            for(const width of widths){
+              const page=await browser.newPage({viewport:{width,height:500},deviceScaleFactor:1});
+              await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
+              await page.waitForTimeout(1000);
+              const r=await page.evaluate(()=>{
+                const q=document.querySelector('#questionButton'),d=document.querySelector('.delivery-payment-button'),f=document.querySelector('#favoritesButton'),c=document.querySelector('#cartButton'),a=document.querySelector('.header-actions');
+                const box=e=>{const x=e.getBoundingClientRect();return {x:x.x,w:x.width,right:x.right,h:x.height,y:x.y}};
+                return {innerWidth,scrollWidth:document.documentElement.scrollWidth,q:box(q),d:box(d),f:box(f),c:box(c),gap:parseFloat(getComputedStyle(a).gap)};
+              });
+              if(r.scrollWidth!==width)throw new Error(`horizontal overflow ${width}: ${r.scrollWidth}`);
+              if(r.c.right>width-7)throw new Error(`cart too close/outside at ${width}: ${r.c.right}`);
+              if(width<=430){
+                const expected=[r.q.w,r.d.w,r.f.w,r.c.w,r.q.h,r.d.h,r.f.h,r.c.h,r.gap];
+                const target=[42,76,42,42,42,42,42,42,4];
+                expected.forEach((v,i)=>{if(Math.abs(v-target[i])>.2)throw new Error(`bad compact metric ${width} index ${i}: ${v}`)});
+              }
+              await page.close();
+            }
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/check-header.js
+          git diff --check -- cart-feedback.js
+      - name: Commit production change
+        run: |
+          git config user.name "FORMA HOME maintenance bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add cart-feedback.js
+          git commit -m "Stabilize narrow mobile header"
+          git push origin HEAD:header-narrow-fix-20260908
