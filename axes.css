@@ -63,3 +63,20 @@ html body .category-main.active[data-main-category]:not([data-main-category="all
     overflow-wrap:anywhere!important;
   }
 }
+
+/* Narrow mobile header: keep all four action controls fully inside the viewport. The full bilingual brand remains available through the link's aria-label; only the compact visible lockup is shortened on narrow screens. */
+@media(max-width:430px){
+  html body .site-header{padding-left:8px!important;padding-right:8px!important}
+  html body .site-header .brand-lockup{min-width:0!important;flex:none!important;margin-right:6px!important}
+  html body .site-header .brand-line{font-size:11px!important;line-height:1!important;letter-spacing:.055em!important;white-space:nowrap!important}
+  html body .site-header .brand-slash,
+  html body .site-header .brand-slash~span{display:none!important}
+  html body .site-header .header-actions{flex:none!important;gap:4px!important}
+  html body .site-header .question-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important;border-radius:13px!important}
+  html body .site-header .question-button svg{width:22px!important;height:22px!important}
+  html body .site-header .delivery-payment-button{width:76px!important;min-width:76px!important;height:42px!important;min-height:42px!important;padding:0 6px!important;grid-template-columns:19px auto 19px!important;gap:4px!important;border-radius:13px!important}
+  html body .site-header .delivery-payment-icon{width:19px!important;height:19px!important}
+  html body .site-header .delivery-payment-slash{font-size:16px!important}
+  html body .site-header .favorites-button,
+  html body .site-header .cart-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important}
+}
