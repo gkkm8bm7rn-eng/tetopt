@@ -1,0 +1,53 @@
+name: Promote verified direct contacts
+on:
+  push:
+    branches: [direct-contact-links-20260908]
+    paths: [.github/workflows/promote-direct-contact.yml]
+permissions:
+  contents: write
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: direct-contact-links-20260908
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify clean target commit
+        run: |
+          git fetch origin main
+          TARGET=7b18e99b926420a87b82d3c00665d33e2186c0da
+          BASE=75e28cc1415535836a0b56fe8a3d7d197a383641
+          test "$(git rev-parse origin/main)" = "$BASE"
+          test "$(git rev-parse "$TARGET^")" = "$BASE"
+          files="$(git diff --name-only "$BASE" "$TARGET")"
+          test "$files" = $'app.js\ncart-feedback.js'
+          git show "$TARGET:app.js" > /tmp/app.js
+          git show "$TARGET:cart-feedback.js" > /tmp/cart-feedback.js
+          node --check /tmp/app.js
+          node --check /tmp/cart-feedback.js
+          grep -F "ORDER_PHONE='79057267946'" /tmp/app.js
+          grep -F "ORDER_EMAIL='postes@mail.ru'" /tmp/app.js
+          grep -F 'https://wa.me/${ORDER_PHONE}?text=${encoded}' /tmp/app.js
+          grep -F 'https://t.me/+${ORDER_PHONE}?text=${encoded}' /tmp/app.js
+          ! grep -F 'https://wa.me/?text=' /tmp/app.js
+          ! grep -F 'https://wa.me/?text=' /tmp/cart-feedback.js
+          grep -F "directContactUrl('whatsapp',order+'\\n'+share)" /tmp/app.js
+          grep -F "directContactUrl('telegram',order+'\\n'+share)" /tmp/app.js
+          grep -F 'directContactUrl(channel,data.body)' /tmp/cart-feedback.js
+          echo 'Clean promotion target verified'
+      - name: Fast-forward main
+        run: |
+          git push origin 7b18e99b926420a87b82d3c00665d33e2186c0da:refs/heads/main
+      - name: Clean temporary branch files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/promote-direct-contact.yml
+          if [ -e __tmp_should_not_create ]; then git rm __tmp_should_not_create; fi
+          git diff --cached --check
+          git commit -m "Clean temporary direct contact promotion files"
+          git push origin HEAD:direct-contact-links-20260908
