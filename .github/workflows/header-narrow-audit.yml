@@ -23,6 +23,21 @@ jobs:
           cat > /tmp/header-audit.js <<'JS'
           const { chromium } = require(process.cwd() + '/node_modules/playwright');
           const fs = require('fs');
+          const candidate=`
+          @media(max-width:430px){
+            .site-header{padding-left:8px!important;padding-right:8px!important}
+            .site-header .brand-lockup{min-width:0;flex:none;margin-right:6px}
+            .site-header .brand-line{display:flex!important;width:92px!important;flex-wrap:wrap!important;align-content:center!important;white-space:normal!important;font-size:10px!important;line-height:1.05!important;letter-spacing:.045em!important}
+            .site-header .brand-slash{display:block!important;flex-basis:100%!important;height:0!important;overflow:visible!important;line-height:1.05!important}
+            .site-header .header-actions{flex:none!important;gap:4px!important}
+            .site-header .question-button{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;border-radius:12px!important}
+            .site-header .question-button svg{width:21px!important;height:21px!important}
+            .site-header .delivery-payment-button{width:72px!important;min-width:72px!important;height:40px!important;min-height:40px!important;padding:0 6px!important;grid-template-columns:19px auto 19px!important;gap:4px!important;border-radius:12px!important}
+            .site-header .delivery-payment-icon{width:19px!important;height:19px!important}
+            .site-header .delivery-payment-slash{font-size:16px!important}
+            .site-header .favorites-button,.site-header .cart-button{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
+          }
+          `;
           (async()=>{
             const browser=await chromium.launch({headless:true});
             const widths=[320,340,360,375,390,414];
@@ -32,6 +47,8 @@ jobs:
               const page=await browser.newPage({viewport:{width,height:700},deviceScaleFactor:1});
               await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
               await page.waitForTimeout(1200);
+              await page.addStyleTag({content:candidate});
+              await page.waitForTimeout(50);
               const data=await page.evaluate(()=>{
                 const sel=s=>document.querySelector(s);
                 const box=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1),right:+r.right.toFixed(1)}};
@@ -40,10 +57,10 @@ jobs:
                 return {innerWidth:innerWidth,scrollWidth:document.documentElement.scrollWidth,header:box(header),brand:box(brand),actions:box(actions),question:box(q),delivery:box(d),favorites:box(f),cart:box(c),gap:actions?getComputedStyle(actions).gap:null,paddingLeft:header?getComputedStyle(header).paddingLeft:null,paddingRight:header?getComputedStyle(header).paddingRight:null,brandFont:brand?getComputedStyle(brand.querySelector('.brand-line')).fontSize:null};
               });
               report.push({width,...data});
-              await page.screenshot({path:`header-audit/header-${width}.png`,clip:{x:0,y:0,width,height:180}});
+              await page.screenshot({path:`header-audit/header-fixed-${width}.png`,clip:{x:0,y:0,width,height:180}});
               await page.close();
             }
-            fs.writeFileSync('header-audit/report.json',JSON.stringify(report,null,2));
+            fs.writeFileSync('header-audit/report-fixed.json',JSON.stringify(report,null,2));
             console.log(JSON.stringify(report,null,2));
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
@@ -51,5 +68,5 @@ jobs:
           node /tmp/header-audit.js
       - uses: actions/upload-artifact@v4
         with:
-          name: narrow-header-audit
+          name: narrow-header-audit-fixed
           path: header-audit
