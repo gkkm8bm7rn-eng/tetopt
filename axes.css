@@ -80,3 +80,8 @@ html body .category-main.active[data-main-category]:not([data-main-category="all
   html body .site-header .favorites-button,
   html body .site-header .cart-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important}
 }
+
+/* Desktop sort control: preserve dedicated room for the approved slider icon and chevron so neither overlaps the label. */
+@media(min-width:641px){
+  html body .catalog-utility .sort-field{padding-left:42px!important;padding-right:38px!important}
+}
