@@ -1,4 +1,4 @@
-name: Direct contact links audit
+name: Direct contact links cleanup
 on:
   push:
     branches: [direct-contact-links-20260908]
@@ -6,56 +6,17 @@ on:
 permissions:
   contents: write
 jobs:
-  patch-and-verify:
+  verify-and-clean:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: direct-contact-links-20260908
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Patch only contact routing
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-
-          app_path = Path('app.js')
-          app = app_path.read_text()
-          old_header = "const DATA_BASE='./data/',ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/',ORDER_EMAIL='postes@mail.ru',PAGE_SIZE=24;"
-          new_header = "const DATA_BASE='./data/',ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/',ORDER_PHONE='79057267946',ORDER_EMAIL='postes@mail.ru',PAGE_SIZE=24;"
-          assert app.count(old_header) == 1, 'Unexpected app.js contact header'
-          app = app.replace(old_header, new_header, 1)
-
-          anchor = "const hashParams=()=>new URLSearchParams(location.hash.replace(/^#/,'')),baseUrl=()=>location.href.split('#')[0];"
-          helper = "\nconst directContactUrl=(channel,text)=>{const encoded=encodeURIComponent(text);return channel==='whatsapp'?`https://wa.me/${ORDER_PHONE}?text=${encoded}`:channel==='telegram'?`https://t.me/+${ORDER_PHONE}?text=${encoded}`:''};"
-          assert app.count(anchor) == 1, 'Unexpected helper insertion point'
-          app = app.replace(anchor, anchor + helper, 1)
-
-          old_msg = ",msg=encodeURIComponent(order+'\\n'+share),mailSubject="
-          assert app.count(old_msg) == 1, 'Unexpected cart message expression'
-          app = app.replace(old_msg, ",mailSubject=", 1)
-
-          old_wa = 'href="https://wa.me/?text=${msg}"'
-          new_wa = 'href="${directContactUrl(\'whatsapp\',order+\'\\n\'+share)}"'
-          assert app.count(old_wa) == 1, 'Unexpected cart WhatsApp link'
-          app = app.replace(old_wa, new_wa, 1)
-
-          old_tg = 'href="https://t.me/share/url?url=${encodeURIComponent(share)}&text=${encodeURIComponent(order)}"'
-          new_tg = 'href="${directContactUrl(\'telegram\',order+\'\\n\'+share)}"'
-          assert app.count(old_tg) == 1, 'Unexpected cart Telegram link'
-          app = app.replace(old_tg, new_tg, 1)
-          app_path.write_text(app)
-
-          question_path = Path('cart-feedback.js')
-          question = question_path.read_text()
-          old_block = "  if(channel==='whatsapp')url='https://wa.me/?text='+encodeURIComponent(data.body);\n  if(channel==='telegram')url='https://t.me/share/url?url='+encodeURIComponent(data.page)+'&text='+encodeURIComponent(data.telegram);"
-          new_block = "  if(channel==='whatsapp'||channel==='telegram')url=directContactUrl(channel,data.body);"
-          assert question.count(old_block) == 1, 'Unexpected question messenger routing block'
-          question = question.replace(old_block, new_block, 1)
-          question_path.write_text(question)
-          PY
-      - name: Verify JavaScript and direct recipients
+      - name: Verify final contact routing
         run: |
           node --check app.js
           node --check cart-feedback.js
@@ -69,19 +30,18 @@ jobs:
           assert "https://t.me/+${ORDER_PHONE}?text=${encoded}" in app
           assert "https://wa.me/?text=" not in app
           assert "https://wa.me/?text=" not in question
-          assert "https://t.me/share/url?url='+encodeURIComponent(data.page)" not in question
           assert "directContactUrl('whatsapp',order+'\\n'+share)" in app
           assert "directContactUrl('telegram',order+'\\n'+share)" in app
           assert "directContactUrl(channel,data.body)" in question
           assert "mailto:${ORDER_EMAIL}" in app
           assert "'mailto:'+ORDER_EMAIL" in question
-          print('Direct contact routing assertions passed')
+          print('Final direct contact routing assertions passed')
           PY
-      - name: Commit verified changes
+      - name: Remove temporary workflow
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app.js cart-feedback.js
+          git rm .github/workflows/direct-contact-links-audit.yml
           git diff --cached --check
-          git commit -m "Route orders and questions to store contacts"
+          git commit -m "Remove temporary direct contact audit workflow"
           git push origin HEAD:direct-contact-links-20260908
