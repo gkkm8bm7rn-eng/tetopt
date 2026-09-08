@@ -1,0 +1,55 @@
+name: Narrow header audit
+on:
+  push:
+    branches: [header-narrow-audit-20260908]
+    paths: [.github/workflows/header-narrow-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: header-narrow-audit-20260908
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Render narrow headers
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          cat > /tmp/header-audit.js <<'JS'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          const fs = require('fs');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const widths=[320,340,360,375,390,414];
+            const report=[];
+            fs.mkdirSync('header-audit',{recursive:true});
+            for(const width of widths){
+              const page=await browser.newPage({viewport:{width,height:700},deviceScaleFactor:1});
+              await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
+              await page.waitForTimeout(1200);
+              const data=await page.evaluate(()=>{
+                const sel=s=>document.querySelector(s);
+                const box=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1),right:+r.right.toFixed(1)}};
+                const header=sel('.site-header'),brand=sel('.brand-lockup'),actions=sel('.site-header .header-actions');
+                const q=sel('#questionButton'),d=sel('.delivery-payment-button'),f=sel('#favoritesButton'),c=sel('#cartButton');
+                return {innerWidth:innerWidth,scrollWidth:document.documentElement.scrollWidth,header:box(header),brand:box(brand),actions:box(actions),question:box(q),delivery:box(d),favorites:box(f),cart:box(c),gap:actions?getComputedStyle(actions).gap:null,paddingLeft:header?getComputedStyle(header).paddingLeft:null,paddingRight:header?getComputedStyle(header).paddingRight:null,brandFont:brand?getComputedStyle(brand.querySelector('.brand-line')).fontSize:null};
+              });
+              report.push({width,...data});
+              await page.screenshot({path:`header-audit/header-${width}.png`,clip:{x:0,y:0,width,height:180}});
+              await page.close();
+            }
+            fs.writeFileSync('header-audit/report.json',JSON.stringify(report,null,2));
+            console.log(JSON.stringify(report,null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/header-audit.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: narrow-header-audit
+          path: header-audit
