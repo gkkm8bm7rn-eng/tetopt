@@ -30,12 +30,12 @@ jobs:
             .site-header .brand-line{font-size:11px!important;line-height:1!important;letter-spacing:.055em!important;white-space:nowrap!important}
             .site-header .brand-slash,.site-header .brand-slash~span{display:none!important}
             .site-header .header-actions{flex:none!important;gap:4px!important}
-            .site-header .question-button{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;border-radius:12px!important}
-            .site-header .question-button svg{width:21px!important;height:21px!important}
-            .site-header .delivery-payment-button{width:72px!important;min-width:72px!important;height:40px!important;min-height:40px!important;padding:0 6px!important;grid-template-columns:19px auto 19px!important;gap:4px!important;border-radius:12px!important}
+            .site-header .question-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important;border-radius:13px!important}
+            .site-header .question-button svg{width:22px!important;height:22px!important}
+            .site-header .delivery-payment-button{width:76px!important;min-width:76px!important;height:42px!important;min-height:42px!important;padding:0 6px!important;grid-template-columns:19px auto 19px!important;gap:4px!important;border-radius:13px!important}
             .site-header .delivery-payment-icon{width:19px!important;height:19px!important}
             .site-header .delivery-payment-slash{font-size:16px!important}
-            .site-header .favorites-button,.site-header .cart-button{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important}
+            .site-header .favorites-button,.site-header .cart-button{width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important}
           }
           `;
           (async()=>{
@@ -57,10 +57,10 @@ jobs:
                 return {innerWidth:innerWidth,scrollWidth:document.documentElement.scrollWidth,header:box(header),brand:box(brand),actions:box(actions),question:box(q),delivery:box(d),favorites:box(f),cart:box(c),gap:actions?getComputedStyle(actions).gap:null,paddingLeft:header?getComputedStyle(header).paddingLeft:null,paddingRight:header?getComputedStyle(header).paddingRight:null,brandFont:brand?getComputedStyle(brand.querySelector('.brand-line')).fontSize:null};
               });
               report.push({width,...data});
-              await page.screenshot({path:`header-audit/header-fixed-${width}.png`,clip:{x:0,y:0,width,height:180}});
+              await page.screenshot({path:`header-audit/header-final-${width}.png`,clip:{x:0,y:0,width,height:180}});
               await page.close();
             }
-            fs.writeFileSync('header-audit/report-fixed.json',JSON.stringify(report,null,2));
+            fs.writeFileSync('header-audit/report-final.json',JSON.stringify(report,null,2));
             console.log(JSON.stringify(report,null,2));
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
@@ -68,5 +68,5 @@ jobs:
           node /tmp/header-audit.js
       - uses: actions/upload-artifact@v4
         with:
-          name: narrow-header-audit-fixed
+          name: narrow-header-audit-final
           path: header-audit
