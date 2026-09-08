@@ -1,0 +1,72 @@
+name: Contact deeplink smoke
+
+on:
+  push:
+    branches:
+      - contact-deeplink-fix-20260908
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: |
+          node --check search-fallback.js
+          node --check app.js
+          node --check variants.js
+          node --check cart-feedback.js
+          node --check media-policy.js
+      - name: Install browser driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify contact links in rendered site
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          import {execSync} from 'node:child_process';
+          import fs from 'node:fs';
+
+          const phone='79057267946';
+          const email='postes@mail.ru';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page=await browser.newPage();
+          const errors=[];
+          page.on('pageerror',e=>errors.push(String(e)));
+          await page.setRequestInterception(true);
+          page.on('request',req=>{
+            if(req.url().startsWith('http://127.0.0.1:8000/'))req.continue();
+            else req.abort();
+          });
+          await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded',timeout:30000});
+          await page.waitForSelector('.product-card',{timeout:30000});
+          await page.click('.product-card [data-add]');
+          await page.click('#cartButton');
+          await page.waitForSelector('#cartDialog[open] .checkout-actions a',{timeout:5000});
+          await new Promise(r=>setTimeout(r,100));
+          const links=await page.$$eval('#cartDialog .checkout-actions a',nodes=>nodes.map(a=>({text:a.textContent.trim(),href:a.getAttribute('href'),target:a.getAttribute('target'),channel:a.dataset.directChannel})));
+          const wa=links.find(x=>/WhatsApp/i.test(x.text));
+          const tg=links.find(x=>/Telegram/i.test(x.text));
+          const mail=links.find(x=>/e-mail|email/i.test(x.text));
+          if(!wa?.href?.startsWith(`https://wa.me/${phone}?text=`))throw new Error('WhatsApp link is not direct click-to-chat: '+JSON.stringify(wa));
+          if(wa.target)throw new Error('WhatsApp must not use a popup target');
+          if(!tg?.href?.startsWith(`tg://resolve?phone=${phone}&text=`))throw new Error('Telegram link is not direct app phone deep link: '+JSON.stringify(tg));
+          if(tg.target)throw new Error('Telegram must not use a popup target');
+          if(!mail?.href?.startsWith(`mailto:${email}?subject=`))throw new Error('Email link is not direct compose: '+JSON.stringify(mail));
+          if(mail.target)throw new Error('Email must not use a popup target');
+          const source=fs.readFileSync('search-fallback.js','utf8');
+          if(source.includes("window.open(url,'_blank'"))throw new Error('Popup-based question routing still present');
+          if(!source.includes(`tg://resolve?phone=\${CONTACT_PHONE}&text=`))throw new Error('Telegram app deep-link formatter missing');
+          if(!source.includes(`mailto:\${CONTACT_EMAIL}?subject=`))throw new Error('Question email composer formatter missing');
+          if(errors.length)throw new Error('Browser JS errors: '+errors.join(' | '));
+          await browser.close();
+          console.log(JSON.stringify({links},null,2));
+          NODE
