@@ -1,0 +1,73 @@
+name: Full visual audit
+on:
+  push:
+    branches: [header-narrow-css-fix-20260908]
+    paths: [.github/workflows/full-visual-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Render current main
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          cat > /tmp/full-audit.js <<'JS'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          const fs = require('fs');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const cases=[
+              {name:'mobile-320',width:320,height:844},
+              {name:'mobile-390',width:390,height:844},
+              {name:'mobile-430',width:430,height:900},
+              {name:'desktop-1440',width:1440,height:1100}
+            ];
+            fs.mkdirSync('visual-audit',{recursive:true});
+            const report=[];
+            for(const c of cases){
+              const page=await browser.newPage({viewport:{width:c.width,height:c.height},deviceScaleFactor:1});
+              await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
+              await page.waitForTimeout(1800);
+              const base=await page.evaluate(()=>{
+                const box=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1),right:+r.right.toFixed(1),bottom:+r.bottom.toFixed(1)}};
+                return {
+                  innerWidth,scrollWidth:document.documentElement.scrollWidth,
+                  header:box('.site-header'),brand:box('.brand-lockup'),actions:box('.site-header .header-actions'),
+                  banner:box('.hero-note,.catalog-note,.trade-hero,.intro-banner'),search:box('.search-shell,.search-bar,.search-row'),
+                  categories:box('.mobile-category-list,.category-sidebar,.category-tree'),grid:box('#productGrid'),
+                  question:box('#questionButton'),delivery:box('.delivery-payment-button'),favorites:box('#favoritesButton'),cart:box('#cartButton')
+                };
+              });
+              await page.screenshot({path:`visual-audit/${c.name}-full.png`,fullPage:true});
+              await page.screenshot({path:`visual-audit/${c.name}-top.png`,clip:{x:0,y:0,width:c.width,height:Math.min(c.height,1000)}});
+              if(c.width<=430){
+                const horeca=page.locator('[data-mobile-category-toggle="horeca"]');
+                if(await horeca.count()){await horeca.click();await page.waitForTimeout(200);await page.screenshot({path:`visual-audit/${c.name}-horeca-open.png`,clip:{x:0,y:0,width:c.width,height:Math.min(c.height,900)}});}
+                const q=page.locator('#questionButton');
+                if(await q.count()){await q.click();await page.waitForTimeout(150);await page.screenshot({path:`visual-audit/${c.name}-question.png`,clip:{x:0,y:0,width:c.width,height:c.height}});await page.keyboard.press('Escape');}
+              } else {
+                const q=page.locator('#questionButton');
+                if(await q.count()){await q.click();await page.waitForTimeout(150);await page.screenshot({path:`visual-audit/${c.name}-question.png`,clip:{x:0,y:0,width:c.width,height:c.height}});await page.keyboard.press('Escape');}
+              }
+              report.push({case:c,...base});
+              await page.close();
+            }
+            fs.writeFileSync('visual-audit/report.json',JSON.stringify(report,null,2));
+            console.log(JSON.stringify(report,null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/full-audit.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-visual-audit
+          path: visual-audit
