@@ -1,0 +1,121 @@
+name: Full visual audit
+on:
+  push:
+    branches: [visual-audit-20260908]
+    paths: [.github/workflows/full-visual-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Audit current visual system
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          cat > /tmp/visual-audit.js <<'JS'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          const fs = require('fs');
+          const path = require('path');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const cases=[
+              {name:'mobile-320',width:320,height:1000},
+              {name:'mobile-390',width:390,height:1100},
+              {name:'tablet-768',width:768,height:1100},
+              {name:'desktop-1440',width:1440,height:1200}
+            ];
+            fs.mkdirSync('visual-audit',{recursive:true});
+            const report=[];
+            for(const c of cases){
+              const page=await browser.newPage({viewport:{width:c.width,height:c.height},deviceScaleFactor:1});
+              await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
+              await page.waitForTimeout(2200);
+              const base=await page.evaluate(()=>{
+                const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
+                const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1),right:+r.right.toFixed(1),bottom:+r.bottom.toFixed(1)}};
+                const cs=el=>el?getComputedStyle(el):null;
+                const actions=q('.site-header .header-actions');
+                const children=actions?Array.from(actions.children):[];
+                const qBtn=q('#questionButton'), delivery=q('.delivery-payment-button'), fav=q('#favoritesButton'), cart=q('#cartButton');
+                const mobileAll=q('[data-mobile-all-products], .mobile-all-products, #mobileAllProducts');
+                const banner=qa('*').find(el=>el.childElementCount===0 && (el.textContent||'').trim()==='МЕБЕЛЬ ДЛЯ ПРОДУМАННОГО ИНТЕРЬЕРА');
+                const categoryLabel=q('.mobile-category-trigger .mobile-category-name, .category-main .category-name');
+                const productName=q('.product-card .product-name');
+                const brand=q('.brand-line');
+                const filter=q('[data-open-filters], #filterButton, .filter-button');
+                const sort=q('[data-sort], #sortButton, .sort-button');
+                const bodyStyle=cs(document.body);
+                return {
+                  innerWidth:innerWidth,
+                  scrollWidth:document.documentElement.scrollWidth,
+                  bodyOverflowX:bodyStyle&&bodyStyle.overflowX,
+                  bodyBackgroundImage:bodyStyle&&bodyStyle.backgroundImage,
+                  tradeNoteDisplay:cs(q('.trade-note'))?.display||null,
+                  bannerText:banner?(banner.textContent||'').trim():null,
+                  bannerRect:rect(banner),
+                  brandText:brand?(brand.textContent||'').replace(/\s+/g,' ').trim():null,
+                  brandFont:cs(brand)?.fontFamily||null,
+                  categoryFont:cs(categoryLabel)?.fontFamily||null,
+                  productFont:cs(productName)?.fontFamily||null,
+                  headerRect:rect(q('.site-header')),
+                  questionRect:rect(qBtn),deliveryRect:rect(delivery),favoritesRect:rect(fav),cartRect:rect(cart),
+                  actionOrder:{question:children.indexOf(qBtn),delivery:children.indexOf(delivery),favorites:children.indexOf(fav),cart:children.indexOf(cart)},
+                  productCardCount:qa('.product-card').length,
+                  mobileAllVisible:!!mobileAll && cs(mobileAll).display!=='none' && rect(mobileAll)?.w>0,
+                  filterText:filter?(filter.textContent||'').replace(/\s+/g,' ').trim():null,
+                  sortText:sort?(sort.textContent||'').replace(/\s+/g,' ').trim():null,
+                  filterHasOldGlyph:!!filter && (filter.textContent||'').includes('↕'),
+                  sortHasOldGlyph:!!sort && (sort.textContent||'').includes('↕'),
+                  categoryIcons:qa('.mobile-category-icon').slice(0,4).map(el=>({bg:cs(el).backgroundImage,color:cs(el).color,bgColor:cs(el).backgroundColor,rect:rect(el)}))
+                };
+              });
+              await page.screenshot({path:`visual-audit/${c.name}-top.png`,fullPage:false});
+              if(c.name==='mobile-390'||c.name==='desktop-1440') await page.screenshot({path:`visual-audit/${c.name}-full.png`,fullPage:true});
+              let selected=null, question=null, deliveryModal=null;
+              if(c.width<=390){
+                const horeca=page.locator('.mobile-category-trigger[data-mobile-category-toggle="horeca"]');
+                if(await horeca.count()){
+                  await horeca.click();
+                  await page.waitForTimeout(350);
+                  selected=await page.evaluate(()=>{
+                    const trigger=document.querySelector('.mobile-category-trigger[data-mobile-category-toggle="horeca"]');
+                    const icon=trigger&&trigger.querySelector('.mobile-category-icon');
+                    const sec=trigger&&trigger.closest('.mobile-category-section');
+                    const s=icon?getComputedStyle(icon):null;
+                    return {sectionClass:sec?.className||null,iconBackground:s?.backgroundImage||null,iconBackgroundColor:s?.backgroundColor||null};
+                  });
+                  await page.screenshot({path:`visual-audit/${c.name}-selected.png`,fullPage:false});
+                }
+              }
+              const qBtn=page.locator('#questionButton');
+              if(await qBtn.count()){
+                await qBtn.click(); await page.waitForTimeout(150);
+                question=await page.evaluate(()=>{const d=document.querySelector('#questionDialog');const r=d?.getBoundingClientRect();return{open:!!d?.open,rect:r?{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1)}:null,actions:Array.from(d?.querySelectorAll('[data-question-channel]')||[]).map(b=>(b.textContent||'').trim())}});
+                await page.screenshot({path:`visual-audit/${c.name}-question.png`,fullPage:false});
+                await page.keyboard.press('Escape'); await page.waitForTimeout(100);
+              }
+              const del=page.locator('.delivery-payment-button');
+              if(await del.count()){
+                await del.click(); await page.waitForTimeout(150);
+                deliveryModal=await page.evaluate(()=>{const d=document.querySelector('#deliveryDialog');return{open:!!d?.open,text:(d?.textContent||'').replace(/\s+/g,' ').trim().slice(0,220)}});
+                if(deliveryModal.open) await page.keyboard.press('Escape');
+              }
+              report.push({case:c,...base,selected,question,deliveryModal});
+              await page.close();
+            }
+            fs.writeFileSync('visual-audit/report.json',JSON.stringify(report,null,2));
+            console.log(JSON.stringify(report,null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/visual-audit.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-visual-audit
+          path: visual-audit
