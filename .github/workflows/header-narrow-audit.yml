@@ -40,7 +40,7 @@ jobs:
           `;
           (async()=>{
             const browser=await chromium.launch({headless:true});
-            const widths=[320,340,360,375,390,414];
+            const widths=[320,340,360,375,390,414,420,428,430,431,440,480];
             const report=[];
             fs.mkdirSync('header-audit',{recursive:true});
             for(const width of widths){
