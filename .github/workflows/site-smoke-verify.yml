@@ -53,7 +53,6 @@ jobs:
           const productCount=await page.$$eval('.product-card',nodes=>nodes.length);
           if(productCount<1)throw new Error('Catalog did not render products');
 
-          // Category + search exercises search-fallback.js and the verified search helpers.
           await page.click('[data-main-category="interior"]');
           await page.type('#searchInput','стул');
           await page.click('#searchForm .search-submit');
@@ -62,13 +61,11 @@ jobs:
           await page.evaluate(()=>resetFilters());
           await new Promise(resolve=>setTimeout(resolve,150));
 
-          // Product dialog must open and close cleanly.
           await page.click('.product-card [data-open]');
           await page.waitForSelector('#productDialog[open]',{timeout:5000});
           await page.$eval('[data-close-dialog]',el=>el.click());
           await new Promise(resolve=>setTimeout(resolve,150));
 
-          // Cart must render and all three checkout destinations must be addressed directly.
           await page.click('.product-card [data-add]');
           await page.click('#cartButton');
           await page.waitForSelector('#cartDialog[open] .checkout-actions a',{timeout:5000});
@@ -85,12 +82,10 @@ jobs:
           if(!mail?.href?.startsWith(`mailto:${email}?`))throw new Error('Wrong cart email target: '+JSON.stringify(mail));
           await page.$eval('[data-close-cart]',el=>el.click());
 
-          // Delivery/payment dialog must still open after contact routing changes.
           await page.click('.delivery-payment-button');
           await page.waitForSelector('#deliveryDialog[open]',{timeout:5000});
           await page.$eval('#deliveryDialog button',el=>el.click());
 
-          // Question dialog: capture outbound messenger URLs and verify direct targets.
           await page.evaluate(()=>{window.__opened=[];window.open=(url)=>{window.__opened.push(String(url));return null}});
           await page.click('#questionButton');
           await page.waitForSelector('#questionDialog[open]',{timeout:5000});
@@ -102,11 +97,11 @@ jobs:
           const qTg=await page.evaluate(()=>window.__opened.at(-1)||'');
           if(!qTg.startsWith(`https://t.me/+${phone}?text=`))throw new Error('Wrong question Telegram target: '+qTg);
 
-          // Email question routing is additionally asserted from the exact deployed source.
           const source=fs.readFileSync('search-fallback.js','utf8');
-          if(!source.includes(`mailto:${email}?subject=`))throw new Error('Question email target is not pinned to '+email);
+          if(!source.includes("const CONTACT_EMAIL='postes@mail.ru';"))throw new Error('Question email contact constant is wrong');
+          if(!source.includes('`mailto:${CONTACT_EMAIL}?subject='))throw new Error('Question email action does not use CONTACT_EMAIL');
           if(pageErrors.length)throw new Error('Browser JS errors: '+pageErrors.join(' | '));
 
           await browser.close();
-          console.log(JSON.stringify({productCount,cartLinks,qWa:qWa.slice(0,70),qTg:qTg.slice(0,70)},null,2));
+          console.log(JSON.stringify({productCount,cartLinks,qWa:qWa.slice(0,70),qTg:qTg.slice(0,70),questionEmail:email},null,2));
           NODE
