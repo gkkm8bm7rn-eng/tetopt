@@ -1,0 +1,112 @@
+name: Site smoke verification
+
+on:
+  push:
+    branches:
+      - site-verification-fix-20260908
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: |
+          node --check app.js
+          node --check search-fallback.js
+          node --check cart-feedback.js
+          node --check media-policy.js
+          node --check variants.js
+      - name: Install browser driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Browser smoke test
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          import {execSync} from 'node:child_process';
+          import fs from 'node:fs';
+
+          const phone='79057267946';
+          const email='postes@mail.ru';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page=await browser.newPage();
+          const pageErrors=[];
+          page.on('pageerror',error=>pageErrors.push(String(error)));
+          await page.setRequestInterception(true);
+          page.on('request',request=>{
+            const url=request.url();
+            if(url.startsWith('http://127.0.0.1:8000/'))request.continue();
+            else request.abort();
+          });
+          await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded',timeout:30000});
+          await page.waitForSelector('.product-card',{timeout:30000});
+
+          const productCount=await page.$$eval('.product-card',nodes=>nodes.length);
+          if(productCount<1)throw new Error('Catalog did not render products');
+
+          // Category + search exercises search-fallback.js and the verified search helpers.
+          await page.click('[data-main-category="interior"]');
+          await page.type('#searchInput','стул');
+          await page.click('#searchForm .search-submit');
+          await new Promise(resolve=>setTimeout(resolve,250));
+          if(pageErrors.length)throw new Error('JS error after category/search: '+pageErrors.join(' | '));
+          await page.click('#clearFilters');
+          await new Promise(resolve=>setTimeout(resolve,150));
+
+          // Product dialog must open and close cleanly.
+          await page.click('.product-card [data-open]');
+          await page.waitForSelector('#productDialog[open]',{timeout:5000});
+          await page.click('[data-close-dialog]');
+          await new Promise(resolve=>setTimeout(resolve,150));
+
+          // Cart must render and all three checkout destinations must be addressed directly.
+          await page.click('.product-card [data-add]');
+          await page.click('#cartButton');
+          await page.waitForSelector('#cartDialog[open] .checkout-actions a',{timeout:5000});
+          await page.waitForFunction(p=>{
+            const a=[...document.querySelectorAll('#cartDialog .checkout-actions a')];
+            return a.some(x=>x.href.startsWith('https://wa.me/'+p))&&a.some(x=>x.href.startsWith('https://t.me/+'+p));
+          },{},phone);
+          const cartLinks=await page.$$eval('#cartDialog .checkout-actions a',nodes=>nodes.map(a=>({text:a.textContent.trim(),href:a.getAttribute('href')})));
+          const wa=cartLinks.find(x=>/WhatsApp/i.test(x.text));
+          const tg=cartLinks.find(x=>/Telegram/i.test(x.text));
+          const mail=cartLinks.find(x=>/e-mail|email/i.test(x.text));
+          if(!wa?.href?.startsWith(`https://wa.me/${phone}?text=`))throw new Error('Wrong cart WhatsApp target: '+JSON.stringify(wa));
+          if(!tg?.href?.startsWith(`https://t.me/+${phone}?text=`))throw new Error('Wrong cart Telegram target: '+JSON.stringify(tg));
+          if(!mail?.href?.startsWith(`mailto:${email}?`))throw new Error('Wrong cart email target: '+JSON.stringify(mail));
+          await page.click('[data-close-cart]');
+
+          // Delivery/payment dialog must still open after contact routing changes.
+          await page.click('.delivery-payment-button');
+          await page.waitForSelector('#deliveryDialog[open]',{timeout:5000});
+          await page.click('#deliveryDialog [data-close-delivery]');
+
+          // Question dialog: capture outbound messenger URLs and verify direct targets.
+          await page.evaluate(()=>{window.__opened=[];window.open=(url)=>{window.__opened.push(String(url));return null}});
+          await page.click('#questionButton');
+          await page.waitForSelector('#questionDialog[open]',{timeout:5000});
+          await page.type('#questionText','Тестовый вопрос');
+          await page.click('[data-question-channel="whatsapp"]');
+          const qWa=await page.evaluate(()=>window.__opened.at(-1)||'');
+          if(!qWa.startsWith(`https://wa.me/${phone}?text=`))throw new Error('Wrong question WhatsApp target: '+qWa);
+          await page.click('[data-question-channel="telegram"]');
+          const qTg=await page.evaluate(()=>window.__opened.at(-1)||'');
+          if(!qTg.startsWith(`https://t.me/+${phone}?text=`))throw new Error('Wrong question Telegram target: '+qTg);
+
+          // Email question routing is additionally asserted from the exact deployed source.
+          const source=fs.readFileSync('search-fallback.js','utf8');
+          if(!source.includes(`mailto:${email}?subject=`))throw new Error('Question email target is not pinned to '+email);
+          if(pageErrors.length)throw new Error('Browser JS errors: '+pageErrors.join(' | '));
+
+          await browser.close();
+          console.log(JSON.stringify({productCount,cartLinks,qWa:qWa.slice(0,70),qTg:qTg.slice(0,70)},null,2));
+          NODE
