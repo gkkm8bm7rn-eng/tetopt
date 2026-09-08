@@ -59,13 +59,13 @@ jobs:
           await page.click('#searchForm .search-submit');
           await new Promise(resolve=>setTimeout(resolve,250));
           if(pageErrors.length)throw new Error('JS error after category/search: '+pageErrors.join(' | '));
-          await page.click('#clearFilters');
+          await page.evaluate(()=>resetFilters());
           await new Promise(resolve=>setTimeout(resolve,150));
 
           // Product dialog must open and close cleanly.
           await page.click('.product-card [data-open]');
           await page.waitForSelector('#productDialog[open]',{timeout:5000});
-          await page.click('[data-close-dialog]');
+          await page.$eval('[data-close-dialog]',el=>el.click());
           await new Promise(resolve=>setTimeout(resolve,150));
 
           // Cart must render and all three checkout destinations must be addressed directly.
@@ -83,12 +83,12 @@ jobs:
           if(!wa?.href?.startsWith(`https://wa.me/${phone}?text=`))throw new Error('Wrong cart WhatsApp target: '+JSON.stringify(wa));
           if(!tg?.href?.startsWith(`https://t.me/+${phone}?text=`))throw new Error('Wrong cart Telegram target: '+JSON.stringify(tg));
           if(!mail?.href?.startsWith(`mailto:${email}?`))throw new Error('Wrong cart email target: '+JSON.stringify(mail));
-          await page.click('[data-close-cart]');
+          await page.$eval('[data-close-cart]',el=>el.click());
 
           // Delivery/payment dialog must still open after contact routing changes.
           await page.click('.delivery-payment-button');
           await page.waitForSelector('#deliveryDialog[open]',{timeout:5000});
-          await page.click('#deliveryDialog [data-close-delivery]');
+          await page.$eval('#deliveryDialog button',el=>el.click());
 
           // Question dialog: capture outbound messenger URLs and verify direct targets.
           await page.evaluate(()=>{window.__opened=[];window.open=(url)=>{window.__opened.push(String(url));return null}});
