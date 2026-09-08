@@ -42,8 +42,7 @@ jobs:
 
               const delivery=page.locator('.delivery-payment-button');
               await delivery.click();
-              const deliveryOpen=await page.locator('#deliveryDialog').evaluate(d=>d.open);
-              if(!deliveryOpen) throw new Error(`delivery dialog failed ${width}`);
+              if(!(await page.locator('#deliveryDialog').evaluate(d=>d.open))) throw new Error(`delivery dialog failed ${width}`);
               await page.keyboard.press('Escape');
 
               if(width<=640){
@@ -62,8 +61,7 @@ jobs:
               const firstName=page.locator('.product-card .product-name').first();
               await firstName.click();
               await page.waitForTimeout(180);
-              const detailOpen=await page.locator('#productDetail').evaluate(d=>!!(d.open||d.hasAttribute('open')));
-              if(!detailOpen) throw new Error(`product detail failed ${width}`);
+              if(!(await page.locator('#productDialog').evaluate(d=>d.open))) throw new Error(`product detail failed ${width}`);
               await page.keyboard.press('Escape');
               if(pageErrors.length) throw new Error(`page errors ${width}: ${pageErrors.join(' | ')}`);
               console.log(JSON.stringify({width,metrics,ok:true}));
