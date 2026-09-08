@@ -255,8 +255,7 @@ dialog.addEventListener('click',event=>{
   error.hidden=true;
   const data=payload(question),channel=button.dataset.questionChannel;
   let url='';
-  if(channel==='whatsapp')url='https://wa.me/?text='+encodeURIComponent(data.body);
-  if(channel==='telegram')url='https://t.me/share/url?url='+encodeURIComponent(data.page)+'&text='+encodeURIComponent(data.telegram);
+  if(channel==='whatsapp'||channel==='telegram')url=directContactUrl(channel,data.body);
   if(channel==='email')url='mailto:'+ORDER_EMAIL+'?subject='+encodeURIComponent('Вопрос FORMA HOME')+'&body='+encodeURIComponent(data.body);
   if(!url)return;
   if(channel==='email')location.href=url;
