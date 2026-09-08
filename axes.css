@@ -85,3 +85,45 @@ html body .category-main.active[data-main-category]:not([data-main-category="all
 @media(min-width:641px){
   html body .catalog-utility .sort-field{padding-left:42px!important;padding-right:38px!important}
 }
+
+/* Desktop/tablet hero: keep the approved compact brand banner and remove the obsolete large slogan without touching mobile or catalog behavior. */
+@media(min-width:641px){
+  html body main#top{
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-areas:"hero" "heading" "tools" "catalog" "recent"!important;
+    column-gap:0!important;
+    row-gap:0!important;
+    align-items:stretch!important;
+  }
+  html body main#top>.hero{
+    grid-area:hero!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0 0 14px!important;
+    padding:0!important;
+    align-self:stretch!important;
+  }
+  html body main#top>.hero .hero-content{
+    display:flex!important;
+    min-height:72px!important;
+    height:auto!important;
+    padding:18px 24px!important;
+    align-items:center!important;
+    justify-content:center!important;
+    border-radius:18px!important;
+    text-align:center!important;
+  }
+  html body main#top>.hero .hero-content::before{content:none!important}
+  html body main#top>.hero .eyebrow{
+    margin:0!important;
+    font-size:12px!important;
+    line-height:1.2!important;
+    letter-spacing:.16em!important;
+    text-align:center!important;
+  }
+  html body main#top>.hero h1{display:none!important}
+}
+@media(min-width:641px) and (max-width:900px){
+  html body main#top{padding-inline:18px!important}
+  html body main#top>.hero .hero-content{min-height:68px!important;padding:16px 18px!important;border-radius:17px!important}
+}
