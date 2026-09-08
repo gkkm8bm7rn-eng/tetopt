@@ -17,59 +17,59 @@ jobs:
           node-version: '22'
       - name: Install Playwright
         run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
-      - name: Audit compact hero candidate
+      - name: Smoke-test current interactions
         run: |
           python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
-          cat > /tmp/visual-audit.js <<'JS'
+          cat > /tmp/smoke.js <<'JS'
           const { chromium } = require(process.cwd() + '/node_modules/playwright');
-          const fs = require('fs');
           (async()=>{
             const browser=await chromium.launch({headless:true});
-            const cases=[
-              {name:'mobile-390',width:390,height:1100},
-              {name:'tablet-768',width:768,height:1100},
-              {name:'desktop-1024',width:1024,height:1100},
-              {name:'desktop-1440',width:1440,height:1200}
-            ];
-            fs.mkdirSync('visual-audit',{recursive:true});
-            const report=[];
-            for(const c of cases){
-              const page=await browser.newPage({viewport:{width:c.width,height:c.height},deviceScaleFactor:1});
+            for(const width of [390,768,1440]){
+              const page=await browser.newPage({viewport:{width,height:1100},deviceScaleFactor:1});
+              const pageErrors=[];
+              page.on('pageerror',e=>pageErrors.push(String(e)));
               await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
-              await page.waitForTimeout(2200);
-              const data=await page.evaluate(()=>{
-                const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
-                const rect=el=>{if(!el)return null;const r=el.getBoundingClientRect();return{x:+r.x.toFixed(1),y:+r.y.toFixed(1),w:+r.width.toFixed(1),h:+r.height.toFixed(1),right:+r.right.toFixed(1),bottom:+r.bottom.toFixed(1)}};
-                const visible=el=>!!el&&getComputedStyle(el).display!=='none'&&getComputedStyle(el).visibility!=='hidden'&&rect(el)?.w>0;
-                const hero=q('.hero'), content=q('.hero-content'), eyebrow=q('.hero .eyebrow'), title=q('#heroTitle');
-                const catalog=q('.catalog-section'), heading=q('.catalog-section>.section-heading'), tools=q('.catalog-tools'), grid=q('#productGrid');
-                const actions=q('.site-header .header-actions'), cart=q('#cartButton');
-                const allRow=qa('.mobile-category-trigger').find(el=>(el.textContent||'').includes('Все товары'));
-                return {
-                  innerWidth,
-                  scrollWidth:document.documentElement.scrollWidth,
-                  hero:rect(hero),heroContent:rect(content),
-                  eyebrowText:(eyebrow?.textContent||'').trim(),eyebrowVisible:visible(eyebrow),
-                  titleText:(title?.textContent||'').replace(/\s+/g,' ').trim(),titleVisible:visible(title),
-                  heading:rect(heading),tools:rect(tools),catalog:rect(catalog),grid:rect(grid),
-                  headerActions:rect(actions),cart:rect(cart),
-                  allProductsVisible:visible(allRow),
-                  productCards:qa('.product-card').length,
-                  firstCard:rect(q('.product-card')),
-                  bodyBg:getComputedStyle(document.body).backgroundImage
-                };
-              });
-              report.push({case:c,...data});
-              await page.screenshot({path:`visual-audit/${c.name}-top.png`,fullPage:false});
+              await page.waitForTimeout(1800);
+              const metrics=await page.evaluate(()=>({innerWidth,scrollWidth:document.documentElement.scrollWidth,heroH:document.querySelector('.hero')?.getBoundingClientRect().height||0,titleDisplay:getComputedStyle(document.querySelector('#heroTitle')).display,cardCount:document.querySelectorAll('.product-card').length}));
+              if(metrics.scrollWidth>metrics.innerWidth) throw new Error(`horizontal overflow ${width}: ${metrics.scrollWidth}>${metrics.innerWidth}`);
+              if(width>640 && (metrics.heroH>90 || metrics.titleDisplay!=='none')) throw new Error(`desktop hero mismatch ${width}: ${JSON.stringify(metrics)}`);
+              if(metrics.cardCount<1) throw new Error(`catalog missing at ${width}`);
+
+              const q=page.locator('#questionButton');
+              await q.click();
+              if(!(await page.locator('#questionDialog').evaluate(d=>d.open))) throw new Error(`question dialog failed ${width}`);
+              await page.keyboard.press('Escape');
+
+              const delivery=page.locator('.delivery-payment-button');
+              await delivery.click();
+              const deliveryOpen=await page.locator('#deliveryDialog').evaluate(d=>d.open);
+              if(!deliveryOpen) throw new Error(`delivery dialog failed ${width}`);
+              await page.keyboard.press('Escape');
+
+              if(width<=640){
+                const horeca=page.locator('.mobile-category-trigger[data-mobile-category-toggle="horeca"]');
+                await horeca.click();
+                await page.waitForTimeout(180);
+                const selected=await horeca.evaluate(el=>{const icon=el.querySelector('.mobile-category-icon');const sec=el.closest('.mobile-category-section');return{open:sec?.classList.contains('open'),bg:getComputedStyle(icon).backgroundImage}});
+                if(!selected.open || !selected.bg || selected.bg==='none') throw new Error(`mobile category/icon failed ${width}: ${JSON.stringify(selected)}`);
+              }else{
+                const filter=page.locator('#filterToggle');
+                await filter.click();
+                const shown=await page.locator('#filters').evaluate(el=>getComputedStyle(el).display!=='none');
+                if(!shown) throw new Error(`filters failed ${width}`);
+              }
+
+              const firstName=page.locator('.product-card .product-name').first();
+              await firstName.click();
+              await page.waitForTimeout(180);
+              const detailOpen=await page.locator('#productDetail').evaluate(d=>!!(d.open||d.hasAttribute('open')));
+              if(!detailOpen) throw new Error(`product detail failed ${width}`);
+              await page.keyboard.press('Escape');
+              if(pageErrors.length) throw new Error(`page errors ${width}: ${pageErrors.join(' | ')}`);
+              console.log(JSON.stringify({width,metrics,ok:true}));
               await page.close();
             }
-            fs.writeFileSync('visual-audit/report.json',JSON.stringify(report,null,2));
-            console.log(JSON.stringify(report,null,2));
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           JS
-          node /tmp/visual-audit.js
-      - uses: actions/upload-artifact@v4
-        with:
-          name: full-visual-audit
-          path: visual-audit
+          node /tmp/smoke.js
