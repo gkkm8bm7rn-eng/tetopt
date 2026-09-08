@@ -1,0 +1,56 @@
+name: Visual consistency audit
+on:
+  push:
+    branches: [visual-consistency-audit-20260908]
+    paths: [.github/workflows/visual-consistency-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: visual-consistency-audit-20260908
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Verify visual consistency
+        run: |
+          python3 -m http.server 8000 >/tmp/forma-http.log 2>&1 &
+          cat > /tmp/audit.js <<'JS'
+          const { chromium } = require(process.cwd() + '/node_modules/playwright');
+          const fs = require('fs');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const cases=[{name:'mobile-390',width:390,height:844},{name:'desktop-1440',width:1440,height:900}];
+            fs.mkdirSync('audit',{recursive:true});
+            const report=[];
+            for(const c of cases){
+              const page=await browser.newPage({viewport:{width:c.width,height:c.height}});
+              await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded'});
+              await page.waitForTimeout(1600);
+              const data=await page.evaluate(()=>{
+                const box=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}};
+                const sort=document.querySelector('.catalog-utility .sort-field');
+                const select=sort&&sort.querySelector('select');
+                const before=sort?getComputedStyle(sort,'::before'):null;
+                return {innerWidth,scrollWidth:document.documentElement.scrollWidth,sort:box('.catalog-utility .sort-field'),select:box('.catalog-utility .sort-field select'),sortPadding:sort?getComputedStyle(sort).padding:null,beforeLeft:before?before.left:null,beforeWidth:before?before.width:null};
+              });
+              report.push({case:c,...data});
+              await page.screenshot({path:`audit/${c.name}.png`,clip:{x:0,y:0,width:c.width,height:c.height}});
+              if(c.name==='desktop-1440') await page.screenshot({path:'audit/desktop-controls.png',clip:{x:60,y:675,width:480,height:105}});
+              await page.close();
+            }
+            fs.writeFileSync('audit/report.json',JSON.stringify(report,null,2));
+            console.log(JSON.stringify(report,null,2));
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          JS
+          node /tmp/audit.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-consistency-audit
+          path: audit
