@@ -1,0 +1,23 @@
+name: Performance image dimensions
+on:
+  push:
+    branches: [performance-audit-20260910]
+    paths: [.github/workflows/performance-image-dimensions.yml]
+permissions:
+  contents: read
+jobs:
+  dimensions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report first page image dimensions
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, os
+          data=json.load(open('data/catalog-index.json'))
+          for p in data['products'][:24]:
+            v=p['variants'][0]; f=v.get('primaryImage','').lstrip('/')
+            if not f or not os.path.exists(f): continue
+            info=subprocess.check_output(['file','-b',f],text=True).strip()
+            print(v.get('sourceId'), os.path.getsize(f), f, '::', info)
+          PY
