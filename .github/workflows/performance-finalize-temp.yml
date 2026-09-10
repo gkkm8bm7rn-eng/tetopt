@@ -5,10 +5,13 @@ on:
     paths:
       - '.github/workflows/performance-finalize-temp.yml'
       - 'scripts/_performance_smoke_temp.mjs'
+      - 'scripts/_performance_patch_temp.py'
+      - 'scripts/build-card-media.py'
 permissions:
   contents: write
 jobs:
   candidate:
+    if: contains(github.event.head_commit.message, 'Run performance candidate')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,17 +35,29 @@ jobs:
           python3 - <<'PY'
           import json, os, subprocess
           d=json.load(open('data/catalog-index.json'))
+          base=json.loads(subprocess.check_output(['git','show','HEAD:data/catalog-index.json'],text=True))
           variants=[v for p in d['products'] for v in p['variants']]
+          base_variants=[v for p in base['products'] for v in p['variants']]
           assert len(d['products'])==532 and len(variants)==1181
+          assert len(base.get('products',[]))==532 and len(base_variants)==1181
           assert not [v['primaryImage'] for v in variants if not os.path.exists(v['primaryImage'])]
+          by_source={str(v['sourceId']):v for v in base_variants}
+          for v in variants:
+              sid=str(v['sourceId']); old=by_source[sid]['primaryImage']; new=v['primaryImage']
+              if old!=new:
+                  assert new==f'assets/products/{sid}/card.webp',(sid,old,new)
+                  assert os.path.exists(old),(sid,old)
           first=[p['variants'][0]['primaryImage'] for p in d['products'][:24]]
           total=sum(os.path.getsize(f) for f in first); maximum=max(os.path.getsize(f) for f in first)
           assert total < 1200*1024 and maximum < 100*1024
           changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
           runtime=[x for x in changed if x in {'app.js','variants.js','cart-feedback.js','index.html','sw.js','media-policy.js'}]
-          assert set(runtime)=={'app.js','variants.js','cart-feedback.js','index.html'}, runtime
+          assert set(runtime)=={'app.js','variants.js','cart-feedback.js'}, runtime
           assert 'prioritizeImages' not in open('cart-feedback.js').read()
-          assert "ASSET_BASE='./'" in open('app.js').read()
+          app=open('app.js').read()
+          assert "ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'" in app
+          assert "fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'})" in app
+          assert not subprocess.call(['git','diff','--quiet','HEAD','--','index.html','sw.js','media-policy.js'])
           print('GATE',{'first_page_kb':round(total/1024),'max_kb':round(maximum/1024),'runtime':runtime,'card_files':sum(v['primaryImage'].endswith('/card.webp') for v in variants)})
           PY
       - name: Browser regression suite
@@ -55,7 +70,7 @@ jobs:
           git rm .github/workflows/performance-optimize-temp.yml .github/workflows/performance-optimize-temp-v2.yml .github/workflows/performance-controls-diagnostic.yml .github/workflows/performance-finalize-temp.yml scripts/_performance_patch_temp.py scripts/_performance_smoke_temp.mjs
           git config user.name 'FORMA performance bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add app.js variants.js cart-feedback.js index.html data/catalog-index.json assets/products scripts/build-card-media.py
+          git add app.js variants.js cart-feedback.js data/catalog-index.json assets/products scripts/build-card-media.py
           git add -u
           git commit -m 'Optimize catalog loading architecture'
           git push origin HEAD:performance-architecture-v1
