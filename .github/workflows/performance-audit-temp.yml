@@ -1,0 +1,93 @@
+name: Performance audit temp
+on:
+  push:
+    branches: [performance-audit-20260910]
+    paths: [.github/workflows/performance-audit-temp.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect catalog payload and first-page media
+        run: |
+          node <<'NODE'
+          const fs=require('fs'), path=require('path');
+          const data=JSON.parse(fs.readFileSync('data/catalog-index.json','utf8'));
+          const products=data.products||[];
+          const first=products.slice(0,24);
+          let rows=[];
+          for(const p of first){
+            const v=(p.variants||[])[0]||{};
+            const rel=String(v.primaryImage||'').replace(/^\//,'');
+            const local=path.join(process.cwd(),rel);
+            const size=fs.existsSync(local)?fs.statSync(local).size:null;
+            rows.push({id:p.id,name:p.name,sourceId:v.sourceId,image:rel,bytes:size,kb:size==null?null:Math.round(size/1024)});
+          }
+          console.log('CATALOG_INDEX_BYTES',fs.statSync('data/catalog-index.json').size);
+          console.log('CATEGORY_ASSIGNMENTS_BYTES',fs.statSync('data/category-assignments.json').size);
+          console.log('FIRST_PAGE_MEDIA',JSON.stringify(rows,null,2));
+          console.log('FIRST_PAGE_TOTAL_KB',Math.round(rows.reduce((s,r)=>s+(r.bytes||0),0)/1024));
+          console.log('FIRST_PAGE_MAX_KB',Math.max(...rows.map(r=>r.kb||0)));
+          console.log('FIRST_PAGE_AVG_KB',Math.round(rows.reduce((s,r)=>s+(r.bytes||0),0)/Math.max(1,rows.filter(r=>r.bytes!=null).length)/1024));
+          NODE
+      - name: Inspect image markup policy
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const src=fs.readFileSync('app.js','utf8');
+          const ix=src.indexOf('function cardTemplate');
+          console.log('CARD_TEMPLATE_FOUND',ix>=0);
+          if(ix>=0) console.log(src.slice(ix,ix+5000));
+          console.log('FETCHPRIORITY_COUNT',(src.match(/fetchpriority/gi)||[]).length);
+          console.log('LAZY_COUNT',(src.match(/loading=["\\']lazy/gi)||[]).length);
+          NODE
+      - name: Live transfer and timing sample
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          base='https://gkkm8bm7rn-eng.github.io/tetopt/'
+          data=json.load(open('data/catalog-index.json'))
+          urls=[base,base+'data/catalog-index.json',base+'data/category-assignments.json']
+          for p in data['products'][:8]:
+              v=p['variants'][0]
+              if v.get('primaryImage'): urls.append(base+v['primaryImage'].lstrip('/'))
+          for u in urls:
+              out=subprocess.check_output(['curl','-L','-sS','-o','/dev/null','-w','%{http_code} %{size_download} %{time_namelookup} %{time_connect} %{time_starttransfer} %{time_total}',u],text=True).strip()
+              print('CURL',out,u)
+          PY
+      - name: Browser mobile network audit
+        run: |
+          npm install --no-save --no-package-lock puppeteer-core@24
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          import {execSync} from 'node:child_process';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page=await browser.newPage();
+          await page.setViewport({width:390,height:844,deviceScaleFactor:1});
+          const client=await page.target().createCDPSession();
+          await client.send('Network.enable');
+          await client.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:200*1024,uploadThroughput:94*1024,connectionType:'cellular3g'});
+          await page.evaluateOnNewDocument(()=>{window.__lcp=[];new PerformanceObserver(list=>{for(const e of list.getEntries())window.__lcp.push({t:e.startTime,size:e.size,tag:e.element?.tagName||'',url:e.url||''})}).observe({type:'largest-contentful-paint',buffered:true})});
+          const t0=Date.now();
+          await page.goto('https://gkkm8bm7rn-eng.github.io/tetopt/',{waitUntil:'domcontentloaded',timeout:60000});
+          await page.waitForSelector('.product-card',{timeout:60000});
+          await new Promise(r=>setTimeout(r,6000));
+          const result=await page.evaluate(()=>({
+            nav:performance.getEntriesByType('navigation')[0]&&{domContentLoaded:performance.getEntriesByType('navigation')[0].domContentLoadedEventEnd,load:performance.getEntriesByType('navigation')[0].loadEventEnd,transferSize:performance.getEntriesByType('navigation')[0].transferSize},
+            lcp:window.__lcp,
+            imgs:performance.getEntriesByType('resource').filter(e=>e.initiatorType==='img').map(e=>({name:e.name,duration:e.duration,transferSize:e.transferSize,encodedBodySize:e.encodedBodySize,startTime:e.startTime})).sort((a,b)=>b.duration-a.duration).slice(0,12),
+            imgCount:document.querySelectorAll('#productGrid img').length,
+            completeCount:[...document.querySelectorAll('#productGrid img')].filter(i=>i.complete).length,
+            lazy:[...document.querySelectorAll('#productGrid img')].map(i=>i.loading),
+            priorities:[...document.querySelectorAll('#productGrid img')].map(i=>i.fetchPriority)
+          }));
+          console.log('BROWSER_ELAPSED_MS',Date.now()-t0);
+          console.log('BROWSER_RESULT',JSON.stringify(result,null,2));
+          await browser.close();
+          NODE
