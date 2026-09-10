@@ -23,8 +23,6 @@ def find_tool(*names):
 
 
 def image_command(tool, source, target):
-    if Path(tool).name == 'magick':
-        return [tool, str(source), '-auto-orient', '-strip', '-resize', f'{MAX_EDGE}x{MAX_EDGE}>', '-quality', str(QUALITY), str(target)]
     return [tool, str(source), '-auto-orient', '-strip', '-resize', f'{MAX_EDGE}x{MAX_EDGE}>', '-quality', str(QUALITY), str(target)]
 
 
@@ -32,6 +30,9 @@ def main():
     tool = find_tool('magick', 'convert')
     index = json.loads(INDEX.read_text('utf-8'))
 
+    # Full detail records are only a fallback when the catalog index has no image.
+    # The catalog's current primaryImage is the visual source of truth: this avoids
+    # silently changing a previously curated first photo just to make a thumbnail.
     full_by_source = {}
     for detail_path in sorted(DETAILS.glob('*.json')):
         shard = json.loads(detail_path.read_text('utf-8'))
@@ -41,6 +42,7 @@ def main():
 
     generated = 0
     reused_original = 0
+    reused_card = 0
     missing = []
     original_total = 0
     card_total = 0
@@ -50,21 +52,31 @@ def main():
         for variant in product.get('variants', []):
             sid = str(variant.get('sourceId'))
             full = full_by_source.get(sid, {})
-            source_rel = full.get('primaryImage') or variant.get('primaryImage')
+            current_rel = variant.get('primaryImage')
+            source_rel = current_rel or full.get('primaryImage')
             if not source_rel:
                 missing.append(f'{sid}: no primary image')
                 continue
+
             source = ROOT / str(source_rel).lstrip('/')
+            if not source.exists() and full.get('primaryImage'):
+                source_rel = full.get('primaryImage')
+                source = ROOT / str(source_rel).lstrip('/')
             if not source.exists():
                 missing.append(f'{sid}: {source_rel}')
                 continue
 
             original_size = source.stat().st_size
             original_total += original_size
-            card_rel = source_rel
+            card_rel = str(source_rel).lstrip('/')
             card_size = original_size
+            already_card = source.name == 'card.webp' and source.parent.name == sid
 
-            if original_size > MIN_SOURCE_BYTES:
+            if already_card:
+                # Makes the build safe to run again after an optimized index has
+                # already been committed; never re-encode a generated card image.
+                reused_card += 1
+            elif original_size > MIN_SOURCE_BYTES:
                 target = ROOT / 'assets' / 'products' / sid / 'card.webp'
                 target.parent.mkdir(parents=True, exist_ok=True)
                 subprocess.run(image_command(tool, source, target), check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -90,6 +102,7 @@ def main():
         'variants': sum(len(p.get('variants', [])) for p in index.get('products', [])),
         'generated_card_images': generated,
         'reused_originals': reused_original,
+        'reused_card_images': reused_card,
         'changed_variant_paths': changed_variants,
         'missing': missing[:20],
         'missing_count': len(missing),
