@@ -27,11 +27,12 @@ jobs:
           git worktree add /tmp/tetopt-main origin/main
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('app.js')
-          s=p.read_text()
           old="ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'"
-          assert old in s
-          p.write_text(s.replace(old,"ASSET_BASE='./'",1))
+          for name in ('app.js','/tmp/tetopt-main/app.js'):
+              p=Path(name)
+              s=p.read_text()
+              assert old in s, name
+              p.write_text(s.replace(old,"ASSET_BASE='./'",1))
           PY
           node --check app.js
           node --check variants.js
