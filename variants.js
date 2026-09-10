@@ -213,11 +213,12 @@ function priceTemplate(variant,detail=false){
   return`<span class="price-stack ${detail?'detail-prices':''}"><span class="price-kind">Оптовая цена</span><strong class="${detail?'detail-price':'product-price'}">${money(variant.wholesalePrice)}</strong>${retail}</span>`;
 }
 
-function cardTemplate(product){
+function cardTemplate(product,cardIndex=Number.POSITIVE_INFINITY){
   let variant=axisVariant(product,currentVariant(product,product._selected));
   product._selected=variant.sourceId;
   const selectors=axisControls(product,variant,'card')||variantChoices(product,variant),sleepSize=sleepingSize(product,variant);
-  return`<article class="product-card"><div class="product-visual" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0"><div class="product-image-stage" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy" decoding="async"></div><div class="product-visual-controls"><div class="card-photo-pager"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button></div><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="${state.favorites.includes(product.id)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.includes(product.id)?'♥':'♡'}</button></div></div><div class="product-info" data-open="${escapeAttr(product.id)}"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3>${productCategoryButton(product)}<p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${sleepSize?`<p class="product-sleep-size">Спальное место: <strong>${escapeHtml(sleepSize)}</strong></p>`:''}${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в заказ</button></div></div></article>`;
+  const mobile=window.matchMedia&&window.matchMedia('(max-width:640px)').matches,highCount=mobile?2:3,high=Number.isFinite(cardIndex)&&cardIndex>=0&&cardIndex<highCount;
+  return`<article class="product-card"><div class="product-visual" data-card-gallery="${escapeAttr(product.id)}" data-photo-index="0"><div class="product-image-stage" data-open="${escapeAttr(product.id)}" tabindex="0" role="button"><img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="${high?'eager':'lazy'}"${high?' fetchpriority="high"':''} decoding="async"></div><div class="product-visual-controls"><div class="card-photo-pager"><button class="card-photo-nav previous" data-card-photo="-1" aria-label="Предыдущее фото">‹</button><button class="card-photo-nav next" data-card-photo="1" aria-label="Следующее фото">›</button></div><button class="favorite ${state.favorites.includes(product.id)?'active':''}" data-favorite="${escapeAttr(product.id)}" aria-label="${state.favorites.includes(product.id)?'Убрать из избранного':'Добавить в избранное'}">${state.favorites.includes(product.id)?'♥':'♡'}</button></div></div><div class="product-info" data-open="${escapeAttr(product.id)}"><h3 class="product-name">${escapeHtml(stripModel(product.name))}</h3>${productCategoryButton(product)}<p class="product-meta">${escapeHtml(variantLabel(variant))}</p>${sleepSize?`<p class="product-sleep-size">Спальное место: <strong>${escapeHtml(sleepSize)}</strong></p>`:''}${selectors}<div class="product-bottom">${priceTemplate(variant)}<button class="quick-add" data-add="${escapeAttr(product.id)}" data-source="${variant.sourceId}">Добавить в заказ</button></div></div></article>`;
 }
 
 function detailGallery(images,name){
@@ -262,7 +263,7 @@ document.addEventListener('click',async event=>{
     els.detail.innerHTML=detailTemplate(full,currentVariant(full,match.sourceId));
   }else if(String(match.sourceId)!==previous){
     const card=button.closest('.product-card');
-    if(card)card.outerHTML=cardTemplate(product);
+    if(card){const cardIndex=card.parentElement?[...card.parentElement.children].indexOf(card):-1;card.outerHTML=cardTemplate(product,cardIndex)}
   }
 },true);
 
