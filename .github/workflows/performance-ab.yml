@@ -1,0 +1,59 @@
+name: Performance A B
+on:
+  push:
+    branches: [performance-audit-20260910]
+    paths: [.github/workflows/performance-ab.yml]
+permissions:
+  contents: read
+jobs:
+  ab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Build local optimized test copy
+        run: |
+          cp -a . /tmp/optimized
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/optimized/cart-feedback.js')
+          s=p.read_text()
+          old="var highCount=weak?(mobile?2:3):(mobile?4:6);"
+          new="var highCount=mobile?2:(weak?3:4);"
+          assert old in s
+          p.write_text(s.replace(old,new))
+          p=Path('/tmp/optimized/enhancements.css')
+          s=p.read_text()
+          s += '\n/* A/B only: remove full-screen startup veil */\n.site-loader{display:none!important}\n'
+          p.write_text(s)
+          PY
+          python3 -m http.server 8000 >/tmp/base.log 2>&1 &
+          cd /tmp/optimized && python3 -m http.server 8001 >/tmp/opt.log 2>&1 &
+      - name: Compare throttled mobile LCP
+        run: |
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          import {execSync} from 'node:child_process';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          async function run(label,url){
+            const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox','--disable-dev-shm-usage']});
+            const page=await browser.newPage();
+            await page.setViewport({width:390,height:844,deviceScaleFactor:1});
+            const client=await page.target().createCDPSession();
+            await client.send('Network.enable');
+            await client.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:200*1024,uploadThroughput:94*1024,connectionType:'cellular3g'});
+            await page.evaluateOnNewDocument(()=>{window.__lcp=[];new PerformanceObserver(list=>{for(const e of list.getEntries())window.__lcp.push({t:e.startTime,size:e.size,tag:e.element?.tagName||'',url:e.url||''})}).observe({type:'largest-contentful-paint',buffered:true})});
+            const t0=Date.now();
+            await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+            await page.waitForSelector('.product-card',{timeout:60000});
+            await new Promise(r=>setTimeout(r,6500));
+            const result=await page.evaluate(()=>({lcp:window.__lcp,imgs:performance.getEntriesByType('resource').filter(e=>e.initiatorType==='img').map(e=>({name:e.name,duration:e.duration,transferSize:e.transferSize,startTime:e.startTime})).sort((a,b)=>b.duration-a.duration).slice(0,8),loading:[...document.querySelectorAll('#productGrid img')].slice(0,6).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.src}))}));
+            console.log(label,JSON.stringify({elapsed:Date.now()-t0,...result},null,2));
+            await browser.close();
+          }
+          await run('BASELINE','http://127.0.0.1:8000/');
+          await run('OPT_NO_LOADER_2_HIGH','http://127.0.0.1:8001/');
+          NODE
