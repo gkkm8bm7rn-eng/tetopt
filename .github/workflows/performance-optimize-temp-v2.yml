@@ -1,0 +1,204 @@
+name: Performance optimize temp v2
+on:
+  push:
+    branches: [performance-architecture-v1]
+    paths: ['.github/workflows/performance-optimize-temp-v2.yml']
+permissions:
+  contents: write
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare image tools
+        run: |
+          if ! command -v magick >/dev/null 2>&1 && ! command -v convert >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y imagemagick
+          fi
+      - name: Build lightweight catalog media
+        run: python3 scripts/build-card-media.py | tee /tmp/card-media-report.json
+      - name: Consolidate runtime loading architecture
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('app.js'); s=p.read_text()
+          for old,new in [
+            ("ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'", "ASSET_BASE='./'"),
+            ("fetch(DATA_BASE+'catalog-index.json',{cache:'no-cache'}),fetch(DATA_BASE+'category-assignments.json',{cache:'no-cache'})", "fetch(DATA_BASE+'catalog-index.json'),fetch(DATA_BASE+'category-assignments.json')"),
+            ("els.grid.innerHTML=list.map(cardTemplate).join('');", "els.grid.innerHTML=list.map((product,index)=>cardTemplate(product,index)).join('');"),
+            ("if(p&&card&&String(p._selected)!==next){p._selected=next;card.outerHTML=cardTemplate(p)}", "if(p&&card&&String(p._selected)!==next){const cardIndex=card.parentElement?[...card.parentElement.children].indexOf(card):-1;p._selected=next;card.outerHTML=cardTemplate(p,cardIndex)}")
+          ]:
+            assert old in s, old[:80]
+            s=s.replace(old,new,1)
+          p.write_text(s)
+
+          p=Path('variants.js'); s=p.read_text()
+          old="function cardTemplate(product){\n  let variant=axisVariant(product,currentVariant(product,product._selected));\n  product._selected=variant.sourceId;\n  const selectors=axisControls(product,variant,'card')||variantChoices(product,variant),sleepSize=sleepingSize(product,variant);"
+          new="function cardTemplate(product,cardIndex=Number.POSITIVE_INFINITY){\n  let variant=axisVariant(product,currentVariant(product,product._selected));\n  product._selected=variant.sourceId;\n  const selectors=axisControls(product,variant,'card')||variantChoices(product,variant),sleepSize=sleepingSize(product,variant);\n  const mobile=window.matchMedia&&window.matchMedia('(max-width:640px)').matches,highCount=mobile?2:3,high=Number.isFinite(cardIndex)&&cardIndex>=0&&cardIndex<highCount;"
+          assert old in s; s=s.replace(old,new,1)
+          old='<img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="lazy" decoding="async">'
+          new='<img src="${escapeAttr(imageUrl(variant.primaryImage))}" alt="${escapeAttr(stripModel(product.name))}" loading="${high?\'eager\':\'lazy\'}" fetchpriority="${high?\'high\':\'low\'}" decoding="async">'
+          assert old in s; s=s.replace(old,new,1)
+          old="if(card)card.outerHTML=cardTemplate(product);"
+          new="if(card){const cardIndex=card.parentElement?[...card.parentElement.children].indexOf(card):-1;card.outerHTML=cardTemplate(product,cardIndex)}"
+          assert old in s; s=s.replace(old,new,1)
+          p.write_text(s)
+
+          p=Path('cart-feedback.js'); s=p.read_text()
+          start=s.index('/* Product media should come from the same Cloudflare-served origin')
+          end=s.index('/* Header question shortcut.', start)
+          registration="""/* Register the existing service worker without mutating image URLs or priorities at runtime.\n   Card media now uses same-origin relative URLs and declares loading priority in the card template itself. */\nif('serviceWorker' in navigator){\n  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}).catch(function(error){\n    console.warn('[service-worker] registration skipped',error);\n  });\n}\n\n"""
+          s=s[:start]+registration+s[end:]
+          assert 'prioritizeImages' not in s and 'localizeMedia' not in s
+          p.write_text(s)
+
+          p=Path('index.html'); s=p.read_text()
+          old='  <link rel="preconnect" href="https://gkkm8bm7rn-eng.github.io">\n'
+          new='  <link rel="preload" href="./data/catalog-index.json" as="fetch" crossorigin="anonymous">\n  <link rel="preload" href="./data/category-assignments.json" as="fetch" crossorigin="anonymous">\n'
+          assert old in s; s=s.replace(old,new,1)
+          old="""  const beacon = document.createElement('script');\n  beacon.type = 'module';\n  beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';\n  beacon.dataset.cfBeacon = JSON.stringify({\n    token: '59ed2c9fa549420491736b3635615cef',\n    spa: true,\n  });\n  document.head.appendChild(beacon);"""
+          new="""  const loadBeacon = () => {\n    const beacon = document.createElement('script');\n    beacon.type = 'module';\n    beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';\n    beacon.dataset.cfBeacon = JSON.stringify({ token: '59ed2c9fa549420491736b3635615cef', spa: true });\n    document.head.appendChild(beacon);\n  };\n  if (document.readyState === 'complete') window.setTimeout(loadBeacon, 0);\n  else window.addEventListener('load', loadBeacon, { once: true });"""
+          assert old in s; s=s.replace(old,new,1)
+          p.write_text(s)
+          PY
+      - name: Static integrity checks
+        run: |
+          node --check app.js && node --check variants.js && node --check cart-feedback.js && node --check media-policy.js
+          git diff --check
+          python3 - <<'PY'
+          import json, os
+          d=json.load(open('data/catalog-index.json'))
+          variants=[v for p in d['products'] for v in p['variants']]
+          assert len(variants)==d['stats']['variants']==1181
+          assert not [v for v in variants if not os.path.exists(v['primaryImage'])]
+          first=[p['variants'][0]['primaryImage'] for p in d['products'][:24]]
+          total=sum(os.path.getsize(f) for f in first)
+          print('FIRST_PAGE_CARD_KB',round(total/1024),'MAX_KB',round(max(os.path.getsize(f) for f in first)/1024))
+          assert total < 1200*1024
+          assert open('sw.js').read().startswith('/* FORMA HOME storefront service worker.')
+          assert 'prioritizeImages' not in open('cart-feedback.js').read()
+          PY
+      - name: Install browser dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Functional mobile smoke test
+        run: |
+          python3 -m http.server 8000 >/tmp/site.log 2>&1 &
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          import {execSync} from 'node:child_process';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page=await browser.newPage();
+          await page.setViewport({width:390,height:844,deviceScaleFactor:2});
+          await page.setCacheEnabled(false); await page.setBypassServiceWorker(true);
+          const client=await page.target().createCDPSession();
+          await client.send('Network.enable');
+          await client.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:200*1024,uploadThroughput:94*1024,connectionType:'cellular3g'});
+          const errors=[]; page.on('pageerror',e=>errors.push('pageerror:'+e.message));
+          const t0=Date.now();
+          await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded',timeout:60000});
+          await page.waitForSelector('#productGrid .product-card',{timeout:60000});
+          const firstReady=Date.now()-t0;
+          const initial=await page.evaluate(()=>({cards:document.querySelectorAll('#productGrid .product-card').length,imgs:[...document.querySelectorAll('#productGrid img')].slice(0,6).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.getAttribute('src')}))}));
+          if(initial.cards!==24) throw new Error('cards '+initial.cards);
+          if(initial.imgs[0].loading!=='eager'||initial.imgs[1].loading!=='eager'||initial.imgs[2].loading!=='lazy') throw new Error('priority '+JSON.stringify(initial.imgs.slice(0,3)));
+          if(!initial.imgs.some(x=>/card\.webp$/.test(x.src))) throw new Error('no optimized card images');
+
+          // Search.
+          await page.type('#searchInput','Амура'); await page.click('.search-submit');
+          await page.waitForFunction(()=>document.querySelectorAll('#productGrid .product-card').length>=1);
+          const searchTitle=await page.$eval('#catalogTitle',e=>e.textContent);
+          if(!/Амура/i.test(searchTitle)) throw new Error('search failed');
+          await page.$eval('#clearFilters',el=>el.click());
+          await page.waitForFunction(()=>document.querySelectorAll('#productGrid .product-card').length===24);
+
+          // Filter drawer and price field.
+          await page.click('#filterToggle');
+          await page.waitForFunction(()=>document.querySelector('#filters').classList.contains('open'));
+          await page.type('#priceMin','3000');
+          await page.$eval('#clearFilters',el=>el.click());
+
+          // Sort.
+          await page.select('#sortSelect','price-asc');
+          await new Promise(r=>setTimeout(r,120));
+
+          // Mobile category accordion, then reset.
+          await page.click('[data-mobile-category-toggle="interior"]');
+          await page.waitForFunction(()=>!document.querySelector('#mobile-category-interior').hidden);
+          await page.click('#mobile-category-interior [data-main-category="interior"]');
+          await new Promise(r=>setTimeout(r,120));
+          await page.click('[data-reset-all-products]');
+          await page.waitForFunction(()=>document.querySelectorAll('#productGrid .product-card').length===24);
+
+          // Favorite and cart button on card.
+          await page.click('#productGrid .product-card button[data-favorite]');
+          await page.click('#productGrid .product-card button[data-add]');
+          const cartCount=await page.$eval('#cartCount',el=>Number(el.textContent)||0).catch(()=>0);
+          if(cartCount<1) throw new Error('cart failed');
+
+          // Header cart opens and closes.
+          await page.click('#cartButton'); await page.waitForSelector('#cartDialog[open]');
+          await page.click('[data-close-cart]'); await page.waitForFunction(()=>!document.querySelector('#cartDialog').open);
+
+          // Detail uses full-resolution source, not card thumbnail.
+          await page.click('#productGrid .product-card .product-image-stage');
+          await page.waitForSelector('#productDialog[open] .detail',{timeout:15000});
+          const detailMain=await page.$eval('#galleryMain',i=>i.getAttribute('src'));
+          if(/\/card\.webp$/.test(detailMain)) throw new Error('detail uses thumbnail');
+          await page.click('[data-close-dialog]'); await page.waitForFunction(()=>!document.querySelector('#productDialog').open);
+
+          // Variant update must keep neighboring node intact.
+          const variantResult=await page.evaluate(async()=>{
+            const card=[...document.querySelectorAll('#productGrid .product-card')].find(c=>c.querySelector('[data-card-variant]'));
+            if(!card)return {skipped:true};
+            const neighbor=card.nextElementSibling||card.previousElementSibling;
+            const opts=[...card.querySelectorAll('[data-card-variant]')];
+            const target=opts.find(x=>!x.classList.contains('active'));
+            if(!target)return {skipped:true};
+            target.click(); await new Promise(r=>setTimeout(r,100));
+            return {skipped:false,neighborStable:neighbor===card.nextElementSibling||neighbor===card.previousElementSibling,count:document.querySelectorAll('#productGrid .product-card').length};
+          });
+          if(!variantResult.skipped&&(!variantResult.neighborStable||variantResult.count!==24)) throw new Error('variant regression '+JSON.stringify(variantResult));
+
+          const perf=await page.evaluate(()=>({imgBytes:performance.getEntriesByType('resource').filter(e=>e.initiatorType==='img').reduce((s,e)=>s+e.transferSize,0),resourceCount:performance.getEntriesByType('resource').length}));
+          console.log('MOBILE_SMOKE',JSON.stringify({firstReady,initial,searchTitle,cartCount,detailMain,variantResult,perf,errors},null,2));
+          if(errors.length) throw new Error(errors.join('\n'));
+          await browser.close();
+          NODE
+      - name: Desktop smoke test
+        run: |
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core'; import {execSync} from 'node:child_process';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox']});
+          const page=await browser.newPage(); await page.setViewport({width:1440,height:1000}); await page.setBypassServiceWorker(true);
+          await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded',timeout:60000}); await page.waitForSelector('#productGrid .product-card');
+          const p=await page.evaluate(()=>[...document.querySelectorAll('#productGrid img')].slice(0,5).map(i=>[i.loading,i.fetchPriority]));
+          if(p[0][0]!=='eager'||p[1][0]!=='eager'||p[2][0]!=='eager'||p[3][0]!=='lazy') throw new Error('desktop priority '+JSON.stringify(p));
+          const next=await page.$('#pagination [data-page="2"]'); if(next){await next.click(); await new Promise(r=>setTimeout(r,100));}
+          console.log('DESKTOP_SMOKE',JSON.stringify({priority:p,pagination:!!next})); await browser.close();
+          NODE
+      - name: Final audit and commit test branch only
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          d=json.load(open('data/catalog-index.json'))
+          first=sum(os.path.getsize(p['variants'][0]['primaryImage']) for p in d['products'][:24])
+          assert first < 1200*1024
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          runtime=[x for x in changed if x in {'app.js','variants.js','cart-feedback.js','index.html','sw.js','media-policy.js'}]
+          assert set(runtime)=={'app.js','variants.js','cart-feedback.js','index.html'}
+          print('RUNTIME_FILES',runtime,'TOTAL_CHANGED',len(changed),'FIRST_PAGE_KB',round(first/1024))
+          PY
+          git rm .github/workflows/performance-optimize-temp.yml .github/workflows/performance-optimize-temp-v2.yml
+          git config user.name 'FORMA performance bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add app.js variants.js cart-feedback.js index.html data/catalog-index.json scripts/build-card-media.py assets/products
+          git add -u .github/workflows
+          git commit -m 'Optimize catalog loading architecture'
+          git push origin HEAD:performance-architecture-v1
