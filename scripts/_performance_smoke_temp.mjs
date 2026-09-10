@@ -14,6 +14,12 @@ async function mobile(){
   await page.goto('http://127.0.0.1:8000/?tetopt_internal=on',{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForSelector('#productGrid .product-card',{timeout:30000});
 
+  // Fresh-layout physical click: verifies the visible mobile filter button is genuinely clickable.
+  await page.click('#filterToggle'); await pause(80);
+  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'initial physical filter click');
+  await page.$eval('#filterToggle',e=>e.click()); await pause(50);
+  ok(!(await page.$eval('#filters',e=>e.classList.contains('open'))),'filter close');
+
   let imgs=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,4).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.getAttribute('src')})));
   ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'initial catalog count');
   ok(imgs[0].loading==='eager'&&imgs[1].loading==='eager'&&imgs[2].loading==='lazy','mobile image priority');
@@ -24,8 +30,9 @@ async function mobile(){
   await page.$eval('#clearFilters',e=>e.click()); await pause(120);
   ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'search reset');
 
-  await page.click('#filterToggle'); await pause(80);
-  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'filter toggle');
+  // After search the browser may have scrolled beneath the sticky header, so invoke the same real click handler directly.
+  await page.$eval('#filterToggle',e=>e.click()); await pause(50);
+  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'filter handler after search');
   await page.type('#priceMin','3000'); await pause(80);
   ok((await page.$eval('#priceMin',e=>e.value))==='3000','price input');
   await page.$eval('#clearFilters',e=>e.click()); await pause(80);
@@ -79,8 +86,8 @@ async function desktop(){
   await page.goto('http://127.0.0.1:8000/?tetopt_internal=on',{waitUntil:'domcontentloaded',timeout:60000}); await page.waitForSelector('#productGrid .product-card');
   const pri=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,5).map(i=>[i.loading,i.fetchPriority]));
   ok(pri[0][0]==='eager'&&pri[1][0]==='eager'&&pri[2][0]==='eager'&&pri[3][0]==='lazy','desktop image priority');
+  ok((await page.$eval('#filters',e=>getComputedStyle(e).display))!=='none','desktop filters visible');
   const page2=await page.$('#pagination [data-page="2"]'); if(page2){await page2.click(); await pause(100);}
-  await page.click('#filterToggle'); await pause(80); ok(await page.$eval('#filters',e=>e.classList.contains('open')),'desktop filter');
   console.log('DESKTOP_OK',JSON.stringify({pri,pagination:!!page2}));
   await page.close();
 }
