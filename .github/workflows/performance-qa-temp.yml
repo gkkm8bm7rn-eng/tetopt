@@ -37,12 +37,29 @@ jobs:
           s=q.read_text()
           marker="  ok(summary.candidate.bytes<summary.main.bytes,'candidate must reduce initial product-image bytes');"
           assert marker in s
-          q.write_text(s.replace(marker,"  console.log('PERFORMANCE_PRECHECK',JSON.stringify(summary,null,2));\n"+marker,1))
+          replacement="  console.log('PERFORMANCE_PRECHECK',JSON.stringify(summary,null,2));\n  ok(summary.candidate.lcp<=summary.main.lcp*1.10,'candidate LCP regressed');"
+          q.write_text(s.replace(marker,replacement,1))
           PY
           node --check app.js
           node --check variants.js
           node --check cart-feedback.js
           node --check scripts/_performance_qa_temp.mjs
+      - name: Static first-page media comparison
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          def measure(root):
+              with open(os.path.join(root,'data/catalog-index.json')) as f:
+                  data=json.load(f)
+              paths=[p['variants'][0]['primaryImage'] for p in data['products'][:24]]
+              sizes=[os.path.getsize(os.path.join(root,path)) for path in paths]
+              return {'bytes':sum(sizes),'kb':round(sum(sizes)/1024,1),'max_kb':round(max(sizes)/1024,1),'card_files':sum(path.endswith('/card.webp') for path in paths)}
+          main=measure('/tmp/tetopt-main')
+          candidate=measure('.')
+          print('STATIC_FIRST_PAGE',{'main':main,'candidate':candidate,'saved_percent':round((1-candidate['bytes']/main['bytes'])*100,1)})
+          assert candidate['bytes'] < main['bytes']
+          PY
       - name: Install browser harness
         run: npm install --no-save --no-package-lock puppeteer-core@24
       - name: Run functional and A-B performance QA
