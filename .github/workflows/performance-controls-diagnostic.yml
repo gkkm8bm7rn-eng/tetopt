@@ -1,0 +1,32 @@
+name: Performance controls diagnostic
+on:
+  push:
+    branches: [performance-architecture-v1]
+    paths: ['.github/workflows/performance-controls-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Diagnose filter click
+        run: |
+          python3 -m http.server 8000 >/tmp/site.log 2>&1 &
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core'; import {execSync} from 'node:child_process';
+          const chrome=execSync('which google-chrome || which chromium || which chromium-browser',{shell:'/bin/bash'}).toString().trim();
+          const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:['--no-sandbox']});
+          const page=await browser.newPage(); await page.setViewport({width:390,height:844,deviceScaleFactor:2}); await page.setBypassServiceWorker(true);
+          const errors=[]; page.on('pageerror',e=>errors.push(e.message)); page.on('console',m=>console.log('BROWSER',m.type(),m.text()));
+          await page.goto('http://127.0.0.1:8000/',{waitUntil:'domcontentloaded',timeout:60000}); await page.waitForSelector('#productGrid .product-card');
+          const before=await page.$eval('#filterToggle',el=>({outer:el.outerHTML,display:getComputedStyle(el).display,rect:el.getBoundingClientRect().toJSON(),expanded:el.getAttribute('aria-expanded'),filterClass:document.querySelector('#filters').className}));
+          await page.click('#filterToggle'); await new Promise(r=>setTimeout(r,200));
+          const after=await page.$eval('#filterToggle',el=>({expanded:el.getAttribute('aria-expanded'),filterClass:document.querySelector('#filters').className,filterDisplay:getComputedStyle(document.querySelector('#filters')).display}));
+          const domClick=await page.evaluate(()=>{document.querySelector('#filterToggle').click(); return {expanded:document.querySelector('#filterToggle').getAttribute('aria-expanded'),filterClass:document.querySelector('#filters').className}});
+          console.log('FILTER_DIAGNOSTIC',JSON.stringify({before,after,domClick,errors},null,2));
+          await browser.close();
+          NODE
