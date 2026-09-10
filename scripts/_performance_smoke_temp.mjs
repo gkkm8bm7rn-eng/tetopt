@@ -6,90 +6,141 @@ const browser=await puppeteer.launch({headless:true,executablePath:chrome,args:[
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 const ok=(value,message)=>{if(!value)throw new Error(message)};
 
-async function mobile(){
-  const page=await browser.newPage();
-  await page.setViewport({width:390,height:844,deviceScaleFactor:2});
-  await page.setCacheEnabled(false); await page.setBypassServiceWorker(true);
-  const pageErrors=[]; page.on('pageerror',e=>pageErrors.push(e.message));
+async function assertNoOverflow(page,label){
+  const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
+  ok(overflow.scroll<=overflow.client+1,`${label}: horizontal overflow ${overflow.scroll}/${overflow.client}`);
+}
+
+async function physicalClick(page,selector,label){
+  const handle=await page.$(selector);
+  ok(handle,`${label}: element missing (${selector})`);
+  await handle.evaluate(el=>el.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'}));
+  await pause(80);
+  const target=await handle.evaluate(el=>{
+    const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,hit=document.elementFromPoint(x,y);
+    return {x,y,width:r.width,height:r.height,visible:r.width>1&&r.height>1,hit:hit?.tagName||null,hitClass:hit?.className||'',reachable:!!hit&&(hit===el||el.contains(hit))};
+  });
+  ok(target.visible,`${label}: zero-size target ${JSON.stringify(target)}`);
+  ok(target.reachable,`${label}: target covered ${JSON.stringify(target)}`);
+  await page.mouse.click(target.x,target.y);
+  return target;
+}
+
+async function openLocal(page,width,height){
+  await page.setViewport({width,height,deviceScaleFactor:width<=640?2:1});
+  await page.setCacheEnabled(false);
+  await page.setBypassServiceWorker(true);
   await page.goto('http://127.0.0.1:8000/?tetopt_internal=on',{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForSelector('#productGrid .product-card',{timeout:30000});
+  await assertNoOverflow(page,`${width}px`);
+}
 
-  // Fresh-layout physical click: verifies the visible mobile filter button is genuinely clickable.
-  await page.click('#filterToggle'); await pause(80);
-  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'initial physical filter click');
-  await page.$eval('#filterToggle',e=>e.click()); await pause(50);
-  ok(!(await page.$eval('#filters',e=>e.classList.contains('open'))),'filter close');
+async function mobile(){
+  const page=await browser.newPage();
+  const pageErrors=[]; page.on('pageerror',e=>pageErrors.push(e.message));
+  await openLocal(page,390,844);
 
-  let imgs=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,4).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.getAttribute('src')})));
-  ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'initial catalog count');
-  ok(imgs[0].loading==='eager'&&imgs[1].loading==='eager'&&imgs[2].loading==='lazy','mobile image priority');
-  ok(imgs.some(x=>/card\.webp$/.test(x.src)),'optimized image not used');
+  ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'mobile: initial catalog count');
+  const imgs=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,4).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.getAttribute('src')})));
+  ok(imgs[0].loading==='eager'&&imgs[0].priority==='high','mobile: first image priority');
+  ok(imgs[1].loading==='eager'&&imgs[1].priority==='high','mobile: second image priority');
+  ok(imgs[2].loading==='lazy'&&imgs[2].priority==='low','mobile: third image must stay lazy');
+  ok(imgs.some(x=>/card\.webp$/.test(x.src)),'mobile: optimized card media not used');
 
-  await page.type('#searchInput','Амура'); await page.click('.search-submit'); await pause(120);
-  ok((await page.$eval('#catalogTitle',e=>e.textContent)).includes('Амура'),'search');
-  await page.$eval('#clearFilters',e=>e.click()); await pause(120);
-  ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'search reset');
-
-  // After search the browser may have scrolled beneath the sticky header, so invoke the same real click handler directly.
-  await page.$eval('#filterToggle',e=>e.click()); await pause(50);
-  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'filter handler after search');
+  await physicalClick(page,'#filterToggle','mobile filter open'); await pause(80);
+  ok(await page.$eval('#filters',e=>e.classList.contains('open')),'mobile: filter did not open');
   await page.type('#priceMin','3000'); await pause(80);
-  ok((await page.$eval('#priceMin',e=>e.value))==='3000','price input');
+  ok((await page.$eval('#priceMin',e=>e.value))==='3000','mobile: price input');
   await page.$eval('#clearFilters',e=>e.click()); await pause(80);
+  if(await page.$eval('#filters',e=>e.classList.contains('open'))){await page.$eval('#filterToggle',e=>e.click());await pause(50);}
+  ok(!(await page.$eval('#filters',e=>e.classList.contains('open'))),'mobile: filter close');
 
-  await page.select('#sortSelect','price-asc'); await pause(100);
-  ok((await page.$eval('#sortSelect',e=>e.value))==='price-asc','sort');
+  await page.type('#searchInput','Амура'); await page.click('.search-submit'); await pause(150);
+  ok((await page.$eval('#catalogTitle',e=>e.textContent)).includes('Амура'),'mobile: search');
+  await page.$eval('#clearFilters',e=>e.click()); await pause(120);
+  ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'mobile: search reset');
+
+  await page.select('#sortSelect','price-asc'); await pause(120);
+  ok((await page.$eval('#sortSelect',e=>e.value))==='price-asc','mobile: sort');
 
   const mobileCategory=await page.$('[data-mobile-category-toggle="interior"]');
   if(mobileCategory){
     await mobileCategory.click(); await pause(80);
     const panel=await page.$('#mobile-category-interior');
-    ok(panel && !(await panel.evaluate(e=>e.hidden)),'mobile category accordion');
+    ok(panel && !(await panel.evaluate(e=>e.hidden)),'mobile: category accordion');
     const option=await page.$('#mobile-category-interior [data-main-category="interior"]');
     if(option){await option.click(); await pause(100);}
     const reset=await page.$('[data-reset-all-products]'); if(reset){await reset.click(); await pause(100);}
   }
 
-  await page.click('#productGrid .product-card button[data-favorite]');
-  await page.click('#productGrid .product-card button[data-add]'); await pause(80);
-  ok((await page.$eval('#cartCount',e=>Number(e.textContent)||0))>=1,'cart add');
-  await page.click('#cartButton'); await pause(80); ok(await page.$eval('#cartDialog',e=>e.open),'cart open');
-  await page.click('[data-close-cart]'); await pause(50); ok(!(await page.$eval('#cartDialog',e=>e.open)),'cart close');
+  await physicalClick(page,'#productGrid .product-card button[data-favorite]','mobile favorite');
+  await physicalClick(page,'#productGrid .product-card button[data-add]','mobile add to cart'); await pause(100);
+  ok((await page.$eval('#cartCount',e=>Number(e.textContent)||0))>=1,'mobile: cart add');
+  await physicalClick(page,'#cartButton','mobile cart open'); await pause(100);
+  ok(await page.$eval('#cartDialog',e=>e.open),'mobile: cart dialog');
+  await pause(100);
+  const contacts=await page.$$eval('#cartFooter .checkout-actions a',links=>links.map(a=>({label:(a.textContent||'').trim().toLowerCase(),href:a.getAttribute('href')||'',channel:a.dataset.directChannel||''})));
+  const wa=contacts.find(x=>x.label.includes('whatsapp')),tg=contacts.find(x=>x.label.includes('telegram')),mail=contacts.find(x=>x.label.includes('e-mail')||x.label.includes('email'));
+  ok(wa?.href.startsWith('https://wa.me/79057267946?text='),'mobile: WhatsApp recipient');
+  ok(tg?.href.startsWith('tg://resolve?phone=79057267946&text='),'mobile: Telegram recipient');
+  ok(mail?.href.startsWith('mailto:postes@mail.ru?'),'mobile: email recipient');
+  await page.click('[data-close-cart]'); await pause(80);
+  ok(!(await page.$eval('#cartDialog',e=>e.open)),'mobile: cart close');
 
-  await page.click('#productGrid .product-card .product-image-stage');
+  const stage=await physicalClick(page,'#productGrid .product-card .product-image-stage','mobile product card');
   await page.waitForSelector('#productDialog[open] .detail',{timeout:15000});
   const detailMain=await page.$eval('#galleryMain',e=>e.getAttribute('src'));
-  ok(!/\/card\.webp$/.test(detailMain),'detail gallery uses thumbnail');
-  const galleryNext=await page.$('.gallery-nav.next'); if(galleryNext){await galleryNext.click(); await pause(80);}
-  await page.click('[data-close-dialog]'); await pause(50); ok(!(await page.$eval('#productDialog',e=>e.open)),'detail close');
+  ok(!/\/card\.webp$/.test(detailMain),'mobile: detail gallery must use full image');
+  const galleryNext=await page.$('.gallery-nav.next'); if(galleryNext){await physicalClick(page,'.gallery-nav.next','mobile gallery next'); await pause(80);}
+  await page.click('[data-close-dialog]'); await pause(80);
+  ok(!(await page.$eval('#productDialog',e=>e.open)),'mobile: detail close');
 
   const variant=await page.evaluate(async()=>{
-    const card=[...document.querySelectorAll('#productGrid .product-card')].find(c=>c.querySelector('[data-card-variant]'));
+    const card=[...document.querySelectorAll('#productGrid .product-card')].find(c=>c.querySelector('[data-card-variant],[data-axis]'));
     if(!card)return {skipped:true};
     const neighbor=card.nextElementSibling||card.previousElementSibling;
-    const target=[...card.querySelectorAll('[data-card-variant]')].find(x=>!x.classList.contains('active'));
+    const target=[...card.querySelectorAll('[data-card-variant],[data-axis]')].find(x=>!x.classList.contains('active')&&!x.disabled);
     if(!target)return {skipped:true};
-    target.click(); await new Promise(r=>setTimeout(r,100));
+    target.click(); await new Promise(r=>setTimeout(r,120));
     return {skipped:false,count:document.querySelectorAll('#productGrid .product-card').length,neighborStable:neighbor?.isConnected&&[...document.querySelectorAll('#productGrid .product-card')].includes(neighbor)};
   });
-  ok(variant.skipped||(variant.count===24&&variant.neighborStable),'variant local render');
+  ok(variant.skipped||(variant.count===24&&variant.neighborStable),'mobile: variant local render');
 
-  const question=await page.$('#questionButton'); if(question){await question.click(); await pause(50); await page.keyboard.press('Escape');}
-  const delivery=await page.$('.delivery-payment-button'); if(delivery){await delivery.click(); await pause(50); await page.keyboard.press('Escape');}
-  ok(pageErrors.length===0,'page errors: '+pageErrors.join(' | '));
-  console.log('MOBILE_OK',JSON.stringify({imgs,detailMain,variant}));
+  const question=await page.$('#questionButton');
+  if(question){await physicalClick(page,'#questionButton','mobile question');await pause(80);ok(await page.$eval('#questionDialog',e=>e.open),'mobile: question dialog');await page.keyboard.press('Escape');await pause(50);}
+  const delivery=await page.$('.delivery-payment-button');
+  if(delivery){await physicalClick(page,'.delivery-payment-button','mobile delivery');await pause(80);const open=await page.$eval('#deliveryDialog',e=>e.open).catch(()=>false);ok(open,'mobile: delivery dialog');await page.keyboard.press('Escape');await pause(50);}
+
+  await assertNoOverflow(page,'mobile final');
+  ok(pageErrors.length===0,'mobile page errors: '+pageErrors.join(' | '));
+  console.log('MOBILE_OK',JSON.stringify({imgs,detailMain,variant,contacts,stage}));
   await page.close();
 }
 
-async function desktop(){
-  const page=await browser.newPage(); await page.setViewport({width:1440,height:1000}); await page.setBypassServiceWorker(true);
-  await page.goto('http://127.0.0.1:8000/?tetopt_internal=on',{waitUntil:'domcontentloaded',timeout:60000}); await page.waitForSelector('#productGrid .product-card');
-  const pri=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,5).map(i=>[i.loading,i.fetchPriority]));
-  ok(pri[0][0]==='eager'&&pri[1][0]==='eager'&&pri[2][0]==='eager'&&pri[3][0]==='lazy','desktop image priority');
-  ok((await page.$eval('#filters',e=>getComputedStyle(e).display))!=='none','desktop filters visible');
-  const page2=await page.$('#pagination [data-page="2"]'); if(page2){await page2.click(); await pause(100);}
-  console.log('DESKTOP_OK',JSON.stringify({pri,pagination:!!page2}));
+async function wide(width,height,label){
+  const page=await browser.newPage();
+  const pageErrors=[]; page.on('pageerror',e=>pageErrors.push(e.message));
+  await openLocal(page,width,height);
+  ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,`${label}: catalog count`);
+  const pri=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,5).map(i=>[i.loading,i.fetchPriority,i.getAttribute('src')]));
+  ok(pri[0][0]==='eager'&&pri[1][0]==='eager'&&pri[2][0]==='eager'&&pri[3][0]==='lazy',`${label}: image priority`);
+  await physicalClick(page,'#filterToggle',`${label} filter`); await pause(80);
+  ok(await page.$eval('#filters',e=>e.classList.contains('open')),`${label}: filter open`);
+  await page.$eval('#filterToggle',e=>e.click()); await pause(50);
+  ok(!(await page.$eval('#filters',e=>e.classList.contains('open'))),`${label}: filter close`);
+  const hero=await page.$eval('main#top>.hero',e=>e.getBoundingClientRect().height);
+  ok(hero<100,`${label}: compact hero regression ${hero}`);
+  const page2=await page.$('#pagination [data-page="2"]'); if(page2){await physicalClick(page,'#pagination [data-page="2"]',`${label} pagination`);await pause(100);}
+  await assertNoOverflow(page,`${label} final`);
+  ok(pageErrors.length===0,`${label} page errors: ${pageErrors.join(' | ')}`);
+  console.log(`${label.toUpperCase()}_OK`,JSON.stringify({pri,pagination:!!page2,hero}));
   await page.close();
 }
 
-try{await mobile(); await desktop();}finally{await browser.close();}
+try{
+  await mobile();
+  await wide(768,1024,'tablet');
+  await wide(1440,1000,'desktop');
+}finally{
+  await browser.close();
+}
