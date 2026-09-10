@@ -1,0 +1,46 @@
+name: Performance QA temporary
+
+on:
+  push:
+    branches:
+      - performance-qa-run-20260910
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prepare baseline and candidate
+        shell: bash
+        run: |
+          git fetch origin main --depth=1
+          git worktree add /tmp/tetopt-main origin/main
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('app.js')
+          s=p.read_text()
+          old="ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'"
+          assert old in s
+          p.write_text(s.replace(old,"ASSET_BASE='./'",1))
+          PY
+          node --check app.js
+          node --check variants.js
+          node --check cart-feedback.js
+      - name: Install browser harness
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Run functional and A-B performance QA
+        shell: bash
+        run: |
+          python3 -m http.server 8000 --directory /tmp/tetopt-main >/tmp/main-site.log 2>&1 &
+          python3 -m http.server 8001 --directory "$GITHUB_WORKSPACE" >/tmp/candidate-site.log 2>&1 &
+          node scripts/_performance_qa_temp.mjs
