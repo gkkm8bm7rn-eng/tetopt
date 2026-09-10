@@ -55,7 +55,8 @@ async function mobile(){
   if(await page.$eval('#filters',e=>e.classList.contains('open'))){await page.$eval('#filterToggle',e=>e.click());await pause(50);}
   ok(!(await page.$eval('#filters',e=>e.classList.contains('open'))),'mobile: filter close');
 
-  await page.type('#searchInput','Амура'); await page.click('.search-submit'); await pause(150);
+  await page.type('#searchInput','Амура');
+  await physicalClick(page,'.search-submit','mobile search submit'); await pause(150);
   ok((await page.$eval('#catalogTitle',e=>e.textContent)).includes('Амура'),'mobile: search');
   await page.$eval('#clearFilters',e=>e.click()); await pause(120);
   ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'mobile: search reset');
