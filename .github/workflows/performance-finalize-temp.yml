@@ -1,0 +1,59 @@
+name: Performance candidate finalize
+on:
+  push:
+    branches: [performance-architecture-v1]
+    paths: ['.github/workflows/performance-finalize-temp.yml']
+permissions:
+  contents: write
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Prepare image encoder
+        run: |
+          if ! command -v magick >/dev/null 2>&1 && ! command -v convert >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y imagemagick; fi
+      - name: Generate catalog thumbnails and apply clean source patch
+        run: |
+          python3 scripts/build-card-media.py
+          python3 scripts/_performance_patch_temp.py
+      - name: Static architecture gate
+        run: |
+          node --check app.js
+          node --check variants.js
+          node --check cart-feedback.js
+          node --check media-policy.js
+          git diff --check
+          python3 - <<'PY'
+          import json, os, subprocess
+          d=json.load(open('data/catalog-index.json'))
+          variants=[v for p in d['products'] for v in p['variants']]
+          assert len(d['products'])==532 and len(variants)==1181
+          assert not [v['primaryImage'] for v in variants if not os.path.exists(v['primaryImage'])]
+          first=[p['variants'][0]['primaryImage'] for p in d['products'][:24]]
+          total=sum(os.path.getsize(f) for f in first); maximum=max(os.path.getsize(f) for f in first)
+          assert total < 1200*1024 and maximum < 100*1024
+          changed=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          runtime=[x for x in changed if x in {'app.js','variants.js','cart-feedback.js','index.html','sw.js','media-policy.js'}]
+          assert set(runtime)=={'app.js','variants.js','cart-feedback.js','index.html'}, runtime
+          assert 'prioritizeImages' not in open('cart-feedback.js').read()
+          assert "ASSET_BASE='./'" in open('app.js').read()
+          print('GATE',{'first_page_kb':round(total/1024),'max_kb':round(maximum/1024),'runtime':runtime,'card_files':sum(v['primaryImage'].endswith('/card.webp') for v in variants)})
+          PY
+      - name: Browser regression suite
+        run: |
+          npm install --no-save --no-package-lock puppeteer-core@24
+          python3 -m http.server 8000 >/tmp/site.log 2>&1 &
+          node scripts/_performance_smoke_temp.mjs
+      - name: Commit candidate to test branch only
+        run: |
+          git rm .github/workflows/performance-optimize-temp.yml .github/workflows/performance-optimize-temp-v2.yml .github/workflows/performance-controls-diagnostic.yml .github/workflows/performance-finalize-temp.yml scripts/_performance_patch_temp.py scripts/_performance_smoke_temp.mjs
+          git config user.name 'FORMA performance bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add app.js variants.js cart-feedback.js index.html data/catalog-index.json assets/products scripts/build-card-media.py
+          git add -u
+          git commit -m 'Optimize catalog loading architecture'
+          git push origin HEAD:performance-architecture-v1
