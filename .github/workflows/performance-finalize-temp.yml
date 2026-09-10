@@ -2,7 +2,9 @@ name: Performance candidate finalize
 on:
   push:
     branches: [performance-architecture-v1]
-    paths: ['.github/workflows/performance-finalize-temp.yml']
+    paths:
+      - '.github/workflows/performance-finalize-temp.yml'
+      - 'scripts/_performance_smoke_temp.mjs'
 permissions:
   contents: write
 jobs:
