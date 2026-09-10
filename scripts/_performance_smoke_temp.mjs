@@ -93,7 +93,7 @@ async function mobile(){
   const detailMain=await page.$eval('#galleryMain',e=>e.getAttribute('src'));
   ok(!/\/card\.webp$/.test(detailMain),'mobile: detail gallery must use full image');
   const galleryNext=await page.$('.gallery-nav.next'); if(galleryNext){await physicalClick(page,'.gallery-nav.next','mobile gallery next'); await pause(80);}
-  await page.click('[data-close-dialog]'); await pause(80);
+  await physicalClick(page,'#productDialog [data-close-dialog]','mobile detail close'); await pause(80);
   ok(!(await page.$eval('#productDialog',e=>e.open)),'mobile: detail close');
 
   const variant=await page.evaluate(async()=>{
