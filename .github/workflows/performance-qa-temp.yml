@@ -33,10 +33,16 @@ jobs:
               s=p.read_text()
               assert old in s, name
               p.write_text(s.replace(old,"ASSET_BASE='./'",1))
+          q=Path('scripts/_performance_qa_temp.mjs')
+          s=q.read_text()
+          marker="  ok(summary.candidate.bytes<summary.main.bytes,'candidate must reduce initial product-image bytes');"
+          assert marker in s
+          q.write_text(s.replace(marker,"  console.log('PERFORMANCE_PRECHECK',JSON.stringify(summary,null,2));\n"+marker,1))
           PY
           node --check app.js
           node --check variants.js
           node --check cart-feedback.js
+          node --check scripts/_performance_qa_temp.mjs
       - name: Install browser harness
         run: npm install --no-save --no-package-lock puppeteer-core@24
       - name: Run functional and A-B performance QA
