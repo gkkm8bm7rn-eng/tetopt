@@ -1,0 +1,16 @@
+name: Performance source locate
+on:
+  push:
+    branches: [performance-audit-20260910]
+    paths: [.github/workflows/performance-source-locate.yml]
+permissions:
+  contents: read
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Locate image priority logic
+        run: |
+          grep -RniE 'fetchPriority|fetchpriority|loading.{0,30}(lazy|eager)|\.loading[[:space:]]*=' --include='*.js' . || true
+          grep -RniE 'querySelectorAll.{0,80}productGrid.{0,80}img|productGrid.{0,80}loading|productGrid.{0,80}fetch' --include='*.js' . || true
