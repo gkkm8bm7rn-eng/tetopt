@@ -44,7 +44,7 @@ async function mobile(){
   const imgs=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,4).map(i=>({loading:i.loading,priority:i.fetchPriority,src:i.getAttribute('src')})));
   ok(imgs[0].loading==='eager'&&imgs[0].priority==='high','mobile: first image priority');
   ok(imgs[1].loading==='eager'&&imgs[1].priority==='high','mobile: second image priority');
-  ok(imgs[2].loading==='lazy'&&imgs[2].priority==='low','mobile: third image must stay lazy');
+  ok(imgs[2].loading==='lazy'&&imgs[2].priority==='auto','mobile: third image must stay browser-managed lazy');
   ok(imgs.some(x=>/card\.webp$/.test(x.src)),'mobile: optimized card media not used');
 
   await physicalClick(page,'#filterToggle','mobile filter open'); await pause(80);
@@ -58,6 +58,7 @@ async function mobile(){
   await page.type('#searchInput','Амура');
   await physicalClick(page,'.search-submit','mobile search submit'); await pause(150);
   ok((await page.$eval('#catalogTitle',e=>e.textContent)).includes('Амура'),'mobile: search');
+  ok((await page.$$eval('#productGrid .product-card',x=>x.length))>=1,'mobile: search results');
   await page.$eval('#clearFilters',e=>e.click()); await pause(120);
   ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,'mobile: search reset');
 
@@ -85,15 +86,16 @@ async function mobile(){
   ok(wa?.href.startsWith('https://wa.me/79057267946?text='),'mobile: WhatsApp recipient');
   ok(tg?.href.startsWith('tg://resolve?phone=79057267946&text='),'mobile: Telegram recipient');
   ok(mail?.href.startsWith('mailto:postes@mail.ru?'),'mobile: email recipient');
-  await page.click('[data-close-cart]'); await pause(80);
+  await physicalClick(page,'#cartDialog [data-close-cart]','mobile cart close'); await pause(80);
   ok(!(await page.$eval('#cartDialog',e=>e.open)),'mobile: cart close');
 
   const stage=await physicalClick(page,'#productGrid .product-card .product-image-stage','mobile product card');
   await page.waitForSelector('#productDialog[open] .detail',{timeout:15000});
+  await page.waitForSelector('#productDialog[open] .detail-inline-close',{visible:true,timeout:5000});
   const detailMain=await page.$eval('#galleryMain',e=>e.getAttribute('src'));
   ok(!/\/card\.webp$/.test(detailMain),'mobile: detail gallery must use full image');
   const galleryNext=await page.$('.gallery-nav.next'); if(galleryNext){await physicalClick(page,'.gallery-nav.next','mobile gallery next'); await pause(80);}
-  await physicalClick(page,'#productDialog [data-close-dialog]','mobile detail close'); await pause(80);
+  await physicalClick(page,'#productDialog .detail-inline-close','mobile detail close'); await pause(80);
   ok(!(await page.$eval('#productDialog',e=>e.open)),'mobile: detail close');
 
   const variant=await page.evaluate(async()=>{
@@ -108,7 +110,13 @@ async function mobile(){
   ok(variant.skipped||(variant.count===24&&variant.neighborStable),'mobile: variant local render');
 
   const question=await page.$('#questionButton');
-  if(question){await physicalClick(page,'#questionButton','mobile question');await pause(80);ok(await page.$eval('#questionDialog',e=>e.open),'mobile: question dialog');await page.keyboard.press('Escape');await pause(50);}
+  if(question){
+    await physicalClick(page,'#questionButton','mobile question');await pause(80);
+    ok(await page.$eval('#questionDialog',e=>e.open),'mobile: question dialog');
+    const channels=await page.$$eval('#questionDialog [data-question-channel]',nodes=>nodes.map(x=>x.dataset.questionChannel));
+    ok(['whatsapp','telegram','email'].every(x=>channels.includes(x)),'mobile: question channels');
+    await page.keyboard.press('Escape');await pause(50);
+  }
   const delivery=await page.$('.delivery-payment-button');
   if(delivery){await physicalClick(page,'.delivery-payment-button','mobile delivery');await pause(80);const open=await page.$eval('#deliveryDialog',e=>e.open).catch(()=>false);ok(open,'mobile: delivery dialog');await page.keyboard.press('Escape');await pause(50);}
 
@@ -124,7 +132,7 @@ async function wide(width,height,label){
   await openLocal(page,width,height);
   ok((await page.$$eval('#productGrid .product-card',x=>x.length))===24,`${label}: catalog count`);
   const pri=await page.$$eval('#productGrid img',nodes=>nodes.slice(0,5).map(i=>[i.loading,i.fetchPriority,i.getAttribute('src')]));
-  ok(pri[0][0]==='eager'&&pri[1][0]==='eager'&&pri[2][0]==='eager'&&pri[3][0]==='lazy',`${label}: image priority`);
+  ok(pri[0][0]==='eager'&&pri[0][1]==='high'&&pri[1][0]==='eager'&&pri[2][0]==='eager'&&pri[3][0]==='lazy'&&pri[3][1]==='auto',`${label}: image priority`);
   await physicalClick(page,'#filterToggle',`${label} filter`); await pause(80);
   ok(await page.$eval('#filters',e=>e.classList.contains('open')),`${label}: filter open`);
   await page.$eval('#filterToggle',e=>e.click()); await pause(50);
