@@ -1,0 +1,40 @@
+name: Performance A/B QA temp
+
+on:
+  push:
+    branches: [performance-architecture-v1]
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Prepare identical local origins
+        run: |
+          git fetch origin main
+          git worktree add /tmp/tetopt-main origin/main
+          python3 - <<'PY'
+          from pathlib import Path
+          old="ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'"
+          for path in [Path('app.js'), Path('/tmp/tetopt-main/app.js')]:
+              text=path.read_text()
+              assert old in text, path
+              path.write_text(text.replace(old,"ASSET_BASE='./'",1))
+          PY
+      - name: Install browser driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Run functional and throttled A/B checks
+        run: |
+          python3 -m http.server 8000 --directory /tmp/tetopt-main >/tmp/main-server.log 2>&1 &
+          python3 -m http.server 8001 --directory "$GITHUB_WORKSPACE" >/tmp/candidate-server.log 2>&1 &
+          sleep 2
+          node scripts/_performance_qa_temp.mjs
