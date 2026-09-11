@@ -38,9 +38,9 @@ jobs:
           PY
       - name: Install browser driver
         run: npm install --no-save --no-package-lock puppeteer-core@24
-      - name: Run throttled A/B comparison
+      - name: Run fair throttled A/B comparison
         run: |
           python3 -m http.server 8000 --directory /tmp/tetopt-main >/tmp/main-server.log 2>&1 &
           python3 -m http.server 8001 --directory "$GITHUB_WORKSPACE" >/tmp/candidate-server.log 2>&1 &
           sleep 2
-          node scripts/_performance_ab_temp.mjs
+          node scripts/_performance_fair_temp.mjs
