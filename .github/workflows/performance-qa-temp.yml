@@ -18,17 +18,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Prepare identical local origins
+      - name: Prepare identical local origins and candidate priority policy
         run: |
           git fetch origin main
           git worktree add /tmp/tetopt-main origin/main
           python3 - <<'PY'
           from pathlib import Path
-          old="ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'"
+          asset_old="ASSET_BASE='https://gkkm8bm7rn-eng.github.io/tetopt/'"
           for path in [Path('app.js'), Path('/tmp/tetopt-main/app.js')]:
               text=path.read_text()
-              assert old in text, path
-              path.write_text(text.replace(old,"ASSET_BASE='./'",1))
+              assert asset_old in text, path
+              path.write_text(text.replace(asset_old,"ASSET_BASE='./'",1))
+          path=Path('variants.js')
+          text=path.read_text()
+          old='${high?\' fetchpriority="high"\':\'\'}'
+          new=' fetchpriority="${high?\'high\':\'low\'}"'
+          assert old in text
+          path.write_text(text.replace(old,new,1))
           PY
       - name: Install browser driver
         run: npm install --no-save --no-package-lock puppeteer-core@24
