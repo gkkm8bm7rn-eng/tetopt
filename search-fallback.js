@@ -1,44 +1,75 @@
-/* Search UX: if a text query has no matches in the selected category, repeat it across the full catalog. */
+/* Core Web Vitals: keep search interactions light and reserve the async mobile catalog controls. */
 (function(){
 'use strict';
 const form=document.getElementById('searchForm');
-if(!form)return;
-form.addEventListener('submit',function(event){
-  const input=document.getElementById('searchInput');
-  const query=(input?.value||'').trim();
-  if(!query||(state.categoryMain==='all'&&state.categoryCode==='all')||state.view==='favorites')return;
-  const currentCategory=state.categoryCode!=='all'?categoryLabel(state.categoryCode):CATEGORY_TREE.find(item=>item.id===state.categoryMain)?.label||'категории';
-  const categoryHasMatches=state.products.some(product=>
-    matchesSelectedCategory(product)&&
-    searchMatches(product,query)&&
-    (!state.min||minPrice(product)>=Number(state.min))&&
-    (!state.max||minPrice(product)<=Number(state.max))&&
-    (!state.multi||product.variants.length>1)
-  );
-  if(categoryHasMatches)return;
-  const catalogHasMatches=state.products.some(product=>
-    searchMatches(product,query)&&
-    (!state.min||minPrice(product)>=Number(state.min))&&
-    (!state.max||minPrice(product)<=Number(state.max))&&
-    (!state.multi||product.variants.length>1)
-  );
-  if(!catalogHasMatches)return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  state.search=query;
-  state.categoryMain='all';
-  state.categoryCode='all';
+const originalInput=document.getElementById('searchInput');
+if(!form||!originalInput)return;
+
+/* app.js attaches a synchronous input handler before this file loads. Replacing the input
+   removes that anonymous listener while preserving the element id, attributes and form API. */
+const input=originalInput.cloneNode(true);
+input.value=originalInput.value;
+originalInput.replaceWith(input);
+
+/* Cache normalized product names: app.js otherwise normalizes every name repeatedly while
+   filtering and again while sorting each search result set. */
+const normalizedNames=new WeakMap();
+searchRelevance=function(product,query){
+  const needle=normalizeSearch(query);
+  if(!needle)return 0;
+  if(/^\d+$/.test(needle)){
+    const ids=(product.variants||[]).map(variant=>String(variant.sourceId||''));
+    if(ids.includes(needle))return 0;
+    const prefix=ids.findIndex(id=>id.startsWith(needle));
+    if(prefix>=0)return 10+prefix;
+    const partial=ids.findIndex(id=>id.includes(needle));
+    return partial>=0?50+partial:Number.POSITIVE_INFINITY;
+  }
+  let name=normalizedNames.get(product);
+  if(name===undefined){name=normalizeSearch(product.name);normalizedNames.set(product,name)}
+  const index=name.indexOf(needle);
+  if(index<0)return Number.POSITIVE_INFINITY;
+  const words=name.split(' '),exactWord=words.indexOf(needle),prefixWord=words.findIndex(word=>word.startsWith(needle));
+  if(name===needle)return 0;
+  if(exactWord>=0)return 10+exactWord;
+  if(prefixWord>=0)return 20+prefixWord;
+  return 100+index;
+};
+
+let searchTimer=0;
+function runSearch({scroll=false}={}){
+  clearTimeout(searchTimer);
+  state.search=input.value;
   state.page=1;
-  renderCategories();
+  if(!state.products.length)return;
   applyFilters();
   syncCatalogHistory();
-  const count=document.getElementById('resultCount');
-  if(count){
-    count.hidden=false;
-    count.textContent=`В категории «${currentCategory}» ничего не найдено — показываем по всему каталогу: ${state.filtered.length}`;
-  }
-  requestAnimationFrame(()=>instantScroll(document.getElementById('productGrid')));
+  if(scroll)requestAnimationFrame(()=>instantScroll(document.getElementById('productGrid')));
+}
+function scheduleSearch(){
+  state.search=input.value;
+  state.page=1;
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>requestAnimationFrame(()=>runSearch()),180);
+}
+input.addEventListener('input',scheduleSearch,{passive:true});
+
+/* Handle submit in the capture phase so the heavy catalog render runs on the next frame,
+   rather than inside the key/click interaction measured by INP. */
+form.addEventListener('submit',function(event){
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  clearTimeout(searchTimer);
+  requestAnimationFrame(()=>runSearch({scroll:true}));
 },true);
+
+const style=document.createElement('style');
+style.dataset.cwvReserve='catalog';
+style.textContent=`@media(max-width:640px){
+  #categoryRow:empty{min-height:286px}
+  #catalog>.section-heading #resultCount[hidden]{display:block!important;visibility:hidden;min-width:72px}
+}`;
+document.head.appendChild(style);
 })();
 
 /* Mobile category UX: parent categories with children open their subcategories first.
