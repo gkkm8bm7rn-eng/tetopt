@@ -113,13 +113,43 @@ function setBusy(control,busy,label){
   if(busy){control.dataset.emailLabel=control.textContent;control.textContent=label||'Отправляем…';control.setAttribute('aria-busy','true');control.style.pointerEvents='none'}
   else{control.textContent=control.dataset.emailLabel||control.textContent;control.removeAttribute('aria-busy');control.style.pointerEvents=''}
 }
-async function sendSiteEmail({subject,message,kind,control}){
+function validEmail(value){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value||'').trim())}
+function ensureReplyDialog(){
+  let dialog=document.getElementById('replyEmailDialog');
+  if(dialog)return dialog;
+  const style=document.createElement('style');
+  style.dataset.replyEmailStyles='true';
+  style.textContent=`.reply-email-dialog{width:min(460px,calc(100vw - 24px));padding:0;border:0;border-radius:22px;background:#f7f5f0;color:#201f1b;box-shadow:0 28px 80px rgba(24,27,22,.24)}.reply-email-dialog::backdrop{background:rgba(25,27,23,.48);backdrop-filter:blur(2px)}.reply-email-shell{padding:24px}.reply-email-head{display:flex;align-items:start;justify-content:space-between;gap:16px}.reply-email-head h2{margin:0;font:400 30px/1 Georgia,serif}.reply-email-close{display:grid;width:40px;height:40px;place-items:center;border:1px solid #cfd8ca;border-radius:999px;background:#fff;color:#435d41;font-size:24px;cursor:pointer}.reply-email-copy{margin:12px 0 16px;color:#666b63;font:500 13px/1.5 Arial,sans-serif}.reply-email-field{display:grid;gap:7px;color:#314d32;font:750 12px/1.25 Arial,sans-serif}.reply-email-field input{width:100%;height:48px;padding:0 13px;border:1px solid #cfd8ca;border-radius:13px;background:#fff;color:#242520;font:500 16px/1 Arial,sans-serif;box-sizing:border-box}.reply-email-field input:focus{outline:none;border-color:#657c62;box-shadow:0 0 0 3px rgba(67,93,65,.13)}.reply-email-error{margin:8px 0 0;color:#a54434;font:700 11px/1.4 Arial,sans-serif}.reply-email-submit{width:100%;min-height:48px;margin-top:16px;padding:10px 14px;border:0;border-radius:13px;background:#435d41;color:#fff;font:800 13px/1.2 Arial,sans-serif;cursor:pointer}.reply-email-submit:hover,.reply-email-submit:focus-visible{background:#365137;outline:none}`;
+  document.head.appendChild(style);
+  dialog=document.createElement('dialog');
+  dialog.id='replyEmailDialog';dialog.className='reply-email-dialog';
+  dialog.innerHTML='<form class="reply-email-shell" method="dialog" novalidate><div class="reply-email-head"><h2>Куда вам ответить?</h2><button class="reply-email-close" type="button" data-reply-email-close aria-label="Закрыть">×</button></div><p class="reply-email-copy">Укажите ваш e-mail. Мы получим его вместе с вопросом или заказом и сможем ответить вам обычным письмом.</p><label class="reply-email-field" for="replyEmailInput">Ваш e-mail<input id="replyEmailInput" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="name@example.com" required></label><p class="reply-email-error" id="replyEmailError" hidden>Введите корректный e-mail.</p><button class="reply-email-submit" type="submit">Отправить на почту</button></form>';
+  document.body.appendChild(dialog);
+  dialog.querySelector('[data-reply-email-close]').addEventListener('click',()=>dialog.close('cancel'));
+  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close('cancel')});
+  return dialog;
+}
+function requestReplyEmail(){
+  const dialog=ensureReplyDialog(),form=dialog.querySelector('form'),input=dialog.querySelector('#replyEmailInput'),error=dialog.querySelector('#replyEmailError');
+  if(!dialog.showModal){const fallback=window.prompt('Ваш e-mail для ответа:','')||'';return Promise.resolve(validEmail(fallback)?fallback.trim():'')}
+  error.hidden=true;input.value='';
+  return new Promise(resolve=>{
+    let settled=false;
+    const finish=value=>{if(settled)return;settled=true;form.removeEventListener('submit',onSubmit);dialog.removeEventListener('close',onClose);resolve(value)};
+    const onSubmit=event=>{event.preventDefault();const value=input.value.trim();if(!validEmail(value)){error.hidden=false;input.focus();return}error.hidden=true;dialog.close('sent');finish(value)};
+    const onClose=()=>finish('');
+    form.addEventListener('submit',onSubmit);dialog.addEventListener('close',onClose,{once:true});
+    dialog.showModal();setTimeout(()=>input.focus(),0);
+  });
+}
+async function sendSiteEmail({subject,message,kind,replyEmail,control}){
+  if(!validEmail(replyEmail))return false;
   setBusy(control,true);
   try{
     const response=await fetch(EMAIL_ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({_subject:subject,_template:'table',_captcha:'false',type:kind,message,page:location.href})
+      body:JSON.stringify({_subject:subject,_template:'table',_captcha:'false',email:replyEmail,_replyto:replyEmail,'E-mail покупателя':replyEmail,type:kind,message,page:location.href})
     });
     let data={};
     try{data=await response.json()}catch{}
@@ -168,7 +198,8 @@ document.addEventListener('click',async function(event){
   event.preventDefault();event.stopImmediatePropagation();
   if(channel==='telegram'){openTelegram(link.dataset.directText||'');return}
   if(channel==='email'){
-    await sendSiteEmail({subject:link.dataset.emailSubject||'Заказ FORMA HOME',message:link.dataset.emailBody||'',kind:'Заказ из корзины',control:link});
+    const replyEmail=await requestReplyEmail();if(!replyEmail)return;
+    await sendSiteEmail({subject:link.dataset.emailSubject||'Заказ FORMA HOME',message:link.dataset.emailBody||'',kind:'Заказ из корзины',replyEmail,control:link});
     return;
   }
   location.assign(link.getAttribute('href'));
@@ -188,7 +219,8 @@ document.addEventListener('click',async function(event){
   if(channel==='whatsapp'){location.assign(whatsappUrl(body));return}
   if(channel==='telegram'){openTelegram(body);return}
   if(channel==='email'){
-    const sent=await sendSiteEmail({subject:'Вопрос FORMA HOME',message:body,kind:'Вопрос с сайта',control:button});
+    const replyEmail=await requestReplyEmail();if(!replyEmail)return;
+    const sent=await sendSiteEmail({subject:'Вопрос FORMA HOME',message:body,kind:'Вопрос с сайта',replyEmail,control:button});
     if(sent&&textarea)textarea.value='';
   }
 },true);
