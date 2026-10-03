@@ -1,0 +1,40 @@
+name: Validate catalog integrity
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'assets/products/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'assets/products/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            data
+            scripts
+            .github/workflows
+      - name: Materialize tracked media paths without downloading image blobs
+        run: |
+          git ls-tree -r --name-only HEAD -- assets/products | while IFS= read -r path; do
+            mkdir -p "$(dirname "$path")"
+            : > "$path"
+          done
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate catalog/index/detail/media integrity
+        run: python scripts/validate-catalog.py
