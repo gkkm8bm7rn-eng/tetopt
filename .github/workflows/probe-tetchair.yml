@@ -36,14 +36,14 @@ jobs:
             echo "Applying media batch $i"
             python scripts/enrich-computer-chair-media.py --apply --batch-index "$i" --batch-size 12 || true
           done
-      - name: Repair Amura and Moncler
+      - name: Import exact October product media\n        if: github.event.issue.title == '[media-apply] October products'\n        run: python scripts/import-october-media.py\n      - name: Repair Amura and Moncler
         if: github.event.issue.title == '[media-fix] Amura Moncler'
         run: python scripts/fix-amura-moncler-media.py
       - name: Commit media changes
         run: |
           git config user.name 'FORMA HOME media bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add assets/products data/details data/catalog-index.json data/computer-chair-photo-audit.json
+          git add assets/products data/details data/catalog-index.json data/computer-chair-photo-audit.json data/october-photo-import-report.json
           if git diff --cached --quiet; then echo 'No media changes'; exit 0; fi
           if [ "${{ github.event.issue.title }}" = "[media-fix] Amura Moncler" ]; then
             MSG='Fix Amura and Moncler product media'
