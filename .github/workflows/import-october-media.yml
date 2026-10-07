@@ -1,0 +1,54 @@
+name: Import October product media
+on:
+  push:
+    branches: [main]
+    paths: ['data/october-media-request.txt']
+permissions:
+  contents: write
+concurrency:
+  group: tetopt-october-media
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check requests Pillow
+      - name: Import exact October photo banks
+        run: python scripts/import-october-media.py
+      - name: Validate October media and catalog invariants
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          idx=json.load(open(root/'data/catalog-index.json',encoding='utf-8'))
+          variants=[v for p in idx['products'] for v in p['variants']]
+          assert len(variants)==1429
+          ids=[int(v['sourceId']) for v in variants]
+          assert len(ids)==len(set(ids))
+          new=[v for v in variants if 1724<=int(v['sourceId'])<=1971]
+          assert len(new)==248
+          assert all(str(v.get('primaryImage','')).startswith('assets/products/') for v in new)
+          report=json.load(open(root/'data/october-photo-import-report.json',encoding='utf-8'))
+          assert report['count']==248
+          for r in report['results']:
+              assert r['count']>=1
+              for f in r['files']: assert (root/f).is_file()
+          print({'models':len(idx['products']),'variants':len(variants),'october':len(new)})
+          PY
+      - name: Commit only validated result
+        run: |
+          git config user.name 'TETOpt media bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add assets/products data/details data/catalog-index.json data/october-photo-import-report.json
+          if git diff --cached --quiet; then echo 'No media changes'; exit 0; fi
+          git commit -m 'Import and localize October product photos'
+          git pull --rebase origin main
+          git push origin HEAD:main
