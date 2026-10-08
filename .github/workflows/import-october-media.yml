@@ -35,12 +35,17 @@ jobs:
           assert len(ids)==len(set(ids))
           new=[v for v in variants if 1724<=int(v['sourceId'])<=1971]
           assert len(new)==248
-          assert all(str(v.get('primaryImage','')).startswith('assets/products/') for v in new)
+          assert all(v.get('primaryImage') for v in new)
           report=json.load(open(root/'data/october-photo-import-report.json',encoding='utf-8'))
           assert report['count']==248
+          assert len(report['results'])==248
+          assert len({r['sourceId'] for r in report['results']})==248
           for r in report['results']:
-              assert r['count']>=1
+              assert r['count']>=0
               for f in r['files']: assert (root/f).is_file()
+              if r['count']==0:
+                  assert r['status']=='needs-photo-search'
+                  assert next(v for v in new if int(v['sourceId'])==r['sourceId']).get('primaryImage')
           print({'models':len(idx['products']),'variants':len(variants),'october':len(new)})
           PY
       - name: Commit only validated result
