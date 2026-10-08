@@ -1,3 +1,5 @@
 2026-10-07 import sourceIds 1724-1971 using exact October good_id mapping
 
 2026-10-08 rerun after supplier ZIP recovery
+
+2026-10-08 validated partial import rerun; preserve 3 existing covers
