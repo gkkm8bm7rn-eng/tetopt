@@ -53,21 +53,28 @@ def main():
    try:
     rr=s.get(current,headers=HEADERS,timeout=45); rr.raise_for_status(); cover_hash=dhash(open_img(rr.content))
    except Exception: pass
-  z,url=get_zip(s,good); candidates=[]
+  try: z,url=get_zip(s,good)
+  except Exception as e:
+   results.append({'sourceId':sid,'goodId':good,'status':'needs-photo-search','error':str(e),'count':0,'files':[]})
+   print(f'{pos}/248 sourceId={sid} goodId={good} needs-photo-search: {e}',flush=True)
+   continue
+  candidates=[]
   for m in members(z):
    try:
     raw=z.read(m); im=open_img(raw)
     if min(im.size)<250: continue
     candidates.append((m.filename,im,dhash(im)))
    except Exception: continue
-  if not candidates: raise RuntimeError(f'no usable photos {sid}/{good}')
+  if not candidates:
+   results.append({'sourceId':sid,'goodId':good,'status':'needs-photo-search','error':'no usable photos','count':0,'files':[]}); continue
   if cover_hash is not None: candidates.sort(key=lambda x:ham(cover_hash,x[2]))
   chosen=[]; hashes=[]; limit=target_count(product.get('name',''),v.get('category',''))
   for item in candidates:
    if any(ham(item[2],h)<=4 for h in hashes): continue
    chosen.append(item); hashes.append(item[2])
    if len(chosen)>=limit: break
-  if not chosen: raise RuntimeError(f'no unique photos {sid}')
+  if not chosen:
+   results.append({'sourceId':sid,'goodId':good,'status':'needs-photo-search','error':'no unique photos','count':0,'files':[]}); continue
   folder=ASSETS/str(sid); folder.mkdir(parents=True,exist_ok=True)
   for old in folder.glob('oct-*.webp'): old.unlink()
   paths=[]
@@ -83,5 +90,5 @@ def main():
  for name,d in shards.items(): (DETAIL/name).write_text(json.dumps(d,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
  INDEX.write_text(json.dumps(idx,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
  REPORT.write_text(json.dumps({'generatedAt':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'count':248,'results':results},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
- print(json.dumps({'ok':True,'processed':248,'files':sum(r['count'] for r in results)},ensure_ascii=False))
+ print(json.dumps({'ok':True,'processed':248,'photosReady':sum(r['count']>0 for r in results),'needsReview':sum(r['count']==0 for r in results),'files':sum(r['count'] for r in results)},ensure_ascii=False))
 if __name__=='__main__': main()
