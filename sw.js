@@ -4,7 +4,7 @@
  * on its own stable version so a design update does not discard product photos.
  * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20261008-wholesale-1';
+const SHELL_VERSION='20261008-new-arrivals-recovery-2';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
@@ -153,7 +153,7 @@ self.addEventListener('fetch',event=>{
   if(!isSameOrigin(url))return;
 
   if(['style','script','font'].includes(request.destination)){
-    event.respondWith(staleWhileRevalidate(request,SHELL_CACHE));
+    event.respondWith(networkFirst(request,SHELL_CACHE));
     return;
   }
 
