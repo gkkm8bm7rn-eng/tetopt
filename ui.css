@@ -23,9 +23,9 @@ button[data-favorite]{display:grid!important;place-items:center!important;paddin
 @media(max-width:640px){#productGrid{scroll-margin-top:82px}.product-categories{gap:4px;margin:4px 0 6px}.product-categories .product-type{min-height:22px;padding-block:3px;line-height:1.08}}
 
 /* October new arrivals: compact catalog filter and per-card marker. */
-.new-products-toggle{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 10px;border:1px solid #d6bc8d;border-radius:999px;background:#f7eddb;color:#725525;font:700 12px/1.1 Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+.new-products-toggle{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 10px;border:1px solid #d6bc8d;border-radius:999px;background:#f7eddb;color:#725525;font-family:inherit;font-size:12px;font-weight:800;line-height:1.1;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
 .new-products-toggle:hover,.new-products-toggle:focus-visible{background:#ead4ab;outline-offset:2px}
 .new-products-toggle.active{background:#435d41;border-color:#435d41;color:#fff}
 .product-new-badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 10px;background:#f7eddb;color:#795a27;font-weight:800;letter-spacing:.04em;white-space:nowrap}
 .section-heading:has(.new-products-toggle){gap:8px}
-@media(max-width:640px){.new-products-toggle{padding:5px 8px;font-size:11px;min-height:27px}.section-heading:has(.new-products-toggle){display:flex;align-items:center;gap:6px}.section-heading:has(.new-products-toggle) .result-count{margin-left:auto;font-size:11px}.product-new-badge{padding:4px 7px;font-size:10px}}
+@media(max-width:640px){.new-products-toggle{padding:5px 8px;font-size:12px;min-height:27px}.section-heading:has(.new-products-toggle){display:flex;align-items:center;gap:6px}.section-heading:has(.new-products-toggle) .result-count{margin-left:auto;font-size:11px}.product-new-badge{padding:4px 7px;font-size:10px}}
