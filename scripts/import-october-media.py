@@ -22,7 +22,11 @@ def get_zip(s,good):
  u=f'https://price.tetchair.ru/download_photo/?id={good}'
  for n in range(3):
   try:
-   r=s.get(u,headers=HEADERS,timeout=90); r.raise_for_status(); return zipfile.ZipFile(io.BytesIO(r.content)),u
+   r=s.get(u,headers=HEADERS,timeout=90); r.raise_for_status()
+   if not zipfile.is_zipfile(io.BytesIO(r.content)):
+    kind=r.headers.get('Content-Type','unknown'); sample=r.content[:180].decode('utf-8','replace').replace('\\n',' ')
+    raise ValueError(f'supplier returned non-ZIP: HTTP {r.status_code}, content-type={kind}, bytes={len(r.content)}, url={r.url}, body={sample!r}')
+   return zipfile.ZipFile(io.BytesIO(r.content)),u
   except Exception:
    if n==2: raise
    time.sleep(2*(n+1))
@@ -48,6 +52,10 @@ def main():
  s=requests.Session(); results=[]
  for pos,(sid,good) in enumerate(zip(range(1724,1972),GOOD_IDS),1):
   if sid not in loc: raise RuntimeError(f'missing sourceId {sid}')
+  if sid not in {1843,1852,1853} and (ASSETS/str(sid)/'oct-00-main.webp').is_file():
+   existing=sorted((ASSETS/str(sid)).glob('oct-*.webp'))
+   results.append({'sourceId':sid,'goodId':good,'count':len(existing),'status':'previously-imported','files':[p.relative_to(ROOT).as_posix() for p in existing]})
+   continue
   shard,product,v=loc[sid]; current=v.get('primaryImage') or ((v.get('images') or [None])[0]); cover_hash=None
   if current:
    try:
