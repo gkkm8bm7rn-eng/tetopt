@@ -1,0 +1,79 @@
+/* FORMA HOME — approved light indigo / mist / champagne preview.
+   Presentation only: no markup, product data or behavior changes. */
+:root{
+  --ink:#202b3d;
+  --muted:#667181;
+  --paper:#f4f6f9;
+  --line:#d7dee7;
+  --accent:#263a58;
+  --accent-dark:#172441;
+  --green-dark:#263a58;
+}
+html body{
+  background-color:#f4f6f9!important;
+  background-image:
+    radial-gradient(ellipse 82% 22% at 10% 12%,rgba(165,190,218,.29),transparent 76%),
+    radial-gradient(ellipse 70% 17% at 95% 27%,rgba(225,193,141,.24),transparent 76%),
+    radial-gradient(ellipse 82% 21% at 5% 53%,rgba(173,193,218,.23),transparent 77%),
+    radial-gradient(ellipse 74% 20% at 94% 79%,rgba(225,193,141,.18),transparent 77%),
+    linear-gradient(180deg,#f4f7fb 0%,#f5f6f8 42%,#f5f7fa 100%)!important;
+  background-attachment:scroll!important;
+  background-repeat:no-repeat!important;
+}
+html body .hero-content{
+  background:linear-gradient(110deg,#d5e2f0 0%,#e7edf5 48%,#f2e2bf 100%)!important;
+  border:1px solid rgba(116,139,166,.24);
+  box-shadow:none!important;
+}
+html body .hero-content::before,
+html body .hero-content::after{content:none!important}
+html body .search-submit,
+html body .filter-toggle,
+html body .quick-add,
+html body .primary-button,
+html body .page-button.active{
+  background:#26384f!important;
+  color:#fff!important;
+  border-color:#26384f!important;
+  box-shadow:none!important;
+}
+html body .search-submit:hover,
+html body .filter-toggle:hover,
+html body .quick-add:hover,
+html body .primary-button:hover{background:#172b46!important}
+html body .sort-field,
+html body .search-field,
+html body .product-card,
+html body .category-chip,
+html body .catalog-utility .sort-field{
+  border-color:#d7dee7!important;
+}
+html body .product-card{background:#fff!important;box-shadow:0 3px 12px rgba(29,47,71,.035)!important}
+html body .category-chip{background:#f8f9fc!important}
+html body .category-chip.active,
+html body .category-chip[aria-pressed="true"]{
+  background:#d9e3f0!important;
+  border-color:#bacbdc!important;
+  color:#1d2e47!important;
+}
+html body .site-header .favorites-button,
+html body .site-header .cart-button{
+  border-color:#d7dee7!important;
+  color:#26384f!important;
+  background:rgba(255,255,255,.94)!important;
+  box-shadow:none!important;
+}
+html body .site-header .action-count{background:#26384f!important;border-color:#f4f6f9!important}
+html body .new-products-toggle{
+  background:#f6ead2!important;
+  border-color:#e4d3af!important;
+  color:#344157!important;
+}
+html body .new-products-toggle.active{background:#26384f!important;color:#fff!important;border-color:#26384f!important}
+html body .product-new-badge{background:#f6ead2!important;color:#5c4b34!important}
+html body .product-image-stage::after{
+  background:linear-gradient(135deg,rgba(242,246,251,.82),rgba(230,236,244,.72))!important;
+}
+@media (prefers-reduced-motion:reduce){
+  html body .quick-add,html body .filter-toggle{transition:none!important}
+}
