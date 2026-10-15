@@ -182,28 +182,24 @@ function selectAxis(product,type,key){
 }
 
 function choiceOptions(product,selected){
-  const byPresentation=new Map;
-  product.variants.forEach(variant=>{
-    const presentation=variantPresentation(variant),existing=byPresentation.get(presentation.key);
-    // Identical visual executions lead to the least expensive actual source
-    // variant. Its full specification remains available in the product sheet.
-    if(!existing||Number(variant.wholesalePrice)<Number(existing.variant.wholesalePrice))byPresentation.set(presentation.key,{variant,presentation});
-  });
-  const selectedPresentation=variantPresentation(selected);
-  return [...byPresentation.values()].map(option=>({...option,active:option.presentation.key===selectedPresentation.key}));
+  // Color alone does not identify upholstery, construction or a purchasable SKU.
+  const options=product.variants.map(variant=>({variant,presentation:variantPresentation(variant)}));
+  return options.map(option=>({...option,
+    sameColor:options.filter(other=>other.presentation.key===option.presentation.key).length>1,
+    active:String(option.variant.sourceId)===String(selected.sourceId)}));
 }
 
 function variantChoices(product,variant,context='card'){
   if((product.variants||[]).length<2)return'';
   const options=choiceOptions(product,variant),detail=context==='detail';
   const controls=options.map((option,index)=>{
-    const {variant:item,presentation,active}=option,label=choiceLabel(item,presentation),paint=swatchPaint(presentation.colors);
+    const {variant:item,presentation,active,sameColor}=option,label=sameColor?`${item.specs} · арт. ${item.sourceId}`:choiceLabel(item,presentation),paint=swatchPaint(presentation.colors);
     if(!presentation.colors.length){
       const attributes=detail?`data-variant="${item.sourceId}"`:`data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}"`;
       return `<button class="variant-text ${active?'active':''}" ${attributes} title="${escapeAttr(variantLabel(item))}">${escapeHtml(variantLabel(item)||`Вариант ${index+1}`)}</button>`;
     }
     const attributes=detail?`data-variant="${item.sourceId}"`:`data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}"`;
-    return `<button class="${detail?'variant-swatch-option':'card-swatch'} ${presentation.colors.length>1?'composite':''} ${active?'active':''}" style="--swatch:${escapeAttr(paint)}" ${attributes} title="${escapeAttr(label)}" aria-label="${escapeAttr('Выбрать: '+label)}"></button>`;
+    return `<button class="${detail?'variant-swatch-option':'card-swatch'} ${presentation.colors.length>1?'composite':''} ${active?'active':''}" style="--swatch:${escapeAttr(paint)}" ${attributes} title="${escapeAttr(label)}" aria-label="${escapeAttr('Выбрать: '+label)}" aria-pressed="${active}"></button>`;
   }).join('');
   return detail?`<div class="variant-section variant-choice-section"><div class="variant-label"><strong>Цвет и исполнение</strong><span>${escapeHtml(choiceLabel(variant))}</span></div><div class="variant-options variant-swatch-options">${controls}</div></div>`:`<div class="card-variants" aria-label="Доступные цветовые исполнения">${controls}</div>`;
 }
@@ -259,12 +255,11 @@ document.addEventListener('click',async event=>{
   const product=state.products.find(item=>item.id===button.dataset.product),previous=product?String(product._selected):'',match=product&&selectAxis(product,button.dataset.axis,button.dataset.axisValue);
   if(!match)return;
   if(button.closest('[data-detail-id]')){
-    const full=await getFullProduct(product);
-    full._selected=match.sourceId;
-    els.detail.innerHTML=detailTemplate(full,currentVariant(full,match.sourceId));
+    await selectVariant(product.id,match.sourceId);
   }else if(String(match.sourceId)!==previous){
     const card=button.closest('.product-card');
     if(card)card.outerHTML=cardTemplate(product);
+    renderRecent();
   }
 },true);
 
