@@ -4,7 +4,7 @@
  * on its own stable version so a design update does not discard product photos.
  * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20261015-dialog-close-fix-2';
+const SHELL_VERSION='20261015-mobile-render-stability';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
@@ -19,6 +19,7 @@ const SHELL_ASSETS=[
   './',
   './index.html',
   './styles.css',
+  './mobile-stability.css',
   './enhancements.css',
   './axes.css',
   './ui.css',
