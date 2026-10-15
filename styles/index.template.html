@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="FORMA HOME / ФОРМА ХОУМ — каталог мебели и предметов интерьера с проверенными вариантами, оптовыми ценами и фотографиями.">
+  <title>FORMA HOME / ФОРМА ХОУМ — мебель и интерьер</title>
+  <link rel="preconnect" href="https://gkkm8bm7rn-eng.github.io">
+  <!-- STOREFRONT_STYLES -->
+
+
+
+
+
+</head>
+<body>
+  <a class="skip-link" href="#catalog">К каталогу</a>
+  <div class="trade-note">Оптовые цены действуют для заказа; розничные цены показаны для сравнения</div>
+  <header class="site-header">
+    <a class="brand-lockup" href="#top" aria-label="FORMA HOME / ФОРМА ХОУМ, на главную"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a>
+    <nav class="header-actions" aria-label="Основная навигация">
+      <button class="favorites-button" id="favoritesButton" type="button" aria-label="Избранное: 0 товаров"><span class="action-icon" aria-hidden="true">♥</span><span class="sr-only">Избранное</span><span class="action-count" id="favoritesCount">0</span></button>
+      <button class="cart-button" id="cartButton" type="button" aria-label="Корзина: 0 товаров"><svg class="cart-trolley" aria-hidden="true" viewBox="0 0 32 32" fill="none"><path d="M3.5 5.5h3.2l2.7 13.1a2 2 0 0 0 2 1.6h11.7a2 2 0 0 0 1.9-1.4l2.2-8.1H8.1" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 24.6h12.7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12.2" cy="27" r="1.8" fill="currentColor"/><circle cx="23" cy="27" r="1.8" fill="currentColor"/></svg><span class="sr-only">Корзина</span><span class="action-count" id="cartCount">0</span></button>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle"><div class="hero-content"><p class="eyebrow">Мебель для продуманного интерьера</p><h1 id="heroTitle">Дом, в который <br>хочется возвращаться</h1></div></section>
+    <section class="catalog-section" id="catalog" aria-labelledby="catalogTitle">
+      <div class="section-heading"><div><p class="eyebrow">Каталог FORMA HOME</p><h2 id="catalogTitle">Мебель для вашего дома</h2></div><p class="result-count" id="resultCount" aria-live="polite" hidden>Загружаем товары…</p></div>
+      <div class="catalog-tools"><form class="search-field" id="searchForm" role="search"><label class="sr-only" for="searchInput">Поиск по каталогу</label><input id="searchInput" type="search" placeholder="Найти стул, стол, кресло или артикул" autocomplete="off"><button class="search-submit" type="submit">Найти</button></form><div class="category-row" id="categoryRow" aria-label="Категории"></div><div class="catalog-utility"><button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false">Фильтры</button><label class="sort-field"><span class="sort-icon" aria-hidden="true">↕</span><span class="sr-only">Порядок товаров</span><select id="sortSelect" aria-label="Порядок товаров"><option value="featured">Рекомендуемые</option><option value="price-asc">Сначала дешевле</option><option value="price-desc">Сначала дороже</option><option value="name">По названию</option></select></label></div></div>
+      <div class="catalog-layout"><aside class="filters" id="filters" aria-label="Фильтры"><div class="filter-head"><strong>Фильтры</strong><button id="clearFilters" type="button">Сбросить</button></div><fieldset><legend>Цена, ₽</legend><div class="price-inputs"><input id="priceMin" inputmode="numeric" placeholder="от"><input id="priceMax" inputmode="numeric" placeholder="до"></div></fieldset><fieldset><legend>Наличие вариантов</legend><label class="check"><input id="multiVariant" type="checkbox"> <span>Несколько цветов</span></label></fieldset></aside><div class="catalog-content"><div class="favorites-toolbar" id="favoritesToolbar" hidden><strong>Избранное</strong><button class="share-selection" id="shareFavorites" type="button" hidden>Поделиться подборкой</button></div><div class="product-grid" id="productGrid" aria-live="polite"></div><div class="empty-state" id="emptyState" hidden><h3>Ничего не нашли</h3><p>Попробуйте изменить запрос или сбросить фильтры.</p><button class="secondary-button" id="emptyReset" type="button">Сбросить фильтры</button></div><nav class="pagination" id="pagination" aria-label="Страницы каталога"></nav></div></div>
+    </section>
+    <section class="recent-section" id="recentSection" hidden><div class="section-heading"><div><h2>Недавно смотрели</h2></div></div><div class="recent-row" id="recentRow"></div></section>
+  </main>
+  <footer id="delivery"><a class="brand-lockup footer-brand" href="#top"><span class="brand-line"><span class="brand-forma">FORMA</span> <span class="brand-home">HOME</span><span class="brand-slash"> / </span><span class="brand-forma">ФОРМА</span> <span class="brand-home">ХОУМ</span></span></a><div class="footer-columns"><section><h2>Доставка</h2><p>Москва (в пределах МКАД) — 1500 руб. При заказе от 20 000 руб. — бесплатно.</p><p>Московская область (за МКАД) — рассчитывается индивидуально.</p><p>Доставка по России — через транспортные компании, по тарифам перевозчика.</p><p>Самовывоз со склада — Московская область, город Чехов (будние дни, с 10:00 до 15:00).</p></section><section><h2>Оплата</h2><p>Наличными при получении (при доставке по Москве/МО или самовывозе со склада).</p><p>Оплата онлайн (по ссылке).</p><p>Оплата по банковскому счёту (физ/юр лица).</p><p>Оплата по счёт-договору (физ/юр лица).</p></section></div></footer>
+  <dialog class="product-dialog" id="productDialog"><button class="dialog-close" data-close-dialog type="button" aria-label="Закрыть">×</button><div id="productDetail"></div></dialog>
+  <dialog class="drawer" id="cartDialog"><div class="drawer-head"><div><p class="eyebrow">Ваш заказ</p><h2>Корзина</h2></div><button class="dialog-close" data-close-cart type="button" aria-label="Закрыть">×</button></div><div id="cartItems"></div><div class="cart-footer" id="cartFooter"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="media-policy.js?v=20261015-mobile-render-stability"></script>
+<script src="variants.js?v=20261015-mobile-render-stability"></script>
+<script src="app.js?v=20261015-mobile-render-stability"></script>
+<script src="search-fallback.js?v=20261015-mobile-render-stability"></script>
+<script src="cart-feedback.js?v=20261015-mobile-render-stability"></script>
+<!-- Cloudflare Web Analytics -->
+<script>
+(() => {
+  const storageKey = 'tetopt:analytics:internal';
+  const controlParam = 'tetopt_internal';
+  let controlValue = null;
+  let internalBrowser = false;
+
+  try {
+    const url = new URL(window.location.href);
+    controlValue = url.searchParams.get(controlParam);
+    if (controlValue === 'on') localStorage.setItem(storageKey, '1');
+    if (controlValue === 'off') localStorage.removeItem(storageKey);
+    internalBrowser = localStorage.getItem(storageKey) === '1';
+
+    if (controlValue === 'on' || controlValue === 'off') {
+      url.searchParams.delete(controlParam);
+      history.replaceState(history.state, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+  } catch {
+    // If browser storage is unavailable, keep normal privacy-first analytics.
+  }
+
+  if (internalBrowser) {
+    document.documentElement.dataset.analyticsMode = 'internal';
+    return;
+  }
+
+  const beacon = document.createElement('script');
+  beacon.type = 'module';
+  beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  beacon.dataset.cfBeacon = JSON.stringify({
+    token: '59ed2c9fa549420491736b3635615cef',
+    spa: true,
+  });
+  document.head.appendChild(beacon);
+})();
+</script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
