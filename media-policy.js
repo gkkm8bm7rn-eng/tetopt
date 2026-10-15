@@ -268,27 +268,6 @@ function curateGallery(product,variant){
     });
   }
 
-  const productDialog=document.getElementById('productDialog');
-  const productDetail=document.getElementById('productDetail');
-  if(productDialog&&productDetail&&'MutationObserver'in window){
-    const fallback=[...productDialog.children].find(node=>node.matches?.('[data-close-dialog]'))||null;
-    const installDetailClose=()=>{
-      const copy=productDetail.querySelector('.detail-copy');
-      if(!copy){if(fallback)fallback.hidden=false;return}
-      let button=copy.querySelector('.detail-inline-close');
-      if(!button){
-        button=document.createElement('button');
-        button.type='button';
-        button.className='forma-close detail-inline-close';
-        button.setAttribute('data-close-dialog','');
-        button.setAttribute('aria-label','Закрыть карточку товара');
-        button.innerHTML=closeIcon;
-        copy.prepend(button);
-      }
-      if(fallback)fallback.hidden=true;
-    };
-    new MutationObserver(installDetailClose).observe(productDetail,{childList:true});
-    productDialog.addEventListener('close',()=>{if(fallback)fallback.hidden=false});
-    installDetailClose();
-  }
+  // The permanent dialog close control stays outside the scrolling detail.
+
 })();
