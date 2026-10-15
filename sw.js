@@ -4,7 +4,7 @@
  * on its own stable version so a design update does not discard product photos.
  * Bump IMAGE_CACHE only when product media itself changes materially.
  */
-const SHELL_VERSION='20261015-price-audit-final';
+const SHELL_VERSION='20261015-price-xlsx2-no-packs';
 const SHELL_CACHE=`forma-shell-${SHELL_VERSION}`;
 const DATA_CACHE=`forma-data-${SHELL_VERSION}`;
 const IMAGE_CACHE='forma-images-v1';
