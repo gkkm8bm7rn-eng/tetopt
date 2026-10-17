@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "status": "archived",
+  "archivedOn": "2026-10-17",
+  "reason": "По запросу владельца: снять с обоих сайтов, сохранив полные данные и фотографии для возможного восстановления.",
+  "originRepository": "gkkm8bm7rn-eng/tetopt",
+  "originIndexPath": "data/catalog-index.json",
+  "originDetailsPath": "data/details/015.json",
+  "modelId": "model-556",
+  "sourceIds": [
+    1769
+  ],
+  "categoryAssignments": {
+    "1769": [
+      "3"
+    ]
+  },
+  "indexProduct": {
+    "id": "model-556",
+    "name": "Кресло Ретро/Retro (мод. CD5020)",
+    "category": "Кресла",
+    "collection": "",
+    "variantCount": 1,
+    "detailShard": "details/015.json",
+    "variants": [
+      {
+        "sourceId": 1769,
+        "specs": "дерево вяз, 64х73х85, груша №3 ",
+        "wholesalePrice": 27300,
+        "retailPrice": 40950,
+        "primaryImage": "assets/products/1769/oct-00-main.webp",
+        "label": "64х73х85 · груша №3"
+      }
+    ]
+  },
+  "detailProduct": {
+    "id": "model-556",
+    "name": "Кресло Ретро/Retro (мод. CD5020)",
+    "category": "Кресла",
+    "collection": "",
+    "variantCount": 1,
+    "variants": [
+      {
+        "sourceId": 1769,
+        "name": "Кресло Ретро/Retro (мод. CD5020)",
+        "category": "Кресла",
+        "collection": "",
+        "specs": "дерево вяз, 64х73х85, груша №3 ",
+        "wholesalePrice": 27300,
+        "retailPrice": 40950,
+        "primaryImage": "assets/products/1769/oct-00-main.webp",
+        "primaryImageVerified": true,
+        "primaryImageSourceId": 1769,
+        "primaryImageManifest": "supplier-photo-bank-2026-10-local",
+        "images": [
+          "assets/products/1769/oct-00-main.webp",
+          "assets/products/1769/oct-01.webp",
+          "assets/products/1769/oct-02.webp",
+          "assets/products/1769/oct-03.webp",
+          "assets/products/1769/oct-04.webp",
+          "assets/products/1769/oct-05.webp"
+        ],
+        "localImageCount": 6,
+        "primaryImageStatus": "verified-supplier-photobank-local",
+        "photoBankCode": 12827,
+        "photoBankSource": "https://price.tetchair.ru/download_photo/?id=12827",
+        "photoBankEnrichedAt": "2026-10-08"
+      }
+    ]
+  },
+  "photoStorage": "Изображения остаются в assets/products/1769; архив содержит оригинальные пути."
+}
