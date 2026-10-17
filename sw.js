@@ -1,6 +1,6 @@
 /* Generated with build-release.py. Cache ownership is the full registration
    scope, never a shared origin-wide prefix. */
-const SHELL_VERSION="20261017-cindy-eames-dedup-v2";
+const SHELL_VERSION="20261017-retro-archive-v3";
 const RESOURCES=[
   {
     "url": "index.html?release=20261015-cache-isolation-92ce0fb2e3",
@@ -35,7 +35,7 @@ const RESOURCES=[
 const SCOPE=self.registration.scope;
 const PREFIX=`storefront:${SCOPE}:`;
 const SHELL_CACHE=`${PREFIX}shell:${SHELL_VERSION}`;
-const DATA_CACHE=`${PREFIX}data:v2`;
+const DATA_CACHE=`${PREFIX}data:v3`;
 const IMAGE_CACHE=`${PREFIX}images:v1`;
 const INDEX=new URL('index.html',SCOPE).href;
 const MAX_IMAGES=80;
