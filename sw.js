@@ -1,34 +1,34 @@
 /* Generated with build-release.py. Cache ownership is the full registration
    scope, never a shared origin-wide prefix. */
-const SHELL_VERSION="20261017-retro-archive-v3";
+const SHELL_VERSION="20261024-new-arrivals-label-2267e3a660";
 const RESOURCES=[
   {
-    "url": "index.html?release=20261015-cache-isolation-92ce0fb2e3",
+    "url": "index.html?release=20261024-new-arrivals-label-2267e3a660",
     "key": "index.html",
-    "sha256": "e6dc2ef9699b7e830a346465334756e041dccdd2aa9422bf759ea6866b62fa52"
+    "sha256": "dbb9af5b9879e352815c0fdb529b44b161d973e27a00584d880f0617ccc779e0"
   },
   {
-    "url": "storefront.css?v=20261015-cache-isolation-92ce0fb2e3",
-    "sha256": "308a03ce12bcf7de2d4b01c6b404a6fd64a17c96625a479b4e6b12df9d9d1063"
+    "url": "storefront.css?v=20261024-new-arrivals-label-2267e3a660",
+    "sha256": "494ff174cbe6d301c9a80b170b3fc020ebcd7ecedefb159731a0f568649c8506"
   },
   {
-    "url": "media-policy.js?v=20261015-cache-isolation-92ce0fb2e3",
+    "url": "media-policy.js?v=20261024-new-arrivals-label-2267e3a660",
     "sha256": "a1e20ccc4317eac8b3513d59729dad499f2f4b04f6c829d2c2aa4f49e6a67a21"
   },
   {
-    "url": "variants.js?v=20261015-cache-isolation-92ce0fb2e3",
+    "url": "variants.js?v=20261024-new-arrivals-label-2267e3a660",
     "sha256": "59dfcb3a415e3fb8bd76e0095b98d395f9e87d4761e4f6dd578729b3b06f2e52"
   },
   {
-    "url": "app.js?v=20261015-cache-isolation-92ce0fb2e3",
-    "sha256": "eba135b2ff7caacd57517b6050036b3bc6ab6e78ce1efa2d369159253c591142"
+    "url": "app.js?v=20261024-new-arrivals-label-2267e3a660",
+    "sha256": "5f3c6283f76c72dce49f7981c3a4b4f0505fe0c5d25efbc9ea11b8b55f48b3bc"
   },
   {
-    "url": "search-fallback.js?v=20261015-cache-isolation-92ce0fb2e3",
+    "url": "search-fallback.js?v=20261024-new-arrivals-label-2267e3a660",
     "sha256": "4cc7168e260f63ebe0ecfa67ac2c16016bbb8049bb3c19d8d44b6db8a73f236e"
   },
   {
-    "url": "cart-feedback.js?v=20261015-cache-isolation-92ce0fb2e3",
+    "url": "cart-feedback.js?v=20261024-new-arrivals-label-2267e3a660",
     "sha256": "a32a6186b0708cfdcff6cf7028ea50e41df9148c36e7753fc308a5cf10a5fd28"
   }
 ];
