@@ -1,34 +1,34 @@
 /* Generated with build-release.py. Cache ownership is the full registration
    scope, never a shared origin-wide prefix. */
-const SHELL_VERSION="20261024-new-arrivals-label-2267e3a660";
+const SHELL_VERSION="20261104-stable-product-cards-7fee7347be";
 const RESOURCES=[
   {
-    "url": "index.html?release=20261024-new-arrivals-label-2267e3a660",
+    "url": "index.html?release=20261104-stable-product-cards-7fee7347be",
     "key": "index.html",
-    "sha256": "dbb9af5b9879e352815c0fdb529b44b161d973e27a00584d880f0617ccc779e0"
+    "sha256": "cd79d491757dd9183346417ca696bc4eff152b5089440c3055bf1f1d0653b850"
   },
   {
-    "url": "storefront.css?v=20261024-new-arrivals-label-2267e3a660",
-    "sha256": "494ff174cbe6d301c9a80b170b3fc020ebcd7ecedefb159731a0f568649c8506"
+    "url": "storefront.css?v=20261104-stable-product-cards-7fee7347be",
+    "sha256": "d8d1573d04cea047fe10f42c97224bb688c3ec561b16c7dbb580e58c57be158e"
   },
   {
-    "url": "media-policy.js?v=20261024-new-arrivals-label-2267e3a660",
+    "url": "media-policy.js?v=20261104-stable-product-cards-7fee7347be",
     "sha256": "a1e20ccc4317eac8b3513d59729dad499f2f4b04f6c829d2c2aa4f49e6a67a21"
   },
   {
-    "url": "variants.js?v=20261024-new-arrivals-label-2267e3a660",
-    "sha256": "59dfcb3a415e3fb8bd76e0095b98d395f9e87d4761e4f6dd578729b3b06f2e52"
+    "url": "variants.js?v=20261104-stable-product-cards-7fee7347be",
+    "sha256": "8bb082d48285fe7802ef46af55c3e8ab81decea18e1a92098e8cb22a5e1872b4"
   },
   {
-    "url": "app.js?v=20261024-new-arrivals-label-2267e3a660",
+    "url": "app.js?v=20261104-stable-product-cards-7fee7347be",
     "sha256": "5f3c6283f76c72dce49f7981c3a4b4f0505fe0c5d25efbc9ea11b8b55f48b3bc"
   },
   {
-    "url": "search-fallback.js?v=20261024-new-arrivals-label-2267e3a660",
+    "url": "search-fallback.js?v=20261104-stable-product-cards-7fee7347be",
     "sha256": "4cc7168e260f63ebe0ecfa67ac2c16016bbb8049bb3c19d8d44b6db8a73f236e"
   },
   {
-    "url": "cart-feedback.js?v=20261024-new-arrivals-label-2267e3a660",
+    "url": "cart-feedback.js?v=20261104-stable-product-cards-7fee7347be",
     "sha256": "a32a6186b0708cfdcff6cf7028ea50e41df9148c36e7753fc308a5cf10a5fd28"
   }
 ];
