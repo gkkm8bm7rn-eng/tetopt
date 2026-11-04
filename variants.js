@@ -192,7 +192,17 @@ function choiceOptions(product,selected){
 function variantChoices(product,variant,context='card'){
   if((product.variants||[]).length<2)return'';
   const options=choiceOptions(product,variant),detail=context==='detail';
-  const controls=options.map((option,index)=>{
+  // Keep the selected variant visible in the compact nine-choice card.
+  // All existing variants remain selectable in the full product dialog.
+  const cardOptions=detail||options.length<=10?options:(()=>{
+    const visible=options.slice(0,9);
+    if(!visible.some(option=>option.active)){
+      const selected=options.find(option=>option.active);
+      if(selected)visible[8]=selected;
+    }
+    return visible;
+  })();
+  const controls=cardOptions.map((option,index)=>{
     const {variant:item,presentation,active,sameColor}=option,label=sameColor?`${item.specs} · арт. ${item.sourceId}`:choiceLabel(item,presentation),paint=swatchPaint(presentation.colors);
     if(!presentation.colors.length){
       const attributes=detail?`data-variant="${item.sourceId}"`:`data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}"`;
@@ -201,7 +211,10 @@ function variantChoices(product,variant,context='card'){
     const attributes=detail?`data-variant="${item.sourceId}"`:`data-card-variant="${item.sourceId}" data-product="${escapeAttr(product.id)}"`;
     return `<button class="${detail?'variant-swatch-option':'card-swatch'} ${presentation.colors.length>1?'composite':''} ${active?'active':''}" style="--swatch:${escapeAttr(paint)}" ${attributes} title="${escapeAttr(label)}" aria-label="${escapeAttr('Выбрать: '+label)}" aria-pressed="${active}"></button>`;
   }).join('');
-  return detail?`<div class="variant-section variant-choice-section"><div class="variant-label"><strong>Цвет и исполнение</strong><span>${escapeHtml(choiceLabel(variant))}</span></div><div class="variant-options variant-swatch-options">${controls}</div></div>`:`<div class="card-variants" aria-label="Доступные цветовые исполнения">${controls}</div>`;
+  const more=!detail&&options.length>10
+    ?`<button type="button" class="card-more-variants" data-open="${escapeAttr(product.id)}" data-source="${escapeAttr(variant.sourceId)}" aria-label="Показать все ${options.length} вариантов товара" title="Открыть все ${options.length} исполнений">+${options.length-cardOptions.length}</button>`
+    :'';
+  return detail?`<div class="variant-section variant-choice-section"><div class="variant-label"><strong>Цвет и исполнение</strong><span>${escapeHtml(choiceLabel(variant))}</span></div><div class="variant-options variant-swatch-options">${controls}</div></div>`:`<div class="card-variants" aria-label="Доступные цветовые исполнения">${controls}${more}</div>`;
 }
 
 const isSoldOut=variant=>Number(variant?.sourceId)===1961;
@@ -237,9 +250,9 @@ function auditVariantPresentation(products=state.products){
     if(variants.length<2)return;
     const model=axisModel(product),choices=choiceOptions(product,variants[0]);
     if(!model&&choices.some(choice=>!choice.presentation.colors.length))report.withoutVisibleChoice.push(product.id);
-    // There is intentionally no visual limit: every distinct presentation is
-    // rendered or horizontally reachable, rather than being cut off at eight.
-    if(choices.length>8)report.legacyHiddenChoices+=choices.length-8;
+    // The card shows up to nine choices plus a shortcut to full details.
+    // All existing options remain available in the product dialog.
+    if(choices.length>10)report.legacyHiddenChoices+=choices.length-9;
   });
   console.info('[FORMA HOME variant audit]',report);
   window.lastVariantPresentationAudit=report;
